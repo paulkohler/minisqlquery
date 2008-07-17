@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <components>
+
+    <component
+      id="ApplicationServices"
+      lifestyle="singleton"
+      service="MiniSqlQuery.Core.IApplicationServices, MiniSqlQuery.Core"
+      type="MiniSqlQuery.Core.ApplicationServices, MiniSqlQuery.Core, Version=0.9.9.0, Culture=neutral, PublicKeyToken=c439834615d48952" />
+
+    <component
+      id="ApplicationSettings"
+      lifestyle="singleton"
+      service="MiniSqlQuery.Core.IApplicationSettings, MiniSqlQuery.Core"
+      type="MiniSqlQuery.ApplicationSettings, MiniSqlQuery, Version=0.9.9.0, Culture=neutral, PublicKeyToken=c439834615d48952" />
+
+    <component
+      id="HostWindow"
+      lifestyle="singleton"
+      service="MiniSqlQuery.Core.IHostWindow, MiniSqlQuery.Core"
+      type="MiniSqlQuery.MainForm, MiniSqlQuery, Version=0.9.9.0, Culture=neutral, PublicKeyToken=c439834615d48952" />
+
+    <component
+      id="DefaultTextFindService"
+      lifestyle="transient" 
+      service="MiniSqlQuery.Core.ITextFindService, MiniSqlQuery.Core"
+      type="MiniSqlQuery.Core.BasicTextFindService, MiniSqlQuery.Core, Version=0.9.9.0, Culture=neutral, PublicKeyToken=c439834615d48952" />
+
+    <component
+      id="QueryForm"
+      lifestyle="transient" 
+      service="MiniSqlQuery.Core.IQueryEditor, MiniSqlQuery.Core"
+      type="MiniSqlQuery.QueryForm, MiniSqlQuery, Version=0.9.9.0, Culture=neutral, PublicKeyToken=c439834615d48952" />
+
+  </components>
+</configuration>

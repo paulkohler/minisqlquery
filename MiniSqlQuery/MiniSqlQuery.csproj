@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0164E1CD-8EC2-4C9E-8D67-2575221D8707}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MiniSqlQuery</RootNamespace>
+    <AssemblyName>MiniSqlQuery</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>MiniSqlQuery.App</StartupObject>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>MiniSqlQuery.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Build\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - No Tests|AnyCPU' ">
+    <OutputPath>bin\Release - No Tests\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.DynamicProxy, Version=1.1.5.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Castle.DynamicProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.DynamicProxy2, Version=2.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Castle.DynamicProxy2.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MicroKernel, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Castle.MicroKernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.TextEditor, Version=2.0.0.1591, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\ICSharpCode.TextEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.1.2946.12970, Culture=neutral, PublicKeyToken=0b3981bc6925a813, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="App.cs" />
+    <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="Commands\CloseActiveWindowCommand.cs" />
+    <Compile Include="Commands\CloseAllWindowsCommand.cs" />
+    <Compile Include="Commands\CopyQueryEditorFileNameCommand.cs" />
+    <Compile Include="Commands\ExecuteQueryCommand.cs" />
+    <Compile Include="Commands\ExitApplicationCommand.cs" />
+    <Compile Include="Commands\NewQueryFormCommand.cs" />
+    <Compile Include="Commands\OpenFileCommand.cs" />
+    <Compile Include="Commands\PrintCommand.cs" />
+    <Compile Include="Commands\RefreshDatabaseConnectionCommand.cs" />
+    <Compile Include="Commands\SaveFileAsCommand.cs" />
+    <Compile Include="Commands\SaveFileCommand.cs" />
+    <Compile Include="Commands\SaveResultsAsDataSetCommand.cs" />
+    <Compile Include="Commands\ShowAboutCommand.cs" />
+    <Compile Include="Commands\ShowHelpCommand.cs" />
+    <Compile Include="ErrorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ErrorForm.Designer.cs">
+      <DependentUpon>ErrorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\CoreApplicationPlugIn.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ErrorForm.resx">
+      <DependentUpon>ErrorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QueryForm.resx">
+      <DependentUpon>QueryForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Images\Thumbs.db" />
+    <None Include="MiniSqlQuery.snk" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="QueryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QueryForm.Designer.cs">
+      <DependentUpon>QueryForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\ReadMe.htm">
+      <Link>ReadMe.htm</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App.ico" />
+    <Content Include="Configuration.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\accept.png" />
+    <Content Include="Images\cancel.png" />
+    <Content Include="Images\cog.png" />
+    <Content Include="Images\cross.png" />
+    <Content Include="Images\database.png" />
+    <Content Include="Images\database_add.png" />
+    <Content Include="Images\database_edit.png" />
+    <Content Include="Images\database_error.png" />
+    <Content Include="Images\database_refresh.png" />
+    <Content Include="Images\disk.png" />
+    <Content Include="Images\disk_multiple.png" />
+    <Content Include="Images\email.png" />
+    <Content Include="Images\email_go.png" />
+    <Content Include="Images\folder_page.png" />
+    <Content Include="Images\lightning.png" />
+    <Content Include="Images\page.png" />
+    <Content Include="Images\page_white.png" />
+    <Content Include="Images\plugin.png" />
+    <Content Include="Images\plugin_go.png" />
+    <Content Include="Images\plugin_link.png" />
+    <Content Include="Images\table_save.png" />
+    <Content Include="License-MiniSqlQuery.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="script.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MiniSqlQuery.Core\MiniSqlQuery.Core.csproj">
+      <Project>{B819CF6A-B5FD-4E85-842D-FD855F856A5A}</Project>
+      <Name>MiniSqlQuery.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

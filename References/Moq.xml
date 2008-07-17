@@ -1,0 +1,1496 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Moq</name>
+    </assembly>
+    <members>
+        <member name="T:Moq.Language.ICallback">
+            <summary>
+            Defines the <c>Callback</c> verb and overloads.
+            </summary>
+        </member>
+        <member name="T:Moq.IHideObjectMembers">
+            <summary>
+            Helper interface used to hide the base <see cref="T:System.Object"/> 
+            members from the fluent API to make it much cleaner 
+            in Visual Studio intellisense.
+            </summary>
+        </member>
+        <member name="M:Moq.IHideObjectMembers.GetType">
+            <summary/>
+        </member>
+        <member name="M:Moq.IHideObjectMembers.GetHashCode">
+            <summary/>
+        </member>
+        <member name="M:Moq.IHideObjectMembers.ToString">
+            <summary/>
+        </member>
+        <member name="M:Moq.IHideObjectMembers.Equals(System.Object)">
+            <summary/>
+        </member>
+        <member name="M:Moq.Language.ICallback.Callback(System.Action)">
+            <summary>
+            Specifies a callback to invoke when the method is called.
+            </summary>
+            <param name="callback">Callback method to invoke.</param>
+            <example>
+            The following example specifies a callback to set a boolean 
+            value that can be used later:
+            <code>
+            bool called = false;
+            mock.Expect(x => x.Execute())
+                .Callback(() => called = true);
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.Language.ICallback.Callback``1(System.Action{``0})">
+            <summary>
+            Specifies a callback to invoke when the method is called that receives the original
+            arguments.
+            </summary>
+            <typeparam name="T">Argument type of the invoked method.</typeparam>
+            <param name="callback">Callback method to invoke.</param>
+            <example>
+            Invokes the given callback with the concrete invocation argument value. 
+            <para>
+            Notice how the specific string argument is retrieved by simply declaring 
+            it as part of the lambda expression for the callback:
+            </para>
+            <code>
+            mock.Expect(x => x.Execute(It.IsAny&lt;string&gt;()))
+                .Callback((string command) => Console.WriteLine(command));
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.Language.ICallback.Callback``2(System.Action{``0,``1})">
+            <summary>
+            Specifies a callback to invoke when the method is called that receives the original
+            arguments.
+            </summary>
+            <typeparam name="T1">Type of the first argument of the invoked method.</typeparam>
+            <typeparam name="T2">Type of the second argument of the invoked method.</typeparam>
+            <param name="callback">Callback method to invoke.</param>
+            <example>
+            Invokes the given callback with the concrete invocation arguments values. 
+            <para>
+            Notice how the specific arguments are retrieved by simply declaring 
+            them as part of the lambda expression for the callback:
+            </para>
+            <code>
+            mock.Expect(x => x.Execute(
+                                 It.IsAny&lt;string&gt;(), 
+                                 It.IsAny&lt;string&gt;()))
+                .Callback((string arg1, string arg2) => Console.WriteLine(arg1 + arg2));
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.Language.ICallback.Callback``3(System.Action{``0,``1,``2})">
+            <summary>
+            Specifies a callback to invoke when the method is called that receives the original
+            arguments.
+            </summary>
+            <typeparam name="T1">Type of the first argument of the invoked method.</typeparam>
+            <typeparam name="T2">Type of the second argument of the invoked method.</typeparam>
+            <typeparam name="T3">Type of the third argument of the invoked method.</typeparam>
+            <param name="callback">Callback method to invoke.</param>
+            <example>
+            Invokes the given callback with the concrete invocation arguments values. 
+            <para>
+            Notice how the specific arguments are retrieved by simply declaring 
+            them as part of the lambda expression for the callback:
+            </para>
+            <code>
+            mock.Expect(x => x.Execute(
+                                 It.IsAny&lt;string&gt;(), 
+                                 It.IsAny&lt;string&gt;(), 
+                                 It.IsAny&lt;int&gt;()))
+                .Callback((string arg1, string arg2, int arg3) => Console.WriteLine(arg1 + arg2 + arg3));
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.Language.ICallback.Callback``4(System.Action{``0,``1,``2,``3})">
+            <summary>
+            Specifies a callback to invoke when the method is called that receives the original
+            arguments.
+            </summary>
+            <typeparam name="T1">Type of the first argument of the invoked method.</typeparam>
+            <typeparam name="T2">Type of the second argument of the invoked method.</typeparam>
+            <typeparam name="T3">Type of the third argument of the invoked method.</typeparam>
+            <typeparam name="T4">Type of the fourth argument of the invoked method.</typeparam>
+            <param name="callback">Callback method to invoke.</param>
+            <example>
+            Invokes the given callback with the concrete invocation arguments values. 
+            <para>
+            Notice how the specific arguments are retrieved by simply declaring 
+            them as part of the lambda expression for the callback:
+            </para>
+            <code>
+            mock.Expect(x => x.Execute(
+                                 It.IsAny&lt;string&gt;(), 
+                                 It.IsAny&lt;string&gt;(), 
+                                 It.IsAny&lt;int&gt;(),
+                                 It.IsAny&lt;bool&gt;()))
+                .Callback((string arg1, string arg2, int arg3, bool arg4) => Console.WriteLine(arg1 + arg2 + arg3 + arg4));
+            </code>
+            </example>
+        </member>
+        <member name="T:Moq.Language.ICallback`1">
+            <summary>
+            Defines the <c>Callback</c> verb and overloads for callbacks on 
+            expectations that return a value.
+            </summary>
+        </member>
+        <member name="M:Moq.Language.ICallback`1.Callback(System.Action)">
+            <summary>
+            Specifies a callback to invoke when the method is called.
+            </summary>
+            <param name="callback">Callback method to invoke.</param>
+            <example>
+            The following example specifies a callback to set a boolean 
+            value that can be used later:
+            <code>
+            bool called = false;
+            mock.Expect(x => x.Execute())
+                .Callback(() => called = true)
+                .Returns(true);
+            </code>
+            Note that in the case of value-returning methods, after the <c>Callback</c> 
+            call you can still specify the return value.
+            </example>
+        </member>
+        <member name="M:Moq.Language.ICallback`1.Callback``1(System.Action{``0})">
+            <summary>
+            Specifies a callback to invoke when the method is called that receives the original
+            arguments.
+            </summary>
+            <typeparam name="T">Type of the argument of the invoked method.</typeparam>
+            <param name="callback">Callback method to invoke.</param>
+            <example>
+            Invokes the given callback with the concrete invocation argument value. 
+            <para>
+            Notice how the specific string argument is retrieved by simply declaring 
+            it as part of the lambda expression for the callback:
+            </para>
+            <code>
+            mock.Expect(x => x.Execute(It.IsAny&lt;string&gt;()))
+                .Callback((string command) => Console.WriteLine(command))
+                .Returns(true);
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.Language.ICallback`1.Callback``2(System.Action{``0,``1})">
+            <summary>
+            Specifies a callback to invoke when the method is called that receives the original
+            arguments.
+            </summary>
+            <typeparam name="T1">Type of the first argument of the invoked method.</typeparam>
+            <typeparam name="T2">Type of the second argument of the invoked method.</typeparam>
+            <param name="callback">Callback method to invoke.</param>
+            <example>
+            Invokes the given callback with the concrete invocation arguments values. 
+            <para>
+            Notice how the specific arguments are retrieved by simply declaring 
+            them as part of the lambda expression for the callback:
+            </para>
+            <code>
+            mock.Expect(x => x.Execute(
+                                 It.IsAny&lt;string&gt;(), 
+                                 It.IsAny&lt;string&gt;()))
+                .Callback((string arg1, string arg2) => Console.WriteLine(arg1 + arg2))
+                .Returns(true);
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.Language.ICallback`1.Callback``3(System.Action{``0,``1,``2})">
+            <summary>
+            Specifies a callback to invoke when the method is called that receives the original
+            arguments.
+            </summary>
+            <typeparam name="T1">Type of the first argument of the invoked method.</typeparam>
+            <typeparam name="T2">Type of the second argument of the invoked method.</typeparam>
+            <typeparam name="T3">Type of the third argument of the invoked method.</typeparam>
+            <param name="callback">Callback method to invoke.</param>
+            <example>
+            Invokes the given callback with the concrete invocation arguments values. 
+            <para>
+            Notice how the specific arguments are retrieved by simply declaring 
+            them as part of the lambda expression for the callback:
+            </para>
+            <code>
+            mock.Expect(x => x.Execute(
+                                 It.IsAny&lt;string&gt;(), 
+                                 It.IsAny&lt;string&gt;(), 
+                                 It.IsAny&lt;int&gt;()))
+                .Callback((string arg1, string arg2, int arg3) => Console.WriteLine(arg1 + arg2 + arg3))
+                .Returns(true);
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.Language.ICallback`1.Callback``4(System.Action{``0,``1,``2,``3})">
+            <summary>
+            Specifies a callback to invoke when the method is called that receives the original
+            arguments.
+            </summary>
+            <typeparam name="T1">Type of the first argument of the invoked method.</typeparam>
+            <typeparam name="T2">Type of the second argument of the invoked method.</typeparam>
+            <typeparam name="T3">Type of the third argument of the invoked method.</typeparam>
+            <typeparam name="T4">Type of the fourth argument of the invoked method.</typeparam>
+            <param name="callback">Callback method to invoke.</param>
+            <example>
+            Invokes the given callback with the concrete invocation arguments values. 
+            <para>
+            Notice how the specific arguments are retrieved by simply declaring 
+            them as part of the lambda expression for the callback:
+            </para>
+            <code>
+            mock.Expect(x => x.Execute(
+                                 It.IsAny&lt;string&gt;(), 
+                                 It.IsAny&lt;string&gt;(), 
+                                 It.IsAny&lt;int&gt;(),
+                                 It.IsAny&lt;bool&gt;()))
+                .Callback((string arg1, string arg2, int arg3, bool arg4) => Console.WriteLine(arg1 + arg2 + arg3 + arg4))
+                .Returns(true);
+            </code>
+            </example>
+        </member>
+        <member name="T:Moq.Language.Flow.IReturnsThrows`1">
+            <summary>
+            Implements the fluent API.
+            </summary>
+        </member>
+        <member name="T:Moq.Language.IReturns`1">
+            <summary>
+            Defines the <c>Returns</c> verb.
+            </summary>
+        </member>
+        <member name="T:Moq.Language.IReturns">
+            <summary>
+            Base interface for <see cref="T:Moq.Language.IReturns`1"/>.
+            </summary>
+        </member>
+        <member name="M:Moq.Language.IReturns`1.Returns(`0)">
+            <summary>
+            Specifies the value to return.
+            </summary>
+            <param name="value">The value to return, or <see langword="null"/>.</param>
+            <example>
+            Return a <c>true</c> value from the method call:
+            <code>
+            mock.Expect(x => x.Execute("ping"))
+                .Returns(true);
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.Language.IReturns`1.Returns(System.Func{`0})">
+            <summary>
+            Specifies a function that will calculate the value to return from the method.
+            </summary>
+            <param name="valueFunction">The function that will calculate the return value.</param>
+            <example>
+            Return a calculated value when the method is called:
+            <code>
+            mock.Expect(x => x.Execute("ping"))
+                .Returns(() => returnValues[0]);
+            </code>
+            The lambda expression to retrieve the return value is lazy-executed, 
+            meaning that its value may change depending on the moment the method 
+            is executed and the value the <c>returnValues</c> array has at 
+            that moment.
+            </example>
+        </member>
+        <member name="M:Moq.Language.IReturns`1.Returns``1(System.Func{``0,`0})">
+            <summary>
+            Specifies a function that will calculate the value to return from the method, 
+            retrieving the arguments for the invocation.
+            </summary>
+            <typeparam name="T">Type of the argument of the invoked method.</typeparam>
+            <param name="valueFunction">The function that will calculate the return value.</param>
+            <example>
+            Return a calculated value which is evaluated lazily at the time of the invocation.
+            <para>
+            The lookup list can change between invocations and the expectation 
+            will return different values accordingly. Also, notice how the specific 
+            string argument is retrieved by simply declaring it as part of the lambda 
+            expression:
+            </para>
+            <code>
+            mock.Expect(x => x.Execute(It.IsAny&lt;string&gt;()))
+                .Returns((string command) => returnValues[command]);
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.Language.IReturns`1.Returns``2(System.Func{``0,``1,`0})">
+            <summary>
+            Specifies a function that will calculate the value to return from the method, 
+            retrieving the arguments for the invocation.
+            </summary>
+            <typeparam name="T1">Type of the first argument of the invoked method.</typeparam>
+            <typeparam name="T2">Type of the second argument of the invoked method.</typeparam>
+            <param name="valueFunction">The function that will calculate the return value.</param>
+            <example>
+            Return a calculated value which is evaluated lazily at the time of the invocation.
+            <para>
+            The return value is calculated from the value of the actual method invocation arguments. 
+            Notice how the arguments are retrieved by simply declaring them as part of the lambda 
+            expression:
+            </para>
+            <code>
+            mock.Expect(x => x.Execute(
+                                It.IsAny&lt;string&gt;(), 
+                                It.IsAny&lt;string&gt;()))
+                .Returns((string arg1, string arg2) => arg1 + arg2);
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.Language.IReturns`1.Returns``3(System.Func{``0,``1,``2,`0})">
+            <summary>
+            Specifies a function that will calculate the value to return from the method, 
+            retrieving the arguments for the invocation.
+            </summary>
+            <typeparam name="T1">Type of the first argument of the invoked method.</typeparam>
+            <typeparam name="T2">Type of the second argument of the invoked method.</typeparam>
+            <typeparam name="T3">Type of the third argument of the invoked method.</typeparam>
+            <param name="valueFunction">The function that will calculate the return value.</param>
+            <example>
+            Return a calculated value which is evaluated lazily at the time of the invocation.
+            <para>
+            The return value is calculated from the value of the actual method invocation arguments. 
+            Notice how the arguments are retrieved by simply declaring them as part of the lambda 
+            expression:
+            </para>
+            <code>
+            mock.Expect(x => x.Execute(
+                                 It.IsAny&lt;string&gt;(), 
+                                 It.IsAny&lt;string&gt;(), 
+                                 It.IsAny&lt;int&gt;()))
+                .Returns((string arg1, string arg2, int arg3) => arg1 + arg2 + arg3);
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.Language.IReturns`1.Returns``4(System.Func{``0,``1,``2,``3,`0})">
+            <summary>
+            Specifies a function that will calculate the value to return from the method, 
+            retrieving the arguments for the invocation.
+            </summary>
+            <typeparam name="T1">Type of the first argument of the invoked method.</typeparam>
+            <typeparam name="T2">Type of the second argument of the invoked method.</typeparam>
+            <typeparam name="T3">Type of the third argument of the invoked method.</typeparam>
+            <typeparam name="T4">Type of the fourth argument of the invoked method.</typeparam>
+            <param name="valueFunction">The function that will calculate the return value.</param>
+            <example>
+            Return a calculated value which is evaluated lazily at the time of the invocation.
+            <para>
+            The return value is calculated from the value of the actual method invocation arguments. 
+            Notice how the arguments are retrieved by simply declaring them as part of the lambda 
+            expression:
+            </para>
+            <code>
+            mock.Expect(x => x.Execute(
+                                  It.IsAny&lt;string&gt;(), 
+                                  It.IsAny&lt;string&gt;(), 
+                                  It.IsAny&lt;int&gt;(), 
+                                  It.IsAny&lt;bool&gt;()))
+                .Returns((string arg1, string arg2, int arg3, bool arg4) => arg1 + arg2 + arg3 + arg4);
+            </code>
+            </example>
+        </member>
+        <member name="T:Moq.Language.IThrows">
+            <summary>
+            Defines the <c>Throws</c> verb.
+            </summary>
+        </member>
+        <member name="M:Moq.Language.IThrows.Throws(System.Exception)">
+            <summary>
+            Specifies the exception to throw when the method is invoked.
+            </summary>
+            <param name="exception">Exception instance to throw.</param>
+            <example>
+            This example shows how to throw an exception when the method is 
+            invoked with an empty string argument:
+            <code>
+            mock.Expect(x => x.Execute(""))
+                .Throws(new ArgumentException());
+            </code>
+            </example>
+        </member>
+        <member name="T:Moq.Language.IVerifies">
+            <summary>
+            Defines the <c>Verifiable</c> verb.
+            </summary>
+        </member>
+        <member name="M:Moq.Language.IVerifies.Verifiable">
+            <summary>
+            Marks the expectation as verifiable, meaning that a call 
+            to <see cref="M:Moq.Mock`1.Verify"/> will check if this particular 
+            expectation was met.
+            </summary>
+            <example>
+            The following example marks the expectation as verifiable:
+            <code>
+            mock.Expect(x =&gt; x.Execute("ping"))
+                .Returns(true)
+                .Verifiable();
+            </code>
+            </example>
+        </member>
+        <member name="T:Moq.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.AbstractNoExpectation">
+            <summary>
+              Looks up a localized string similar to Invocation on abstract mock member must have a corresponding expectation..
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.ConstructorArgsForInterface">
+            <summary>
+              Looks up a localized string similar to Constructor arguments cannot be passed for interface mocks..
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.ConstructorNotFound">
+            <summary>
+              Looks up a localized string similar to A matching constructor for the given arguments was not found on the mocked type..
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.ExpectationOnNonOverridableMember">
+             <summary>
+               Looks up a localized string similar to Invalid expectation on a non-overridable member:
+            {0}.
+             </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.FieldsNotSupported">
+            <summary>
+              Looks up a localized string similar to Field calls are not supported. Use interfaces and properties instead..
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.InterfaceNoExpectation">
+            <summary>
+              Looks up a localized string similar to Invocation on interface member must have a corresponding expectation..
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.InvalidMockClass">
+            <summary>
+              Looks up a localized string similar to Type to mock must be an interface or an abstract or non-sealed class. .
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.MockExceptionMessage">
+             <summary>
+               Looks up a localized string similar to {0} invocation failed with mock behavior {1}.
+            {2}.
+             </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.MoreThanOneCall">
+            <summary>
+              Looks up a localized string similar to Expected only one call to {0}..
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.NoExpectation">
+            <summary>
+              Looks up a localized string similar to All invocations on the mock must have a corresponding expectation..
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.ObjectInstanceNotMock">
+            <summary>
+              Looks up a localized string similar to Object instance was not created by Moq..
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.PropertyNotReadable">
+            <summary>
+              Looks up a localized string similar to Property {0}.{1} is write-only..
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.ReturnValueNoExpectation">
+            <summary>
+              Looks up a localized string similar to Invocation needs to return a value and therefore must have a corresponding expectation..
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.UnsupportedExpression">
+            <summary>
+              Looks up a localized string similar to Expression {0} is not supported..
+            </summary>
+        </member>
+        <member name="P:Moq.Properties.Resources.VerficationFailed">
+             <summary>
+               Looks up a localized string similar to The following expectations were not met:
+            {0}.
+             </summary>
+        </member>
+        <member name="T:Moq.MockException">
+            <summary>
+            Exception thrown by mocks when expectations are not met, 
+            the mock is not properly setup, etc.
+            </summary>
+            <remarks>
+            A distinct exception type is provided so that exceptions 
+            thrown by the mock can be differentiated in tests that 
+            expect other exceptions to be thrown (i.e. ArgumentException).
+            <para>
+            Richer exception hierarchy/types are not provided as 
+            tests typically should <b>not</b> catch or expect exceptions 
+            from the mocks. These are typically the result of changes 
+            in the tested class or its collaborators implementation, and 
+            result in fixes in the mock setup so that they dissapear and 
+            allow the test to pass.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Moq.MockException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Supports the serialization infrastructure.
+            </summary>
+        </member>
+        <member name="M:Moq.MockException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Supports the serialization infrastructure.
+            </summary>
+        </member>
+        <member name="T:Moq.MockException.ExceptionReason">
+            <summary>
+            Made internal as it's of no use for 
+            consumers, but it's important for 
+            our own tests.
+            </summary>
+        </member>
+        <member name="T:Moq.MockVerificationException">
+            <devdoc>
+            Used by the mock factory to accumulate verification 
+            failures.
+            </devdoc>
+        </member>
+        <member name="M:Moq.MockVerificationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Supports the serialization infrastructure.
+            </summary>
+        </member>
+        <member name="T:Moq.Language.Flow.IExpect">
+            <summary>
+            Implements the fluent API.
+            </summary>
+        </member>
+        <member name="T:Moq.Language.Flow.IThrowsOnceVerifies">
+            <summary>
+            Implements the fluent API.
+            </summary>
+        </member>
+        <member name="T:Moq.Language.Flow.IOnceVerifies">
+            <summary>
+            Implements the fluent API.
+            </summary>
+        </member>
+        <member name="T:Moq.Language.IOccurrence">
+            <summary>
+            Defines occurrence members to constraint expectations.
+            </summary>
+        </member>
+        <member name="M:Moq.Language.IOccurrence.AtMostOnce">
+            <summary>
+            The expected invocation can happen at most once.
+            </summary>
+            <example>
+            <code>
+            var mock = new Mock&lt;ICommand&gt;();
+            mock.Expect(foo => foo.Execute("ping"))
+                .AtMostOnce();
+            </code>
+            </example>
+        </member>
+        <member name="T:Moq.Language.Flow.IExpect`1">
+            <summary>
+            Implements the fluent API.
+            </summary>
+        </member>
+        <member name="T:Moq.Interceptor">
+            <summary>
+            Implements the actual interception and method invocation for 
+            all mocks, even MBROs (via the <see cref="T:Moq.RemotingProxy"/>.
+            </summary>
+        </member>
+        <member name="M:Guard.ArgumentNotNull(System.Object,System.String)">
+            <summary>
+            Checks an argument to ensure it isn't null.
+            </summary>
+            <param name="value">The argument value to check.</param>
+            <param name="argumentName">The name of the argument.</param>
+        </member>
+        <member name="M:Guard.ArgumentNotNullOrEmptyString(System.String,System.String)">
+            <summary>
+            Checks a string argument to ensure it isn't null or empty.
+            </summary>
+            <param name="argumentValue">The argument value to check.</param>
+            <param name="argumentName">The name of the argument.</param>
+        </member>
+        <member name="T:Moq.MockFactory">
+            <summary>
+            Utility factory class to use to construct multiple 
+            mocks when consistent behavior and verification is 
+            desired for all of them.
+            </summary>
+            <remarks>
+            If multiple mocks will be created during a test, passing 
+            the desired <see cref="T:Moq.MockBehavior"/> (if different than the 
+            <see cref="F:Moq.MockBehavior.Default"/>) and later verifying each
+            mock can become repetitive and tedious.
+            <para>
+            This factory class helps in that scenario by providing a 
+            simplified creation of multiple mocks with the exact same 
+            <see cref="T:Moq.MockBehavior"/> and posterior verification.
+            </para>
+            </remarks>
+            <example>
+            The following is a straightforward example on how to 
+            create and automatically verify strict mocks:
+            <code>
+            var factory = new MockFactory(MockBehavior.Strict);
+            
+            var foo = factory.Create&lt;IFoo&gt;();
+            var bar = factory.Create&lt;IBar&gt;();
+            
+            // no need to call Verifiable() on the expectation 
+            // as we'll be validating all expectations anyway.
+            foo.Expect(f =&gt; f.Do());
+            bar.Expect(b =&gt; b.Redo());
+            
+            // exercise the mocks here
+            
+            factory.VerifyAll(); 
+            // At this point all expectations are already checked 
+            // and an optional MockException might be thrown. 
+            // Note also that because the mocks are strict, any invocation 
+            // that doesn't have a matching expectation will also throw a MockException.
+            </code>
+            The following examples shows how to setup the factory 
+            to create loose mocks and later verify only verifiable expectations:
+            <code>
+            var factory = new MockFactory(MockBehavior.Loose);
+            
+            var foo = factory.Create&lt;IFoo&gt;();
+            var bar = factory.Create&lt;IBar&gt;();
+            
+            // this expectation will be verified at the end of the "using" block
+            foo.Expect(f =&gt; f.Do()).Verifiable();
+            	
+            // this expectation will NOT be verified 
+            foo.Expect(f =&gt; f.Calculate());
+            	
+            // this expectation will be verified at the end of the "using" block
+            bar.Expect(b =&gt; b.Redo()).Verifiable();
+            
+            // exercise the mocks here
+            // note that because the mocks are Loose, members 
+            // called in the interfaces for which no matching
+            // expectations exist will NOT throw exceptions, 
+            // and will rather return default values.
+            
+            factory.Verify();
+            // At this point verifiable expectations are already checked 
+            // and an optional MockException might be thrown.
+            </code>
+            </example>
+            <seealso cref="T:Moq.MockBehavior"/>
+        </member>
+        <member name="M:Moq.MockFactory.#ctor(Moq.MockBehavior)">
+            <summary>
+            Initializes the factory with the given <paramref name="behavior"/> 
+            for newly created mocks from the factory.
+            </summary>
+            <param name="behavior">The behavior to use for mocks created 
+            using the <see cref="M:Moq.MockFactory.Create``1"/> factory method</param>
+        </member>
+        <member name="M:Moq.MockFactory.Create``1">
+            <summary>
+            Creates a new mock with the <see cref="T:Moq.MockBehavior"/> specified 
+            at factory construction time.
+            </summary>
+            <typeparam name="T">Type to mock.</typeparam>
+            <returns>A new <see cref="T:Moq.Mock`1"/>.</returns>
+            <example>
+            <code>
+            using (var factory = new MockFactory(MockBehavior.Relaxed, MockVerification.Verifiable))
+            {
+            	var foo = factory.Create&lt;IFoo&gt;();
+            	// use mock on tests
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.MockFactory.Create``1(System.Object[])">
+            <summary>
+            Creates a new mock with the <see cref="T:Moq.MockBehavior"/> specified 
+            at factory construction time and with the 
+            the given constructor arguments for the class.
+            </summary>
+            <remarks>
+            The mock will try to find the best match constructor given the constructor arguments, and invoke that 
+            to initialize the instance. This applies only to classes, not interfaces.
+            </remarks>
+            <typeparam name="T">Type to mock.</typeparam>
+            <returns>A new <see cref="T:Moq.Mock`1"/>.</returns>
+            <example>
+            <code>
+            using (var factory = new MockFactory(MockBehavior.Default, MockVerification.Verifiable))
+            {
+            	var mock = factory.Create&lt;MyBase&gt;("Foo", 25, true);
+            	// use mock on tests
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.MockFactory.Verify">
+            <summary>
+            Verifies all verifiable expectations on all mocks created 
+            by this factory.
+            </summary>
+            <seealso cref="M:Moq.Mock`1.Verify"/>
+            <exception cref="T:Moq.MockException">One or more mocks had expectations that were not satisfied.</exception>
+        </member>
+        <member name="M:Moq.MockFactory.VerifyAll">
+            <summary>
+            Verifies all verifiable expectations on all mocks created 
+            by this factory.
+            </summary>
+            <seealso cref="M:Moq.Mock`1.Verify"/>
+            <exception cref="T:Moq.MockException">One or more mocks had expectations that were not satisfied.</exception>
+        </member>
+        <member name="T:Moq.MockBehavior">
+            <summary>
+            Options to customize the behavior of the mock. 
+            </summary>
+        </member>
+        <member name="F:Moq.MockBehavior.Strict">
+            <summary>
+            Causes the mock to always throw 
+            an exception for invocations that don't have a 
+            corresponding expectation.
+            </summary>
+        </member>
+        <member name="F:Moq.MockBehavior.Normal">
+            <summary>
+            Matches the behavior of classes and interfaces 
+            in equivalent manual mocks: abstract methods 
+            need to have an expectation (override), as well 
+            as all interface members. Other members (virtual 
+            and non-virtual) can be called freely and will end up 
+            invoking the implementation on the target type if available.
+            </summary>
+        </member>
+        <member name="F:Moq.MockBehavior.Relaxed">
+            <summary>
+            Will only throw exceptions for abstract methods and 
+            interface members which need to return a value and 
+            don't have a corresponding expectation.
+            </summary>
+        </member>
+        <member name="F:Moq.MockBehavior.Loose">
+            <summary>
+            Will never throw exceptions, returning default  
+            values when necessary (null for reference types 
+            or zero for value types).
+            </summary>
+        </member>
+        <member name="F:Moq.MockBehavior.Default">
+            <summary>
+            Default mock behavior, which equals <see cref="F:Moq.MockBehavior.Normal"/>.
+            </summary>
+        </member>
+        <member name="T:Moq.Mock`1">
+            <summary>
+            Provides a mock implementation of <typeparamref name="T"/>.
+            </summary>
+            <remarks>
+            If the mocked <typeparamref name="T"/> is a <see cref="T:System.MarshalByRefObject"/> (such as a 
+            Windows Forms control or another <see cref="T:System.ComponentModel.Component"/>-derived class) 
+            all members will be mockeable, even if they are not virtual or abstract.
+            <para>
+            For regular .NET classes ("POCOs" or Plain Old CLR Objects), only abstract and virtual 
+            members can be mocked. 
+            </para>
+            <para>
+            The behavior of the mock with regards to the expectations and the actual calls is determined 
+            by the optional <see cref="T:Moq.MockBehavior"/> that can be passed to the <see cref="M:Moq.Mock`1.#ctor(Moq.MockBehavior)"/> 
+            constructor.
+            </para>
+            </remarks>
+            <example>
+            The following example shows setting expectations with specific values 
+            for method invocations:
+            <code>
+            //setup - data
+            var order = new Order(TALISKER, 50);
+            var mock = new Mock&lt;IWarehouse&gt;();
+            
+            //setup - expectations
+            mock.Expect(x =&gt; x.HasInventory(TALISKER, 50)).Returns(true);
+            
+            //exercise
+            order.Fill(mock.Object);
+            
+            //verify
+            Assert.IsTrue(order.IsFilled);
+            </code>
+            The following example shows how to use the <see cref="T:Moq.It"/> class 
+            to specify conditions for arguments instead of specific values:
+            <code>
+            //setup - data
+            var order = new Order(TALISKER, 50);
+            var mock = new Mock&lt;IWarehouse&gt;();
+            
+            //setup - expectations
+            //shows how to expect a value within a range
+            mock.Expect(x =&gt; x.HasInventory(It.IsAny&lt;string&gt;(), It.IsInRange(0, 100, Range.Inclusive))).Returns(false);
+            
+            //shows how to throw for unexpected calls. contrast with the "verify" approach of other mock libraries.
+            mock.Expect(x =&gt; x.Remove(It.IsAny&lt;string&gt;(), It.IsAny&lt;int&gt;())).Throws(new InvalidOperationException());
+            
+            //exercise
+            order.Fill(mock.Object);
+            
+            //verify
+            Assert.IsFalse(order.IsFilled);
+            </code>
+            </example>
+        </member>
+        <member name="T:Moq.IVerifiable">
+            <devdoc>
+            Internal interface implemented by Mock{T} to enable 
+            <see cref="T:Moq.MockFactory"/> to verify mocks in a generic way.
+            </devdoc>
+        </member>
+        <member name="M:Moq.Mock`1.#ctor(Moq.MockBehavior,System.Object[])">
+            <summary>
+            Initializes an instance of the mock with a specific <see cref="T:Moq.MockBehavior">behavior</see> with 
+            the given constructor arguments for the class.
+            </summary>
+            <remarks>
+            The mock will try to find the best match constructor given the constructor arguments, and invoke that 
+            to initialize the instance. This applies only to classes, not interfaces.
+            <para>
+            <b>Note:</b> For a <see cref="T:System.MarshalByRefObject"/> derived class, any calls done in the constructor itself 
+            (i.e. calls to private members, initialization methods, etc. invoked from the constructor) 
+            will not go through the proxied mock and will instead be direct invocations in the underlying 
+            object. This is a known limitation.
+            </para>
+            </remarks>
+            <example>
+            <code>var mock = new Mock&lt;MyProvider&gt;(someArgument, 25);</code>
+            </example>
+        </member>
+        <member name="M:Moq.Mock`1.#ctor(System.Object[])">
+            <summary>
+            Initializes an instance of the mock with <see cref="F:Moq.MockBehavior.Default">default behavior</see> and with 
+            the given constructor arguments for the class. (Only valid when <typeparamref name="T"/> is a class)
+            </summary>
+            <remarks>
+            The mock will try to find the best match constructor given the constructor arguments, and invoke that 
+            to initialize the instance. This applies only for classes, not interfaces.
+            <para>
+            <b>Note:</b> For a <see cref="T:System.MarshalByRefObject"/> derived class, any calls done in the constructor itself 
+            will not go through the proxied mock and will instead be direct invocations in the underlying 
+            object. This is known limitation.
+            </para>
+            </remarks>
+            <example>
+            <code>var mock = new Mock&lt;MyProvider&gt;(someArgument, 25);</code>
+            </example>
+        </member>
+        <member name="M:Moq.Mock`1.#ctor">
+            <summary>
+            Initializes an instance of the mock with <see cref="F:Moq.MockBehavior.Default">default behavior</see>.
+            </summary>
+            <example>
+            <code>var mock = new Mock&lt;IFormatProvider&gt;();</code>
+            </example>
+        </member>
+        <member name="M:Moq.Mock`1.#ctor(Moq.MockBehavior)">
+            <summary>
+            Initializes an instance of the mock with the specified <see cref="T:Moq.MockBehavior">behavior</see>.
+            </summary>
+            <example>
+            <code>var mock = new Mock&lt;IFormatProvider&gt;(MockBehavior.Relaxed);</code>
+            </example>
+        </member>
+        <member name="M:Moq.Mock`1.Expect(System.Linq.Expressions.Expression{System.Action{`0}})">
+            <summary>
+            Sets an expectation on the mocked type for a call to 
+            to a void method.
+            </summary>
+            <remarks>
+            If more than one expectation is set for the same method or property, 
+            the latest one wins and is the one that will be executed.
+            </remarks>
+            <param name="expression">Lambda expression that specifies the expected method invocation.</param>
+            <example>
+            <code>
+            var mock = new Mock&lt;IProcessor&gt;();
+            mock.Expect(x =&gt; x.Execute("ping"));
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.Mock`1.Expect``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
+            <summary>
+            Sets an expectation on the mocked type for a call to 
+            to a value returning method.
+            </summary>
+            <remarks>
+            If more than one expectation is set for the same method or property, 
+            the latest one wins and is the one that will be executed.
+            </remarks>
+            <param name="expression">Lambda expression that specifies the expected method invocation.</param>
+            <example>
+            <code>
+            mock.Expect(x =&gt; x.HasInventory("Talisker", 50)).Returns(true);
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.Mock`1.Verify">
+            <summary>
+            Verifies that all verifiable expectations have been met.
+            </summary>
+            <example>
+            This example sets up an expectation and marks it as verifiable. After 
+            the mock is used, a <see cref="M:Moq.Mock`1.Verify"/> call is issued on the mock 
+            to ensure the method in the expectation was invoked:
+            <code>
+            var mock = new Mock&lt;IWarehouse&gt;();
+            mock.Expect(x =&gt; x.HasInventory(TALISKER, 50)).Verifiable().Returns(true);
+            ...
+            // other test code
+            ...
+            // Will throw if the test code has didn't call HasInventory.
+            mock.Verify();
+            </code>
+            </example>
+            <exception cref="T:Moq.MockException">Not all verifiable expectations were met.</exception>
+        </member>
+        <member name="M:Moq.Mock`1.VerifyAll">
+            <summary>
+            Verifies all expectations regardless of whether they have 
+            been flagged as verifiable.
+            </summary>
+            <example>
+            This example sets up an expectation without marking it as verifiable. After 
+            the mock is used, a <see cref="M:Moq.Mock`1.VerifyAll"/> call is issued on the mock 
+            to ensure that all expectations are met:
+            <code>
+            var mock = new Mock&lt;IWarehouse&gt;();
+            mock.Expect(x =&gt; x.HasInventory(TALISKER, 50)).Returns(true);
+            ...
+            // other test code
+            ...
+            // Will throw if the test code has didn't call HasInventory, even 
+            // that expectation was not marked as verifiable.
+            mock.VerifyAll();
+            </code>
+            </example>
+            <exception cref="T:Moq.MockException">At least one expectation was not met.</exception>
+        </member>
+        <member name="M:Moq.Mock`1.Moq#IHideObjectMembers#GetType">
+            <summary>
+            Provides a mock implementation of <typeparamref name="T"/>.
+            </summary>
+            <remarks>
+            If the mocked <typeparamref name="T"/> is a <see cref="T:System.MarshalByRefObject"/> (such as a 
+            Windows Forms control or another <see cref="T:System.ComponentModel.Component"/>-derived class) 
+            all members will be mockeable, even if they are not virtual or abstract.
+            <para>
+            For regular .NET classes ("POCOs" or Plain Old CLR Objects), only abstract and virtual 
+            members can be mocked. 
+            </para>
+            <para>
+            The behavior of the mock with regards to the expectations and the actual calls is determined 
+            by the optional <see cref="T:Moq.MockBehavior"/> that can be passed to the <see cref="M:Moq.Mock`1.#ctor(Moq.MockBehavior)"/> 
+            constructor.
+            </para>
+            </remarks>
+            <example>
+            The following example shows setting expectations with specific values 
+            for method invocations:
+            <code>
+            //setup - data
+            var order = new Order(TALISKER, 50);
+            var mock = new Mock&lt;IWarehouse&gt;();
+            
+            //setup - expectations
+            mock.Expect(x =&gt; x.HasInventory(TALISKER, 50)).Returns(true);
+            
+            //exercise
+            order.Fill(mock.Object);
+            
+            //verify
+            Assert.IsTrue(order.IsFilled);
+            </code>
+            The following example shows how to use the <see cref="T:Moq.It"/> class 
+            to specify conditions for arguments instead of specific values:
+            <code>
+            //setup - data
+            var order = new Order(TALISKER, 50);
+            var mock = new Mock&lt;IWarehouse&gt;();
+            
+            //setup - expectations
+            //shows how to expect a value within a range
+            mock.Expect(x =&gt; x.HasInventory(It.IsAny&lt;string&gt;(), It.IsInRange(0, 100, Range.Inclusive))).Returns(false);
+            
+            //shows how to throw for unexpected calls. contrast with the "verify" approach of other mock libraries.
+            mock.Expect(x =&gt; x.Remove(It.IsAny&lt;string&gt;(), It.IsAny&lt;int&gt;())).Throws(new InvalidOperationException());
+            
+            //exercise
+            order.Fill(mock.Object);
+            
+            //verify
+            Assert.IsFalse(order.IsFilled);
+            </code>
+            </example>
+        </member>
+        <member name="P:Moq.Mock`1.Object">
+            <summary>
+            Exposes the mocked object instance.
+            </summary>
+        </member>
+        <member name="P:Moq.Mock`1.Behavior">
+            <devdoc>
+            Used for testing the mock factory.
+            </devdoc>
+        </member>
+        <member name="T:Moq.Mock">
+            <summary>
+            Static methods that apply to mocked objects, such as <see cref="M:Moq.Mock.Get``1(``0)"/> to 
+            retrieve a <see cref="T:Moq.Mock`1"/> from an object instance.
+            </summary>
+        </member>
+        <member name="M:Moq.Mock.Get``1(``0)">
+            <summary>
+            Retrieves the mock object for the given object instance.
+            </summary>
+            <typeparam name="T">Type of the mock to retrieve. Can be omitted as it's inferred 
+            from the object instance passed in as the <paramref name="mocked"/> instance.</typeparam>
+            <param name="mocked">The instance of the mocked object.</param>
+            <returns>The mock associated with the mocked object.</returns>
+            <exception cref="T:System.ArgumentException">The received <paramref name="mocked"/> instance 
+            was not created by Moq.</exception>
+            <example>
+            The following example shows how to add a new expectation to an object 
+            instance which is not the original <see cref="T:Moq.Mock`1"/> but rather 
+            the object associated with it:
+            <code>
+            // Typed instance, not the mock, is retrieved from some API.
+            HttpContextBase context = GetMockContext();
+            
+            // context.Request is the typed object from the "real" API
+            // so in order to add an expectation to it, we need to get 
+            // the mock that's managing them
+            Mock&lt;HttpRequestBase&gt; request = Mock.Get(context.Request);
+            mock.Expect(req =&gt; req.AppRelativeCurrentExecutionFilePath)
+                .Returns(tempUrl);
+            </code>
+            </example>
+        </member>
+        <member name="T:Moq.It">
+            <summary>
+            Allows the specification of a matching condition for an 
+            argument in a method invocation, rather than a specific 
+            argument value. "It" refers to the argument being matched.
+            </summary>
+            <remarks>
+            This class allows the expectation to match a method invocation 
+            with an arbitrary value, with a value in a specified range, or 
+            even one that matches a given predicate.
+            </remarks>
+        </member>
+        <member name="M:Moq.It.IsAny``1">
+            <summary>
+            Matches any value of the given <paramref name="TValue"/> type.
+            </summary>
+            <remarks>
+            Typically used when the actual argument value for a method 
+            call is not relevant.
+            </remarks>
+            <example>
+            <code>
+            // Throws an exception for a call to Remove with any string value.
+            mock.Expect(x => x.Remove(It.IsAny&lt;string&gt;())).Throws(new InvalidOperationException());
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.It.Is``1(System.Linq.Expressions.Expression{System.Predicate{``0}})">
+            <summary>
+            Matches any value that satisfies the given predicate.
+            </summary>
+            <typeparam name="TValue">Type of the argument to check.</typeparam>
+            <param name="match">The predicate used to match the method argument.</param>
+            <remarks>
+            Allows the specification of a predicate to perform matching 
+            of method call arguments.
+            </remarks>
+            <example>
+            This example shows how to return the value <c>1</c> whenever the argument to the 
+            <c>Do</c> method is an even number.
+            <code>
+            mock.Expect(x =&gt; x.Do(It.Is&lt;int&gt;(i =&gt; i % 2 == 0))).Returns(1);
+            </code>
+            This example shows how to throw an exception if the argument to the 
+            method is a negative number:
+            <code>
+            mock.Expect(x =&gt; x.GetUser(It.Is&lt;int&gt;(i =&gt; i &lt; 0))).Throws(new ArgumentException());
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.It.IsInRange``1(``0,``0,Moq.Range)">
+            <summary>
+            Matches any value that is in the range specified.
+            </summary>
+            <typeparam name="TValue">Type of the argument to check.</typeparam>
+            <param name="from">The lower bound of the range.</param>
+            <param name="to">The upper bound of the range.</param>
+            <param name="rangeKind">The kind of range. See <see cref="T:Moq.Range"/>.</param>
+            <example>
+            The following example shows how to expect a method call 
+            with an integer argument within the 0..100 range.
+            <code>
+            mock.Expect(x =&gt; x.HasInventory(It.IsAny&lt;string&gt;(), It.IsInRange(0, 100, Range.Inclusive))).Returns(false);
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.It.IsRegex(System.String)">
+            <summary>
+            Matches a string argument if it matches the given regular expression pattern.
+            </summary>
+            <param name="regex">The pattern to use to match the string argument value.</param>
+            <example>
+            The following example shows how to expect a call to a method where the 
+            string argument matches the given regular expression:
+            <code>
+            mock.Expect(x => x.Check(It.IsRegex("[a-z]+"))).Returns(1);
+            </code>
+            </example>
+        </member>
+        <member name="M:Moq.It.IsRegex(System.String,System.Text.RegularExpressions.RegexOptions)">
+            <summary>
+            Matches a string argument if it matches the given regular expression pattern.
+            </summary>
+            <param name="regex">The pattern to use to match the string argument value.</param>
+            <param name="options">The options used to interpret the pattern.</param>
+            <example>
+            The following example shows how to expect a call to a method where the 
+            string argument matches the given regular expression, in a case insensitive way:
+            <code>
+            mock.Expect(x => x.Check(It.IsRegex("[a-z]+", RegexOptions.IgnoreCase))).Returns(1);
+            </code>
+            </example>
+        </member>
+        <member name="T:Moq.IMocked`1">
+            <summary>
+            Implemented by all generated mock object instances.
+            </summary>
+        </member>
+        <member name="P:Moq.IMocked`1.Mock">
+            <summary>
+            Reference the Mock that contains this as the <c>mock.Object</c> value.
+            </summary>
+        </member>
+        <member name="T:Moq.RemotingProxy">
+            <summary>
+            Adapter for Remoting interception. 
+            It allows invocation of the underlying proxied object 
+            if a given member is not abstract on the target type.
+            </summary>
+        </member>
+        <member name="T:Moq.RemotingProxy.NullInterceptor">
+            <summary>
+            We use a null interceptor for the generated class as we'll be already intercepting 
+            through remoting, which is more powerful and gives us additional interception 
+            points (private members, non-virtuals, etc.).
+            </summary>
+        </member>
+        <member name="T:Moq.Evaluator">
+            <summary>
+            Provides partial evaluation of subtrees, whenever they can be evaluated locally.
+            </summary>
+            <author>Matt Warren: http://blogs.msdn.com/mattwar</author>
+            <contributor>Documented by InSTEDD: http://www.instedd.org</contributor>
+        </member>
+        <member name="M:Moq.Evaluator.PartialEval(System.Linq.Expressions.Expression,System.Func{System.Linq.Expressions.Expression,System.Boolean})">
+            <summary>
+            Performs evaluation and replacement of independent sub-trees
+            </summary>
+            <param name="expression">The root of the expression tree.</param>
+            <param name="fnCanBeEvaluated">A function that decides whether a given expression
+            node can be part of the local function.</param>
+            <returns>A new tree with sub-trees evaluated and replaced.</returns>
+        </member>
+        <member name="M:Moq.Evaluator.PartialEval(System.Linq.Expressions.Expression)">
+            <summary>
+            Performs evaluation and replacement of independent sub-trees
+            </summary>
+            <param name="expression">The root of the expression tree.</param>
+            <returns>A new tree with sub-trees evaluated and replaced.</returns>
+        </member>
+        <member name="T:Moq.Evaluator.SubtreeEvaluator">
+            <summary>
+            Evaluates and replaces sub-trees when first candidate is reached (top-down)
+            </summary>
+        </member>
+        <member name="T:Moq.ExpressionVisitor">
+            <summary>
+            Base class for visitors of expression trees.
+            </summary>
+            <remarks>
+            <para>Provides the functionality of the internal visitor base class that 
+            comes with Linq.</para>
+            <para>Matt's comments on the implementation:</para>
+            <para>
+            In this variant there is only one visitor class that dispatches calls to the general 
+            Visit function out to specific VisitXXX methods corresponding to different node types.  
+            Note not every node type gets it own method, for example all binary operators are 
+            treated in one VisitBinary method.  The nodes themselves do not directly participate 
+            in the visitation process. They are treated as just data. 
+            The reason for this is that the quantity of visitors is actually open ended. 
+            You can write your own. Therefore no semantics of visiting is coupled into the node classes.  
+            It’s all in the visitors.  The default visit behavior for node XXX is baked into the base 
+            class’s version of VisitXXX.
+            </para>
+            <para>
+            Another variant is that all VisitXXX methods return a node. 
+            The Expression tree nodes are immutable. In order to change the tree you must construct 
+            a new one. The default VisitXXX methods will construct a new node if any of its sub-trees change. 
+            If no changes are made then the same node is returned. That way if you make a change 
+            to a node (by making a new node) deep down in a tree, the rest of the tree is rebuilt 
+            automatically for you.
+            </para>
+            See: http://blogs.msdn.com/mattwar/archive/2007/07/31/linq-building-an-iqueryable-provider-part-ii.aspx.
+            </remarks>
+            <author>Matt Warren: http://blogs.msdn.com/mattwar</author>
+            <contributor>Documented by InSTEDD: http://www.instedd.org</contributor>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.#ctor">
+            <summary>
+            Default constructor used by derived visitors.
+            </summary>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.Visit(System.Linq.Expressions.Expression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.Expression"/>, determining which 
+            of the concrete Visit methods to call.
+            </summary>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitBinding(System.Linq.Expressions.MemberBinding)">
+            <summary>
+            Visits the generic <see cref="T:System.Linq.Expressions.MemberBinding"/>, determining and 
+            calling the appropriate Visit method according to the 
+            <see cref="P:System.Linq.Expressions.MemberBinding.BindingType"/>, which will result 
+            in calls to <see cref="M:Moq.ExpressionVisitor.VisitMemberAssignment(System.Linq.Expressions.MemberAssignment)"/>, 
+            <see cref="M:Moq.ExpressionVisitor.VisitMemberMemberBinding(System.Linq.Expressions.MemberMemberBinding)"/> or <see cref="M:Moq.ExpressionVisitor.VisitMemberListBinding(System.Linq.Expressions.MemberListBinding)"/>.
+            </summary>
+            <param name="binding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitElementInitializer(System.Linq.Expressions.ElementInit)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.ElementInit"/> initializer by 
+            calling the <see cref="M:Moq.ExpressionVisitor.VisitExpressionList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.Expression})"/> for the 
+            <see cref="P:System.Linq.Expressions.ElementInit.Arguments"/>.
+            </summary>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitUnary(System.Linq.Expressions.UnaryExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.UnaryExpression"/> expression by 
+            calling <see cref="M:Moq.ExpressionVisitor.Visit(System.Linq.Expressions.Expression)"/> with the <see cref="P:System.Linq.Expressions.UnaryExpression.Operand"/> expression.
+            </summary>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitBinary(System.Linq.Expressions.BinaryExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.BinaryExpression"/> by calling 
+            <see cref="M:Moq.ExpressionVisitor.Visit(System.Linq.Expressions.Expression)"/> with the <see cref="P:System.Linq.Expressions.BinaryExpression.Left"/>, 
+            <see cref="P:System.Linq.Expressions.BinaryExpression.Right"/> and <see cref="P:System.Linq.Expressions.BinaryExpression.Conversion"/> 
+            expressions.
+            </summary>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitTypeIs(System.Linq.Expressions.TypeBinaryExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.TypeBinaryExpression"/> by calling 
+            <see cref="M:Moq.ExpressionVisitor.Visit(System.Linq.Expressions.Expression)"/> with the <see cref="P:System.Linq.Expressions.TypeBinaryExpression.Expression"/> 
+            expression.
+            </summary>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitConstant(System.Linq.Expressions.ConstantExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.ConstantExpression"/>, by default returning the
+            same <see cref="T:System.Linq.Expressions.ConstantExpression"/> without further behavior.
+            </summary>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitConditional(System.Linq.Expressions.ConditionalExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.ConditionalExpression"/> by calling 
+            <see cref="M:Moq.ExpressionVisitor.Visit(System.Linq.Expressions.Expression)"/> with the <see cref="P:System.Linq.Expressions.ConditionalExpression.Test"/>, 
+            <see cref="P:System.Linq.Expressions.ConditionalExpression.IfTrue"/> and <see cref="P:System.Linq.Expressions.ConditionalExpression.IfFalse"/> 
+            expressions.
+            </summary>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitParameter(System.Linq.Expressions.ParameterExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.ParameterExpression"/> returning it 
+            by default without further behavior.
+            </summary>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitMemberAccess(System.Linq.Expressions.MemberExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.MemberExpression"/> by calling 
+            <see cref="M:Moq.ExpressionVisitor.Visit(System.Linq.Expressions.Expression)"/> with the <see cref="P:System.Linq.Expressions.MemberExpression.Expression"/> 
+            expression.
+            </summary>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.MethodCallExpression"/> by calling 
+            <see cref="M:Moq.ExpressionVisitor.Visit(System.Linq.Expressions.Expression)"/> with the <see cref="P:System.Linq.Expressions.MethodCallExpression.Object"/> expression, 
+            and then <see cref="M:Moq.ExpressionVisitor.VisitExpressionList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.Expression})"/> with the <see cref="P:System.Linq.Expressions.MethodCallExpression.Arguments"/>.
+            </summary>
+            <param name="m"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitExpressionList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.Expression})">
+            <summary>
+            Visits the <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1"/> by iterating 
+            the list and visiting each <see cref="T:System.Linq.Expressions.Expression"/> in it.
+            </summary>
+            <param name="original"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitMemberAssignment(System.Linq.Expressions.MemberAssignment)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.MemberAssignment"/> by calling 
+            <see cref="M:Moq.ExpressionVisitor.Visit(System.Linq.Expressions.Expression)"/> with the <see cref="P:System.Linq.Expressions.MemberAssignment.Expression"/> expression.
+            </summary>
+            <param name="assignment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitMemberMemberBinding(System.Linq.Expressions.MemberMemberBinding)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.MemberMemberBinding"/> by calling 
+            <see cref="M:Moq.ExpressionVisitor.VisitBindingList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.MemberBinding})"/> with the <see cref="P:System.Linq.Expressions.MemberMemberBinding.Bindings"/>.
+            </summary>
+            <param name="binding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitMemberListBinding(System.Linq.Expressions.MemberListBinding)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.MemberListBinding"/> by calling 
+            <see cref="M:Moq.ExpressionVisitor.VisitElementInitializerList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.ElementInit})"/> with the 
+            <see cref="P:System.Linq.Expressions.MemberListBinding.Initializers"/>.
+            </summary>
+            <param name="binding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitBindingList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.MemberBinding})">
+            <summary>
+            Visits the <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1"/> by 
+            calling <see cref="M:Moq.ExpressionVisitor.VisitBinding(System.Linq.Expressions.MemberBinding)"/> for each <see cref="T:System.Linq.Expressions.MemberBinding"/> in the 
+            collection.
+            </summary>
+            <param name="original"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitElementInitializerList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.ElementInit})">
+            <summary>
+            Visits the <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1"/> by 
+            calling <see cref="M:Moq.ExpressionVisitor.VisitElementInitializer(System.Linq.Expressions.ElementInit)"/> for each 
+            <see cref="T:System.Linq.Expressions.ElementInit"/> in the collection.
+            </summary>
+            <param name="original"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitLambda(System.Linq.Expressions.LambdaExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.LambdaExpression"/> by calling 
+            <see cref="M:Moq.ExpressionVisitor.Visit(System.Linq.Expressions.Expression)"/> with the <see cref="P:System.Linq.Expressions.LambdaExpression.Body"/> expression.
+            </summary>
+            <param name="lambda"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitNew(System.Linq.Expressions.NewExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.NewExpression"/> by calling 
+            <see cref="M:Moq.ExpressionVisitor.VisitExpressionList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.Expression})"/> with the <see cref="P:System.Linq.Expressions.NewExpression.Arguments"/> 
+            expressions.
+            </summary>
+            <param name="nex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitMemberInit(System.Linq.Expressions.MemberInitExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.MemberInitExpression"/> by calling 
+            <see cref="M:Moq.ExpressionVisitor.VisitNew(System.Linq.Expressions.NewExpression)"/> with the <see cref="P:System.Linq.Expressions.MemberInitExpression.NewExpression"/> 
+            expression, then <see cref="M:Moq.ExpressionVisitor.VisitBindingList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.MemberBinding})"/> with the 
+            <see cref="P:System.Linq.Expressions.MemberInitExpression.Bindings"/>.
+            </summary>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitListInit(System.Linq.Expressions.ListInitExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.ListInitExpression"/> by calling 
+            <see cref="M:Moq.ExpressionVisitor.VisitNew(System.Linq.Expressions.NewExpression)"/> with the <see cref="P:System.Linq.Expressions.ListInitExpression.NewExpression"/> 
+            expression, and then <see cref="M:Moq.ExpressionVisitor.VisitElementInitializerList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.ElementInit})"/> with the 
+            <see cref="P:System.Linq.Expressions.ListInitExpression.Initializers"/>.
+            </summary>
+            <param name="init"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitNewArray(System.Linq.Expressions.NewArrayExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.NewArrayExpression"/> by calling 
+            <see cref="M:Moq.ExpressionVisitor.VisitExpressionList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.Expression})"/> with the <see cref="P:System.Linq.Expressions.NewArrayExpression.Expressions"/> 
+            expressions.
+            </summary>
+            <param name="na"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Moq.ExpressionVisitor.VisitInvocation(System.Linq.Expressions.InvocationExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.InvocationExpression"/> by calling 
+            <see cref="M:Moq.ExpressionVisitor.VisitExpressionList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.Expression})"/> with the <see cref="P:System.Linq.Expressions.InvocationExpression.Arguments"/> 
+            expressions.
+            </summary>
+            <param name="iv"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Moq.Evaluator.Nominator">
+            <summary>
+            Performs bottom-up analysis to determine which nodes can possibly
+            be part of an evaluated sub-tree.
+            </summary>
+        </member>
+        <member name="M:Moq.ExpressionExtensions.ToStringFixed(System.Linq.Expressions.Expression)">
+            <devdoc>
+            TODO: remove this code when https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=331583 
+            is fixed.
+            </devdoc>
+        </member>
+        <member name="T:Moq.Range">
+            <summary>
+            Kind of range to use in a filter specified through 
+            <see cref="M:Moq.It.IsInRange``1(``0,``0,Moq.Range)"/>.
+            </summary>
+        </member>
+        <member name="F:Moq.Range.Inclusive">
+            <summary>
+            The range includes the <c>to</c> and 
+            <c>from</c> values.
+            </summary>
+        </member>
+        <member name="F:Moq.Range.Exclusive">
+            <summary>
+            The range does not include the <c>to</c> and 
+            <c>from</c> values.
+            </summary>
+        </member>
+    </members>
+</doc>
