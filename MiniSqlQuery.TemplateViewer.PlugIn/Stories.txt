@@ -1,0 +1,11 @@
+﻿Main
+----
+* View shows list of files in dir (+ sub dirs)
+* dbl click on node to open new window with contents of file
+
+Aux
+---
+* Right click to insert as
+	new window
+	insert at current position
+	to clipboard
