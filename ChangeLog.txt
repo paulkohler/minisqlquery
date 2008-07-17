@@ -1,0 +1,24 @@
+Mini SQL Query Change Log
+=========================
+
+
+Version 0.9.9.1 - 14 June 2008 - Preview Release
+------------------------------------------------
+Preview release prior to version 1.0.
+	* Modified app to use Castle Windsor for dependency injection (finally!)
+	* General refactoring around core interfaces
+	* Added allot of hopefully useful commenting
+	* Implemented simple text searching abilities
+	* Added a "search tools" plugin under the SDK as an example and find implementation.
+	* Enhanced the connection strings editor to make use of the providers connection string builder.
+
+
+Version 0.9.9.0 - 23 May 2008 - Final Beta
+
+------------------------------------------
+The final beta version.
+
+
+Previous Versions (pre May 2008)
+--------------------------------
+Mini SQL Query changes prior to being open source not formerly tracked.
