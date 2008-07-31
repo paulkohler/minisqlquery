@@ -64,6 +64,16 @@ namespace MiniSqlQuery.PlugIns
 			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowHelpCommand>());
 			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
 			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowAboutCommand>());
+			
+			_services.HostWindow.AddPluginCommand<PasteAroundSelectionCommand>();
+			_services.HostWindow.AddPluginCommand<SetLeftPasteAroundSelectionCommand>();
+			_services.HostWindow.AddPluginCommand<SetRightPasteAroundSelectionCommand>();
+			// get the new item and make in invisible - the shortcut key is still available etc ;-)
+			//ToolStripMenuItem pluginsMenu = Services.HostWindow.GetMenuItem("plugins");
+			ToolStripItem item = pluginsMenu.DropDownItems["SetLeftPasteAroundSelectionCommandToolStripMenuItem"];
+			item.Visible = false;
+			item = pluginsMenu.DropDownItems["SetRightPasteAroundSelectionCommandToolStripMenuItem"];
+			item.Visible = false;
 
 			CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(_services.HostWindow.Instance.MainMenuStrip);
 

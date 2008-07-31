@@ -96,6 +96,7 @@
     <Compile Include="Commands\ExitApplicationCommand.cs" />
     <Compile Include="Commands\NewQueryFormCommand.cs" />
     <Compile Include="Commands\OpenFileCommand.cs" />
+    <Compile Include="Commands\PasteAroundSelectionCommand.cs" />
     <Compile Include="Commands\PrintCommand.cs" />
     <Compile Include="Commands\RefreshDatabaseConnectionCommand.cs" />
     <Compile Include="Commands\SaveFileAsCommand.cs" />

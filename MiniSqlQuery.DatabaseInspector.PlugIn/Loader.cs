@@ -28,6 +28,8 @@ namespace MiniSqlQuery.DatabaseInspector.PlugIn
 				CommandControlBuilder.CreateToolStripMenuItem<GenerateUpdateStatementCommand>());
 			Services.HostWindow.DatabaseInspector.TableMenu.Items.Add(
 				CommandControlBuilder.CreateToolStripMenuItem<GenerateDeleteStatementCommand>());
+			Services.HostWindow.DatabaseInspector.TableMenu.Items.Add(
+				CommandControlBuilder.CreateToolStripMenuItem<TruncateTableCommand>());
 		}
 
 	}

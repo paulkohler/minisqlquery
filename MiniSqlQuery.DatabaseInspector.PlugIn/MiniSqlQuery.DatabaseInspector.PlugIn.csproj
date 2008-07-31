@@ -60,6 +60,7 @@
     <Compile Include="Commands\GenerateSelectStatementCommand.cs" />
     <Compile Include="Commands\GenerateStatementCommandBase.cs" />
     <Compile Include="Commands\GenerateUpdateStatementCommand.cs" />
+    <Compile Include="Commands\TruncateTableCommand.cs" />
     <Compile Include="DatabaseInspectorForm.cs">
       <SubType>Form</SubType>
     </Compile>

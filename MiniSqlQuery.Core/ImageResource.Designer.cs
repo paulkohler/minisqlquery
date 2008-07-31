@@ -67,6 +67,13 @@ namespace MiniSqlQuery.Core {
             }
         }
         
+        public static System.Drawing.Bitmap around_text {
+            get {
+                object obj = ResourceManager.GetObject("around_text", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap cancel {
             get {
                 object obj = ResourceManager.GetObject("cancel", resourceCulture);
