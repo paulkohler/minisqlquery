@@ -20,6 +20,7 @@ Build file for Mini SQL Query.
   <property name="release-build-dir" value="${release-base}ReleaseBuild\"/>
   <property name="release-distro-dir" value="${release-base}DISTRO\"/>
   <property name="release-sdk-dir" value="${release-base}SDK\"/>
+  <property name="release-contrib-dir" value="${release-base}Contrib\"/>
   <property name="release-help-api-dir" value="${release-base}Help\API\"/>
   
   <target name="full-build" depends="create-common-assemblyinfo,build,copy-licences" description="" />
@@ -34,6 +35,7 @@ Build file for Mini SQL Query.
       <arg value="/t:Rebuild" />
     </exec>
     <call target="build-sdk-plugins" />
+    <call target="build-contrib-plugins" />
     <delete>
       <!--clean up some extras-->
       <fileset>
@@ -45,6 +47,16 @@ Build file for Mini SQL Query.
   <target name="build-sdk-plugins" depends="create-common-assemblyinfo" description="compiles the plugins under the SDK directory source code for a release distribution.">
     <!-- todo - make this a function etc -->
     <exec workingdir="${release-sdk-dir}MiniSqlQuery.SearchTools.PlugIn" program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
+      <arg value="/p:Configuration=${project.release.type}" />
+      <arg value="/p:OutDir=${release-build-dir}" />
+      <arg value="/p:Platform=&quot;Any CPU&quot;" />
+      <arg value="/t:Rebuild" />
+    </exec>
+  </target>
+
+  <target name="build-contrib-plugins" depends="create-common-assemblyinfo" description="compiles the plugins under the CONTRIB directory source code for a release distribution.">
+    <!-- todo - make this a function etc -->
+    <exec workingdir="${release-contrib-dir}" program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
       <arg value="/p:Configuration=${project.release.type}" />
       <arg value="/p:OutDir=${release-build-dir}" />
       <arg value="/p:Platform=&quot;Any CPU&quot;" />
@@ -104,14 +116,15 @@ Build file for Mini SQL Query.
 		<zip zipfile="${release-distro-dir}\${project.name}.Source.zip" ziplevel="9">
 			<fileset basedir="${release-base}" >
 				<exclude name="*.cache/**" />
-				<exclude name="*.suo" />
-				<exclude name="*.user" />
-				<exclude name="*.ini" />
+				<exclude name="*.suo/**" />
+				<exclude name="*.user/**" />
+				<exclude name="*.ini/**" />
 				<exclude name="**/bin/**" />
 				<exclude name="**/obj/**" />
 				<exclude name="Help/**" />
 				<exclude name="DISTRO/**" />
 				<exclude name="**/_ReSharper*/**" />
+				<exclude name="*.resharper/**" />
 				
 				<!-- Specific directories to include in the source ZIP -->
 				<include name="*.*" />
@@ -119,6 +132,7 @@ Build file for Mini SQL Query.
 				<include name="*.PlugIn*/**" />
 				<include name="TestDatabases/**" />
 				<include name="References/**" />
+				<include name="Contrib/**" />
 
 				<!-- include SDK text and help files, any dirs that are for templates or plugins -->
 				<include name="SDK/*.PlugIn/**" />
