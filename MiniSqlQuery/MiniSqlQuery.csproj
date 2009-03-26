@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0164E1CD-8EC2-4C9E-8D67-2575221D8707}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -45,10 +45,6 @@
     <Reference Include="Castle.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.DynamicProxy, Version=1.1.5.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\Castle.DynamicProxy.dll</HintPath>
     </Reference>
     <Reference Include="Castle.DynamicProxy2, Version=2.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -116,7 +112,44 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlugIns\ConnectionStringsManager\Commands\EditConnectionsFormCommand.cs" />
+    <Compile Include="PlugIns\ConnectionStringsManager\ConnectionStringBuilderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlugIns\ConnectionStringsManager\ConnectionStringBuilderForm.Designer.cs">
+      <DependentUpon>ConnectionStringBuilderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\ConnectionStringsManager\DbConnectionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlugIns\ConnectionStringsManager\DbConnectionsForm.Designer.cs">
+      <DependentUpon>DbConnectionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\ConnectionStringsManager\GenericConnectionStringBuilder.cs" />
+    <Compile Include="PlugIns\ConnectionStringsManager\ConnectionStringsManagerLoader.cs" />
     <Compile Include="PlugIns\CoreApplicationPlugIn.cs" />
+    <Compile Include="PlugIns\DatabaseInspector\Commands\GenerateDeleteStatementCommand.cs" />
+    <Compile Include="PlugIns\DatabaseInspector\Commands\GenerateInsertStatementCommand.cs" />
+    <Compile Include="PlugIns\DatabaseInspector\Commands\GenerateSelectStatementCommand.cs" />
+    <Compile Include="PlugIns\DatabaseInspector\Commands\GenerateStatementCommandBase.cs" />
+    <Compile Include="PlugIns\DatabaseInspector\Commands\GenerateUpdateStatementCommand.cs" />
+    <Compile Include="PlugIns\DatabaseInspector\Commands\TruncateTableCommand.cs" />
+    <Compile Include="PlugIns\DatabaseInspector\DatabaseInspectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlugIns\DatabaseInspector\DatabaseInspectorForm.Designer.cs">
+      <DependentUpon>DatabaseInspectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\DatabaseInspector\DatabaseInspectorLoader.cs" />
+    <Compile Include="PlugIns\ViewTable\Commands\ViewTableFormCommand.cs" />
+    <Compile Include="PlugIns\ViewTable\Commands\ViewTableFromInspectorCommand.cs" />
+    <Compile Include="PlugIns\ViewTable\ViewTableLoader.cs" />
+    <Compile Include="PlugIns\ViewTable\ViewTableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlugIns\ViewTable\ViewTableForm.Designer.cs">
+      <DependentUpon>ViewTableForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
@@ -128,6 +161,22 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlugIns\ConnectionStringsManager\ConnectionStringBuilderForm.resx">
+      <DependentUpon>ConnectionStringBuilderForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlugIns\ConnectionStringsManager\DbConnectionsForm.resx">
+      <DependentUpon>DbConnectionsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlugIns\DatabaseInspector\DatabaseInspectorForm.resx">
+      <DependentUpon>DatabaseInspectorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlugIns\ViewTable\ViewTableForm.resx">
+      <DependentUpon>ViewTableForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -196,6 +245,7 @@
     <Content Include="License-MiniSqlQuery.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="PlugIns\ViewTable\table.ico" />
     <Content Include="script.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +253,9 @@
       <Project>{B819CF6A-B5FD-4E85-842D-FD855F856A5A}</Project>
       <Name>MiniSqlQuery.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="PlugIns\TemplateViewer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,21 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.PlugIns;
-using System.Threading;
-using Castle.Core;
+using MiniSqlQuery.PlugIns.ConnectionStringsManager;
+using MiniSqlQuery.PlugIns.DatabaseInspector;
+using MiniSqlQuery.PlugIns.ViewTable;
 using MiniSqlQuery.Properties;
 
 namespace MiniSqlQuery
 {
-	static class App
+	internal static class App
 	{
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main(string[] args)
+		private static void Main(string[] args)
 		{
 #if !DEBUG
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
@@ -25,10 +26,12 @@ namespace MiniSqlQuery
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			// this DI is 'hard coded'
 			ApplicationServices.Instance.Container.AddComponent("AboutForm", typeof(AboutForm));
 
 			ApplicationServices.Instance.LoadPlugIn(new CoreApplicationPlugIn());
+			ApplicationServices.Instance.LoadPlugIn(new ConnectionStringsManagerLoader());
+			ApplicationServices.Instance.LoadPlugIn(new DatabaseInspectorLoader());
+			ApplicationServices.Instance.LoadPlugIn(new ViewTableLoader());
 
 			IPlugIn[] plugins = PlugInUtility.GetInstances<IPlugIn>(Environment.CurrentDirectory, Settings.Default.PlugInFileFilter);
 			Array.Sort(plugins, new PlugInComparer());
@@ -53,7 +56,7 @@ namespace MiniSqlQuery
 		{
 			if (!(e.ExceptionObject is ThreadAbortException))
 			{
-				HandleException((Exception)e.ExceptionObject);
+				HandleException((Exception) e.ExceptionObject);
 			}
 		}
 
@@ -64,6 +67,5 @@ namespace MiniSqlQuery
 			errorForm.ShowDialog();
 			errorForm.Dispose();
 		}
-
-    }
+	}
 }
