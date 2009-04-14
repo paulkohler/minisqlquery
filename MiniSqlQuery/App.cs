@@ -5,6 +5,8 @@ using MiniSqlQuery.Core;
 using MiniSqlQuery.PlugIns;
 using MiniSqlQuery.PlugIns.ConnectionStringsManager;
 using MiniSqlQuery.PlugIns.DatabaseInspector;
+using MiniSqlQuery.PlugIns.SearchTools;
+using MiniSqlQuery.PlugIns.TemplateViewer;
 using MiniSqlQuery.PlugIns.ViewTable;
 using MiniSqlQuery.Properties;
 
@@ -32,6 +34,8 @@ namespace MiniSqlQuery
 			ApplicationServices.Instance.LoadPlugIn(new ConnectionStringsManagerLoader());
 			ApplicationServices.Instance.LoadPlugIn(new DatabaseInspectorLoader());
 			ApplicationServices.Instance.LoadPlugIn(new ViewTableLoader());
+			ApplicationServices.Instance.LoadPlugIn(new TemplateViewerLoader());
+			ApplicationServices.Instance.LoadPlugIn(new SearchToolsLoader());
 
 			IPlugIn[] plugins = PlugInUtility.GetInstances<IPlugIn>(Environment.CurrentDirectory, Settings.Default.PlugInFileFilter);
 			Array.Sort(plugins, new PlugInComparer());

@@ -141,6 +141,32 @@
       <DependentUpon>DatabaseInspectorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\DatabaseInspector\DatabaseInspectorLoader.cs" />
+    <Compile Include="PlugIns\SearchTools\Commands\FindNextStringCommand.cs" />
+    <Compile Include="PlugIns\SearchTools\Commands\ShowFindTextFormCommand.cs" />
+    <Compile Include="PlugIns\SearchTools\Commands\ShowGoToLineFormCommand.cs" />
+    <Compile Include="PlugIns\SearchTools\FindReplaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlugIns\SearchTools\FindReplaceForm.designer.cs">
+      <DependentUpon>FindReplaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\SearchTools\GoToLineForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlugIns\SearchTools\GoToLineForm.designer.cs">
+      <DependentUpon>GoToLineForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\SearchTools\SearchToolsLoader.cs" />
+    <Compile Include="PlugIns\SearchTools\SearchToolsCommon.cs" />
+    <Compile Include="PlugIns\TemplateViewer\Commands\NewQueryByTemplateCommand.cs" />
+    <Compile Include="PlugIns\TemplateViewer\TemplateViewerLoader.cs" />
+    <Compile Include="PlugIns\TemplateViewer\TemplateModel.cs" />
+    <Compile Include="PlugIns\TemplateViewer\TemplateViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlugIns\TemplateViewer\TemplateViewForm.Designer.cs">
+      <DependentUpon>TemplateViewForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PlugIns\ViewTable\Commands\ViewTableFormCommand.cs" />
     <Compile Include="PlugIns\ViewTable\Commands\ViewTableFromInspectorCommand.cs" />
     <Compile Include="PlugIns\ViewTable\ViewTableLoader.cs" />
@@ -175,6 +201,16 @@
       <DependentUpon>DatabaseInspectorForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="PlugIns\SearchTools\FindReplaceForm.resx">
+      <DependentUpon>FindReplaceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlugIns\SearchTools\GoToLineForm.resx">
+      <DependentUpon>GoToLineForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlugIns\TemplateViewer\TemplateViewForm.resx">
+      <DependentUpon>TemplateViewForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="PlugIns\ViewTable\ViewTableForm.resx">
       <DependentUpon>ViewTableForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -200,6 +236,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Templates\Create Table.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\Empty.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -213,10 +255,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\ReadMe.htm">
-      <Link>ReadMe.htm</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="App.ico" />
     <Content Include="Configuration.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -253,9 +291,6 @@
       <Project>{B819CF6A-B5FD-4E85-842D-FD855F856A5A}</Project>
       <Name>MiniSqlQuery.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="PlugIns\TemplateViewer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace MiniSqlQuery.Core
 {
@@ -11,6 +9,11 @@ namespace MiniSqlQuery.Core
 	/// </summary>
 	public class CommandControlBuilder
 	{
+		/// <summary>
+		/// Creates a tool strip button given the <typeparamref name="TCommand"/> definition.
+		/// </summary>
+		/// <typeparam name="TCommand">The type of the command.</typeparam>
+		/// <returns>A tool strip button</returns>
 		public static ToolStripButton CreateToolStripButton<TCommand>() where TCommand : ICommand, new()
 		{
 			ToolStripButton button = new ToolStripButton();
@@ -22,11 +25,16 @@ namespace MiniSqlQuery.Core
 			button.Name = cmd.GetType().Name + "ToolStripButton";
 			button.Tag = cmd;
 			button.Text = cmd.Name;
-			button.Click += new EventHandler(CommandItemClick);
+			button.Click += CommandItemClick;
 
 			return button;
 		}
 
+		/// <summary>
+		/// Creates a tool strip menu item given the <typeparamref name="TCommand"/> definition.
+		/// </summary>
+		/// <typeparam name="TCommand">The type of the command.</typeparam>
+		/// <returns>A tool strip menu item wired to the commands <see cref="ICommand.Execute"/> method.</returns>
 		public static ToolStripMenuItem CreateToolStripMenuItem<TCommand>() where TCommand : ICommand, new()
 		{
 			ToolStripMenuItem menuItem = new ToolStripMenuItem();
@@ -37,11 +45,16 @@ namespace MiniSqlQuery.Core
 			menuItem.Tag = cmd;
 			menuItem.ShortcutKeys = cmd.ShortcutKeys;
 			menuItem.Image = cmd.SmallImage;
-			menuItem.Click += new EventHandler(CommandItemClick);
+			menuItem.Click += CommandItemClick;
 
 			return menuItem;
 		}
 
+		/// <summary>
+		/// Creates a link label given the <typeparamref name="TCommand"/> definition.
+		/// </summary>
+		/// <typeparam name="TCommand">The type of the command.</typeparam>
+		/// <returns>A link label wired to the commands <see cref="ICommand.Execute"/> method.</returns>
 		public static LinkLabel CreateLinkLabel<TCommand>() where TCommand : ICommand, new()
 		{
 			LinkLabel linkLabel = new LinkLabel();
@@ -53,12 +66,12 @@ namespace MiniSqlQuery.Core
 			linkLabel.Text = cmd.Name.Replace("&", string.Empty);
 			linkLabel.Tag = cmd;
 			linkLabel.Padding = new Padding(4);
-			linkLabel.LinkClicked += new LinkLabelLinkClickedEventHandler(LinkLabelLinkClicked);
+			linkLabel.LinkClicked += LinkLabelLinkClicked;
 
 			return linkLabel;
 		}
 
-		static void LinkLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		private static void LinkLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			Control linkLabel = sender as Control;
 
@@ -73,11 +86,21 @@ namespace MiniSqlQuery.Core
 			}
 		}
 
+		/// <summary>
+		/// Creates a tool strip menu item seperator.
+		/// </summary>
+		/// <returns>A tool strip seperator.</returns>
 		public static ToolStripSeparator CreateToolStripMenuItemSeperator()
 		{
 			return new ToolStripSeparator();
 		}
 
+		/// <summary>
+		/// Handles the click event of a tool strip item, if the <see cref="ToolStripItem.Tag"/> is 
+		/// an <see cref="ICommand"/> instance the action is executed.
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		public static void CommandItemClick(object sender, EventArgs e)
 		{
 			ToolStripItem item = sender as ToolStripItem;
@@ -93,6 +116,11 @@ namespace MiniSqlQuery.Core
 			}
 		}
 
+		/// <summary>
+		/// Used when a menu is opening, handles enabling/dusabling of items for display.
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		public static void TopLevelMenuDropDownOpening(object sender, EventArgs e)
 		{
 			ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
@@ -111,6 +139,11 @@ namespace MiniSqlQuery.Core
 			}
 		}
 
+		/// <summary>
+		/// Assigns an event handler (<see cref="TopLevelMenuDropDownOpening"/>) to the opening event
+		/// for menu strip items which in turn hadles enableing and disabling.
+		/// </summary>
+		/// <param name="menuStrip">The menu strip to monitor.</param>
 		public static void MonitorMenuItemsOpeningForEnabling(ToolStrip menuStrip)
 		{
 			if (menuStrip is ContextMenuStrip || menuStrip is MenuStrip)
@@ -120,7 +153,7 @@ namespace MiniSqlQuery.Core
 					ToolStripMenuItem topLevelMenu = item as ToolStripMenuItem;
 					if (topLevelMenu != null)
 					{
-						topLevelMenu.DropDownOpening += new EventHandler(CommandControlBuilder.TopLevelMenuDropDownOpening);
+						topLevelMenu.DropDownOpening += TopLevelMenuDropDownOpening;
 					}
 				}
 			}

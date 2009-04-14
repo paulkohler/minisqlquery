@@ -34,7 +34,6 @@ Build file for Mini SQL Query.
       <arg value="/p:Platform=&quot;Any CPU&quot;" />
       <arg value="/t:Rebuild" />
     </exec>
-    <call target="build-sdk-plugins" />
     <call target="build-contrib-plugins" />
     <delete>
       <!--clean up some extras-->
@@ -44,18 +43,7 @@ Build file for Mini SQL Query.
     </delete>
   </target>
 
-  <target name="build-sdk-plugins" depends="create-common-assemblyinfo" description="compiles the plugins under the SDK directory source code for a release distribution.">
-    <!-- todo - make this a function etc -->
-    <exec workingdir="${release-sdk-dir}MiniSqlQuery.SearchTools.PlugIn" program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
-      <arg value="/p:Configuration=${project.release.type}" />
-      <arg value="/p:OutDir=${release-build-dir}" />
-      <arg value="/p:Platform=&quot;Any CPU&quot;" />
-      <arg value="/t:Rebuild" />
-    </exec>
-  </target>
-
   <target name="build-contrib-plugins" depends="create-common-assemblyinfo" description="compiles the plugins under the CONTRIB directory source code for a release distribution.">
-    <!-- todo - make this a function etc -->
     <exec workingdir="${release-contrib-dir}" program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
       <arg value="/p:Configuration=${project.release.type}" />
       <arg value="/p:OutDir=${release-build-dir}" />
@@ -67,6 +55,14 @@ Build file for Mini SQL Query.
   <target name="clean-debug" description="">
     <exec program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
       <arg value="/p:Configuration=Debug" />
+      <arg value="/p:Platform=&quot;Any CPU&quot;" />
+      <arg value="/t:Clean" />
+    </exec>
+  </target>
+
+  <target name="clean-release" description="">
+    <exec program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
+      <arg value="/p:Configuration=Release" />
       <arg value="/p:Platform=&quot;Any CPU&quot;" />
       <arg value="/t:Clean" />
     </exec>
@@ -84,6 +80,7 @@ Build file for Mini SQL Query.
     <mkdir dir="${release-distro-dir}" />
     <copy file="Help\MiniSqlQueryExtensibilityDocumentation.chm" todir="${release-sdk-dir}" />
     <copy file="ChangeLog.txt" todir="${release-build-dir}" />
+    <copy file="ReadMe.htm" todir="${release-build-dir}" />
     <zip zipfile="${release-distro-dir}${project.name}.zip" ziplevel="9">
       <fileset basedir="${release-build-dir}" >
         <include name="*" />
