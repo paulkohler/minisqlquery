@@ -28,7 +28,7 @@
     <FrameworkVersion>2.0.50727</FrameworkVersion>
     <BinaryTOC>True</BinaryTOC>
     <IncludeFavorites>False</IncludeFavorites>
-    <Preliminary>True</Preliminary>
+    <Preliminary>False</Preliminary>
     <RootNamespaceContainer>False</RootNamespaceContainer>
     <RootNamespaceTitle />
     <HelpTitle>Mini SQL Query Extensibility Documentation</HelpTitle>

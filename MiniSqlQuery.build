@@ -92,23 +92,6 @@ Build file for Mini SQL Query.
         <include name="*" />
       </fileset>
     </zip>
-    <zip zipfile="${release-sdk-dir}MiniSqlQuery.SearchTools.PlugIn.zip" ziplevel="9">
-      <fileset basedir="${release-sdk-dir}MiniSqlQuery.SearchTools.PlugIn" >
-        <exclude name="**/bin/**" />
-        <exclude name="**/obj/**" />
-        <exclude name="_ReSharper*/**" />
-        <exclude name="**/*.cache" />
-        <exclude name="**/*.suo" />
-        <exclude name="**/*.user" />
-        <include name="**.*" />
-      </fileset>
-    </zip>
-
-    <zip zipfile="${release-distro-dir}${project.name}-SDK.zip" ziplevel="9">
-      <fileset basedir="${release-sdk-dir}" >
-        <include name="*" />
-      </fileset>
-    </zip>
 
 		<zip zipfile="${release-distro-dir}\${project.name}.Source.zip" ziplevel="9">
 			<fileset basedir="${release-base}" >
