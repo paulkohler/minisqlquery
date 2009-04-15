@@ -15,7 +15,7 @@
     <ProjectSummary>Mini SQL Query tool from PK Software.</ProjectSummary>
     <MissingTags>Summary, Parameter, Returns, AutoDocumentCtors, Namespace</MissingTags>
     <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Protected, SealedProtected</VisibleItems>
-    <HtmlHelp1xCompilerPath path="..\..\..\Program Files\HTML Help Workshop\" />
+    <HtmlHelp1xCompilerPath path="C:\Program Files\HTML Help Workshop\" />
     <HtmlHelp2xCompilerPath path="" />
     <OutputPath>.\Help\</OutputPath>
     <SandcastlePath path="" />
