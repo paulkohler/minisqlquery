@@ -6,15 +6,11 @@ namespace MiniSqlQuery.Exports.Plugin.Export
 {
 	public class HtmlExport
 	{
-		#region Delegates
-
-		public delegate void WrittenData(string Text);
-
-		#endregion
+		public delegate void WrittenData(string text);
 
 		public static event WrittenData OnWrittenData;
 
-		public static void ExportToHTML(System.Data.DataTable source, string FileName, HtmlExportFormat format)
+		public static void ExportToHTML(DataTable source, string fileName, HtmlExportFormat format)
 		{
 			StringBuilder sbCss = new StringBuilder();
 			StringBuilder sbHtml = new StringBuilder();
@@ -49,7 +45,7 @@ namespace MiniSqlQuery.Exports.Plugin.Export
 			}
 			sbHtml.Append("</tr>");
 
-			int Counter = 0;
+			int counter = 0;
 			foreach (DataRow dr in source.Rows)
 			{
 				sbHtml.Append("<tr>");
@@ -58,17 +54,17 @@ namespace MiniSqlQuery.Exports.Plugin.Export
 				{
 					if (isAltSet)
 					{
-						sbHtml.Append(string.Format("<td class='AltRow'>{0}</td>", (object) dr[i]));
+						sbHtml.Append(string.Format("<td class='AltRow'>{0}</td>", dr[i]));
 					}
 					else
 					{
-						sbHtml.Append(string.Format("<td class='Row'>{0}</td>", (object) dr[i]));
+						sbHtml.Append(string.Format("<td class='Row'>{0}</td>", dr[i]));
 					}
 				}
-				Counter++;
+				counter++;
 				if (OnWrittenData != null)
 				{
-					OnWrittenData("Writing row " + Counter);
+					OnWrittenData("Writing row " + counter);
 				}
 
 				sbHtml.Append("</tr>");
@@ -82,7 +78,7 @@ namespace MiniSqlQuery.Exports.Plugin.Export
 			sbHtml.Append("</body></html>");
 
 
-			System.IO.TextWriter tw = new System.IO.StreamWriter(FileName);
+			System.IO.TextWriter tw = new System.IO.StreamWriter(fileName);
 			tw.WriteLine(sbHtml.ToString());
 			tw.Close();
 			if (OnWrittenData != null)

@@ -7,7 +7,7 @@ namespace MiniSqlQuery.Exports.Plugin
 {
 	public partial class ExportWindow : Form
 	{
-		private DataSet dsExecutedData;
+		private DataSet _dsExecutedData;
 
 		public ExportWindow()
 		{
@@ -31,7 +31,7 @@ namespace MiniSqlQuery.Exports.Plugin
 
 			if (editor != null)
 			{
-				dsExecutedData = editor.DataSet;
+				_dsExecutedData = editor.DataSet;
 			}
 			else
 			{
@@ -55,61 +55,61 @@ namespace MiniSqlQuery.Exports.Plugin
 		private void button1_Click(object sender, EventArgs e)
 		{
 			// Create new SaveFileDialog object
-			SaveFileDialog DialogSave = new SaveFileDialog();
+			SaveFileDialog dialogSave = new SaveFileDialog();
 
 			// Default file extension
 			if (rbtCsv.Checked)
 			{
-				DialogSave.DefaultExt = "csv";
-				DialogSave.FilterIndex = 2;
+				dialogSave.DefaultExt = "csv";
+				dialogSave.FilterIndex = 2;
 			}
 
 			if (rbtHtml.Checked)
 			{
-				DialogSave.DefaultExt = "htm";
-				DialogSave.FilterIndex = 1;
+				dialogSave.DefaultExt = "htm";
+				dialogSave.FilterIndex = 1;
 			}
 
 			if (rbtXml.Checked)
 			{
-				DialogSave.DefaultExt = "xml";
-				DialogSave.FilterIndex = 3;
+				dialogSave.DefaultExt = "xml";
+				dialogSave.FilterIndex = 3;
 			}
 
 			//DialogSave.DefaultExt = "txt";
 
 			// Available file extensions
-			DialogSave.Filter = "Html File (*.htm)|*.htm|CSV File (*.csv)|*.csv|XML file (*.xml)|*.xml";
+			dialogSave.Filter = "Html File (*.htm)|*.htm|CSV File (*.csv)|*.csv|XML file (*.xml)|*.xml";
 
 			// Adds a extension if the user does not
-			DialogSave.AddExtension = true;
+			dialogSave.AddExtension = true;
 
 			// Restores the selected directory, next time
-			DialogSave.RestoreDirectory = true;
+			dialogSave.RestoreDirectory = true;
 
 			// Dialog title
-			DialogSave.Title = "Where do you want to save the file?";
+			dialogSave.Title = "Where do you want to save the file?";
 
 			// Startup directory
-			DialogSave.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+			dialogSave.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
 			// Show the dialog and process the result
-			if (DialogSave.ShowDialog() == DialogResult.OK)
+			if (dialogSave.ShowDialog() == DialogResult.OK)
 			{
-				txtFilePath.Text = DialogSave.FileName;
+				txtFilePath.Text = dialogSave.FileName;
 				//MessageBox.Show("You selected the file: " + DialogSave.FileName);
 			}
 
-			DialogSave.Dispose();
+			dialogSave.Dispose();
 		}
 
 		//private int GetFieldCount
 		//{
-		//    get { return dsExecutedData.Tables[0].Columns.Count; }
+		//    get { return _dsExecutedData.Tables[0].Columns.Count; }
 		//}
 		//private int GetRowCount
 		//{
-		//    get { return dsExecutedData.Tables[0].Rows.Count; }
+		//    get { return _dsExecutedData.Tables[0].Rows.Count; }
 		//}
 
 		private void ExportHtml()
@@ -124,7 +124,7 @@ namespace MiniSqlQuery.Exports.Plugin
 			format.RowColor = txtRowBgcolor.Text;
 
 			Export.HtmlExport.OnWrittenData += CSVExport_OnWrittenData;
-			Export.HtmlExport.ExportToHTML(dsExecutedData.Tables[0], txtFilePath.Text, format);
+			Export.HtmlExport.ExportToHTML(_dsExecutedData.Tables[0], txtFilePath.Text, format);
 
 			#region Not used
 
@@ -142,7 +142,7 @@ namespace MiniSqlQuery.Exports.Plugin
 			//this.SetStatusText = "Created style for html";
 
 			//sbHtml.Append("<html>");
-			//sbHtml.Append("<head><title>Export from " + dsExecutedData.Tables[0].TableName + "</title>");
+			//sbHtml.Append("<head><title>Export from " + _dsExecutedData.Tables[0].TableName + "</title>");
 			//sbHtml.Append(sbCss.ToString());
 			//sbHtml.Append("</head>");
 			//sbHtml.Append("<body>");
@@ -152,13 +152,13 @@ namespace MiniSqlQuery.Exports.Plugin
 			//sbHtml.Append("<tr>");
 			//for (int i = 0; i < fields; i++)
 			//{
-			//    sbHtml.Append(string.Format("<td class='Header'>{0}</td>", dsExecutedData.Tables[0].Columns[i].ColumnName));
+			//    sbHtml.Append(string.Format("<td class='Header'>{0}</td>", _dsExecutedData.Tables[0].Columns[i].ColumnName));
 			//    this.SetStatusText = "Writing column name " + i.ToString();
 			//}
 			//sbHtml.Append("</tr>");
 
 			//int Counter = 0;
-			//foreach (DataRow dr in dsExecutedData.Tables[0].Rows)
+			//foreach (DataRow dr in _dsExecutedData.Tables[0].Rows)
 			//{
 			//    sbHtml.Append("<tr>");
 
@@ -199,7 +199,7 @@ namespace MiniSqlQuery.Exports.Plugin
 		private void ExportCSV()
 		{
 			Export.CSVExport.OnWrittenData += CSVExport_OnWrittenData;
-			Export.CSVExport.ExportToCSV(dsExecutedData.Tables[0], txtFilePath.Text, chkRowNames.Checked);
+			Export.CSVExport.ExportToCSV(_dsExecutedData.Tables[0], txtFilePath.Text, chkRowNames.Checked);
 		}
 
 		private void CSVExport_OnWrittenData(string text)
@@ -209,7 +209,7 @@ namespace MiniSqlQuery.Exports.Plugin
 
 		private void ExportXml()
 		{
-			dsExecutedData.Tables[0].WriteXml(txtFilePath.Text);
+			_dsExecutedData.Tables[0].WriteXml(txtFilePath.Text);
 			SetStatusText = "Finished exporting to Xml file";
 		}
 

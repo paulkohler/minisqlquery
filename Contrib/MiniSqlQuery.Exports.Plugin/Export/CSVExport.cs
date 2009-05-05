@@ -8,21 +8,21 @@ namespace MiniSqlQuery.Exports.Plugin.Export
 	{
 		#region Delegates
 
-		public delegate void WrittenData(string Text);
+		public delegate void WrittenData(string text);
 
 		#endregion
 
 		public static event WrittenData OnWrittenData;
 
-		public static void ExportToCSV(DataTable source, string FileName, bool FileNamesFirstRow)
+		public static void ExportToCSV(DataTable source, string fileName, bool fileNamesFirstRow)
 		{
 			// Create the CSV file to which grid data will be exported.
-			StreamWriter sw = new StreamWriter(FileName, false);
+			StreamWriter sw = new StreamWriter(fileName, false);
 			// First we will write the headers.
 			DataTable dt = source;
 			int iColCount = dt.Columns.Count;
 
-			if (FileNamesFirstRow)
+			if (fileNamesFirstRow)
 			{
 				for (int i = 0; i < iColCount; i++)
 				{
@@ -43,7 +43,7 @@ namespace MiniSqlQuery.Exports.Plugin.Export
 				}
 			}
 			// Now write all the rows.
-			int Counter = 0;
+			int counter = 0;
 			foreach (DataRow dr in dt.Rows)
 			{
 				for (int i = 0; i < iColCount; i++)
@@ -58,16 +58,16 @@ namespace MiniSqlQuery.Exports.Plugin.Export
 					}
 				}
 				sw.Write(sw.NewLine);
-				Counter++;
+				counter++;
 				if (OnWrittenData != null)
 				{
-					OnWrittenData(string.Format("Wrote row {0}", Counter));
+					OnWrittenData(string.Format("Wrote row {0}", counter));
 				}
 			}
 			sw.Close();
 			if (OnWrittenData != null)
 			{
-				OnWrittenData("Finished exporting CSV file to " + FileName);
+				OnWrittenData("Finished exporting CSV file to " + fileName);
 			}
 		}
 	}
