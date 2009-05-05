@@ -26,7 +26,7 @@ namespace MiniSqlQuery.Exports.Plugin.Export
 			{
 				for (int i = 0; i < iColCount; i++)
 				{
-					sw.Write(dt.Columns[i]);
+					CsvWrite(sw, dt.Columns[i].ColumnName);
 					if (i < iColCount - 1)
 					{
 						sw.Write(",");
@@ -50,7 +50,7 @@ namespace MiniSqlQuery.Exports.Plugin.Export
 				{
 					if (!Convert.IsDBNull(dr[i]))
 					{
-						sw.Write(dr[i].ToString());
+						CsvWrite(sw, dr[i].ToString());
 					}
 					if (i < iColCount - 1)
 					{
@@ -68,6 +68,30 @@ namespace MiniSqlQuery.Exports.Plugin.Export
 			if (OnWrittenData != null)
 			{
 				OnWrittenData("Finished exporting CSV file to " + fileName);
+			}
+		}
+
+		/// <summary>
+		/// Perform a CSV compliant wtrite of <paramref name="text"/> to the <paramref name="sw"/>.
+		/// Handles commas, quotes and newlines.
+		/// </summary>
+		/// <param name="sw">The writer.</param>
+		/// <param name="text">The text.</param>
+		private static void CsvWrite(TextWriter sw, string text)
+		{
+			if (text != null)
+			{
+				bool needsQuotes = false;
+				if (text.Contains("\"") || text.Contains(",") || text.Contains("\n"))
+				{
+					needsQuotes = true;
+					text = text.Replace("\"", "\"\"");
+				}
+				if (needsQuotes)
+				{
+					text = string.Concat("\"", text, "\"");
+				}
+				sw.Write(text);
 			}
 		}
 	}
