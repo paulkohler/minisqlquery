@@ -118,9 +118,17 @@ namespace MiniSqlQuery.Core
 							}
 						}
 					}
+					
+					string schemaName = SafeGetString(columnRow.Row, "TABLE_SCHEMA");
+					string tableName = SafeGetString(columnRow.Row, "TABLE_NAME");
+
+					schemaName = MakeSqlFriendly(schemaName);
+					tableName = MakeSqlFriendly(tableName);
+					columnName = MakeSqlFriendly(columnName);
+
 					metadata.Rows.Add(
-						SafeGetString(columnRow.Row, "TABLE_SCHEMA"),
-						SafeGetString(columnRow.Row, "TABLE_NAME"),
+						schemaName,
+						tableName,
 						columnName,
 						dataType,
 						SafeGetInt(columnRow.Row, "CHARACTER_MAXIMUM_LENGTH"),
@@ -134,6 +142,20 @@ namespace MiniSqlQuery.Core
 
 			dbConn.Dispose();
 			return metadata;
+		}
+
+		private string MakeSqlFriendly(string name)
+		{
+			if (name == null)
+			{
+				return string.Empty;
+			}
+			if (name.Contains(" ") || name.Contains("$"))
+			{
+				// TODO - reserved wods?
+				return string.Concat("[", name, "]");
+			}
+			return name;
 		}
 
 		/// <summary>
