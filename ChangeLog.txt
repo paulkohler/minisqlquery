@@ -1,6 +1,10 @@
 Mini SQL Query Change Log
 =========================
 
+2009-06-10	TASK[4126]: Modified connections to use XML rather than text files (breaking change)
+2009-06-04	FIX: handle SQL object names with spaces etc "My Col" -> "[My Col]"
+2009-05-06	FIX[4030]: for "BUG: CSV Export plugin does not escape certain characters"
+
 
 Version 0.9.9.1 - 14 June 2008 - Preview Release
 ------------------------------------------------
@@ -13,7 +17,8 @@ Preview release prior to version 1.0.
 	* Enhanced the connection strings editor to make use of the providers connection string builder.
 
 
-Version 0.9.9.0 - 23 May 2008 - Final Beta
+Version 0.9.9.0 - 23 May 2008 - Final
+ Beta
 
 ------------------------------------------
 The final beta version.

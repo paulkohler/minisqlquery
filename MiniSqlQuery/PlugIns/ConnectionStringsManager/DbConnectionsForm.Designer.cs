@@ -42,8 +42,8 @@
 			// txtConns
 			// 
 			this.txtConns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			                                                              | System.Windows.Forms.AnchorStyles.Left)
-			                                                             | System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtConns.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.txtConns.IndentStyle = ICSharpCode.TextEditor.Document.IndentStyle.None;
 			this.txtConns.IsIconBarVisible = false;
@@ -62,11 +62,11 @@
 			// 
 			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			                                                                        	this.toolStripButtonOk,
-			                                                                        	this.toolStripButtonCancel,
-			                                                                        	this.toolStripSeparator1,
-			                                                                        	this.toolStripSplitButtonInsertProvider,
-			                                                                        	this.toolStripButtonEditConnStr});
+            this.toolStripButtonOk,
+            this.toolStripButtonCancel,
+            this.toolStripSeparator1,
+            this.toolStripSplitButtonInsertProvider,
+            this.toolStripButtonEditConnStr});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 345);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -80,7 +80,7 @@
 			this.toolStripButtonOk.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonOk.Image")));
 			this.toolStripButtonOk.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButtonOk.Name = "toolStripButtonOk";
-			this.toolStripButtonOk.Size = new System.Drawing.Size(27, 22);
+			this.toolStripButtonOk.Size = new System.Drawing.Size(25, 22);
 			this.toolStripButtonOk.Text = "&OK";
 			this.toolStripButtonOk.Click += new System.EventHandler(this.toolStripButtonOk_Click);
 			// 
@@ -90,7 +90,7 @@
 			this.toolStripButtonCancel.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonCancel.Image")));
 			this.toolStripButtonCancel.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButtonCancel.Name = "toolStripButtonCancel";
-			this.toolStripButtonCancel.Size = new System.Drawing.Size(47, 22);
+			this.toolStripButtonCancel.Size = new System.Drawing.Size(43, 22);
 			this.toolStripButtonCancel.Text = "&Cancel";
 			this.toolStripButtonCancel.Click += new System.EventHandler(this.toolStripButtonCancel_Click);
 			// 
@@ -105,17 +105,17 @@
 			this.toolStripSplitButtonInsertProvider.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButtonInsertProvider.Image")));
 			this.toolStripSplitButtonInsertProvider.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripSplitButtonInsertProvider.Name = "toolStripSplitButtonInsertProvider";
-			this.toolStripSplitButtonInsertProvider.Size = new System.Drawing.Size(134, 22);
-			this.toolStripSplitButtonInsertProvider.Text = "&Insert Provider Name";
-			this.toolStripSplitButtonInsertProvider.Visible = false;
+			this.toolStripSplitButtonInsertProvider.Size = new System.Drawing.Size(164, 22);
+			this.toolStripSplitButtonInsertProvider.Text = "&Insert New by Provider Name";
 			// 
 			// toolStripButtonEditConnStr
 			// 
 			this.toolStripButtonEditConnStr.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripButtonEditConnStr.Enabled = false;
 			this.toolStripButtonEditConnStr.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonEditConnStr.Image")));
 			this.toolStripButtonEditConnStr.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButtonEditConnStr.Name = "toolStripButtonEditConnStr";
-			this.toolStripButtonEditConnStr.Size = new System.Drawing.Size(130, 22);
+			this.toolStripButtonEditConnStr.Size = new System.Drawing.Size(117, 22);
 			this.toolStripButtonEditConnStr.Text = "Edit Connection String";
 			this.toolStripButtonEditConnStr.Click += new System.EventHandler(this.toolStripButtonEditConnStr_Click);
 			// 

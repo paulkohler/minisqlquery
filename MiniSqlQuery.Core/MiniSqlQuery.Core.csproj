@@ -92,6 +92,8 @@
       <DependentUpon>PluginListControl.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseMetaDataService.cs" />
+    <Compile Include="DbConnectionDefinition.cs" />
+    <Compile Include="DbConnectionDefinitionList.cs" />
     <Compile Include="IApplicationServices.cs" />
     <Compile Include="IFindReplaceProvider.cs" />
     <Compile Include="FindReplaceTextRequest.cs" />
@@ -125,10 +127,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="StringWriterWithEncoding.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DefaultConnectionDefinitionFile.txt" />
+    <Content Include="DefaultConnectionDefinitionFile.xml" />
     <Content Include="Images\accept.png" />
     <Content Include="Images\cancel.png" />
     <Content Include="Images\cog.png" />

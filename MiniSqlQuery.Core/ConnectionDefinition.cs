@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace MiniSqlQuery.Core
@@ -7,6 +8,7 @@ namespace MiniSqlQuery.Core
 	/// <summary>
 	/// Provides a defition of database connections by provider and name.
 	/// </summary>
+	[Obsolete]
 	public class ConnectionDefinition
 	{
 		/// <summary>

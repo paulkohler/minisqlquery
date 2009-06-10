@@ -39,21 +39,19 @@ namespace MiniSqlQuery
 		{
             if (_initialized)
             {
-				ConnectionDefinition connDef = (ConnectionDefinition)toolStripComboBoxConnection.SelectedItem;
-				ApplicationServices.Instance.Settings.ConnectionDefinition = connDef;
-				SetWindowTitle(connDef.Name);
+				DbConnectionDefinition dbConnectionDefinition = (DbConnectionDefinition)toolStripComboBoxConnection.SelectedItem;
+				ApplicationServices.Instance.Settings.ConnectionDefinition = dbConnectionDefinition;
+				SetWindowTitle(dbConnectionDefinition.Name);
 			}
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-			_services.Settings.ConnectionDefinitionsChanged +=
-				new EventHandler(AppSettingsConnectionDefinitionsChanged);
+			_services.Settings.ConnectionDefinitionsChanged +=AppSettingsConnectionDefinitionsChanged;
 
-			// load defaults
+			// TODO - check for old conn str file and no new one, offer upgrade
 			Utility.CreateConnectionStringsIfRequired();
-			ConnectionDefinition[] conns = ConnectionDefinition.Parse(Utility.LoadConnectionDefinitionStrings());
-			_services.Settings.SetConnectionDefinitions(conns);
+			_services.Settings.SetConnectionDefinitions(Utility.LoadDbConnectionDefinitions());
         }
 
 
@@ -64,10 +62,10 @@ namespace MiniSqlQuery
 
 		void LoadUpConnections()
 		{
-			ConnectionDefinition[] connections = _services.Settings.GetConnectionDefinitions();
+			DbConnectionDefinitionList definitionList = _services.Settings.GetConnectionDefinitions();
 
 			toolStripComboBoxConnection.Items.Clear();
-			foreach (ConnectionDefinition connDef in connections)
+			foreach (var connDef in definitionList.Definitions)
 			{
 				toolStripComboBoxConnection.Items.Add(connDef);
 				if (connDef.ToString() == Settings.Default.NammedConnection)
@@ -119,10 +117,13 @@ namespace MiniSqlQuery
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-			Settings.Default.NammedConnection = _services.Settings.ConnectionDefinition.ToString();
-			Settings.Default.Save();
+			if (_services.Settings.ConnectionDefinition != null)
+			{
+				Settings.Default.NammedConnection = _services.Settings.ConnectionDefinition.ToString();
+				Settings.Default.Save();
+			}
 
-			List<IPlugIn> plugins = new List<IPlugIn>(_services.Plugins.Values);
+        	List<IPlugIn> plugins = new List<IPlugIn>(_services.Plugins.Values);
 			plugins.Reverse();
 			foreach (IPlugIn plugin in plugins)
 			{

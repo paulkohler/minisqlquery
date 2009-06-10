@@ -1,5 +1,4 @@
-﻿using System;
-using MiniSqlQuery.Core;
+﻿using MiniSqlQuery.Core;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 

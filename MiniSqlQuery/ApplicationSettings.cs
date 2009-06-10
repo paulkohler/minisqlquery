@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using MiniSqlQuery.Core;
@@ -13,19 +13,20 @@ namespace MiniSqlQuery
 	{
 		DbProviderFactory _dbProviderFactory;
 		DbConnection _dbConnection;
-	    readonly List<ConnectionDefinition> _connectionDefinitions;
-		ConnectionDefinition _connectionDefinition;
+	    //readonly List<ConnectionDefinition> _connectionDefinitions;
+		DbConnectionDefinitionList _definitionList;
+		DbConnectionDefinition _connectionDefinition;
 
 		public event EventHandler ConnectionDefinitionsChanged;
 		public event EventHandler DatabaseConnectionReset;
 
 		public ApplicationSettings()
 		{
-			_connectionDefinition = ConnectionDefinition.Default;
-			_connectionDefinitions = new List<ConnectionDefinition>();
+			//_connectionDefinition = ConnectionDefinition.Default;
+			_definitionList = new DbConnectionDefinitionList();
 		}
 
-		public ConnectionDefinition ConnectionDefinition
+		public DbConnectionDefinition ConnectionDefinition
 		{
 			get
 			{
@@ -74,15 +75,14 @@ namespace MiniSqlQuery
 			}
 		}
 
-		public ConnectionDefinition[] GetConnectionDefinitions()
+		public DbConnectionDefinitionList GetConnectionDefinitions()
 		{
-			return _connectionDefinitions.ToArray();
+			return _definitionList;
 		}
 
-		public void SetConnectionDefinitions(ConnectionDefinition[] connections)
+		public void SetConnectionDefinitions(DbConnectionDefinitionList definitionList)
 		{
-			_connectionDefinitions.Clear();
-			_connectionDefinitions.AddRange(connections);
+			_definitionList = definitionList;
 
 			OnPastConnectionStringsChanged(EventArgs.Empty);
 		}

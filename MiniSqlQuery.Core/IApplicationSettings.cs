@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data.Common;
 
 namespace MiniSqlQuery.Core
@@ -24,7 +24,7 @@ namespace MiniSqlQuery.Core
 		/// <summary>
 		/// A reference to the current connection definiton class.
 		/// </summary>
-		ConnectionDefinition ConnectionDefinition { get; set; }
+		DbConnectionDefinition ConnectionDefinition { get; set; }
 
 		/// <summary>
         /// Gets an instance of <see cref="DbProviderFactory"/> depending on the value of <see cref="ConnectionDefinition"/>.
@@ -37,16 +37,15 @@ namespace MiniSqlQuery.Core
 		DbConnection Connection { get; }
 
 		/// <summary>
-		/// Gets an array of the current connection definitions for this user.
+		/// Gets the current connection definitions for this user.
 		/// </summary>
-		/// <returns>An array of connection definitions.</returns>
-		ConnectionDefinition[] GetConnectionDefinitions();
+		/// <returns>Connection definitions.</returns>
+		DbConnectionDefinitionList GetConnectionDefinitions();
 
 		/// <summary>
         /// Resets the list of connection definitions that are stored in the user profile.
 		/// </summary>
-        /// <param name="connections">The array of connection definitions.</param>
-		void SetConnectionDefinitions(ConnectionDefinition[] connections);
+        void SetConnectionDefinitions(DbConnectionDefinitionList definitionList);
 
 		/// <summary>
 		/// Resets the connection details firing the <see cref="DatabaseConnectionReset"/> event.

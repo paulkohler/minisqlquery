@@ -6,6 +6,8 @@ using System.Data.Common;
 using System.Reflection;
 using System.IO;
 using System.Diagnostics;
+using System.Xml.Serialization;
+using MiniSqlQuery.Core.Properties;
 
 namespace MiniSqlQuery.Core
 {
@@ -78,6 +80,19 @@ namespace MiniSqlQuery.Core
 			return lines;
 		}
 
+		public static DbConnectionDefinitionList LoadDbConnectionDefinitions()
+		{
+			string filename = GetConnectionStringFilename();
+			DbConnectionDefinitionList definitionList=null;
+
+			if (File.Exists(filename))
+			{
+				definitionList = DbConnectionDefinitionList.FromXml(File.ReadAllText(filename));
+			}
+
+			return definitionList;
+		}
+
 		/// <summary>
 		/// Loads the connection string data from the file.
 		/// </summary>
@@ -97,9 +112,14 @@ namespace MiniSqlQuery.Core
 		/// <seealso cref="GetConnectionStringFilename"/>
 		public static void SaveConnections(string data)
 		{
-			// todo Robustify! readonly etc....
 			string filename = GetConnectionStringFilename();
 			File.WriteAllText(filename, data);
+		}
+
+		public static void SaveConnectionXml(string xml)
+		{
+			string filename = GetConnectionStringFilename();
+			File.WriteAllText(filename, xml);
 		}
 
 		/// <summary>
@@ -109,16 +129,23 @@ namespace MiniSqlQuery.Core
 		/// setting.
 		/// </summary>
 		/// <returns>A filename.</returns>
-		private static string GetConnectionStringFilename()
+		public static string GetConnectionStringFilename()
 		{
 			string filename = Properties.Settings.Default.DefaultConnectionDefinitionFilename;
 
 			if (string.IsNullOrEmpty(filename))
 			{
 				string folder = GetAppFolderPath();
-				filename = Path.Combine(folder, "connections.txt");
+				filename = Path.Combine(folder, "connections.xml");
 			}
 
+			return filename;
+		}
+
+		public static string GetOldConnectionStringFilename()
+		{
+			string folder = GetAppFolderPath();
+			string filename = Path.Combine(folder, "connections.txt");
 			return filename;
 		}
 
@@ -145,12 +172,51 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		public static void CreateConnectionStringsIfRequired()
 		{
+			DbConnectionDefinitionList newDefinitionList = null;
+			string oldFilename = GetOldConnectionStringFilename();
+			if (File.Exists(oldFilename))
+			{
+				// offer migrate
+				string[] oldLines = File.ReadAllLines(oldFilename);
+				ConnectionDefinition[] oldConnectionDefinitions = ConnectionDefinition.Parse(oldLines);
+				newDefinitionList = DbConnectionDefinitionList.Upgrade(oldConnectionDefinitions, null);
+
+				string migratedFilename = oldFilename + ".migrated-to-xml-file";
+				File.Move(oldFilename, migratedFilename);
+			}
+
 			string filename = GetConnectionStringFilename();
 			if (!File.Exists(filename))
 			{
-				File.WriteAllText(filename, Properties.Resources.DefaultConnectionDefinitionFile);
+				if (newDefinitionList != null)
+				{
+					File.WriteAllText(filename, newDefinitionList.ToXml());
+					ApplicationServices.Instance.HostWindow.DisplaySimpleMessageBox(
+						null,
+						string.Format("The file '{0}' was upgraded to XML and saved as '{1}'.", oldFilename, filename),
+						"Migrated TEXT connections file to XML");
+				}
+				else
+				{
+					File.WriteAllText(filename, Resources.DefaultConnectionDefinitionFile);
+				}
 			}
 		}
 
+		/// <summary>
+		/// Serializes the <paramref name="obj"/>.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="obj">The object to serialize.</param>
+		/// <returns>A UTF8 XML string representing <paramref name="obj"/>.</returns>
+		public static string ToXml<T>(T obj)
+		{
+			using (StringWriter sw = new StringWriterWithEncoding(Encoding.UTF8))
+			{
+				XmlSerializer serializer = new XmlSerializer(typeof(T));
+				serializer.Serialize(sw, obj);
+				return sw.ToString();
+			}
+		}
 	}
 }
