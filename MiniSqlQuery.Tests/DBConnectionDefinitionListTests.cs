@@ -9,6 +9,21 @@ namespace MiniSqlQuery.Tests
 	public class DbConnectionDefinitionListTests
 	{
 		[Test]
+		public void Can_add_DbConnectionDefinition_object()
+		{
+			DbConnectionDefinitionList definitionList = new DbConnectionDefinitionList();
+			definitionList.DefaultName = "def";
+			definitionList.Definitions = new[]
+			                             {
+			                             	new DbConnectionDefinition {ConnectionString = "cs1", Name = "nm1", ProviderName = "p1"},
+			                             	new DbConnectionDefinition {ConnectionString = "cs2", Name = "nm2", ProviderName = "p2"}
+			                             };
+			Assert.That(definitionList.Definitions.Length, Is.EqualTo(2));
+			definitionList.AddDefinition(new DbConnectionDefinition {ConnectionString = "cs3", Name = "nm3", ProviderName = "p3"});
+			Assert.That(definitionList.Definitions.Length, Is.EqualTo(3));
+		}
+
+		[Test]
 		public void Can_Deserialize_a_DbConnectionDefinitionList_from_XML_string()
 		{
 			string xml =
@@ -34,6 +49,25 @@ namespace MiniSqlQuery.Tests
 		}
 
 		[Test]
+		public void Can_remove_a_DbConnectionDefinition_object()
+		{
+			DbConnectionDefinitionList definitionList = new DbConnectionDefinitionList();
+			definitionList.DefaultName = "def";
+			var conn1 = new DbConnectionDefinition {ConnectionString = "cs1", Name = "nm1", ProviderName = "p1"};
+			var conn2 = new DbConnectionDefinition {ConnectionString = "cs2", Name = "nm2", ProviderName = "p2"};
+			var conn3unused = new DbConnectionDefinition {ConnectionString = "cs3", Name = "nm3", ProviderName = "p3"};
+			definitionList.Definitions = new[] {conn1, conn2};
+			Assert.That(definitionList.Definitions.Length, Is.EqualTo(2));
+			bool remove1=definitionList.RemoveDefinition(conn2);
+			Assert.That(remove1, Is.EqualTo(true));
+			Assert.That(definitionList.Definitions.Length, Is.EqualTo(1));
+			Assert.That(definitionList.Definitions[0].Name, Is.EqualTo("nm1"));
+			bool remove2 = definitionList.RemoveDefinition(conn3unused);
+			Assert.That(remove2, Is.EqualTo(false));
+			Assert.That(definitionList.Definitions.Length, Is.EqualTo(1));
+		}
+
+		[Test]
 		public void Can_serialize_a_DbConnectionDefinitionList()
 		{
 			DbConnectionDefinitionList definitionList = new DbConnectionDefinitionList();
@@ -44,7 +78,7 @@ namespace MiniSqlQuery.Tests
 			                             	new DbConnectionDefinition {ConnectionString = "cs2", Name = "nm2", ProviderName = "p2"}
 			                             };
 			string xml = definitionList.ToXml();
-			Console.WriteLine(xml);
+			//Console.WriteLine(xml);
 			Assert.That(xml, Text.Contains("<DefaultName>def</DefaultName>"));
 			Assert.That(xml, Text.Contains("<Name>nm1</Name>"));
 			Assert.That(xml, Text.Contains("<ConnectionString>cs1</ConnectionString>"));
@@ -58,10 +92,10 @@ namespace MiniSqlQuery.Tests
 		public void Can_upgrade_from_old_style()
 		{
 			ConnectionDefinition[] connDefs = ConnectionDefinition.Parse(new[]
-				 {
-         			"Connection1^sql^Server=.; Database=master; Integrated Security=SSPI",
-         			"Connection2^oracle^Server=.; Database=fred; user=bob; password=p"
-				 });
+			                                                             {
+			                                                             	"Connection1^sql^Server=.; Database=master; Integrated Security=SSPI",
+			                                                             	"Connection2^oracle^Server=.; Database=fred; user=bob; password=p"
+			                                                             });
 
 			DbConnectionDefinitionList definitionList = DbConnectionDefinitionList.Upgrade(connDefs, "newDefault");
 

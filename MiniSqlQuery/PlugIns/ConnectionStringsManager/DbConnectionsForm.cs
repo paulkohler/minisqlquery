@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 
@@ -12,6 +11,9 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 		public DbConnectionsForm()
 		{
 			InitializeComponent();
+			toolStripButtonAdd.Image = ImageResource.database_add;
+			toolStripButtonEditConnStr.Image = ImageResource.database_edit;
+			toolStripButtonDelete.Image = ImageResource.database_delete;
 		}
 
 		private void DbConnectionsForm_Load(object sender, EventArgs e)
@@ -27,6 +29,22 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 				lstConnections.Items.Clear();
 				lstConnections.Items.AddRange(_definitionList.Definitions);
 				lstConnections.SelectedItem = _definitionList.Definitions[0];
+			}
+		}
+
+		private void RemoveFromList(DbConnectionDefinition definition)
+		{
+			if (lstConnections.Items.Contains(definition))
+			{
+				lstConnections.Items.Remove(definition);
+			}
+		}
+
+		private void AddToList(DbConnectionDefinition definition)
+		{
+			if (!lstConnections.Items.Contains(definition))
+			{
+				lstConnections.Items.Add(definition);
 			}
 		}
 
@@ -70,12 +88,24 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 		private void lstConnections_SelectedValueChanged(object sender, EventArgs e)
 		{
 			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
+			UpdateDetailsPanel(definition);
+		}
+
+		private void UpdateDetailsPanel(DbConnectionDefinition definition)
+		{
 			if (definition != null)
 			{
 				txtName.Text = definition.Name;
 				txtProvider.Text = definition.ProviderName;
 				txtConn.Text = definition.ConnectionString;
 				txtComment.Text = definition.Comment;
+			}
+			else
+			{
+				txtName.Clear();
+				txtProvider.Clear();
+				txtConn.Clear();
+				txtComment.Clear();
 			}
 		}
 
@@ -93,6 +123,16 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			ManageDefinition(null);
 		}
 
+		private void toolStripButtonDelete_Click(object sender, EventArgs e)
+		{
+			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
+			if (definition != null)
+			{
+				_definitionList.RemoveDefinition(definition);
+				RemoveFromList(definition);
+			}
+		}
+
 		private void ManageDefinition(DbConnectionDefinition definition)
 		{
 			ConnectionStringBuilderForm frm;
@@ -107,16 +147,15 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			}
 
 			frm.ShowDialog(this);
+
 			if (frm.DialogResult == DialogResult.OK)
 			{
 				if (definition == null)
 				{
-					// add new to list...
-					List<DbConnectionDefinition> list = new List<DbConnectionDefinition>(_definitionList.Definitions);
-					list.Add(frm.ConnectionDefinition);
-					_definitionList.Definitions = list.ToArray();
+					_definitionList.AddDefinition(frm.ConnectionDefinition);
+					AddToList(frm.ConnectionDefinition);
+					lstConnections.SelectedItem = frm.ConnectionDefinition;
 				}
-				UpdateListView();
 			}
 		}
 	}
