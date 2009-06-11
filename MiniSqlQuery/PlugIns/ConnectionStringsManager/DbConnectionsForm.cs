@@ -1,45 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
-using ICSharpCode.TextEditor.Document;
 
 namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 {
 	public partial class DbConnectionsForm : Form
 	{
+		private DbConnectionDefinitionList _definitionList;
+
 		public DbConnectionsForm()
 		{
 			InitializeComponent();
-			// todo - need to convert to use a list with details etc
-			txtConns.SetHighlighting("XML");
 		}
 
 		private void DbConnectionsForm_Load(object sender, EventArgs e)
 		{
-			txtConns.Text = LoadConnectionDefinitions();
-			LoadProvidersDropDownButton();
-			txtConns.Focus();
+			_definitionList = LoadConnectionDefinitions();
+			UpdateListView();
 		}
 
-		private void LoadProvidersDropDownButton()
+		private void UpdateListView()
 		{
-			string[] providerNames = Utility.GetSqlProviderNames();
-
-			foreach (string providerName in providerNames)
+			if (_definitionList.Definitions != null && _definitionList.Definitions.Length > 0)
 			{
-				ToolStripMenuItem newProviderNameMenuItem = new ToolStripMenuItem();
-				string name = string.Concat("ProviderName_", providerName.Replace(".", "_"), "_ToolStripMenuItem");
-
-				newProviderNameMenuItem.Name = name;
-				newProviderNameMenuItem.Text = providerName;
-				newProviderNameMenuItem.Tag = providerName; // store data in tag so Text can change etc
-				newProviderNameMenuItem.Click += InsertProviderNameToolStripMenuItemClickHandler;
-
-				toolStripSplitButtonInsertProvider.DropDownItems.Add(newProviderNameMenuItem);
+				lstConnections.Items.Clear();
+				lstConnections.Items.AddRange(_definitionList.Definitions);
+				lstConnections.SelectedItem = _definitionList.Definitions[0];
 			}
 		}
 
@@ -49,22 +36,20 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 		}
 
 
-		private static string LoadConnectionDefinitions()
+		private static DbConnectionDefinitionList LoadConnectionDefinitions()
 		{
-			return Utility.LoadConnections();
+			return DbConnectionDefinitionList.FromXml(Utility.LoadConnections());
 		}
 
-		private static void SaveConnectionDefinitions(string data)
+		private static void SaveConnectionDefinitions(DbConnectionDefinitionList data)
 		{
-			ApplicationServices.Instance.Settings.SetConnectionDefinitions(
-				DbConnectionDefinitionList.FromXml(data));
-			Utility.SaveConnections(data);
+			ApplicationServices.Instance.Settings.SetConnectionDefinitions(data);
+			Utility.SaveConnections(data.ToXml());
 		}
 
 		private void toolStripButtonOk_Click(object sender, EventArgs e)
 		{
-			string data = txtConns.Text;
-			SaveConnectionDefinitions(data);
+			SaveConnectionDefinitions(_definitionList);
 			Close();
 		}
 
@@ -73,80 +58,66 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			Close();
 		}
 
-		private void InsertProviderNameToolStripMenuItemClickHandler(object sender, EventArgs e)
+		private void toolStripButtonEditConnStr_Click(object sender, EventArgs e)
 		{
-			ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
-
-			if (menuItem != null)
+			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
+			if (definition != null)
 			{
-				int offset = txtConns.ActiveTextAreaControl.Caret.Offset;
-
-				DbConnectionDefinition definition = new DbConnectionDefinition 
-				{
-					Name = "New connection",
-					ProviderName = menuItem.Tag.ToString(),
-					ConnectionString = "TODO"
-				};
-
-				string xml = definition.ToXml();
-				// note, dirty hack till the GUI is updated  ;-)
-				const string utfHeader = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-				if (xml.StartsWith(utfHeader))
-				{
-					xml = xml.Substring(utfHeader.Length).TrimStart(Environment.NewLine.ToCharArray());
-				}
-				txtConns.Document.Insert(offset, xml);
+				ManageDefinition(definition);
 			}
 		}
 
-		private void toolStripButtonEditConnStr_Click(object sender, EventArgs e)
+		private void lstConnections_SelectedValueChanged(object sender, EventArgs e)
 		{
-			//// this could be alot better!
-			//ConnectionStringBuilderForm frm = null;
-			//int lineNumber = txtConns.ActiveTextAreaControl.Caret.Line;
-			//string[] lines = txtConns.Text.Replace("\r", string.Empty).Split(new char[] { '\n' });
-			//string line = lines[lineNumber];
+			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
+			if (definition != null)
+			{
+				txtName.Text = definition.Name;
+				txtProvider.Text = definition.ProviderName;
+				txtConn.Text = definition.ConnectionString;
+				txtComment.Text = definition.Comment;
+			}
+		}
 
-			//if (line.Trim().Length == 0) // its a blank line so new
-			//{
-			//    frm = new ConnectionStringBuilderForm(); // new blank form
-			//}
-			//else
-			//{
-			//    // parse line - it could be a comment etc
-			//    ConnectionDefinition connDefToEdit = ConnectionDefinition.Parse(line);
-			//    if (connDefToEdit != null)
-			//    {
-			//        frm = new ConnectionStringBuilderForm(
-			//            connDefToEdit.Name,
-			//            connDefToEdit.ProviderName,
-			//            connDefToEdit.ConnectionString);
-			//    }
-			//    else
-			//    {
-			//        System.Media.SystemSounds.Beep.Play();
-			//    }
-			//}
+		private void lstConnections_DoubleClick(object sender, EventArgs e)
+		{
+			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
+			if (definition != null)
+			{
+				ManageDefinition(definition);
+			}
+		}
 
+		private void toolStripButtonAdd_Click(object sender, EventArgs e)
+		{
+			ManageDefinition(null);
+		}
 
-			//if (frm != null)
-			//{
-			//    frm.ShowDialog(this);
-			//    if (frm.DialogResult == DialogResult.OK)
-			//    {
-			//        // push the data into a ConnectionDefinition and render string
-			//        ConnectionDefinition newConnDef = new ConnectionDefinition();
-			//        newConnDef.Name = frm.ConnectionName;
-			//        newConnDef.ProviderName = frm.ProviderName;
-			//        newConnDef.ConnectionString = frm.ConnectionString;
+		private void ManageDefinition(DbConnectionDefinition definition)
+		{
+			ConnectionStringBuilderForm frm;
 
-			//        // insert def into current line - replace if required
-			//        LineSegment lineSegment = txtConns.Document.GetLineSegment(lineNumber);
-			//        txtConns.Document.Replace(lineSegment.Offset, lineSegment.Length, newConnDef.ToParsableFormat());
+			if (definition == null)
+			{
+				frm = new ConnectionStringBuilderForm(); // new blank form
+			}
+			else
+			{
+				frm = new ConnectionStringBuilderForm(definition);
+			}
 
-			//        //MessageBox.Show(frm.ConnectionString);
-			//    }
-			//}
+			frm.ShowDialog(this);
+			if (frm.DialogResult == DialogResult.OK)
+			{
+				if (definition == null)
+				{
+					// add new to list...
+					List<DbConnectionDefinition> list = new List<DbConnectionDefinition>(_definitionList.Definitions);
+					list.Add(frm.ConnectionDefinition);
+					_definitionList.Definitions = list.ToArray();
+				}
+				UpdateListView();
+			}
 		}
 	}
 }

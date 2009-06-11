@@ -45,7 +45,7 @@
 			// cboProvider
 			// 
 			this.cboProvider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			                                                                | System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.cboProvider.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboProvider.FormattingEnabled = true;
 			this.cboProvider.Location = new System.Drawing.Point(120, 38);
@@ -66,8 +66,8 @@
 			// groupBox1
 			// 
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			                                                               | System.Windows.Forms.AnchorStyles.Left)
-			                                                              | System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox1.Controls.Add(this.propertyGridDbConnection);
 			this.groupBox1.Location = new System.Drawing.Point(12, 65);
 			this.groupBox1.Name = "groupBox1";
@@ -96,7 +96,7 @@
 			// txtConnectionName
 			// 
 			this.txtConnectionName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			                                                                      | System.Windows.Forms.AnchorStyles.Right)));
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtConnectionName.Location = new System.Drawing.Point(120, 12);
 			this.txtConnectionName.Name = "txtConnectionName";
 			this.txtConnectionName.Size = new System.Drawing.Size(295, 20);
@@ -106,11 +106,10 @@
 			// 
 			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			                                                                        	this.toolStripButtonCancel,
-			                                                                        	this.toolStripButtonOk});
+            this.toolStripButtonOk,
+            this.toolStripButtonCancel});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 412);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.toolStrip1.Size = new System.Drawing.Size(427, 25);
 			this.toolStrip1.TabIndex = 5;
 			this.toolStrip1.Text = "toolStrip1";

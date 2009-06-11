@@ -13,6 +13,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 {
 	public partial class ConnectionStringBuilderForm : Form
 	{
+		public DbConnectionDefinition ConnectionDefinition { get; set; }
 		public const string DefaultProviderName = "System.Data.SqlClient";
 
 		bool _initialised;
@@ -83,12 +84,21 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			InitializeComponent();
 		}
 
-		public ConnectionStringBuilderForm(string name, string provider, string connection)
+		//public ConnectionStringBuilderForm(string name, string provider, string connection)
+		//    : this()
+		//{
+		//    ConnectionName = name;
+		//    _initProvider = provider;
+		//    _connStr = connection;
+		//}
+
+		public ConnectionStringBuilderForm(DbConnectionDefinition definition)
 			: this()
 		{
-			ConnectionName = name;
-			_initProvider = provider;
-			_connStr = connection;
+			ConnectionDefinition = definition;
+			ConnectionName = ConnectionDefinition.Name;
+			_initProvider = ConnectionDefinition.ProviderName;
+			_connStr = ConnectionDefinition.ConnectionString;
 		}
 
 		private void ConnectionStringBuilderForm_Load(object sender, EventArgs e)
@@ -120,6 +130,14 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 		private void toolStripButtonOk_Click(object sender, EventArgs e)
 		{
 			DialogResult = DialogResult.OK;
+			if (ConnectionDefinition == null)
+			{
+				ConnectionDefinition = new DbConnectionDefinition();
+			}
+			ConnectionDefinition.Name = ConnectionName;
+			ConnectionDefinition.ProviderName = ProviderName;
+			ConnectionDefinition.ConnectionString = ConnectionString;
+			// todo ConnectionDefinition.Comment = Comment;
 			Close();
 		}
 
