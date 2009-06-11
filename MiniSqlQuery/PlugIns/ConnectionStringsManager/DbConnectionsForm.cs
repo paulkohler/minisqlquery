@@ -16,7 +16,15 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			toolStripButtonDelete.Image = ImageResource.database_delete;
 		}
 
-		private void DbConnectionsForm_Load(object sender, EventArgs e)
+		public DbConnectionsForm(IApplicationServices services)
+			: this()
+		{
+			Services = services;
+		}
+
+		public IApplicationServices Services { get; private set; }
+
+		private void DbConnectionsForm_Shown(object sender, EventArgs e)
 		{
 			_definitionList = LoadConnectionDefinitions();
 			UpdateListView();
@@ -123,6 +131,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 		private void ManageDefinition(DbConnectionDefinition definition)
 		{
 			ConnectionStringBuilderForm frm;
+			string oldName = null;
 
 			if (definition == null)
 			{
@@ -130,6 +139,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			}
 			else
 			{
+				oldName = definition.Name;
 				frm = new ConnectionStringBuilderForm(definition);
 			}
 
@@ -145,7 +155,16 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 				}
 				else
 				{
-					UpdateDetailsPanel(lstConnections.SelectedItem as DbConnectionDefinition);
+					if (definition.Name != oldName)
+					{
+						// want the list text to update due to name change
+						UpdateListView();
+						lstConnections.SelectedItem = definition;
+					}
+					else
+					{
+						UpdateDetailsPanel(lstConnections.SelectedItem as DbConnectionDefinition);
+					}
 				}
 			}
 		}

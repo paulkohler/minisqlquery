@@ -33,8 +33,9 @@
 			this.toolStripButtonOk = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonCancel = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripButtonEditConnStr = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonAdd = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonEditConnStr = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonDelete = new System.Windows.Forms.ToolStripButton();
 			this.lstConnections = new System.Windows.Forms.ListBox();
 			this.grpDetails = new System.Windows.Forms.GroupBox();
 			this.txtComment = new System.Windows.Forms.TextBox();
@@ -45,7 +46,6 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.txtName = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.toolStripButtonDelete = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip1.SuspendLayout();
 			this.grpDetails.SuspendLayout();
 			this.SuspendLayout();
@@ -72,7 +72,7 @@
 			this.toolStripButtonOk.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonOk.Image")));
 			this.toolStripButtonOk.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButtonOk.Name = "toolStripButtonOk";
-			this.toolStripButtonOk.Size = new System.Drawing.Size(27, 22);
+			this.toolStripButtonOk.Size = new System.Drawing.Size(25, 22);
 			this.toolStripButtonOk.Text = "&OK";
 			this.toolStripButtonOk.Click += new System.EventHandler(this.toolStripButtonOk_Click);
 			// 
@@ -82,7 +82,7 @@
 			this.toolStripButtonCancel.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonCancel.Image")));
 			this.toolStripButtonCancel.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButtonCancel.Name = "toolStripButtonCancel";
-			this.toolStripButtonCancel.Size = new System.Drawing.Size(47, 22);
+			this.toolStripButtonCancel.Size = new System.Drawing.Size(43, 22);
 			this.toolStripButtonCancel.Text = "&Cancel";
 			this.toolStripButtonCancel.Click += new System.EventHandler(this.toolStripButtonCancel_Click);
 			// 
@@ -91,24 +91,33 @@
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
 			// 
-			// toolStripButtonEditConnStr
-			// 
-			this.toolStripButtonEditConnStr.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonEditConnStr.Image")));
-			this.toolStripButtonEditConnStr.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButtonEditConnStr.Name = "toolStripButtonEditConnStr";
-			this.toolStripButtonEditConnStr.Size = new System.Drawing.Size(47, 22);
-			this.toolStripButtonEditConnStr.Text = "Edit";
-			this.toolStripButtonEditConnStr.Click += new System.EventHandler(this.toolStripButtonEditConnStr_Click);
-			// 
 			// toolStripButtonAdd
 			// 
 			this.toolStripButtonAdd.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonAdd.Image")));
 			this.toolStripButtonAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButtonAdd.Name = "toolStripButtonAdd";
-			this.toolStripButtonAdd.Size = new System.Drawing.Size(49, 22);
+			this.toolStripButtonAdd.Size = new System.Drawing.Size(46, 22);
 			this.toolStripButtonAdd.Text = "Add";
 			this.toolStripButtonAdd.ToolTipText = "Add";
 			this.toolStripButtonAdd.Click += new System.EventHandler(this.toolStripButtonAdd_Click);
+			// 
+			// toolStripButtonEditConnStr
+			// 
+			this.toolStripButtonEditConnStr.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonEditConnStr.Image")));
+			this.toolStripButtonEditConnStr.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonEditConnStr.Name = "toolStripButtonEditConnStr";
+			this.toolStripButtonEditConnStr.Size = new System.Drawing.Size(45, 22);
+			this.toolStripButtonEditConnStr.Text = "Edit";
+			this.toolStripButtonEditConnStr.Click += new System.EventHandler(this.toolStripButtonEditConnStr_Click);
+			// 
+			// toolStripButtonDelete
+			// 
+			this.toolStripButtonDelete.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDelete.Image")));
+			this.toolStripButtonDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonDelete.Name = "toolStripButtonDelete";
+			this.toolStripButtonDelete.Size = new System.Drawing.Size(58, 22);
+			this.toolStripButtonDelete.Text = "Delete";
+			this.toolStripButtonDelete.Click += new System.EventHandler(this.toolStripButtonDelete_Click);
 			// 
 			// lstConnections
 			// 
@@ -221,15 +230,6 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Name";
 			// 
-			// toolStripButtonDelete
-			// 
-			this.toolStripButtonDelete.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDelete.Image")));
-			this.toolStripButtonDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButtonDelete.Name = "toolStripButtonDelete";
-			this.toolStripButtonDelete.Size = new System.Drawing.Size(60, 22);
-			this.toolStripButtonDelete.Text = "Delete";
-			this.toolStripButtonDelete.Click += new System.EventHandler(this.toolStripButtonDelete_Click);
-			// 
 			// DbConnectionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -242,8 +242,9 @@
 			this.MinimizeBox = false;
 			this.Name = "DbConnectionsForm";
 			this.ShowIcon = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Database Connection List Editor";
-			this.Load += new System.EventHandler(this.DbConnectionsForm_Load);
+			this.Shown += new System.EventHandler(this.DbConnectionsForm_Shown);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DbConnectionsForm_FormClosing);
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
