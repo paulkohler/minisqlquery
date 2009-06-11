@@ -91,24 +91,6 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			UpdateDetailsPanel(definition);
 		}
 
-		private void UpdateDetailsPanel(DbConnectionDefinition definition)
-		{
-			if (definition != null)
-			{
-				txtName.Text = definition.Name;
-				txtProvider.Text = definition.ProviderName;
-				txtConn.Text = definition.ConnectionString;
-				txtComment.Text = definition.Comment;
-			}
-			else
-			{
-				txtName.Clear();
-				txtProvider.Clear();
-				txtConn.Clear();
-				txtComment.Clear();
-			}
-		}
-
 		private void lstConnections_DoubleClick(object sender, EventArgs e)
 		{
 			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
@@ -128,8 +110,13 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
 			if (definition != null)
 			{
+				int newIndex = Math.Max(lstConnections.SelectedIndex - 1, 0);
 				_definitionList.RemoveDefinition(definition);
 				RemoveFromList(definition);
+				if (lstConnections.Items.Count > 0)
+				{
+					lstConnections.SelectedIndex = newIndex;
+				}
 			}
 		}
 
@@ -150,12 +137,34 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 
 			if (frm.DialogResult == DialogResult.OK)
 			{
-				if (definition == null)
+				if (definition == null) // i.e. is new
 				{
 					_definitionList.AddDefinition(frm.ConnectionDefinition);
 					AddToList(frm.ConnectionDefinition);
 					lstConnections.SelectedItem = frm.ConnectionDefinition;
 				}
+				else
+				{
+					UpdateDetailsPanel(lstConnections.SelectedItem as DbConnectionDefinition);
+				}
+			}
+		}
+
+		private void UpdateDetailsPanel(DbConnectionDefinition definition)
+		{
+			if (definition != null)
+			{
+				txtName.Text = definition.Name;
+				txtProvider.Text = definition.ProviderName;
+				txtConn.Text = definition.ConnectionString;
+				txtComment.Text = definition.Comment;
+			}
+			else
+			{
+				txtName.Clear();
+				txtProvider.Clear();
+				txtConn.Clear();
+				txtComment.Clear();
 			}
 		}
 	}
