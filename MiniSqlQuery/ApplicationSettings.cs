@@ -1,37 +1,31 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using MiniSqlQuery.Core;
-using System.Data.Common;
 using System.Data;
-using System.Collections.Specialized;
+using System.Data.Common;
+using MiniSqlQuery.Core;
 using MiniSqlQuery.Properties;
 
 namespace MiniSqlQuery
 {
 	public class ApplicationSettings : IApplicationSettings
 	{
-		DbProviderFactory _dbProviderFactory;
-		DbConnection _dbConnection;
-	    //readonly List<ConnectionDefinition> _connectionDefinitions;
-		DbConnectionDefinitionList _definitionList;
-		DbConnectionDefinition _connectionDefinition;
+		private DbConnectionDefinition _connectionDefinition;
+		private DbConnection _dbConnection;
+		private DbProviderFactory _dbProviderFactory;
+		private DbConnectionDefinitionList _definitionList;
+
+		public ApplicationSettings()
+		{
+			_definitionList = new DbConnectionDefinitionList();
+		}
+
+		#region IApplicationSettings Members
 
 		public event EventHandler ConnectionDefinitionsChanged;
 		public event EventHandler DatabaseConnectionReset;
 
-		public ApplicationSettings()
-		{
-			//_connectionDefinition = ConnectionDefinition.Default;
-			_definitionList = new DbConnectionDefinitionList();
-		}
-
 		public DbConnectionDefinition ConnectionDefinition
 		{
-			get
-			{
-				return _connectionDefinition;
-			}
+			get { return _connectionDefinition; }
 			set
 			{
 				if (_connectionDefinition != value)
@@ -67,12 +61,9 @@ namespace MiniSqlQuery
 			}
 		}
 
-		public string DefaultFileFilter 
+		public string DefaultFileFilter
 		{
-			get
-			{
-				return Settings.Default.FileDialogFilter;
-			}
+			get { return Settings.Default.FileDialogFilter; }
 		}
 
 		public DbConnectionDefinitionList GetConnectionDefinitions()
@@ -110,6 +101,7 @@ namespace MiniSqlQuery
 			OnDatabaseConnectionReset(EventArgs.Empty);
 		}
 
+		#endregion
 
 		protected void OnPastConnectionStringsChanged(EventArgs e)
 		{

@@ -15,14 +15,9 @@ namespace MiniSqlQuery.Core
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <returns></returns>
-		/// <remarks>
-		/// This ordering functionality is a simple way of doing what Windsor does well, todo - convert to Windsor container for plugins!
-		/// </remarks>
 		public int Compare(IPlugIn x, IPlugIn y)
 		{
-			int result = 0;
-			int numX = 0;
-			int numY = 0;
+			int result;
 
 			if (x == null && y == null)
 			{
@@ -38,8 +33,8 @@ namespace MiniSqlQuery.Core
 			}
 			else
 			{
-				numX = x.RequestedLoadOrder;
-				numY = y.RequestedLoadOrder;
+				int numX = x.RequestedLoadOrder;
+				int numY = y.RequestedLoadOrder;
 
 				result = numX - numY;
 			}

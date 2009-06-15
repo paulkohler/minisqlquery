@@ -1,27 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Properties;
-using System.Data.Common;
-using MiniSqlQuery.Commands;
 using WeifenLuo.WinFormsUI.Docking;
-using Castle.Core;
 
 namespace MiniSqlQuery
 {
 	public partial class MainForm : Form, IHostWindow
-    {
-		private IApplicationServices _services;
-        private bool _initialized;
-		private IDatabaseInspector _dbInspector;
+	{
 		private string[] _arguements;
-
-		public Form ActiveChildForm { get; internal set; }
+		private IDatabaseInspector _dbInspector;
+		private bool _initialized;
+		private IApplicationServices _services;
 
 		public MainForm(IApplicationServices services)
 			: this()
@@ -29,128 +20,26 @@ namespace MiniSqlQuery
 			_services = services;
 		}
 
-        public MainForm()
-        {
-            InitializeComponent();
+		public MainForm()
+		{
+			InitializeComponent();
 			SetPointerState(Cursors.AppStarting);
 		}
 
-		private void toolStripComboBoxConnection_SelectedIndexChanged(object sender, EventArgs e)
-		{
-            if (_initialized)
-            {
-				DbConnectionDefinition dbConnectionDefinition = (DbConnectionDefinition)toolStripComboBoxConnection.SelectedItem;
-				ApplicationServices.Instance.Settings.ConnectionDefinition = dbConnectionDefinition;
-				SetWindowTitle(dbConnectionDefinition.Name);
-			}
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-			_services.Settings.ConnectionDefinitionsChanged +=AppSettingsConnectionDefinitionsChanged;
-
-			// TODO - check for old conn str file and no new one, offer upgrade
-			Utility.CreateConnectionStringsIfRequired();
-			_services.Settings.SetConnectionDefinitions(Utility.LoadDbConnectionDefinitions());
-        }
-
-
-		void AppSettingsConnectionDefinitionsChanged(object sender, EventArgs e)
-		{
-			LoadUpConnections();
-		}
-
-		void LoadUpConnections()
-		{
-			DbConnectionDefinitionList definitionList = _services.Settings.GetConnectionDefinitions();
-
-			toolStripComboBoxConnection.Items.Clear();
-			foreach (var connDef in definitionList.Definitions)
-			{
-				toolStripComboBoxConnection.Items.Add(connDef);
-				if (connDef.ToString() == Settings.Default.NammedConnection)
-				{
-					toolStripComboBoxConnection.SelectedItem = connDef;
-					_services.Settings.ConnectionDefinition = connDef;
-					SetWindowTitle(connDef.Name);
-				}
-			}
-		}
-
-		void SetWindowTitle(string connectionName)
-		{
-			Text = string.Format("Mini SQL Query [{0}]", connectionName);
-		}
-
-        private void MainForm_Shown(object sender, EventArgs e)
-        {
-			_services.InitializePlugIns();
-			DockContent dbInspectorForm = _dbInspector as DockContent;
-
-			if (dbInspectorForm != null)
-			{
-				// the activate for "DockContent" is different to that of "Form".
-				dbInspectorForm.Activate();
-			}
-
-            _initialized = true;
-			SetPointerState(Cursors.Default);
-			SetStatus(null, string.Empty);
-
-			// now check for command line args that are "command type names"
-			if (_arguements != null && _arguements.Length > 0)
-			{
-				foreach (string arg in _arguements)
-				{
-					if (arg.StartsWith("/cmd:"))
-					{
-						string cmdName = arg.Substring(5);
-						ICommand cmd = CommandManager.GetCommandInstanceByPartialName(cmdName);
-						if (cmd != null)
-						{
-							cmd.Execute();
-						}
-					}
-				}
-			}
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-			if (_services.Settings.ConnectionDefinition != null)
-			{
-				Settings.Default.NammedConnection = _services.Settings.ConnectionDefinition.ToString();
-				Settings.Default.Save();
-			}
-
-        	List<IPlugIn> plugins = new List<IPlugIn>(_services.Plugins.Values);
-			plugins.Reverse();
-			foreach (IPlugIn plugin in plugins)
-			{
-				plugin.UnloadPlugIn();
-			}
-        }
-
-        private void MainForm_MdiChildActivate(object sender, EventArgs e)
-        {
-            ActiveChildForm = ActiveMdiChild;
-        }
-
 		#region IHostWindow Members
+
+		public Form ActiveChildForm { get; internal set; }
 
 		public Form Instance
 		{
-			get
-			{
-				return this;
-			}
+			get { return this; }
 		}
 
 		public IDatabaseInspector DatabaseInspector
 		{
 			get
 			{
-				if (_dbInspector == null || (_dbInspector as Form).IsDisposed)
+				if (_dbInspector == null || ((Form) _dbInspector).IsDisposed)
 				{
 					return null;
 				}
@@ -160,10 +49,7 @@ namespace MiniSqlQuery
 
 		public ToolStrip ToolStrip
 		{
-			get
-			{
-				return toolStripConnection;
-			}
+			get { return toolStripConnection; }
 		}
 
 		public ToolStripMenuItem GetMenuItem(string name)
@@ -181,7 +67,7 @@ namespace MiniSqlQuery
 
 			return menuItem;
 		}
-		
+
 
 		public void SetStatus(Form source, string text)
 		{
@@ -219,7 +105,8 @@ namespace MiniSqlQuery
 			DockContent frm = _dbInspector as DockContent;
 			if (frm == null)
 			{
-				throw new InvalidOperationException("The 'databaseInspector' must be a 'WeifenLuo.WinFormsUI.Docking.DockContent' based form.");
+				throw new InvalidOperationException(
+					"The 'databaseInspector' must be a 'WeifenLuo.WinFormsUI.Docking.DockContent' based form.");
 			}
 			frm.Show(dockPanel, dockState);
 		}
@@ -272,19 +159,118 @@ namespace MiniSqlQuery
 			return MessageBox.Show(source, text, caption);
 		}
 
-		public DialogResult DisplayMessageBox(Form source, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
+		public DialogResult DisplayMessageBox(Form source, string text, string caption, MessageBoxButtons buttons,
+		                                      MessageBoxIcon icon, MessageBoxDefaultButton defaultButton,
+		                                      MessageBoxOptions options, string helpFilePath, string keyword)
 		{
 			if (helpFilePath == null && keyword == null)
 			{
 				return MessageBox.Show(source, text, caption, buttons, icon, defaultButton, options);
 			}
-			else
-			{
-				return MessageBox.Show(source, text, caption, buttons, icon, defaultButton, options, helpFilePath, keyword);
-			}
+			return MessageBox.Show(source, text, caption, buttons, icon, defaultButton, options, helpFilePath, keyword);
 		}
 
 		#endregion
 
+		private void toolStripComboBoxConnection_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (_initialized)
+			{
+				DbConnectionDefinition dbConnectionDefinition = (DbConnectionDefinition) toolStripComboBoxConnection.SelectedItem;
+				ApplicationServices.Instance.Settings.ConnectionDefinition = dbConnectionDefinition;
+				SetWindowTitle(dbConnectionDefinition.Name);
+			}
+		}
+
+		private void MainForm_Load(object sender, EventArgs e)
+		{
+			_services.Settings.ConnectionDefinitionsChanged += AppSettingsConnectionDefinitionsChanged;
+
+			Utility.CreateConnectionStringsIfRequired();
+			_services.Settings.SetConnectionDefinitions(Utility.LoadDbConnectionDefinitions());
+		}
+
+
+		private void AppSettingsConnectionDefinitionsChanged(object sender, EventArgs e)
+		{
+			LoadUpConnections();
+		}
+
+		private void LoadUpConnections()
+		{
+			DbConnectionDefinitionList definitionList = _services.Settings.GetConnectionDefinitions();
+
+			// TODO - prevent the "reset"
+			toolStripComboBoxConnection.Items.Clear();
+			foreach (var connDef in definitionList.Definitions)
+			{
+				toolStripComboBoxConnection.Items.Add(connDef);
+				if (connDef.ToString() == Settings.Default.NammedConnection)
+				{
+					toolStripComboBoxConnection.SelectedItem = connDef;
+					_services.Settings.ConnectionDefinition = connDef;
+					SetWindowTitle(connDef.Name);
+				}
+			}
+		}
+
+		private void SetWindowTitle(string connectionName)
+		{
+			Text = string.Format("Mini SQL Query [{0}]", connectionName);
+		}
+
+		private void MainForm_Shown(object sender, EventArgs e)
+		{
+			_services.InitializePlugIns();
+			DockContent dbInspectorForm = _dbInspector as DockContent;
+
+			if (dbInspectorForm != null)
+			{
+				// the activate for "DockContent" is different to that of "Form".
+				dbInspectorForm.Activate();
+			}
+
+			_initialized = true;
+			SetPointerState(Cursors.Default);
+			SetStatus(null, string.Empty);
+
+			// now check for command line args that are "command type names"
+			if (_arguements != null && _arguements.Length > 0)
+			{
+				foreach (string arg in _arguements)
+				{
+					if (arg.StartsWith("/cmd:"))
+					{
+						string cmdName = arg.Substring(5);
+						ICommand cmd = CommandManager.GetCommandInstanceByPartialName(cmdName);
+						if (cmd != null)
+						{
+							cmd.Execute();
+						}
+					}
+				}
+			}
+		}
+
+		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (_services.Settings.ConnectionDefinition != null)
+			{
+				Settings.Default.NammedConnection = _services.Settings.ConnectionDefinition.ToString();
+				Settings.Default.Save();
+			}
+
+			List<IPlugIn> plugins = new List<IPlugIn>(_services.Plugins.Values);
+			plugins.Reverse();
+			foreach (IPlugIn plugin in plugins)
+			{
+				plugin.UnloadPlugIn();
+			}
+		}
+
+		private void MainForm_MdiChildActivate(object sender, EventArgs e)
+		{
+			ActiveChildForm = ActiveMdiChild;
+		}
 	}
 }

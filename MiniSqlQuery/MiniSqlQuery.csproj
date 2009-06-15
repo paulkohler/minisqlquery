@@ -28,7 +28,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Build\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -264,6 +264,7 @@
     <Content Include="Images\cross.png" />
     <Content Include="Images\database.png" />
     <Content Include="Images\database_add.png" />
+    <Content Include="Images\database_delete.png" />
     <Content Include="Images\database_edit.png" />
     <Content Include="Images\database_error.png" />
     <Content Include="Images\database_refresh.png" />

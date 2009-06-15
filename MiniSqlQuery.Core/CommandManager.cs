@@ -8,7 +8,7 @@ namespace MiniSqlQuery.Core
 	/// </summary>
 	public class CommandManager
 	{
-		private static readonly Dictionary<Type, ICommand> _commandCache = new Dictionary<Type, ICommand>();
+		private static readonly Dictionary<Type, ICommand> CommandCache = new Dictionary<Type, ICommand>();
 
 		/// <summary>
 		/// Gets the command instance by <paramref name="commandTypeName"/>.
@@ -17,11 +17,11 @@ namespace MiniSqlQuery.Core
 		/// <returns>The first command by that name or null if not found.</returns>
 		public static ICommand GetCommandInstance(string commandTypeName)
 		{
-			foreach (Type cmdType in _commandCache.Keys)
+			foreach (Type cmdType in CommandCache.Keys)
 			{
 				if (cmdType.Name == commandTypeName)
 				{
-					return _commandCache[cmdType];
+					return CommandCache[cmdType];
 				}
 			}
 			return null;
@@ -36,11 +36,11 @@ namespace MiniSqlQuery.Core
 		{
 			string cmdName = commandName + "Command";
 
-			foreach (Type cmdType in _commandCache.Keys)
+			foreach (Type cmdType in CommandCache.Keys)
 			{
 				if (cmdType.Name.EndsWith(commandName) || cmdType.Name.EndsWith(cmdName))
 				{
-					return _commandCache[cmdType];
+					return CommandCache[cmdType];
 				}
 			}
 			return null;
@@ -55,15 +55,15 @@ namespace MiniSqlQuery.Core
 		{
 			ICommand cmd;
 
-			if (_commandCache.ContainsKey(typeof (TCommand)))
+			if (CommandCache.ContainsKey(typeof (TCommand)))
 			{
-				cmd = _commandCache[typeof (TCommand)];
+				cmd = CommandCache[typeof (TCommand)];
 			}
 			else
 			{
 				cmd = new TCommand();
 				cmd.Services = ApplicationServices.Instance;
-				_commandCache[typeof (TCommand)] = cmd;
+				CommandCache[typeof (TCommand)] = cmd;
 			}
 
 			return cmd;

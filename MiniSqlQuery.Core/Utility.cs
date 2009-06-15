@@ -34,52 +34,9 @@ namespace MiniSqlQuery.Core
 		}
 
 		/// <summary>
-		/// Loads the connection definition file as an array of strings (can contain blanks and comments).
+		/// Loads the db connection definitions from an XML file.
 		/// </summary>
-		/// <returns></returns>
-		/// <remarks>
-		/// <para>
-		/// Below is the default example of a connection definition file 
-		/// (See <see cref="Properties.Resources.DefaultConnectionDefinitionFile"/>):
-		/// </para>
-		/// <code>
-		/// # Connection Definition file
-		/// # This file is intentionally plain text, thats nice and simple  :)
-		/// # Blank and Hashed (#) lines are ignored by the application. See more details at end of file.
-		/// 
-		/// Default - MSSQL Master@localhost   ^ System.Data.SqlClient ^ Server=.; Database=master; Integrated Security=SSPI
-		/// Sample MSSQL Northwind SQL Express ^ System.Data.SqlClient ^ Server=.\sqlexpress; Database=Northwind; Integrated Security=SSPI
-		/// Sample Access DB Connection        ^ System.Data.OleDb     ^ Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\SomeDirectory\access.mdb
-		/// 
-		/// ######################################################################################################
-		/// #
-		/// # The format of a "connection definition" is "&lt;Friendly Name&gt;^&lt;Provider Name&gt;^&lt;Connection String&gt;"
-		/// # You can have whitespace around the "^" to aid readability etc.
-		/// # Typical providers:
-		/// #   System.Data.SqlClient
-		/// #   System.Data.Oracle
-		/// #   System.Data.OleDb
-		/// #   System.Data.Odbc
-		/// #
-		/// </code>
-		/// </remarks>
-		public static string[] LoadConnectionDefinitionStrings()
-		{
-			string[] lines = new string[0] { };
-			string filename = GetConnectionStringFilename();
-
-			if (File.Exists(filename))
-			{
-				lines = File.ReadAllLines(filename);
-			}
-			else
-			{
-				Debug.WriteLine("no file: " + filename);
-			}
-
-			return lines;
-		}
-
+		/// <returns>A <see cref="DbConnectionDefinitionList"/> instance or null if the file does not exist.</returns>
 		public static DbConnectionDefinitionList LoadDbConnectionDefinitions()
 		{
 			string filename = GetConnectionStringFilename();
@@ -106,20 +63,14 @@ namespace MiniSqlQuery.Core
 		}
 
 		/// <summary>
-		/// Saves the <paramref name="data"/> to the connection string file.
+		/// Saves the <paramref name="definitionList"/> to the connection string file.
 		/// </summary>
-		/// <param name="data">The contents of the file.</param>
+		/// <param name="definitionList">The contents of the file.</param>
 		/// <seealso cref="GetConnectionStringFilename"/>
-		public static void SaveConnections(string data)
+		public static void SaveConnections(DbConnectionDefinitionList definitionList)
 		{
 			string filename = GetConnectionStringFilename();
-			File.WriteAllText(filename, data);
-		}
-
-		public static void SaveConnectionXml(string xml)
-		{
-			string filename = GetConnectionStringFilename();
-			File.WriteAllText(filename, xml);
+			File.WriteAllText(filename, definitionList.ToXml());
 		}
 
 		/// <summary>
@@ -131,7 +82,7 @@ namespace MiniSqlQuery.Core
 		/// <returns>A filename.</returns>
 		public static string GetConnectionStringFilename()
 		{
-			string filename = Properties.Settings.Default.DefaultConnectionDefinitionFilename;
+			string filename = Settings.Default.DefaultConnectionDefinitionFilename;
 
 			if (string.IsNullOrEmpty(filename))
 			{
@@ -142,6 +93,10 @@ namespace MiniSqlQuery.Core
 			return filename;
 		}
 
+		/// <summary>
+		/// Gets the old (text) connection string filename.
+		/// </summary>
+		/// <returns></returns>
 		public static string GetOldConnectionStringFilename()
 		{
 			string folder = GetAppFolderPath();
@@ -193,7 +148,7 @@ namespace MiniSqlQuery.Core
 					File.WriteAllText(filename, newDefinitionList.ToXml());
 					ApplicationServices.Instance.HostWindow.DisplaySimpleMessageBox(
 						null,
-						string.Format("The file '{0}' was upgraded to XML and saved as '{1}'.", oldFilename, filename),
+						string.Format("The file\r\n'{0}'\r\nwas upgraded to XML and saved as\r\n'{1}'", oldFilename, filename),
 						"Migrated TEXT connections file to XML");
 				}
 				else

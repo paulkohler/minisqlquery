@@ -1,4 +1,4 @@
-﻿namespace MiniSqlQuery
+namespace MiniSqlQuery
 {
 	partial class QueryForm
 	{
@@ -35,7 +35,7 @@
 			this.contextMenuStripQuery = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.queryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.tabControlResults = new System.Windows.Forms.TabControl();
+			this.ResultsControl = new System.Windows.Forms.TabControl();
 			this.tabPageResults = new System.Windows.Forms.TabPage();
 			this.gridResults1 = new System.Windows.Forms.DataGridView();
 			this.editorContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -43,7 +43,7 @@
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
-			this.tabControlResults.SuspendLayout();
+			this.ResultsControl.SuspendLayout();
 			this.tabPageResults.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridResults1)).BeginInit();
 			this.SuspendLayout();
@@ -63,7 +63,7 @@
 			// 
 			// splitContainer1.Panel2
 			// 
-			this.splitContainer1.Panel2.Controls.Add(this.tabControlResults);
+			this.splitContainer1.Panel2.Controls.Add(this.ResultsControl);
 			this.splitContainer1.Size = new System.Drawing.Size(879, 414);
 			this.splitContainer1.SplitterDistance = 150;
 			this.splitContainer1.TabIndex = 0;
@@ -109,13 +109,13 @@
 			// 
 			// tabControlResults
 			// 
-			this.tabControlResults.Controls.Add(this.tabPageResults);
-			this.tabControlResults.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControlResults.Location = new System.Drawing.Point(0, 0);
-			this.tabControlResults.Name = "tabControlResults";
-			this.tabControlResults.SelectedIndex = 0;
-			this.tabControlResults.Size = new System.Drawing.Size(879, 260);
-			this.tabControlResults.TabIndex = 0;
+			this.ResultsControl.Controls.Add(this.tabPageResults);
+			this.ResultsControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ResultsControl.Location = new System.Drawing.Point(0, 0);
+			this.ResultsControl.Name = "ResultsControl";
+			this.ResultsControl.SelectedIndex = 0;
+			this.ResultsControl.Size = new System.Drawing.Size(879, 260);
+			this.ResultsControl.TabIndex = 0;
 			// 
 			// tabPageResults
 			// 
@@ -167,7 +167,7 @@
 			this.splitContainer1.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
-			this.tabControlResults.ResumeLayout(false);
+			this.ResultsControl.ResumeLayout(false);
 			this.tabPageResults.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.gridResults1)).EndInit();
 			this.ResumeLayout(false);
@@ -177,7 +177,6 @@
 		#endregion
 
 		private System.Windows.Forms.SplitContainer splitContainer1;
-		private System.Windows.Forms.TabControl tabControlResults;
 		private System.Windows.Forms.TabPage tabPageResults;
 		private System.Windows.Forms.DataGridView gridResults1;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStripQuery;

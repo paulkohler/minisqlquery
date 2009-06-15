@@ -3,23 +3,22 @@ using System.Data;
 using System.Data.Common;
 using System.Drawing.Printing;
 using System.Windows.Forms;
+using ICSharpCode.TextEditor.Document;
 using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery
 {
-	public partial class QueryForm : DockContent, IQueryEditor, IFindReplaceProvider, IPrintableContent
-    {
+	public partial class QueryForm : DockContent, IQueryEditor, IPrintableContent
+	{
 		private static int _untitledCounter = 1;
-		private string _status = string.Empty;
+		private bool _isDirty;
 		private string _messages = string.Empty;
-		private bool _isDirty = false;
-		private bool _isBusy = false;
-		private ITextFindService _textFindService;
 
 		private IApplicationServices _services;
-		internal DataSet _result;
+		private string _status = string.Empty;
+		private ITextFindService _textFindService;
 
 		public QueryForm()
 		{
@@ -27,12 +26,12 @@ namespace MiniSqlQuery
 
 			txtQuery.ContextMenuStrip = this.contextMenuStripQuery;
 			txtQuery.SetHighlighting("SQL");
-			txtQuery.Document.DocumentChanged += new ICSharpCode.TextEditor.Document.DocumentEventHandler(Document_DocumentChanged);
+			txtQuery.Document.DocumentChanged += DocumentDocumentChanged;
 
 			queryToolStripMenuItem.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ExecuteQueryCommand>());
 			queryToolStripMenuItem.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveResultsAsDataSetCommand>());
 			queryToolStripMenuItem.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
-			
+
 			contextMenuStripQuery.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<ExecuteQueryCommand>());
 
 			editorContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveFileCommand>());
@@ -44,48 +43,44 @@ namespace MiniSqlQuery
 			CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(editorContextMenuStrip);
 		}
 
-        public string SelectedText
-        {
-            get
-            {
-                return txtQuery.ActiveTextAreaControl.SelectionManager.SelectedText;
-            }
-        }
+		public QueryForm(IApplicationServices services)
+			: this()
+		{
+			_services = services;
+		}
 
-        public string AllText
-        {
-            get
-            {
-                return txtQuery.Text;
-            }
-            set
-            {
-                txtQuery.Text = value;
-            }
-        }
+		#region IPrintableContent Members
+
+		public PrintDocument PrintDocument
+		{
+			get { return txtQuery.PrintDocument; }
+		}
+
+		#endregion
+
+		#region IQueryEditor Members
+
+		public string SelectedText
+		{
+			get { return txtQuery.ActiveTextAreaControl.SelectionManager.SelectedText; }
+		}
+
+		public string AllText
+		{
+			get { return txtQuery.Text; }
+			set { txtQuery.Text = value; }
+		}
 
 		public Control EditorControl
 		{
-			get
-			{
-				return txtQuery;
-			}
+			get { return txtQuery; }
 		}
 
-		public TabControl ResultsControl
-		{
-			get
-			{
-				return tabControlResults;
-			}
-		}
+		public TabControl ResultsControl { get; private set; }
 
 		public string FileName
 		{
-			get
-			{
-				return txtQuery.FileName;
-			}
+			get { return txtQuery.FileName; }
 			set
 			{
 				txtQuery.FileName = value;
@@ -93,38 +88,10 @@ namespace MiniSqlQuery
 				SetTabTextByFilename();
 			}
 		}
-		
-		private void SetTabTextByFilename()
-		{
-			string dirty = string.Empty;
-			string text = "Untitled";
-
-			if (_isDirty)
-			{
-				dirty = " *";
-			}
-
-			if (txtQuery.FileName != null)
-			{
-				text = FileName;
-			}
-			else
-			{
-				text += _untitledCounter;
-				_untitledCounter++;
-			}
-
-			text += dirty;
-			TabText = text;
-			ToolTipText = text;
-		}
 
 		public bool IsDirty
 		{
-			get
-			{
-				return _isDirty;
-			}
+			get { return _isDirty; }
 			set
 			{
 				if (_isDirty != value)
@@ -135,36 +102,15 @@ namespace MiniSqlQuery
 			}
 		}
 
-		public bool IsBusy
+		public bool IsBusy { get; private set; }
+
+		public DataSet DataSet { get; private set; }
+
+		public void SetStatus(string text)
 		{
-			get
-			{
-				return _isBusy;
-			}
-			set
-			{
-				_isBusy = value;
-			}
+			_status = text;
+			UpdateHostStatus();
 		}
-
-		public DataSet DataSet
-		{
-			get
-			{
-				return _result;
-			}
-		}
-
-        void Document_DocumentChanged(object sender, ICSharpCode.TextEditor.Document.DocumentEventArgs e)
-        {
-			IsDirty = true;
-        }
-
-        public void SetStatus(string text)
-        {
-            _status = text;
-            UpdateHostStatus();
-        }
 
 		public void LoadFile()
 		{
@@ -183,17 +129,6 @@ namespace MiniSqlQuery
 			IsDirty = false;
 		}
 
-		protected void UpdateHostStatus()
-        {
-			ApplicationServices.Instance.HostWindow.SetStatus(this, _status);
-        }
-
-		public QueryForm(IApplicationServices services)
-			: this()
-		{
-			_services = services;
-		}
-
 
 		public void ExecuteQuery()
 		{
@@ -207,220 +142,9 @@ namespace MiniSqlQuery
 			}
 		}
 
-		public void ExecuteQuery(string sql)
-		{
-			DbConnection dbConnection;
-            DbDataAdapter adapter = null;
-            DbCommand cmd = null;
-			bool errored = false;
-
-			if (_isBusy)
-			{
-				_services.HostWindow.DisplaySimpleMessageBox(this, "Please wait for the current operation to complete.", "Busy");
-				return;
-			}
-
-			if (string.IsNullOrEmpty(_services.Settings.ConnectionDefinition.ConnectionString))
-			{
-				_services.HostWindow.DisplaySimpleMessageBox(this, "Please supply a connection string", "No Connection");
-				return;
-			}
-
-			DateTime start = DateTime.Now;
-			DateTime end = DateTime.Now;
-
-			try
-			{
-				_services.HostWindow.SetPointerState(Cursors.WaitCursor);
-				txtQuery.Enabled = false;
-				_isBusy = true;
-
-				dbConnection = _services.Settings.GetOpenConnection();
-                dbConnection.StateChange += new StateChangeEventHandler(conn_StateChange);
-				_messages = string.Empty;
-				//if (dbConnection is System.Data.SqlClient.SqlConnection)
-				//{
-				//    // todo - inprogress - support various InfoMessage events
-				//    ((System.Data.SqlClient.SqlConnection)dbConnection).InfoMessage += SqlClienInfoMessage;
-				//}
-
-                _result = new DataSet();
-
-				// TODO - Support GO syntax
-
-				adapter = _services.Settings.ProviderFactory.CreateDataAdapter();
-                cmd = dbConnection.CreateCommand();
-				cmd.CommandText = sql;
-                cmd.CommandType = CommandType.Text;
-                adapter.SelectCommand = cmd;
-                adapter.Fill(_result);
-
-				// now merge?
-			}
-			catch (DbException dbExp)
-			{
-				// todo: improve!
-				_services.HostWindow.DisplaySimpleMessageBox(this, dbExp.Message, "Error");
-				SetStatus(dbExp.Message);
-				errored = true;
-			}
-			catch (InvalidOperationException invalidExp)
-			{
-				// todo: improve!
-				_services.HostWindow.DisplaySimpleMessageBox(this, invalidExp.Message, "Error");
-				SetStatus(invalidExp.Message);
-				errored = true;
-			}
-			finally
-			{
-				end = DateTime.Now;
-				txtQuery.Enabled = true;
-				if (adapter != null)
-				{
-					adapter.Dispose();
-				}
-				if (cmd != null)
-				{
-					cmd.Dispose();
-				}
-				_isBusy = false;
-				_services.HostWindow.SetPointerState(Cursors.Default);
-				//if (dbConnection is System.Data.SqlClient.SqlConnection)
-				//{
-				//    ((System.Data.SqlClient.SqlConnection)dbConnection).InfoMessage -= SqlClienInfoMessage;
-				//}
-			}
-
-			if (!errored)
-			{
-				_services.HostWindow.SetStatus(this, CreateQueryCompleteMessage(start, end));
-				AddTables();
-			}
-
-			txtQuery.Focus();
-		}
-
-		//void SqlClienInfoMessage(object sender, System.Data.SqlClient.SqlInfoMessageEventArgs e)
-		//{
-		//    _messages += e.Message + Environment.NewLine;
-
-		//}
-
-		private static string CreateQueryCompleteMessage(DateTime start, DateTime end)
-		{
-			TimeSpan ts = end.Subtract(start);
-			string msg = string.Format(
-				"Query complete, {0:00}:{1:00}.{2:000}",
-				ts.Minutes,
-				ts.Seconds,
-				ts.Milliseconds);
-			return msg;
-		}
-
-        private void AddTables()
-        {
-            tabControlResults.TabPages.Clear();
-
-            if (_result != null)
-            {
-                int counter = 1;
-                foreach (DataTable dt in _result.Tables)
-                {
-                    DataGridView grid = new DataGridView();
-					DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
-					
-					grid.AllowUserToAddRows = false;
-                    grid.AllowUserToDeleteRows = false;
-                    grid.Dock = DockStyle.Fill;
-                    grid.Name = "gridResults_" + counter;
-                    grid.ReadOnly = true;
-                    grid.DataSource = dt;
-					grid.DataError += gridDataError;
-					grid.DefaultCellStyle = cellStyle;
-
-					cellStyle.NullValue = "<NULL>";
-
-                    TabPage tabPage = new TabPage();
-                    tabPage.Controls.Add(grid);
-                    tabPage.Name = "tabPageResults_" + counter;
-                    tabPage.Padding = new System.Windows.Forms.Padding(3);
-                    tabPage.Text = "Table " + counter;
-                    tabPage.UseVisualStyleBackColor = false;
-
-                    tabControlResults.TabPages.Add(tabPage);
-                    counter++;
-                }
-
-				if (!string.IsNullOrEmpty(_messages))
-				{
-					RichTextBox rtf = new RichTextBox();
-					rtf.Text = _messages;
-
-					TabPage tabPage = new TabPage();
-					tabPage.Controls.Add(rtf);
-					tabPage.Name = "tabPageResults_Messages";
-					tabPage.Padding = new System.Windows.Forms.Padding(3);
-					tabPage.Text = "Messages";
-					tabPage.UseVisualStyleBackColor = false;
-
-					tabControlResults.TabPages.Add(tabPage);
-					counter++;
-				}
-            }
-        }
-
-		void gridDataError(object sender, DataGridViewDataErrorEventArgs e)
-		{
-			e.ThrowException = false;
-		}
-
-		void conn_StateChange(object sender, StateChangeEventArgs e)
-		{
-            SetStatus(e.CurrentState.ToString());
-		}
-
-		private void QueryForm_Load(object sender, EventArgs e)
-		{
-		}
-
-        private void QueryForm_Activated(object sender, EventArgs e)
-        {
-            UpdateHostStatus();
-        }
-
-        private void QueryForm_Deactivate(object sender, EventArgs e)
-        {
-			_services.HostWindow.SetStatus(this, string.Empty);
-        }
-
-		private void QueryForm_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (_isDirty)
-			{
-				DialogResult saveFile = _services.HostWindow.DisplayMessageBox(
-					this, 
-					"Contents changed, do you want to save the file?\r\n" + TabText, "Save Changes?",
-					MessageBoxButtons.YesNoCancel, 
-					MessageBoxIcon.Question, 
-					MessageBoxDefaultButton.Button1,
-					0,
-					null,
-					null);
-
-				if (saveFile == DialogResult.Cancel)
-				{
-					e.Cancel = true;
-				}
-				else if (saveFile == DialogResult.Yes)
-				{
-					CommandManager.GetCommandInstance<SaveFileCommand>().Execute();
-				}
-			}
-		}
-
 		public void InsertText(string text)
 		{
-			if (text == null || text.Length == 0)
+			if (string.IsNullOrEmpty(text))
 			{
 				return;
 			}
@@ -444,14 +168,6 @@ namespace MiniSqlQuery
 			}
 
 			txtQuery.Focus();
-		}
-
-		public PrintDocument PrintDocument
-		{
-			get
-			{
-				return txtQuery.PrintDocument;
-			}
 		}
 
 
@@ -480,32 +196,20 @@ namespace MiniSqlQuery
 
 			txtQuery.ActiveTextAreaControl.Caret.Line = line;
 			txtQuery.ActiveTextAreaControl.Caret.Column = column;
-			
+
 			return true;
 		}
 
 		public int CursorLine
 		{
-			get
-			{
-				return txtQuery.ActiveTextAreaControl.Caret.Line;
-			}
-			set
-			{
-				txtQuery.ActiveTextAreaControl.Caret.Line = value;
-			}
+			get { return txtQuery.ActiveTextAreaControl.Caret.Line; }
+			set { txtQuery.ActiveTextAreaControl.Caret.Line = value; }
 		}
 
 		public int CursorColumn
 		{
-			get
-			{
-				return txtQuery.ActiveTextAreaControl.Caret.Column;
-			}
-			set
-			{
-				txtQuery.ActiveTextAreaControl.Caret.Column = value;
-			}
+			get { return txtQuery.ActiveTextAreaControl.Caret.Column; }
+			set { txtQuery.ActiveTextAreaControl.Caret.Column = value; }
 		}
 
 		public void HighlightString(int offset, int length)
@@ -524,21 +228,13 @@ namespace MiniSqlQuery
 
 		public int TotalLines
 		{
-			get 
-			{ 
-				return txtQuery.Document.TotalNumberOfLines; 
-			}
+			get { return txtQuery.Document.TotalNumberOfLines; }
 		}
 
-		public int CursorOffset 
+		public int CursorOffset
 		{
-			get
-			{
-				return txtQuery.ActiveTextAreaControl.Caret.Offset;
-			}
+			get { return txtQuery.ActiveTextAreaControl.Caret.Offset; }
 		}
-
-		#region IFindReplaceProvider Members
 
 		public ITextFindService TextFindService
 		{
@@ -560,15 +256,12 @@ namespace MiniSqlQuery
 
 		public bool CanReplaceText
 		{
-			get 
-			{
-				return true;
-			}
+			get { return true; }
 		}
 
 		public int FindString(string value, int startIndex, StringComparison comparisonType)
 		{
-			if (value == null || value.Length == 0 || startIndex < 0)
+			if (string.IsNullOrEmpty(value) || startIndex < 0)
 			{
 				return -1;
 			}
@@ -602,5 +295,249 @@ namespace MiniSqlQuery
 		}
 
 		#endregion
+
+		private void SetTabTextByFilename()
+		{
+			string dirty = string.Empty;
+			string text = "Untitled";
+
+			if (_isDirty)
+			{
+				dirty = " *";
+			}
+
+			if (txtQuery.FileName != null)
+			{
+				text = FileName;
+			}
+			else
+			{
+				text += _untitledCounter;
+				_untitledCounter++;
+			}
+
+			text += dirty;
+			TabText = text;
+			ToolTipText = text;
+		}
+
+		private void DocumentDocumentChanged(object sender, DocumentEventArgs e)
+		{
+			IsDirty = true;
+		}
+
+		protected void UpdateHostStatus()
+		{
+			ApplicationServices.Instance.HostWindow.SetStatus(this, _status);
+		}
+
+		public void ExecuteQuery(string sql)
+		{
+			DbConnection dbConnection;
+			DbDataAdapter adapter = null;
+			DbCommand cmd = null;
+			bool errored = false;
+
+			if (IsBusy)
+			{
+				_services.HostWindow.DisplaySimpleMessageBox(this, "Please wait for the current operation to complete.", "Busy");
+				return;
+			}
+
+			if (string.IsNullOrEmpty(_services.Settings.ConnectionDefinition.ConnectionString))
+			{
+				_services.HostWindow.DisplaySimpleMessageBox(this, "Please supply a connection string", "No Connection");
+				return;
+			}
+
+			DateTime start = DateTime.Now;
+			DateTime end;
+
+			try
+			{
+				_services.HostWindow.SetPointerState(Cursors.WaitCursor);
+				txtQuery.Enabled = false;
+				IsBusy = true;
+
+				dbConnection = _services.Settings.GetOpenConnection();
+				dbConnection.StateChange += ConnStateChange;
+				_messages = string.Empty;
+				//if (dbConnection is System.Data.SqlClient.SqlConnection)
+				//{
+				//    // todo - inprogress - support various InfoMessage events
+				//    ((System.Data.SqlClient.SqlConnection)dbConnection).InfoMessage += SqlClienInfoMessage;
+				//}
+
+				DataSet = new DataSet();
+
+				// TODO - Support GO syntax
+
+				adapter = _services.Settings.ProviderFactory.CreateDataAdapter();
+				cmd = dbConnection.CreateCommand();
+				cmd.CommandText = sql;
+				cmd.CommandType = CommandType.Text;
+				adapter.SelectCommand = cmd;
+				adapter.Fill(DataSet);
+			}
+			catch (DbException dbExp)
+			{
+				// todo: improve!
+				_services.HostWindow.DisplaySimpleMessageBox(this, dbExp.Message, "Error");
+				SetStatus(dbExp.Message);
+				errored = true;
+			}
+			catch (InvalidOperationException invalidExp)
+			{
+				// todo: improve!
+				_services.HostWindow.DisplaySimpleMessageBox(this, invalidExp.Message, "Error");
+				SetStatus(invalidExp.Message);
+				errored = true;
+			}
+			finally
+			{
+				end = DateTime.Now;
+				txtQuery.Enabled = true;
+				if (adapter != null)
+				{
+					adapter.Dispose();
+				}
+				if (cmd != null)
+				{
+					cmd.Dispose();
+				}
+				IsBusy = false;
+				_services.HostWindow.SetPointerState(Cursors.Default);
+				//if (dbConnection is System.Data.SqlClient.SqlConnection)
+				//{
+				//    ((System.Data.SqlClient.SqlConnection)dbConnection).InfoMessage -= SqlClienInfoMessage;
+				//}
+			}
+
+			if (!errored)
+			{
+				_services.HostWindow.SetStatus(this, CreateQueryCompleteMessage(start, end));
+				AddTables();
+			}
+
+			txtQuery.Focus();
+		}
+
+		//void SqlClienInfoMessage(object sender, System.Data.SqlClient.SqlInfoMessageEventArgs e)
+		//{
+		//    _messages += e.Message + Environment.NewLine;
+
+		//}
+
+		private static string CreateQueryCompleteMessage(DateTime start, DateTime end)
+		{
+			TimeSpan ts = end.Subtract(start);
+			string msg = string.Format(
+				"Query complete, {0:00}:{1:00}.{2:000}",
+				ts.Minutes,
+				ts.Seconds,
+				ts.Milliseconds);
+			return msg;
+		}
+
+		private void AddTables()
+		{
+			ResultsControl.TabPages.Clear();
+
+			if (DataSet != null)
+			{
+				int counter = 1;
+				foreach (DataTable dt in DataSet.Tables)
+				{
+					DataGridView grid = new DataGridView();
+					DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
+
+					grid.AllowUserToAddRows = false;
+					grid.AllowUserToDeleteRows = false;
+					grid.Dock = DockStyle.Fill;
+					grid.Name = "gridResults_" + counter;
+					grid.ReadOnly = true;
+					grid.DataSource = dt;
+					grid.DataError += GridDataError;
+					grid.DefaultCellStyle = cellStyle;
+
+					cellStyle.NullValue = "<NULL>";
+
+					TabPage tabPage = new TabPage();
+					tabPage.Controls.Add(grid);
+					tabPage.Name = "tabPageResults_" + counter;
+					tabPage.Padding = new Padding(3);
+					tabPage.Text = "Table " + counter;
+					tabPage.UseVisualStyleBackColor = false;
+
+					ResultsControl.TabPages.Add(tabPage);
+					counter++;
+				}
+
+				if (!string.IsNullOrEmpty(_messages))
+				{
+					RichTextBox rtf = new RichTextBox();
+					rtf.Text = _messages;
+
+					TabPage tabPage = new TabPage();
+					tabPage.Controls.Add(rtf);
+					tabPage.Name = "tabPageResults_Messages";
+					tabPage.Padding = new Padding(3);
+					tabPage.Text = "Messages";
+					tabPage.UseVisualStyleBackColor = false;
+
+					ResultsControl.TabPages.Add(tabPage);
+					counter++;
+				}
+			}
+		}
+
+		private void GridDataError(object sender, DataGridViewDataErrorEventArgs e)
+		{
+			e.ThrowException = false;
+		}
+
+		private void ConnStateChange(object sender, StateChangeEventArgs e)
+		{
+			SetStatus(e.CurrentState.ToString());
+		}
+
+		private void QueryForm_Load(object sender, EventArgs e)
+		{
+		}
+
+		private void QueryForm_Activated(object sender, EventArgs e)
+		{
+			UpdateHostStatus();
+		}
+
+		private void QueryForm_Deactivate(object sender, EventArgs e)
+		{
+			_services.HostWindow.SetStatus(this, string.Empty);
+		}
+
+		private void QueryForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (_isDirty)
+			{
+				DialogResult saveFile = _services.HostWindow.DisplayMessageBox(
+					this,
+					"Contents changed, do you want to save the file?\r\n" + TabText, "Save Changes?",
+					MessageBoxButtons.YesNoCancel,
+					MessageBoxIcon.Question,
+					MessageBoxDefaultButton.Button1,
+					0,
+					null,
+					null);
+
+				if (saveFile == DialogResult.Cancel)
+				{
+					e.Cancel = true;
+				}
+				else if (saveFile == DialogResult.Yes)
+				{
+					CommandManager.GetCommandInstance<SaveFileCommand>().Execute();
+				}
+			}
+		}
 	}
 }

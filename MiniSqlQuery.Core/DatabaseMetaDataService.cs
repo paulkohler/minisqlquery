@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data.Common;
 using System.Data;
-using System.Windows.Forms;
+using System.Data.Common;
 
 namespace MiniSqlQuery.Core
 {
@@ -12,8 +9,8 @@ namespace MiniSqlQuery.Core
 	/// </summary>
 	public class DatabaseMetaDataService
 	{
-		DbProviderFactory _factory;
-		string _connection;
+		private string _connection;
+		private DbProviderFactory _factory;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DatabaseMetaDataService"/> class.
@@ -70,12 +67,12 @@ namespace MiniSqlQuery.Core
 		{
 			DataTable metadata = new DataTable("DbMetaData");
 
-			metadata.Columns.Add("Schema", typeof(string));
-			metadata.Columns.Add("Table", typeof(string));
-			metadata.Columns.Add("Column", typeof(string));
-			metadata.Columns.Add("DataType", typeof(string));
-			metadata.Columns.Add("Length", typeof(int));
-			metadata.Columns.Add("IsNullable", typeof(bool));
+			metadata.Columns.Add("Schema", typeof (string));
+			metadata.Columns.Add("Table", typeof (string));
+			metadata.Columns.Add("Column", typeof (string));
+			metadata.Columns.Add("DataType", typeof (string));
+			metadata.Columns.Add("Length", typeof (int));
+			metadata.Columns.Add("IsNullable", typeof (bool));
 
 			DbConnection dbConn = CreateOpenConnection();
 			DataTable tables = dbConn.GetSchema("Tables");
@@ -89,15 +86,17 @@ namespace MiniSqlQuery.Core
 //            dataTypes.WriteXml("dataTypes-metadata.xml", XmlWriteMode.WriteSchema); // NativeDataType (TypeName/DataType)
 //#endif
 
-			DataView dv = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_NAME", DataViewRowState.CurrentRows);
+			DataView dv = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_NAME",
+			                           DataViewRowState.CurrentRows);
 			foreach (DataRowView row in dv)
 			{
-				DataView columnView = new DataView(columns, string.Format("TABLE_NAME='{0}'", row["TABLE_NAME"]), "ORDINAL_POSITION", DataViewRowState.CurrentRows);
+				DataView columnView = new DataView(columns, string.Format("TABLE_NAME='{0}'", row["TABLE_NAME"]), "ORDINAL_POSITION",
+				                                   DataViewRowState.CurrentRows);
 				foreach (DataRowView columnRow in columnView)
 				{
 					string columnName = SafeGetString(columnRow.Row, "COLUMN_NAME");
 					string dataType = SafeGetString(columnRow.Row, "DATA_TYPE");
-					int dataTypeId = 0;
+					int dataTypeId;
 					if (int.TryParse(dataType, out dataTypeId))
 					{
 						// need to look it up
@@ -108,7 +107,7 @@ namespace MiniSqlQuery.Core
 						}
 						else
 						{
-							if (dataType == "130")//access hack
+							if (dataType == "130") //access hack
 							{
 								dataType = "Text";
 							}
@@ -118,7 +117,7 @@ namespace MiniSqlQuery.Core
 							}
 						}
 					}
-					
+
 					string schemaName = SafeGetString(columnRow.Row, "TABLE_SCHEMA");
 					string tableName = SafeGetString(columnRow.Row, "TABLE_NAME");
 
@@ -173,11 +172,9 @@ namespace MiniSqlQuery.Core
 
 		private DbConnection CreateOpenConnection()
 		{
-			DbConnection dbConn = null;
-			dbConn = _factory.CreateConnection();
+			DbConnection dbConn = _factory.CreateConnection();
 			dbConn.ConnectionString = _connection;
 			dbConn.Open();
-			
 			return dbConn;
 		}
 
@@ -189,7 +186,7 @@ namespace MiniSqlQuery.Core
 		{
 			//CheckInputs(factory, connection);
 			DbConnection dbConn = CreateOpenConnection();
-			
+
 			DataTable info = dbConn.GetSchema("DataSourceInformation");
 			dbConn.Dispose();
 
@@ -238,8 +235,6 @@ namespace MiniSqlQuery.Core
 
 		private bool SafeGetBool(DataRow row, string columnName)
 		{
-			bool result = false;
-
 			if (row.Table.Columns.Contains(columnName) && !row.IsNull(columnName))
 			{
 				string value = row[columnName].ToString();
@@ -255,7 +250,7 @@ namespace MiniSqlQuery.Core
 				}
 			}
 
-			return result;
+			return false;
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
+using Castle.Core;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.PlugIns;
 using MiniSqlQuery.PlugIns.ConnectionStringsManager;
@@ -21,14 +22,15 @@ namespace MiniSqlQuery
 		private static void Main(string[] args)
 		{
 #if !DEBUG
-			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-			Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
+			AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
+			Application.ThreadException += ApplicationThreadException;
 #endif
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			ApplicationServices.Instance.Container.AddComponent("AboutForm", typeof(AboutForm));
+			ApplicationServices.Instance.Container.AddComponentWithLifestyle<AboutForm>(
+				"AboutForm", LifestyleType.Transient);
 
 			ApplicationServices.Instance.LoadPlugIn(new CoreApplicationPlugIn());
 			ApplicationServices.Instance.LoadPlugIn(new ConnectionStringsManagerLoader());
@@ -48,7 +50,7 @@ namespace MiniSqlQuery
 			Application.Run(ApplicationServices.Instance.HostWindow.Instance);
 		}
 
-		private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
+		private static void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
 		{
 			if (!(e.Exception is ThreadAbortException))
 			{
@@ -56,7 +58,7 @@ namespace MiniSqlQuery
 			}
 		}
 
-		private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		private static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			if (!(e.ExceptionObject is ThreadAbortException))
 			{

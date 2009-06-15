@@ -70,7 +70,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 		private static void SaveConnectionDefinitions(DbConnectionDefinitionList data)
 		{
 			ApplicationServices.Instance.Settings.SetConnectionDefinitions(data);
-			Utility.SaveConnections(data.ToXml());
+			Utility.SaveConnections(data);
 		}
 
 		private void toolStripButtonOk_Click(object sender, EventArgs e)

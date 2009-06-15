@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 
 namespace MiniSqlQuery
 {
-	partial class AboutForm : Form
+	internal partial class AboutForm : Form
 	{
 		private IApplicationServices _services;
 
@@ -33,37 +32,35 @@ namespace MiniSqlQuery
 		{
 			get
 			{
-				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyTitleAttribute), false);
 				if (attributes.Length > 0)
 				{
-					AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
+					AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute) attributes[0];
 					if (titleAttribute.Title != "")
 					{
 						return titleAttribute.Title;
 					}
 				}
-				return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
+				return Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
 			}
 		}
 
 		public string AssemblyVersion
 		{
-			get
-			{
-				return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-			}
+			get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
 		}
 
 		public string AssemblyDescription
 		{
 			get
 			{
-				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
+				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyDescriptionAttribute),
+				                                                                          false);
 				if (attributes.Length == 0)
 				{
 					return "";
 				}
-				return ((AssemblyDescriptionAttribute)attributes[0]).Description;
+				return ((AssemblyDescriptionAttribute) attributes[0]).Description;
 			}
 		}
 
@@ -71,12 +68,12 @@ namespace MiniSqlQuery
 		{
 			get
 			{
-				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyProductAttribute), false);
 				if (attributes.Length == 0)
 				{
 					return "";
 				}
-				return ((AssemblyProductAttribute)attributes[0]).Product;
+				return ((AssemblyProductAttribute) attributes[0]).Product;
 			}
 		}
 
@@ -84,12 +81,12 @@ namespace MiniSqlQuery
 		{
 			get
 			{
-				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCopyrightAttribute), false);
 				if (attributes.Length == 0)
 				{
 					return "";
 				}
-				return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
+				return ((AssemblyCopyrightAttribute) attributes[0]).Copyright;
 			}
 		}
 
@@ -97,14 +94,15 @@ namespace MiniSqlQuery
 		{
 			get
 			{
-				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
+				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCompanyAttribute), false);
 				if (attributes.Length == 0)
 				{
 					return "";
 				}
-				return ((AssemblyCompanyAttribute)attributes[0]).Company;
+				return ((AssemblyCompanyAttribute) attributes[0]).Company;
 			}
 		}
+
 		#endregion
 
 		private void okButton_Click(object sender, EventArgs e)
@@ -114,7 +112,6 @@ namespace MiniSqlQuery
 
 		private void labelVersion_Click(object sender, EventArgs e)
 		{
-
 		}
 
 		private void AboutForm_Load(object sender, EventArgs e)
