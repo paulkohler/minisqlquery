@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-using Castle.Windsor;
-using Castle.Windsor.Configuration.Interpreters;
-using Castle.Windsor.Configuration;
 using Castle.Core;
+using Castle.Windsor;
+using Castle.Windsor.Configuration;
+using Castle.Windsor.Configuration.Interpreters;
 
 namespace MiniSqlQuery.Core
 {
@@ -17,11 +16,11 @@ namespace MiniSqlQuery.Core
 	{
 		private static readonly IWindsorContainer _container;
 
-		private Dictionary<Type, IPlugIn> _plugins = new Dictionary<Type,IPlugIn>();
+		private Dictionary<Type, IPlugIn> _plugins = new Dictionary<Type, IPlugIn>();
 
 		static ApplicationServices()
 		{
-			IConfigurationInterpreter config = new XmlInterpreter("Configuration.xml"); 
+			IConfigurationInterpreter config = new XmlInterpreter("Configuration.xml");
 			_container = new WindsorContainer(config);
 		}
 
@@ -31,21 +30,17 @@ namespace MiniSqlQuery.Core
 		/// <value>The singleton instance of <see cref="IApplicationServices"/>.</value>
 		public static IApplicationServices Instance
 		{
-			get
-			{
-				return (IApplicationServices)_container.GetService(typeof(IApplicationServices));
-			}
+			get { return (IApplicationServices) _container.GetService(typeof(IApplicationServices)); }
 		}
+
+		#region IApplicationServices Members
 
 		/// <summary>
 		/// The Dependency Injection container.
 		/// </summary>
 		public IWindsorContainer Container
 		{
-			get
-			{
-				return _container;
-			}
+			get { return _container; }
 		}
 
 		/// <summary>
@@ -54,10 +49,7 @@ namespace MiniSqlQuery.Core
 		/// <value>The host window - a <see cref="Form"/>.</value>
 		public IHostWindow HostWindow
 		{
-			get
-			{
-				return (IHostWindow)_container.GetService(typeof(IHostWindow));
-			}
+			get { return (IHostWindow) _container.GetService(typeof(IHostWindow)); }
 		}
 
 		/// <summary>
@@ -66,10 +58,7 @@ namespace MiniSqlQuery.Core
 		/// <value>A reference to the settings handler.</value>
 		public IApplicationSettings Settings
 		{
-			get
-			{
-				return (IApplicationSettings)_container.GetService(typeof(IApplicationSettings));
-			}
+			get { return (IApplicationSettings) _container.GetService(typeof(IApplicationSettings)); }
 		}
 
 		/// <summary>
@@ -78,10 +67,7 @@ namespace MiniSqlQuery.Core
 		/// <value>A reference to the plugin dictionary.</value>
 		public Dictionary<Type, IPlugIn> Plugins
 		{
-			get
-			{
-				return _plugins;
-			}
+			get { return _plugins; }
 		}
 
 		/// <summary>
@@ -100,21 +86,6 @@ namespace MiniSqlQuery.Core
 			plugIn.LoadPlugIn(this);
 			_plugins.Add(plugIn.GetType(), plugIn);
 			_container.AddComponent(plugIn.PluginName, typeof(IPlugIn), plugIn.GetType());
-		}
-
-		/// <summary>
-		/// Loads a plugin configured via the <see cref="Container"/>.
-		/// </summary>
-		/// <param name="plugInKeyName">The "key" of the service.</param>
-		public void LoadPlugFromContainer(string plugInKeyName)
-		{
-			if (plugInKeyName == null)
-			{
-				throw new ArgumentNullException("plugInKeyName");
-			}
-
-			IPlugIn plugin = Container[plugInKeyName] as IPlugIn;
-			LoadPlugIn(plugin);
 		}
 
 		/// <summary>
@@ -142,12 +113,12 @@ namespace MiniSqlQuery.Core
 					else
 					{
 						HostWindow.DisplayMessageBox(
-							null, 
+							null,
 							"Error Initializing " + plugIn.PluginName,
 							"Plugin Error",
 							MessageBoxButtons.OK,
 							MessageBoxIcon.Warning,
-							MessageBoxDefaultButton.Button1, 
+							MessageBoxDefaultButton.Button1,
 							0,
 							null,
 							null);
@@ -156,5 +127,45 @@ namespace MiniSqlQuery.Core
 			}
 		}
 
+		/// <summary>
+		/// Occurs when a system message is posted.
+		/// </summary>
+		public event EventHandler<SystemMessageEventArgs> SystemMessagePosted;
+
+		/// <summary>
+		/// Posts a system message for listeners.
+		/// </summary>
+		/// <param name="message">A system message type.</param>
+		/// <param name="data">The asssociated data.</param>
+		public void PostMessage(SystemMessage message, object data)
+		{
+			OnSystemMessagePosted(new SystemMessageEventArgs(message, data));
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Loads a plugin configured via the <see cref="Container"/>.
+		/// </summary>
+		/// <param name="plugInKeyName">The "key" of the service.</param>
+		public void LoadPlugFromContainer(string plugInKeyName)
+		{
+			if (plugInKeyName == null)
+			{
+				throw new ArgumentNullException("plugInKeyName");
+			}
+
+			IPlugIn plugin = Container[plugInKeyName] as IPlugIn;
+			LoadPlugIn(plugin);
+		}
+
+		protected void OnSystemMessagePosted(SystemMessageEventArgs eventArgs)
+		{
+			EventHandler<SystemMessageEventArgs> handler = SystemMessagePosted;
+			if (handler != null)
+			{
+				handler(this, eventArgs);
+			}
+		}
 	}
 }

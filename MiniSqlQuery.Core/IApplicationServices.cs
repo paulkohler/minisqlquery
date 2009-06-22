@@ -48,5 +48,17 @@ namespace MiniSqlQuery.Core
 		/// Initializes the plugins that have been loaded during application startup.
 		/// </summary>
 		void InitializePlugIns();
+
+		/// <summary>
+		/// Occurs when a system message is posted.
+		/// </summary>
+		event EventHandler<SystemMessageEventArgs> SystemMessagePosted;
+
+		/// <summary>
+		/// Posts a system message for listeners.
+		/// </summary>
+		/// <param name="message">A system message type.</param>
+		/// <param name="data">The asssociated data.</param>
+		void PostMessage(SystemMessage message, object data);
 	}
 }

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.Data.Common;
+using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -30,7 +28,8 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			_services = services;
 			TableName = tableName;
 
-			_services.Settings.DatabaseConnectionReset += new EventHandler(Settings_DatabaseConnectionReset);
+			_services.Settings.DatabaseConnectionReset += SettingsDatabaseConnectionReset;
+			_services.SystemMessagePosted += ServicesSystemMessagePosted;
 
 			if (_metaDataService == null)
 			{
@@ -44,7 +43,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 				{
 					string schemaName = string.Format("{0}", row["Schema"]);
 					string table = string.Format("{0}", row["Table"]);
-					string fullTableName = null;
+					string fullTableName;
 
 					if (string.IsNullOrEmpty(schemaName))
 					{
@@ -67,7 +66,18 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 		}
 
-		void Settings_DatabaseConnectionReset(object sender, EventArgs e)
+		void ServicesSystemMessagePosted(object sender, SystemMessageEventArgs e)
+		{
+			if (e.Message == SystemMessage.TableTruncated)
+			{
+				if (TableName.Equals(e.Data) && AutoReload)
+				{
+					LoadTableData();
+				}
+			}
+		}
+
+		void SettingsDatabaseConnectionReset(object sender, EventArgs e)
 		{
 			_dbConnection = null;
 		}
@@ -75,8 +85,6 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 		private void ViewTableForm_Load(object sender, EventArgs e)
 		{
 			LoadTableData();
-
-
 		}
 
 		public string TableName
@@ -104,6 +112,11 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			}
 		}
 
+		public bool AutoReload
+		{
+			get { return chkAutoReload.Checked; }
+		}
+
 		public void SetStatus(string text)
 		{
 			_status = text;
@@ -124,6 +137,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 			if (string.IsNullOrEmpty(TableName))
 			{
+				Text = "Table: (none)";
 				return;
 			}
 		
@@ -133,7 +147,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 				if (_dbConnection == null)
 				{
 					_dbConnection = _services.Settings.GetOpenConnection();
-					_dbConnection.StateChange += new StateChangeEventHandler(_dbConnection_StateChange);
+					_dbConnection.StateChange += DbConnectionStateChange;
 				}
 
 				_result = new DataSet();
@@ -143,6 +157,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 				cmd.CommandType = CommandType.Text;
 				adapter.SelectCommand = cmd;
 				adapter.Fill(_result);
+				SetStatus(string.Format("Loaded table '{0}'", TableName));
 			}
 			catch (DbException dbExp)
 			{
@@ -172,7 +187,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			dataGridViewResult.DataSource = dt;
 		}
 
-		void _dbConnection_StateChange(object sender, StateChangeEventArgs e)
+		void DbConnectionStateChange(object sender, StateChangeEventArgs e)
 		{
 		}
 

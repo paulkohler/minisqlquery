@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using System.Data.Common;
 using System.Windows.Forms;
+using MiniSqlQuery.Core;
 
 namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 {
@@ -31,6 +32,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 					cmd.CommandText = "DELETE FROM " + tableName;
 					cmd.CommandType = CommandType.Text;
 					cmd.ExecuteNonQuery();
+					Services.PostMessage(SystemMessage.TableTruncated, tableName);
 				}
 				catch (DbException dbExp)
 				{
