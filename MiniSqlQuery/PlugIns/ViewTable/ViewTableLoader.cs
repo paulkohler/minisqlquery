@@ -42,8 +42,8 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			// the DB inspector may not be present
 			if (_services.HostWindow.DatabaseInspector != null)
 			{
-				_services.HostWindow.DatabaseInspector.TableMenu.Items.Add(
-					CommandControlBuilder.CreateToolStripMenuItem<ViewTableFromInspectorCommand>());
+				_services.HostWindow.DatabaseInspector.TableMenu.Items.Insert(
+					0, CommandControlBuilder.CreateToolStripMenuItem<ViewTableFromInspectorCommand>());
 			}
 			_services.HostWindow.AddPluginCommand<ViewTableFormCommand>();
 		}

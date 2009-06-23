@@ -13,7 +13,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable.Commands
 		public ViewTableFromInspectorCommand()
 			: base("&View table data")
 		{
-			//SmallImage = Properties.Resources.database_refresh;
+			SmallImage = ImageResource.table_go;
 		}
 
 		public override void Execute()

@@ -135,6 +135,7 @@
   <ItemGroup>
     <Content Include="DefaultConnectionDefinitionFile.xml" />
     <Content Include="Images\accept.png" />
+    <Content Include="Images\around_text.png" />
     <Content Include="Images\cancel.png" />
     <Content Include="Images\cog.png" />
     <Content Include="Images\cross.png" />
@@ -158,6 +159,9 @@
     <Content Include="Images\plugin_link.png" />
     <Content Include="Images\script.png" />
     <Content Include="Images\script_code.png" />
+    <Content Include="Images\table.png" />
+    <Content Include="Images\table_delete.png" />
+    <Content Include="Images\table_go.png" />
     <Content Include="Images\table_save.png" />
   </ItemGroup>
   <ItemGroup>

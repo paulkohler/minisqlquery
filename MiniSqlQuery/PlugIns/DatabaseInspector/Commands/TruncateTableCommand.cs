@@ -11,6 +11,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 		public TruncateTableCommand()
 			: base("Truncate Table")
 		{
+			SmallImage = ImageResource.table_delete;
 		}
 
 		public override void Execute()
