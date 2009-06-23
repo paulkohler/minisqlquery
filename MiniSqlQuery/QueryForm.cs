@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.Common;
 using System.Drawing.Printing;
+using System.IO;
 using System.Windows.Forms;
 using ICSharpCode.TextEditor.Document;
 using MiniSqlQuery.Commands;
@@ -13,6 +14,7 @@ namespace MiniSqlQuery
 	public partial class QueryForm : DockContent, IQueryEditor, IPrintableContent
 	{
 		private static int _untitledCounter = 1;
+		private bool _highlightingProviderLoaded;
 		private bool _isDirty;
 		private string _messages = string.Empty;
 
@@ -25,7 +27,7 @@ namespace MiniSqlQuery
 			InitializeComponent();
 
 			txtQuery.ContextMenuStrip = this.contextMenuStripQuery;
-			txtQuery.SetHighlighting("SQL");
+			LoadHighlightingProvider();
 			txtQuery.Document.DocumentChanged += DocumentDocumentChanged;
 
 			queryToolStripMenuItem.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ExecuteQueryCommand>());
@@ -295,6 +297,21 @@ namespace MiniSqlQuery
 		}
 
 		#endregion
+
+		public void LoadHighlightingProvider()
+		{
+			if (_highlightingProviderLoaded)
+			{
+				return;
+			}
+
+			// see: http://wiki.sharpdevelop.net/Syntax%20highlighting.ashx
+			string dir = Path.GetDirectoryName(GetType().Assembly.Location);
+			FileSyntaxModeProvider fsmProvider = new FileSyntaxModeProvider(dir);
+			HighlightingManager.Manager.AddSyntaxModeFileProvider(fsmProvider); // Attach to the text editor.
+			txtQuery.SetHighlighting("SQL");
+			_highlightingProviderLoaded = true;
+		}
 
 		private void SetTabTextByFilename()
 		{
