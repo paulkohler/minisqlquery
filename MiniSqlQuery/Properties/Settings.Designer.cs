@@ -70,5 +70,17 @@ namespace MiniSqlQuery.Properties {
                 return ((string)(this["SqlFileFilter"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableQueryBatching {
+            get {
+                return ((bool)(this["EnableQueryBatching"]));
+            }
+            set {
+                this["EnableQueryBatching"] = value;
+            }
+        }
     }
 }

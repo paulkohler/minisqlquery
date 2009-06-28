@@ -28,8 +28,13 @@
 				<Key word="OR" />
 				<Key word="LIKE" />
 			</KeyWords>			
-			<KeyWords name="SpecializedKeywords" bold="true" italic="false" color="Pink">
+			<KeyWords name="SpecializedKeywords" bold="true" italic="false" color="Gray">
 				<Key word="OPENDATASOURCE" />
+				<Key word="GO" />
+			</KeyWords>
+			<KeyWords name="DestructiveKeywords" bold="true" italic="false" color="Red">
+				<Key word="DROP" />
+				<Key word="DELETE" />
 			</KeyWords>
 			<KeyWords name="SqlKeywords" bold="true" italic="false" color="Blue">
 				<Key word="ADD" />
@@ -59,7 +64,6 @@
 				<Key word="CURSOR" />
 				<Key word="DECLARE" />
 				<Key word="DEFAULT" />
-				<Key word="DELETE" />
 				<Key word="DESC" />
 				<Key word="DISTINCT" />
 				<Key word="DOUBLE" />

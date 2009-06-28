@@ -3,37 +3,16 @@ using MiniSqlQuery.Core;
 
 namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
-	public class TemplateViewerLoader : IPlugIn
+	public class TemplateViewerLoader : PluginLoaderBase
 	{
-		private IApplicationServices _services;
-
-		public int RequestedLoadOrder
+		public TemplateViewerLoader()
+			: base("Template Viewer", "A Mini SQL Query Plugin for displaying template SQL items.", 50)
 		{
-			get { return 50; }
 		}
 
-		public string PluginName
+		public override void InitializePlugIn()
 		{
-			get { return "Template Viewer"; }
-		}
-
-		public string PluginDescription
-		{
-			get { return "A Mini SQL Query Plugin for displaying template SQL items."; }
-		}
-
-		public void LoadPlugIn(IApplicationServices services)
-		{
-			_services = services;
-		}
-
-		public void InitializePlugIn()
-		{
-			_services.HostWindow.ShowToolWindow(new TemplateViewForm(), WeifenLuo.WinFormsUI.Docking.DockState.DockLeft);
-		}
-
-		public void UnloadPlugIn()
-		{
+			Services.HostWindow.ShowToolWindow(new TemplateViewForm(), WeifenLuo.WinFormsUI.Docking.DockState.DockLeft);
 		}
 	}
 }

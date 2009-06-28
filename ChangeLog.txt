@@ -1,6 +1,8 @@
 Mini SQL Query Change Log
 =========================
 
+2009-06-29	ENH: Added query batching using "GO" keyword (made IQueryEditor.DataSet obsolete)
+2009-06-24	ENH: Updated the Text Editor to v3 (also load definition by file now, see 'SQL-Mode.xshd')
 2009-06-10	TASK[4126]: Modified connections to use XML rather than text files (breaking change)
 2009-06-04	FIX: handle SQL object names with spaces etc "My Col" -> "[My Col]"
 2009-05-06	FIX[4030]: for "BUG: CSV Export plugin does not escape certain characters"

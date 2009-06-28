@@ -66,6 +66,16 @@ namespace MiniSqlQuery
 			get { return Settings.Default.FileDialogFilter; }
 		}
 
+		public bool EnableQueryBatching
+		{
+			get { return Settings.Default.EnableQueryBatching; }
+			set
+			{
+				Settings.Default.EnableQueryBatching = value;
+				Settings.Default.Save();
+			}
+		}
+
 		public DbConnectionDefinitionList GetConnectionDefinitions()
 		{
 			return _definitionList;

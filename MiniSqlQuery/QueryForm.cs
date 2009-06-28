@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
+using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 using System.Windows.Forms;
@@ -26,7 +27,7 @@ namespace MiniSqlQuery
 		{
 			InitializeComponent();
 
-			txtQuery.ContextMenuStrip = this.contextMenuStripQuery;
+			txtQuery.ContextMenuStrip = contextMenuStripQuery;
 			LoadHighlightingProvider();
 			txtQuery.Document.DocumentChanged += DocumentDocumentChanged;
 
@@ -78,7 +79,7 @@ namespace MiniSqlQuery
 			get { return txtQuery; }
 		}
 
-		public TabControl ResultsControl { get; private set; }
+		public TabControl ResultsControl { get; set; }
 
 		public string FileName
 		{
@@ -106,6 +107,7 @@ namespace MiniSqlQuery
 
 		public bool IsBusy { get; private set; }
 
+		[Obsolete]
 		public DataSet DataSet { get; private set; }
 
 		public void SetStatus(string text)
@@ -296,6 +298,8 @@ namespace MiniSqlQuery
 			return true;
 		}
 
+		public QueryBatch Batch { get; private set; }
+
 		#endregion
 
 		public void LoadHighlightingProvider()
@@ -385,16 +389,29 @@ namespace MiniSqlQuery
 				//    ((System.Data.SqlClient.SqlConnection)dbConnection).InfoMessage += SqlClienInfoMessage;
 				//}
 
-				DataSet = new DataSet();
-
-				// TODO - Support GO syntax
+				if (_services.Settings.EnableQueryBatching)
+				{
+					Batch = QueryBatch.Parse(sql);
+				}
+				else
+				{
+					Batch = new QueryBatch(sql);
+				}
 
 				adapter = _services.Settings.ProviderFactory.CreateDataAdapter();
 				cmd = dbConnection.CreateCommand();
-				cmd.CommandText = sql;
 				cmd.CommandType = CommandType.Text;
 				adapter.SelectCommand = cmd;
-				adapter.Fill(DataSet);
+
+				for (int i = 0; i < Batch.Queries.Count; i++)
+				{
+					Query query = Batch.Queries[i];
+					cmd.CommandText = query.Sql;
+					query.Result = new DataSet("Batch " + (i + 1));
+					query.StartTime = DateTime.Now;
+					adapter.Fill(query.Result);
+					query.EndTime = DateTime.Now;
+				}
 			}
 			catch (DbException dbExp)
 			{
@@ -460,50 +477,55 @@ namespace MiniSqlQuery
 		{
 			ResultsControl.TabPages.Clear();
 
-			if (DataSet != null)
+			if (Batch != null)
 			{
 				int counter = 1;
-				foreach (DataTable dt in DataSet.Tables)
+				foreach (Query query in Batch.Queries)
 				{
-					DataGridView grid = new DataGridView();
-					DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
+					DataSet ds = query.Result;
+					foreach (DataTable dt in ds.Tables)
+					{
+						DataGridView grid = new DataGridView();
+						DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
 
-					grid.AllowUserToAddRows = false;
-					grid.AllowUserToDeleteRows = false;
-					grid.Dock = DockStyle.Fill;
-					grid.Name = "gridResults_" + counter;
-					grid.ReadOnly = true;
-					grid.DataSource = dt;
-					grid.DataError += GridDataError;
-					grid.DefaultCellStyle = cellStyle;
+						grid.AllowUserToAddRows = false;
+						grid.AllowUserToDeleteRows = false;
+						grid.Dock = DockStyle.Fill;
+						grid.Name = "gridResults_" + counter;
+						grid.ReadOnly = true;
+						grid.DataSource = dt;
+						grid.DataError += GridDataError;
+						grid.DefaultCellStyle = cellStyle;
 
-					cellStyle.NullValue = "<NULL>";
+						cellStyle.NullValue = "<NULL>";
+						cellStyle.Font = new Font("Courier New", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
 
-					TabPage tabPage = new TabPage();
-					tabPage.Controls.Add(grid);
-					tabPage.Name = "tabPageResults_" + counter;
-					tabPage.Padding = new Padding(3);
-					tabPage.Text = "Table " + counter;
-					tabPage.UseVisualStyleBackColor = false;
+						TabPage tabPage = new TabPage();
+						tabPage.Controls.Add(grid);
+						tabPage.Name = "tabPageResults_" + counter;
+						tabPage.Padding = new Padding(3);
+						tabPage.Text = string.Format("{0}/Table {1}", ds.DataSetName, counter);
+						tabPage.UseVisualStyleBackColor = false;
 
-					ResultsControl.TabPages.Add(tabPage);
-					counter++;
-				}
+						ResultsControl.TabPages.Add(tabPage);
+						counter++;
+					}
 
-				if (!string.IsNullOrEmpty(_messages))
-				{
-					RichTextBox rtf = new RichTextBox();
-					rtf.Text = _messages;
+					if (!string.IsNullOrEmpty(_messages))
+					{
+						RichTextBox rtf = new RichTextBox();
+						rtf.Text = _messages;
 
-					TabPage tabPage = new TabPage();
-					tabPage.Controls.Add(rtf);
-					tabPage.Name = "tabPageResults_Messages";
-					tabPage.Padding = new Padding(3);
-					tabPage.Text = "Messages";
-					tabPage.UseVisualStyleBackColor = false;
+						TabPage tabPage = new TabPage();
+						tabPage.Controls.Add(rtf);
+						tabPage.Name = "tabPageResults_Messages";
+						tabPage.Padding = new Padding(3);
+						tabPage.Text = "Messages";
+						tabPage.UseVisualStyleBackColor = false;
 
-					ResultsControl.TabPages.Add(tabPage);
-					counter++;
+						ResultsControl.TabPages.Add(tabPage);
+						counter++;
+					}
 				}
 			}
 		}

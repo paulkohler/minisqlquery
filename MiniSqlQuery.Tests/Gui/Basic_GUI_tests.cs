@@ -21,7 +21,7 @@ namespace MiniSqlQuery.Tests.Gui
 
 			Assert.That(queryEditor.AllText, Is.Empty);
 			Assert.That(queryEditor.FileName, Is.Null);
-			Assert.That(queryEditor.DataSet, Is.Null);
+			Assert.That(queryEditor.Batch, Is.Null);
 			Assert.That(queryEditor.IsDirty, Is.False);
 			Assert.That(queryEditor.SelectedText, Is.Empty);
 			Assert.That(queryEditor.CursorOffset, Is.EqualTo(0));

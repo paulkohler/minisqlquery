@@ -63,5 +63,11 @@ namespace MiniSqlQuery.Core
 		/// The default filter string for dialog boxes.
 		/// </summary>
 		string DefaultFileFilter { get; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to enable query batching using the "GO" keyword.
+		/// </summary>
+		/// <value><c>true</c> if query batching is enabled; otherwise, <c>false</c>.</value>
+		bool EnableQueryBatching { get; set; }
 	}
 }

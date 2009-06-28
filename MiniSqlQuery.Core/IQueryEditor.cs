@@ -7,7 +7,7 @@ namespace MiniSqlQuery.Core
 	/// <summary>
 	/// The functions of the editing window.
 	/// </summary>
-	public interface IQueryEditor : IFindReplaceProvider, INavigatableDocument
+	public interface IQueryEditor : IFindReplaceProvider, INavigatableDocument, IQueryBatchProvider
 	{
 		/// <summary>
 		/// The currently selected text (if any) in the editor.
@@ -20,8 +20,9 @@ namespace MiniSqlQuery.Core
 		string AllText { get; set; }
 
 		/// <summary>
-		/// The current data displayed in the result window.
+		/// Obsolete in favour of <see cref="IQueryBatchProvider.Batch"/>. The current data displayed in the result window.
 		/// </summary>
+		[Obsolete]
 		DataSet DataSet { get; }
 
 		/// <summary>

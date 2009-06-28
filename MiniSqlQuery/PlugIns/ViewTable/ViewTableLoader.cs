@@ -1,56 +1,25 @@
 ﻿using System;
-using MiniSqlQuery.PlugIns.ViewTable.Commands;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.PlugIns.ViewTable.Commands;
 
 namespace MiniSqlQuery.PlugIns.ViewTable
 {
-	public class ViewTableLoader : IPlugIn
+	public class ViewTableLoader : PluginLoaderBase
 	{
-		private IApplicationServices _services;
-
-		public void LoadPlugIn(IApplicationServices services)
+		public ViewTableLoader()
+			: base("View Table Data", "A Mini SQL Query Plugin for viewing table data.", 50)
 		{
-			_services = services;
 		}
 
-		public string PluginName
-		{
-			get
-			{
-				return "View Table Data";
-			}
-		}
-
-		public string PluginDescription
-		{
-			get
-			{
-				return "A Mini SQL Query Plugin for viewing table data.";
-			}
-		}
-
-		public int RequestedLoadOrder
-		{
-			get
-			{
-				return 50;
-			}
-		}
-
-		public void InitializePlugIn()
+		public override void InitializePlugIn()
 		{
 			// the DB inspector may not be present
-			if (_services.HostWindow.DatabaseInspector != null)
+			if (Services.HostWindow.DatabaseInspector != null)
 			{
-				_services.HostWindow.DatabaseInspector.TableMenu.Items.Insert(
+				Services.HostWindow.DatabaseInspector.TableMenu.Items.Insert(
 					0, CommandControlBuilder.CreateToolStripMenuItem<ViewTableFromInspectorCommand>());
 			}
-			_services.HostWindow.AddPluginCommand<ViewTableFormCommand>();
-		}
-
-		public void UnloadPlugIn()
-		{
-			// disposals?
+			Services.HostWindow.AddPluginCommand<ViewTableFormCommand>();
 		}
 	}
 }

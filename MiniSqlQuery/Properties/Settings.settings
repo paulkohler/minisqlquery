@@ -17,5 +17,8 @@
     <Setting Name="SqlFileFilter" Type="System.String" Scope="Application">
       <Value Profile="(Default)">*.sql</Value>
     </Setting>
+    <Setting Name="EnableQueryBatching" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

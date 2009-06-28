@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Windows.Forms;
 using System.Data.Common;
-using MiniSqlQuery.Commands;
+using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.PlugIns.ViewTable
 {
-	public partial class ViewTableForm: DockContent
+	public partial class ViewTableForm : DockContent, IQueryBatchProvider
 	{
-		IApplicationServices _services;
-		string _status = string.Empty;
-		DataSet _result;
+		//DataSet _result;
+		private QueryBatch _batch;
 		private DbConnection _dbConnection;
 		private DatabaseMetaDataService _metaDataService;
+		private IApplicationServices _services;
+		private string _status = string.Empty;
 
 		public ViewTableForm()
 		{
@@ -26,6 +26,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			: this()
 		{
 			_services = services;
+			_batch = new QueryBatch();
 			TableName = tableName;
 
 			_services.Settings.DatabaseConnectionReset += SettingsDatabaseConnectionReset;
@@ -62,49 +63,17 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 				cboTableName.Items.AddRange(tableNames.ToArray());
 			}
-
-
-		}
-
-		void ServicesSystemMessagePosted(object sender, SystemMessageEventArgs e)
-		{
-			if (e.Message == SystemMessage.TableTruncated)
-			{
-				if (TableName.Equals(e.Data) && AutoReload)
-				{
-					LoadTableData();
-				}
-			}
-		}
-
-		void SettingsDatabaseConnectionReset(object sender, EventArgs e)
-		{
-			_dbConnection = null;
-		}
-
-		private void ViewTableForm_Load(object sender, EventArgs e)
-		{
-			LoadTableData();
 		}
 
 		public string TableName
 		{
-			get
-			{
-				return cboTableName.Text;
-			}
-			set
-			{
-				cboTableName.Text = value;
-			}
+			get { return cboTableName.Text; }
+			set { cboTableName.Text = value; }
 		}
 
 		public override string Text
 		{
-			get
-			{
-				return base.Text;
-			}
+			get { return base.Text; }
 			set
 			{
 				base.Text = value;
@@ -115,6 +84,36 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 		public bool AutoReload
 		{
 			get { return chkAutoReload.Checked; }
+		}
+
+		#region IQueryBatchProvider Members
+
+		public QueryBatch Batch
+		{
+			get { return _batch; }
+		}
+
+		#endregion
+
+		private void ServicesSystemMessagePosted(object sender, SystemMessageEventArgs e)
+		{
+			if (e.Message == SystemMessage.TableTruncated)
+			{
+				if (TableName.Equals(e.Data) && AutoReload)
+				{
+					LoadTableData();
+				}
+			}
+		}
+
+		private void SettingsDatabaseConnectionReset(object sender, EventArgs e)
+		{
+			_dbConnection = null;
+		}
+
+		private void ViewTableForm_Load(object sender, EventArgs e)
+		{
+			LoadTableData();
 		}
 
 		public void SetStatus(string text)
@@ -134,13 +133,14 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			DbCommand cmd = null;
 			//bool errored = false;
 			DataTable dt = null;
+			Query query = new Query("SELECT * FROM " + TableName);
 
 			if (string.IsNullOrEmpty(TableName))
 			{
 				Text = "Table: (none)";
 				return;
 			}
-		
+
 			try
 			{
 				_services.HostWindow.SetPointerState(Cursors.WaitCursor);
@@ -150,13 +150,16 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 					_dbConnection.StateChange += DbConnectionStateChange;
 				}
 
-				_result = new DataSet();
+				query.Result = new DataSet(TableName + " View");
+				_batch.Clear();
+				_batch.Add(query);
+
 				adapter = _services.Settings.ProviderFactory.CreateDataAdapter();
 				cmd = _dbConnection.CreateCommand();
-				cmd.CommandText = "SELECT * FROM " + TableName;
+				cmd.CommandText = query.Sql;
 				cmd.CommandType = CommandType.Text;
 				adapter.SelectCommand = cmd;
-				adapter.Fill(_result);
+				adapter.Fill(query.Result);
 				SetStatus(string.Format("Loaded table '{0}'", TableName));
 			}
 			catch (DbException dbExp)
@@ -178,16 +181,16 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 				_services.HostWindow.SetPointerState(Cursors.Default);
 			}
 
-			if (_result != null && _result.Tables.Count > 0)
+			if (query.Result != null && query.Result.Tables.Count > 0)
 			{
-				dt = _result.Tables[0];
+				dt = query.Result.Tables[0];
 				Text = "Table: " + TableName;
 			}
 
 			dataGridViewResult.DataSource = dt;
 		}
 
-		void DbConnectionStateChange(object sender, StateChangeEventArgs e)
+		private void DbConnectionStateChange(object sender, StateChangeEventArgs e)
 		{
 		}
 
@@ -208,8 +211,6 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 		private void queryToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
 		}
-
 	}
 }

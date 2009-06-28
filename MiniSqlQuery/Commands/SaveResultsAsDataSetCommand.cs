@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MiniSqlQuery.Core.Commands;
-using MiniSqlQuery.Core;
-using System.Windows.Forms;
 using System.Data;
+using System.Windows.Forms;
+using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.Commands;
+using MiniSqlQuery.Core.Forms;
 using MiniSqlQuery.Properties;
 
 namespace MiniSqlQuery.Commands
@@ -20,28 +19,52 @@ namespace MiniSqlQuery.Commands
 
 		public override void Execute()
 		{
-			if (Services.HostWindow.ActiveChildForm is IQueryEditor)
+			IQueryBatchProvider batchProvider = Services.HostWindow.ActiveChildForm as IQueryBatchProvider;
+
+			if (batchProvider == null)
 			{
-				IQueryEditor editor = (IQueryEditor)Services.HostWindow.ActiveChildForm;
-				DataSet ds = editor.DataSet;
-				
-				SaveFileDialog saveFileDialog = new SaveFileDialog();
-				saveFileDialog.Title = "Save Results as DataSet XML";
-				saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
-				saveFileDialog.Filter = Settings.Default.XmlFileDialogFilter;
-
-				if (saveFileDialog.ShowDialog(Services.HostWindow.Instance) == DialogResult.OK)
-				{
-					ds.WriteXml(saveFileDialog.FileName, XmlWriteMode.WriteSchema);
-
-					editor.SetStatus(string.Format("Saved reults to file: '{0}'", saveFileDialog.FileName));
-				}
-
-				saveFileDialog.Dispose();
+				Services.HostWindow.DisplaySimpleMessageBox(null, "No reults to save as a 'DataSet'.", "Save Results as DataSet XML Error");
 			}
 			else
 			{
-				Services.HostWindow.DisplaySimpleMessageBox(null, "No reults to save as a 'DataSet'.", "Save Results as DataSet XML Error");
+				DataSet ds = null;
+
+				if (batchProvider.Batch != null)
+				{
+					if (batchProvider.Batch.Queries.Count > 1)
+					{
+						BatchQuerySelectForm querySelectForm = new BatchQuerySelectForm();
+						querySelectForm.Fill(batchProvider.Batch);
+						querySelectForm.ShowDialog();
+						if (querySelectForm.DialogResult == DialogResult.OK)
+						{
+							ds = querySelectForm.SelectedQuery.Result;
+						}
+					}
+					else if (batchProvider.Batch.Queries.Count == 1)
+					{
+						ds = batchProvider.Batch.Queries[0].Result;
+					}
+				}
+
+				if (ds == null)
+				{
+					return;
+				}
+				
+				using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+				{
+					saveFileDialog.Title = "Save Results as DataSet XML";
+					saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
+					saveFileDialog.Filter = Settings.Default.XmlFileDialogFilter;
+
+					if (saveFileDialog.ShowDialog(Services.HostWindow.Instance) == DialogResult.OK)
+					{
+						ds.WriteXml(saveFileDialog.FileName, XmlWriteMode.WriteSchema);
+						string msg = string.Format("Saved reults to file: '{0}'", saveFileDialog.FileName);
+						Services.HostWindow.SetStatus(Services.HostWindow.ActiveChildForm, msg);
+					}
+				}
 			}
 		}
 	}

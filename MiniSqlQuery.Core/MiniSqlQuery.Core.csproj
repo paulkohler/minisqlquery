@@ -79,6 +79,12 @@
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="ApplicationServices.cs" />
     <Compile Include="ConnectionDefinition.cs" />
+    <Compile Include="Controls\BatchQuerySelectControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BatchQuerySelectControl.Designer.cs">
+      <DependentUpon>BatchQuerySelectControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ExceptionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -94,6 +100,12 @@
     <Compile Include="DatabaseMetaDataService.cs" />
     <Compile Include="DbConnectionDefinition.cs" />
     <Compile Include="DbConnectionDefinitionList.cs" />
+    <Compile Include="Forms\BatchQuerySelectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BatchQuerySelectForm.Designer.cs">
+      <DependentUpon>BatchQuerySelectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="IApplicationServices.cs" />
     <Compile Include="IFindReplaceProvider.cs" />
     <Compile Include="FindReplaceTextRequest.cs" />
@@ -109,6 +121,7 @@
     <Compile Include="INavigatableDocument.cs" />
     <Compile Include="IPlugIn.cs" />
     <Compile Include="IPrintableContent.cs" />
+    <Compile Include="IQueryBatchProvider.cs" />
     <Compile Include="IQueryEditor.cs" />
     <Compile Include="CommandControlBuilder.cs" />
     <Compile Include="ISupportCursorOffset.cs" />
@@ -127,6 +140,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Query.cs" />
+    <Compile Include="QueryBatch.cs" />
     <Compile Include="StringWriterWithEncoding.cs" />
     <Compile Include="SystemMessage.cs" />
     <Compile Include="SystemMessageEventArgs.cs" />
@@ -165,6 +180,9 @@
     <Content Include="Images\table_save.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\BatchQuerySelectControl.resx">
+      <DependentUpon>BatchQuerySelectControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ExceptionControl.resx">
       <DependentUpon>ExceptionControl.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -172,6 +190,9 @@
     <EmbeddedResource Include="Controls\PluginListControl.resx">
       <DependentUpon>PluginListControl.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BatchQuerySelectForm.resx">
+      <DependentUpon>BatchQuerySelectForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImageResource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
