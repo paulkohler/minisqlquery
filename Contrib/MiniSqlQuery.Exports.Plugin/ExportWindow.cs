@@ -2,15 +2,18 @@
 using System.Data;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.Forms;
 
 namespace MiniSqlQuery.Exports.Plugin
 {
 	public partial class ExportWindow : Form
 	{
+		private readonly IApplicationServices _services;
 		private DataSet _dsExecutedData;
 
-		public ExportWindow()
+		public ExportWindow(IApplicationServices services)
 		{
+			_services = services;
 			InitializeComponent();
 			txtFilePath.Text = string.Format("{0}\\export{1:yyyy-MM-dd}.htm",
 			                                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), DateTime.Today);
@@ -27,29 +30,53 @@ namespace MiniSqlQuery.Exports.Plugin
 
 		private void ExportWindow_Load(object sender, EventArgs e)
 		{
-			IQueryEditor editor = ApplicationServices.Instance.HostWindow.ActiveChildForm as IQueryEditor;
+			IQueryBatchProvider batchProvider = _services.HostWindow.ActiveChildForm as IQueryBatchProvider;
 
-			if (editor != null)
+			if (batchProvider != null && batchProvider.Batch != null)
 			{
-				_dsExecutedData = editor.DataSet;
+				if (batchProvider.Batch.Queries.Count > 1)
+				{
+					BatchQuerySelectForm querySelectForm = new BatchQuerySelectForm();
+					querySelectForm.Fill(batchProvider.Batch);
+					querySelectForm.ShowDialog();
+					if (querySelectForm.DialogResult == DialogResult.OK)
+					{
+						_dsExecutedData = querySelectForm.SelectedQuery.Result;
+					}
+					else
+					{
+						Close(); // user calncelled
+					}
+					return;
+				}
+				
+				if(batchProvider.Batch.Queries.Count == 1)
+				{
+					_dsExecutedData = batchProvider.Batch.Queries[0].Result;
+					return;
+				}
 			}
-			else
-			{
-				MessageBox.Show("Couldn't find a query windows, please open a query window and execute to get data to export.");
-				Close();
-			}
+
+			MessageBox.Show("Couldn't find a result window, run a query or view a table to export the data.");
+			Close();
 		}
 
 		private void btnExport_Click(object sender, EventArgs e)
 		{
 			if (rbtXml.Checked)
+			{
 				ExportXml();
+			}
 
 			if (rbtHtml.Checked)
+			{
 				ExportHtml();
+			}
 
 			if (rbtCsv.Checked)
+			{
 				ExportCSV();
+			}
 		}
 
 		private void button1_Click(object sender, EventArgs e)

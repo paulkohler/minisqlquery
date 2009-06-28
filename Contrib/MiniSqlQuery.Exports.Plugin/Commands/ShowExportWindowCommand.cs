@@ -12,7 +12,7 @@ namespace MiniSqlQuery.Exports.Plugin.Commands
 
 		public override void Execute()
 		{
-			ExportWindow frm = new ExportWindow();
+			ExportWindow frm = new ExportWindow(Services);
 			frm.Show(Services.HostWindow.Instance);
 		}
 	}
