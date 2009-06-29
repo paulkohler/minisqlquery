@@ -83,5 +83,15 @@ namespace MiniSqlQuery.Core
 		{
 			return Utility.ToXml(this);
 		}
+
+		public static DbConnectionDefinition FromXml(string xml)
+		{
+			using (StringReader sr = new StringReader(xml))
+			{
+				XmlSerializer serializer = new XmlSerializer(typeof(DbConnectionDefinition));
+				return (DbConnectionDefinition)serializer.Deserialize(sr);
+			}
+		}
+
 	}
 }

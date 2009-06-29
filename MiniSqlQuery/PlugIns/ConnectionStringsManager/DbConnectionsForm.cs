@@ -12,6 +12,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 		{
 			InitializeComponent();
 			toolStripButtonAdd.Image = ImageResource.database_add;
+			toolStripButtonCopyAsNew.Image = ImageResource.database_add;
 			toolStripButtonEditConnStr.Image = ImageResource.database_edit;
 			toolStripButtonDelete.Image = ImageResource.database_delete;
 		}
@@ -84,12 +85,43 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			Close();
 		}
 
+		private void toolStripButtonAdd_Click(object sender, EventArgs e)
+		{
+			ManageDefinition(null);
+		}
+
+		private void toolStripButtonCopyAsNew_Click(object sender, EventArgs e)
+		{
+			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
+			if (definition != null)
+			{
+				DbConnectionDefinition newDefinition = DbConnectionDefinition.FromXml(definition.ToXml());
+				newDefinition.Name = "Copy of " + newDefinition.Name;
+				ManageDefinition(newDefinition);
+			}
+		}
+
 		private void toolStripButtonEditConnStr_Click(object sender, EventArgs e)
 		{
 			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
 			if (definition != null)
 			{
 				ManageDefinition(definition);
+			}
+		}
+
+		private void toolStripButtonDelete_Click(object sender, EventArgs e)
+		{
+			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
+			if (definition != null)
+			{
+				int newIndex = Math.Max(lstConnections.SelectedIndex - 1, 0);
+				_definitionList.RemoveDefinition(definition);
+				RemoveFromList(definition);
+				if (lstConnections.Items.Count > 0)
+				{
+					lstConnections.SelectedIndex = newIndex;
+				}
 			}
 		}
 
@@ -105,26 +137,6 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			if (definition != null)
 			{
 				ManageDefinition(definition);
-			}
-		}
-
-		private void toolStripButtonAdd_Click(object sender, EventArgs e)
-		{
-			ManageDefinition(null);
-		}
-
-		private void toolStripButtonDelete_Click(object sender, EventArgs e)
-		{
-			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
-			if (definition != null)
-			{
-				int newIndex = Math.Max(lstConnections.SelectedIndex - 1, 0);
-				_definitionList.RemoveDefinition(definition);
-				RemoveFromList(definition);
-				if (lstConnections.Items.Count > 0)
-				{
-					lstConnections.SelectedIndex = newIndex;
-				}
 			}
 		}
 
@@ -147,13 +159,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 
 			if (frm.DialogResult == DialogResult.OK)
 			{
-				if (definition == null) // i.e. is new
-				{
-					_definitionList.AddDefinition(frm.ConnectionDefinition);
-					AddToList(frm.ConnectionDefinition);
-					lstConnections.SelectedItem = frm.ConnectionDefinition;
-				}
-				else
+				if (lstConnections.Items.Contains(frm.ConnectionDefinition) && definition != null)
 				{
 					if (definition.Name != oldName)
 					{
@@ -165,6 +171,12 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 					{
 						UpdateDetailsPanel(lstConnections.SelectedItem as DbConnectionDefinition);
 					}
+				}
+				else
+				{
+					_definitionList.AddDefinition(frm.ConnectionDefinition);
+					AddToList(frm.ConnectionDefinition);
+					lstConnections.SelectedItem = frm.ConnectionDefinition;
 				}
 			}
 		}
