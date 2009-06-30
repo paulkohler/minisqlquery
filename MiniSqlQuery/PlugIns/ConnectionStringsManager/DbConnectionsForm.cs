@@ -147,12 +147,12 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 
 			if (definition == null)
 			{
-				frm = new ConnectionStringBuilderForm(); // new blank form
+				frm = new ConnectionStringBuilderForm(Services); // new blank form
 			}
 			else
 			{
 				oldName = definition.Name;
-				frm = new ConnectionStringBuilderForm(definition);
+				frm = new ConnectionStringBuilderForm(definition, Services);
 			}
 
 			frm.ShowDialog(this);

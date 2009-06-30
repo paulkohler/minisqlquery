@@ -1,45 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+using System.Data.Common;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
-using System.Data.Common;
-using MiniSqlQuery.PlugIns.ConnectionStringsManager;
 
 namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 {
 	public partial class ConnectionStringBuilderForm : Form
 	{
+		private readonly IApplicationServices _services;
 		public DbConnectionDefinition ConnectionDefinition { get; set; }
 		public const string DefaultProviderName = "System.Data.SqlClient";
 
-		bool _initialised;
-		string _initProvider = null;
-		string _providerName = DefaultProviderName;
-		string _connStr = null;
-		DbConnectionStringBuilder _connStrBldr = null;
+		private bool _initialised;
+		private bool _loaded;
+		private string _initProvider;
+		private string _providerName = DefaultProviderName;
+		private string _connStr;
+		private DbConnectionStringBuilder _connStrBldr;
+		private bool _dirty;
 
-		public string ConnectionName 
+		public string ConnectionName
 		{
-			get
-			{
-				return txtConnectionName.Text;
-			}
-			set
-			{
-				txtConnectionName.Text = value;
-			}
+			get { return txtConnectionName.Text; }
+			set { txtConnectionName.Text = value; }
 		}
 
-		public string ProviderName 
+		public string Comments
 		{
-			get
-			{
-				return _providerName;
-			}
+			get { return txtComments.Text; }
+			set { txtComments.Text = value; }
+		}
+
+		public string ProviderName
+		{
+			get { return _providerName; }
 			set
 			{
 				_providerName = value;
@@ -50,7 +44,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 		/// <summary>
 		/// The supplied connection string - or if during an edit - the new one.
 		/// </summary>
-		public string ConnectionString 
+		public string ConnectionString
 		{
 			get
 			{
@@ -72,31 +66,22 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 
 		public DbConnectionStringBuilder DbConnectionStringBuilderInstance
 		{
-			get
-			{
-				return _connStrBldr;
-			}
+			get { return _connStrBldr; }
 		}
 
 
-		public ConnectionStringBuilderForm()
+		public ConnectionStringBuilderForm(IApplicationServices services)
 		{
 			InitializeComponent();
+			_services = services;
 		}
 
-		//public ConnectionStringBuilderForm(string name, string provider, string connection)
-		//    : this()
-		//{
-		//    ConnectionName = name;
-		//    _initProvider = provider;
-		//    _connStr = connection;
-		//}
-
-		public ConnectionStringBuilderForm(DbConnectionDefinition definition)
-			: this()
+		public ConnectionStringBuilderForm(DbConnectionDefinition definition, IApplicationServices services)
+			: this(services)
 		{
 			ConnectionDefinition = definition;
 			ConnectionName = ConnectionDefinition.Name;
+			Comments = ConnectionDefinition.Comment;
 			_initProvider = ConnectionDefinition.ProviderName;
 			_connStr = ConnectionDefinition.ConnectionString;
 		}
@@ -117,8 +102,42 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			{
 				ProviderName = _initProvider;
 			}
+			_loaded = true;
 		}
 
+		private void ConnectionStringBuilderForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (_dirty)
+			{
+				DialogResult saveFile = _services.HostWindow.DisplayMessageBox(
+					this,
+					"The connection details have changed, do you want to save?\r\n", "Save Changes?",
+					MessageBoxButtons.YesNoCancel,
+					MessageBoxIcon.Question,
+					MessageBoxDefaultButton.Button1,
+					0,
+					null,
+					null);
+
+				switch (saveFile)
+				{
+					case DialogResult.Yes:
+						WriteValuesBack();
+						break;
+					case DialogResult.Cancel:
+						e.Cancel = true;
+						break;
+				}
+			}
+		}
+
+
+		private void toolStripButtonOk_Click(object sender, EventArgs e)
+		{
+			DialogResult = DialogResult.OK;
+			WriteValuesBack();
+			Close();
+		}
 
 		private void toolStripButtonCancel_Click(object sender, EventArgs e)
 		{
@@ -127,9 +146,8 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			Close();
 		}
 
-		private void toolStripButtonOk_Click(object sender, EventArgs e)
+		protected void WriteValuesBack()
 		{
-			DialogResult = DialogResult.OK;
 			if (ConnectionDefinition == null)
 			{
 				ConnectionDefinition = new DbConnectionDefinition();
@@ -137,23 +155,8 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			ConnectionDefinition.Name = ConnectionName;
 			ConnectionDefinition.ProviderName = ProviderName;
 			ConnectionDefinition.ConnectionString = ConnectionString;
-			// todo ConnectionDefinition.Comment = Comment;
-			Close();
-		}
-
-
-		private void cboProvider_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (!_initialised)
-			{
-				return;
-			}
-
-			if (cboProvider.SelectedItem != null)
-			{
-				ProviderName = cboProvider.SelectedItem.ToString();
-				BindNewConnectionStringBuilder();
-			}
+			ConnectionDefinition.Comment = Comments;
+			_dirty = false;
 		}
 
 
@@ -195,9 +198,52 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			propertyGridDbConnection.SelectedObject = _connStrBldr;
 		}
 
+		private void cboProvider_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (!_initialised)
+			{
+				return;
+			}
+			SetDirty();
+			if (cboProvider.SelectedItem != null)
+			{
+				ProviderName = cboProvider.SelectedItem.ToString();
+				BindNewConnectionStringBuilder();
+			}
+		}
+
+		private void ItemsTextChanged(object sender, EventArgs e)
+		{
+			SetDirty();
+		}
+
+		private void propertyGridDbConnection_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+		{
+			SetDirty();
+		}
+
+		private void SetDirty()
+		{
+			if (!_loaded)
+			{
+				return;
+			}
+
+			if (!_dirty)
+			{
+				_dirty = true;
+				Text += "*";
+			}
+		}
+
+#if DEBUG
+
 		public override string ToString()
 		{
-			return string.Format("[ConnectionStringBuilderForm => Name: {0}; Provider: {1}; ConnectionString: {2}]", ConnectionName, ProviderName, ConnectionString);
+			return string.Format("[ConnectionStringBuilderForm => Name: {0}; Provider: {1}; ConnectionString: {2}]", ConnectionName, ProviderName,
+			                     ConnectionString);
 		}
+
+#endif
 	}
 }
