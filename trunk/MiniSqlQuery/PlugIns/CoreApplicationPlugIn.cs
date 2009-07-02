@@ -1,123 +1,97 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Windows.Forms;
 using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
-using System.Windows.Forms;
 using MiniSqlQuery.Core.Commands;
 
 namespace MiniSqlQuery.PlugIns
 {
-	public class CoreApplicationPlugIn : IPlugIn
-	{
-		private IApplicationServices _services;
-		private Timer _timer;
+    public class CoreApplicationPlugIn : PluginLoaderBase
+    {
+        private Timer _timer;
 
-		public void LoadPlugIn(IApplicationServices services)
-		{
-			_services = services;
-		}
+        public CoreApplicationPlugIn()
+            : base("Mini SQL Query Core", "Plugin to to setup the core features of Mini SQL Query.", 1)
+        {
+        }
 
-		public string PluginName
-		{
-			get
-			{
-				return "Mini SQL Query Core";
-			}
-		}
+        public override void InitializePlugIn()
+        {
+            ToolStripMenuItem fileMenu = (ToolStripMenuItem) Services.HostWindow.Instance.MainMenuStrip.Items["fileMenu"];
+            ToolStripMenuItem pluginsMenu = (ToolStripMenuItem) Services.HostWindow.Instance.MainMenuStrip.Items["pluginsMenu"];
+            ToolStripMenuItem queryMenu = (ToolStripMenuItem) Services.HostWindow.Instance.MainMenuStrip.Items["queryToolStripMenuItem"];
+            ToolStripMenuItem helpMenu = (ToolStripMenuItem) Services.HostWindow.Instance.MainMenuStrip.Items["helpMenu"];
 
-		public string PluginDescription
-		{
-			get
-			{
-				return "Plugin to to setup the core features of Mini SQL Query.";
-			}
-		}
+            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<NewQueryFormCommand>());
+            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
+            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenFileCommand>());
+            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveFileCommand>());
+            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveFileAsCommand>());
+            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<CloseActiveWindowCommand>());
+            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
+            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<PrintCommand>());
+            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
+            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ExitApplicationCommand>());
 
-		public int RequestedLoadOrder
-		{
-			get
-			{
-				return 1;
-			}
-		}
+            queryMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<RefreshDatabaseConnectionCommand>());
+            queryMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<TurnEnableQueryBatchingOnCommand>());
+            queryMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<TurnEnableQueryBatchingOffCommand>());
 
-		public void InitializePlugIn()
-		{
-			ToolStripMenuItem fileMenu = (ToolStripMenuItem)_services.HostWindow.Instance.MainMenuStrip.Items["fileMenu"];
-			ToolStripMenuItem pluginsMenu = (ToolStripMenuItem)_services.HostWindow.Instance.MainMenuStrip.Items["pluginsMenu"];
-			ToolStripMenuItem queryMenu = (ToolStripMenuItem)_services.HostWindow.Instance.MainMenuStrip.Items["queryToolStripMenuItem"];
-			ToolStripMenuItem helpMenu = (ToolStripMenuItem)_services.HostWindow.Instance.MainMenuStrip.Items["helpMenu"];
+            helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowHelpCommand>());
+            helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
+            helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowAboutCommand>());
 
-			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<NewQueryFormCommand>());
-			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
-			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenFileCommand>());
-			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveFileCommand>());
-			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveFileAsCommand>());
-			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<CloseActiveWindowCommand>());
-			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
-			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<PrintCommand>());
-			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
-			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ExitApplicationCommand>());
+            Services.HostWindow.AddPluginCommand<PasteAroundSelectionCommand>();
+            Services.HostWindow.AddPluginCommand<SetLeftPasteAroundSelectionCommand>();
+            Services.HostWindow.AddPluginCommand<SetRightPasteAroundSelectionCommand>();
 
-			queryMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<RefreshDatabaseConnectionCommand>());
-			queryMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<TurnEnableQueryBatchingOnCommand>());
-			queryMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<TurnEnableQueryBatchingOffCommand>());
+            // get the new item and make in invisible - the shortcut key is still available etc ;-)
+            //ToolStripMenuItem pluginsMenu = Services.HostWindow.GetMenuItem("plugins");
+            ToolStripItem item = pluginsMenu.DropDownItems["SetLeftPasteAroundSelectionCommandToolStripMenuItem"];
+            item.Visible = false;
+            item = pluginsMenu.DropDownItems["SetRightPasteAroundSelectionCommandToolStripMenuItem"];
+            item.Visible = false;
 
-			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowHelpCommand>());
-			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
-			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowAboutCommand>());
-			
-			_services.HostWindow.AddPluginCommand<PasteAroundSelectionCommand>();
-			_services.HostWindow.AddPluginCommand<SetLeftPasteAroundSelectionCommand>();
-			_services.HostWindow.AddPluginCommand<SetRightPasteAroundSelectionCommand>();
+            Services.HostWindow.AddPluginCommand<GenerateCommandCodeCommand>();
 
-			// get the new item and make in invisible - the shortcut key is still available etc ;-)
-			//ToolStripMenuItem pluginsMenu = Services.HostWindow.GetMenuItem("plugins");
-			ToolStripItem item = pluginsMenu.DropDownItems["SetLeftPasteAroundSelectionCommandToolStripMenuItem"];
-			item.Visible = false;
-			item = pluginsMenu.DropDownItems["SetRightPasteAroundSelectionCommandToolStripMenuItem"];
-			item.Visible = false;
+            CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(Services.HostWindow.Instance.MainMenuStrip);
 
-			_services.HostWindow.AddPluginCommand<GenerateCommandCodeCommand>();
+            // toolstrip
+            Services.HostWindow.AddToolStripCommand<NewQueryFormCommand>(0);
+            Services.HostWindow.AddToolStripCommand<OpenFileCommand>(1);
+            Services.HostWindow.AddToolStripCommand<SaveFileCommand>(2);
+            Services.HostWindow.AddToolStripSeperator(3);
+            Services.HostWindow.AddToolStripCommand<ExecuteQueryCommand>(4);
+            Services.HostWindow.AddToolStripSeperator(5);
+            Services.HostWindow.AddToolStripSeperator(null);
+            Services.HostWindow.AddToolStripCommand<RefreshDatabaseConnectionCommand>(null);
 
-			CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(_services.HostWindow.Instance.MainMenuStrip);
+            // watch tool strip enabled properties
+            // by simply iterating each one every second or so we avoid the need to track via events
+            _timer = new Timer();
+            _timer.Interval = 1000;
+            _timer.Tick += TimerTick;
+            _timer.Enabled = true;
+        }
 
-			// toolstrip
-			_services.HostWindow.AddToolStripCommand<NewQueryFormCommand>(0);
-			_services.HostWindow.AddToolStripCommand<OpenFileCommand>(1);
-			_services.HostWindow.AddToolStripCommand<SaveFileCommand>(2);
-			_services.HostWindow.AddToolStripSeperator(3);
-			_services.HostWindow.AddToolStripCommand<ExecuteQueryCommand>(4);
-			_services.HostWindow.AddToolStripSeperator(5);
-			_services.HostWindow.AddToolStripSeperator(null);
-			_services.HostWindow.AddToolStripCommand<RefreshDatabaseConnectionCommand>(null);
+        private void TimerTick(object sender, EventArgs e)
+        {
+            foreach (ToolStripItem item in Services.HostWindow.ToolStrip.Items)
+            {
+                ICommand cmd = item.Tag as ICommand;
+                if (cmd != null)
+                {
+                    item.Enabled = cmd.Enabled;
+                }
+            }
+        }
 
-			// watch tool strip enabled properties
-			_timer = new Timer();
-			_timer.Interval = 1000;
-			_timer.Tick += new EventHandler(_timer_Tick);
-			_timer.Enabled = true;
-		}
-
-		void _timer_Tick(object sender, EventArgs e)
-		{
-			foreach (ToolStripItem item in _services.HostWindow.ToolStrip.Items)
-			{
-				ICommand cmd = item.Tag as ICommand;
-				if (cmd != null)
-				{
-					item.Enabled = cmd.Enabled;
-				}
-			}
-		}
-
-		public void UnloadPlugIn()
-		{
-			if (_timer != null)
-			{
-				_timer.Dispose();
-			}
-		}
-	}
+        public override void UnloadPlugIn()
+        {
+            if (_timer != null)
+            {
+                _timer.Dispose();
+            }
+        }
+    }
 }

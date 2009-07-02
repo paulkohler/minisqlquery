@@ -26,28 +26,28 @@ namespace MiniSqlQuery
 			Application.ThreadException += ApplicationThreadException;
 #endif
 
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
-			ApplicationServices.Instance.Container.AddComponentWithLifestyle<AboutForm>(
-				"AboutForm", LifestyleType.Transient);
+            ApplicationServices.Instance.Container.AddComponentWithLifestyle<AboutForm>(
+                "AboutForm", LifestyleType.Transient);
 
-			ApplicationServices.Instance.LoadPlugIn(new CoreApplicationPlugIn());
-			ApplicationServices.Instance.LoadPlugIn(new ConnectionStringsManagerLoader());
-			ApplicationServices.Instance.LoadPlugIn(new DatabaseInspectorLoader());
-			ApplicationServices.Instance.LoadPlugIn(new ViewTableLoader());
-			ApplicationServices.Instance.LoadPlugIn(new TemplateViewerLoader());
-			ApplicationServices.Instance.LoadPlugIn(new SearchToolsLoader());
+            ApplicationServices.Instance.LoadPlugIn(new CoreApplicationPlugIn());
+            ApplicationServices.Instance.LoadPlugIn(new ConnectionStringsManagerLoader());
+            ApplicationServices.Instance.LoadPlugIn(new DatabaseInspectorLoader());
+            ApplicationServices.Instance.LoadPlugIn(new ViewTableLoader());
+            ApplicationServices.Instance.LoadPlugIn(new TemplateViewerLoader());
+            ApplicationServices.Instance.LoadPlugIn(new SearchToolsLoader());
 
-			IPlugIn[] plugins = PlugInUtility.GetInstances<IPlugIn>(Environment.CurrentDirectory, Settings.Default.PlugInFileFilter);
-			Array.Sort(plugins, new PlugInComparer());
-			foreach (IPlugIn plugin in plugins)
-			{
-				ApplicationServices.Instance.LoadPlugIn(plugin);
-			}
+            IPlugIn[] plugins = PlugInUtility.GetInstances<IPlugIn>(Environment.CurrentDirectory, Settings.Default.PlugInFileFilter);
+            Array.Sort(plugins, new PlugInComparer());
+            foreach (IPlugIn plugin in plugins)
+            {
+                ApplicationServices.Instance.LoadPlugIn(plugin);
+            }
 
-			ApplicationServices.Instance.HostWindow.SetArguements(args);
-			Application.Run(ApplicationServices.Instance.HostWindow.Instance);
+            ApplicationServices.Instance.HostWindow.SetArguements(args);
+            Application.Run(ApplicationServices.Instance.HostWindow.Instance);
 		}
 
 		private static void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)

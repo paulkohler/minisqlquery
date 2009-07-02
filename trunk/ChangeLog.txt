@@ -1,6 +1,8 @@
 Mini SQL Query Change Log
 =========================
 
+2009-07-01	ENH: Updated the dock panel suite.
+2009-07-01	ENH: Added better credits to the About Form.
 2009-06-30	ENH: addded "is dirty" checks to the connection string editor form
 2009-06-29	ENH: Added query batching using "GO" keyword (made IQueryEditor.DataSet obsolete)
 2009-06-24	ENH: Updated the Text Editor to v3 (also load definition by file now, see 'SQL-Mode.xshd')

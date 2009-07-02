@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Properties;
 using WeifenLuo.WinFormsUI.Docking;
@@ -249,6 +250,10 @@ namespace MiniSqlQuery
 						}
 					}
 				}
+			}
+			else
+			{
+                CommandManager.GetCommandInstance<NewQueryFormCommand>().Execute();
 			}
 		}
 

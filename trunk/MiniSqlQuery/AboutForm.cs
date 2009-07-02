@@ -132,7 +132,7 @@ namespace MiniSqlQuery
 
         private void linkLabelDockPanel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Utility.ShowUrl("http://www.codeproject.com/KB/miscctrl/DockManager.aspx");
+            Utility.ShowUrl("http://sourceforge.net/projects/dockpanelsuite/");
         }
 	}
 }
