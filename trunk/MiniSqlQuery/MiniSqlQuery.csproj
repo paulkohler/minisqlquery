@@ -90,6 +90,7 @@
     <Compile Include="Commands\CopyQueryEditorFileNameCommand.cs" />
     <Compile Include="Commands\ExecuteQueryCommand.cs" />
     <Compile Include="Commands\ExitApplicationCommand.cs" />
+    <Compile Include="Commands\GenerateCommandCodeCommand.cs" />
     <Compile Include="Commands\NewQueryFormCommand.cs" />
     <Compile Include="Commands\OpenFileCommand.cs" />
     <Compile Include="Commands\PasteAroundSelectionCommand.cs" />

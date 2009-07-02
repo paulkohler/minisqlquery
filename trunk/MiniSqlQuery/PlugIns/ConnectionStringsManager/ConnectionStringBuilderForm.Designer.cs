@@ -40,6 +40,8 @@
 			this.toolStripButtonCancel = new System.Windows.Forms.ToolStripButton();
 			this.txtComments = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripButtonTest = new System.Windows.Forms.ToolStripButton();
 			this.groupBox1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -111,7 +113,9 @@
 			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonOk,
-            this.toolStripButtonCancel});
+            this.toolStripButtonCancel,
+            this.toolStripSeparator1,
+            this.toolStripButtonTest});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 412);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(427, 25);
@@ -158,6 +162,21 @@
 			this.label3.TabIndex = 2;
 			this.label3.Text = "Comments";
 			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
+			// toolStripButtonTest
+			// 
+			this.toolStripButtonTest.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripButtonTest.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonTest.Image")));
+			this.toolStripButtonTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonTest.Name = "toolStripButtonTest";
+			this.toolStripButtonTest.Size = new System.Drawing.Size(42, 22);
+			this.toolStripButtonTest.Text = "Test...";
+			this.toolStripButtonTest.Click += new System.EventHandler(this.toolStripButtonTest_Click);
+			// 
 			// ConnectionStringBuilderForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -199,5 +218,7 @@
 		private System.Windows.Forms.PropertyGrid propertyGridDbConnection;
 		private System.Windows.Forms.TextBox txtComments;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripButton toolStripButtonTest;
 	}
 }

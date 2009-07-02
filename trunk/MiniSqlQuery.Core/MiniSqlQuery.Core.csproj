@@ -78,6 +78,7 @@
     <Compile Include="CommandManager.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="ApplicationServices.cs" />
+    <Compile Include="Commands\GenerateCommandCodeCommand.cs" />
     <Compile Include="ConnectionDefinition.cs" />
     <Compile Include="Controls\BatchQuerySelectControl.cs">
       <SubType>UserControl</SubType>
@@ -142,6 +143,7 @@
     </Compile>
     <Compile Include="Query.cs" />
     <Compile Include="QueryBatch.cs" />
+    <Compile Include="QueryRunner.cs" />
     <Compile Include="StringWriterWithEncoding.cs" />
     <Compile Include="SystemMessage.cs" />
     <Compile Include="SystemMessageEventArgs.cs" />

@@ -71,6 +71,8 @@ namespace MiniSqlQuery.Core
 		/// <param name="text">The message to appear in the status bar.</param>
 		void SetStatus(string text);
 
+		void SetSyntax(string name);
+
 		/// <summary>
 		/// Inserts <paramref name="text"/> at the current cursor position (selected text is overwritten).
 		/// </summary>

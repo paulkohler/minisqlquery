@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 
 [assembly: ComVisibleAttribute(false)]
 [assembly: CLSCompliantAttribute(true)]
-[assembly: AssemblyConfigurationAttribute("Release")]
+[assembly: AssemblyConfigurationAttribute("Release - No Tests")]
 [assembly: AssemblyCompanyAttribute("Paul Kohler")]
 [assembly: AssemblyCopyrightAttribute("Copyright (C) 2005-2009 Paul Kohler")]
 

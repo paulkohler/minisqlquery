@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -15,9 +12,9 @@ namespace MiniSqlQuery.Core.Commands
 	public abstract class CommandBase : ICommand
 	{
 		private string _name;
-		private Image _smallImage;
-		private Keys _shortcutKeys;
 		private IApplicationServices _services;
+		private Keys _shortcutKeys;
+		private Image _smallImage;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CommandBase"/> class.
@@ -31,15 +28,23 @@ namespace MiniSqlQuery.Core.Commands
 		}
 
 		/// <summary>
+		/// Attempts to convert the current host windows active form to <see cref="IQueryEditor"/>.
+		/// </summary>
+		/// <value>A reference to the active query editor window, otherwise null.</value>
+		protected IQueryEditor ActiveFormAsEditor
+		{
+			get { return Services.HostWindow.ActiveChildForm as IQueryEditor; }
+		}
+
+		#region ICommand Members
+
+		/// <summary>
 		/// Gets a value indicating whether this <see cref="ICommand"/> is enabled.
 		/// </summary>
 		/// <value><c>true</c> if enabled; otherwise, <c>false</c> (the default is true).</value>
 		public virtual bool Enabled
 		{
-			get
-			{
-				return true;
-			}
+			get { return true; }
 		}
 
 		/// <summary>
@@ -49,14 +54,8 @@ namespace MiniSqlQuery.Core.Commands
 		/// <value>The small image representing this command (the default is null).</value>
 		public virtual Image SmallImage
 		{
-			get
-			{
-				return _smallImage;
-			}
-			protected set
-			{
-				_smallImage = value;
-			}
+			get { return _smallImage; }
+			protected set { _smallImage = value; }
 		}
 
 		/// <summary>
@@ -65,14 +64,8 @@ namespace MiniSqlQuery.Core.Commands
 		/// <value>The shortcut keys for this command (the default is Keys.None).</value>
 		public virtual Keys ShortcutKeys
 		{
-			get
-			{
-				return _shortcutKeys;
-			}
-			protected set
-			{
-				_shortcutKeys = value;
-			}
+			get { return _shortcutKeys; }
+			protected set { _shortcutKeys = value; }
 		}
 
 		/// <summary>
@@ -81,14 +74,8 @@ namespace MiniSqlQuery.Core.Commands
 		/// <value>The name of the command.</value>
 		public virtual string Name
 		{
-			get
-			{
-				return _name;
-			}
-			protected set
-			{
-				_name = value;
-			}
+			get { return _name; }
+			protected set { _name = value; }
 		}
 
 		/// <summary>
@@ -97,26 +84,8 @@ namespace MiniSqlQuery.Core.Commands
 		/// <value>A reference to the <see cref="IApplicationServices"/> instance.</value>
 		public IApplicationServices Services
 		{
-			get
-			{
-				return _services;
-			}
-			set
-			{
-				_services = value;
-			}
-		}
-
-		/// <summary>
-		/// Attempts to convert the current host windows active form to <see cref="IQueryEditor"/>.
-		/// </summary>
-		/// <value>A reference to the active query editor window, otherwise null.</value>
-		protected IQueryEditor ActiveFormAsEditor
-		{
-			get
-			{
-				return Services.HostWindow.ActiveChildForm as IQueryEditor;
-			}
+			get { return _services; }
+			set { _services = value; }
 		}
 
 		/// <summary>
@@ -128,5 +97,6 @@ namespace MiniSqlQuery.Core.Commands
 		/// </remarks>
 		public abstract void Execute();
 
+		#endregion
 	}
 }

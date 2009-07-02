@@ -116,6 +116,12 @@ namespace MiniSqlQuery
 			UpdateHostStatus();
 		}
 
+		public void SetSyntax(string name)
+		{
+			LoadHighlightingProvider();
+			txtQuery.SetHighlighting(name);
+		}
+
 		public void LoadFile()
 		{
 			txtQuery.LoadFile(FileName);

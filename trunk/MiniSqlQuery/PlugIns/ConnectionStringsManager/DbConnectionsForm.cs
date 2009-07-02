@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using System.Data.Common;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 
@@ -196,6 +198,26 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 				txtProvider.Clear();
 				txtConn.Clear();
 				txtComment.Clear();
+			}
+		}
+
+		private void toolStripButtonTest_Click(object sender, EventArgs e)
+		{
+			// do a standalone raw connection test
+			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
+			if (definition != null)
+			{
+				Exception exp = QueryRunner.TestDbConnection(definition.ProviderName, definition.ConnectionString);
+				if (exp == null)
+				{
+					string msg = string.Format("Connected to '{0}' successfully.", definition.Name);
+					Services.HostWindow.DisplaySimpleMessageBox(this, msg, "Connection Successful");
+				}
+				else
+				{
+					string msg = string.Format("Failed connecting to '{0}'.{1}{2}", definition.Name, Environment.NewLine, exp.Message);
+					Services.HostWindow.DisplaySimpleMessageBox(this, msg, "Connection Failed");
+				}
 			}
 		}
 	}

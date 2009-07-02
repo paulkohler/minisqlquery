@@ -22,16 +22,15 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 			{
 				string pkClause = "(idToDo = ?)";
 				StringBuilder sb = new StringBuilder();
-				sb.AppendFormat("UPDATE {0}\r\nSET\r\n", tableName);
+				sb.AppendFormat("UPDATE {0}{1}SET{1}", tableName, Environment.NewLine);
 				DataView columnsDv = GetColumnInfoForTable(schema, tableName);
 				foreach (DataRowView rowView in columnsDv)
 				{
-					sb.Append("\t");
-					sb.Append(rowView["Column"]);
-					sb.Append(",\r\n");
+					sb.AppendFormat("\t{0} = '{0}',", rowView["Column"]);
+					sb.AppendLine();
 				}
 				sb.Remove(sb.Length - 3, 3); // remove ",\r\n"
-				sb.AppendFormat("\r\nWHERE ", tableName);
+				sb.AppendLine("WHERE");
 				sb.Append(pkClause);
 
 				editor.InsertText(sb.ToString());

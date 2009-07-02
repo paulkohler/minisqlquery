@@ -34,8 +34,11 @@
 			this.toolStripButtonCancel = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButtonAdd = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonCopyAsNew = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonEditConnStr = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonDelete = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripButtonTest = new System.Windows.Forms.ToolStripButton();
 			this.lstConnections = new System.Windows.Forms.ListBox();
 			this.grpDetails = new System.Windows.Forms.GroupBox();
 			this.txtComment = new System.Windows.Forms.TextBox();
@@ -46,7 +49,6 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.txtName = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.toolStripButtonCopyAsNew = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip1.SuspendLayout();
 			this.grpDetails.SuspendLayout();
 			this.SuspendLayout();
@@ -61,7 +63,9 @@
             this.toolStripButtonAdd,
             this.toolStripButtonCopyAsNew,
             this.toolStripButtonEditConnStr,
-            this.toolStripButtonDelete});
+            this.toolStripButtonDelete,
+            this.toolStripSeparator2,
+            this.toolStripButtonTest});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 275);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(661, 25);
@@ -103,6 +107,15 @@
 			this.toolStripButtonAdd.ToolTipText = "Add";
 			this.toolStripButtonAdd.Click += new System.EventHandler(this.toolStripButtonAdd_Click);
 			// 
+			// toolStripButtonCopyAsNew
+			// 
+			this.toolStripButtonCopyAsNew.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonCopyAsNew.Image")));
+			this.toolStripButtonCopyAsNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonCopyAsNew.Name = "toolStripButtonCopyAsNew";
+			this.toolStripButtonCopyAsNew.Size = new System.Drawing.Size(96, 22);
+			this.toolStripButtonCopyAsNew.Text = "Copy as New";
+			this.toolStripButtonCopyAsNew.Click += new System.EventHandler(this.toolStripButtonCopyAsNew_Click);
+			// 
 			// toolStripButtonEditConnStr
 			// 
 			this.toolStripButtonEditConnStr.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonEditConnStr.Image")));
@@ -120,6 +133,21 @@
 			this.toolStripButtonDelete.Size = new System.Drawing.Size(60, 22);
 			this.toolStripButtonDelete.Text = "Delete";
 			this.toolStripButtonDelete.Click += new System.EventHandler(this.toolStripButtonDelete_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+			// 
+			// toolStripButtonTest
+			// 
+			this.toolStripButtonTest.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripButtonTest.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonTest.Image")));
+			this.toolStripButtonTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonTest.Name = "toolStripButtonTest";
+			this.toolStripButtonTest.Size = new System.Drawing.Size(42, 22);
+			this.toolStripButtonTest.Text = "Test...";
+			this.toolStripButtonTest.Click += new System.EventHandler(this.toolStripButtonTest_Click);
 			// 
 			// lstConnections
 			// 
@@ -232,15 +260,6 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Name";
 			// 
-			// toolStripButtonCopyAsNew
-			// 
-			this.toolStripButtonCopyAsNew.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonCopyAsNew.Image")));
-			this.toolStripButtonCopyAsNew.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButtonCopyAsNew.Name = "toolStripButtonCopyAsNew";
-			this.toolStripButtonCopyAsNew.Size = new System.Drawing.Size(96, 22);
-			this.toolStripButtonCopyAsNew.Text = "Copy as New";
-			this.toolStripButtonCopyAsNew.Click += new System.EventHandler(this.toolStripButtonCopyAsNew_Click);
-			// 
 			// DbConnectionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -286,5 +305,7 @@
 		private System.Windows.Forms.ToolStripButton toolStripButtonAdd;
 		private System.Windows.Forms.ToolStripButton toolStripButtonDelete;
 		private System.Windows.Forms.ToolStripButton toolStripButtonCopyAsNew;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripButton toolStripButtonTest;
 	}
 }

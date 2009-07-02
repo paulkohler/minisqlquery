@@ -4,6 +4,7 @@ using System.Text;
 using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
 using System.Windows.Forms;
+using MiniSqlQuery.Core.Commands;
 
 namespace MiniSqlQuery.PlugIns
 {
@@ -70,12 +71,15 @@ namespace MiniSqlQuery.PlugIns
 			_services.HostWindow.AddPluginCommand<PasteAroundSelectionCommand>();
 			_services.HostWindow.AddPluginCommand<SetLeftPasteAroundSelectionCommand>();
 			_services.HostWindow.AddPluginCommand<SetRightPasteAroundSelectionCommand>();
+
 			// get the new item and make in invisible - the shortcut key is still available etc ;-)
 			//ToolStripMenuItem pluginsMenu = Services.HostWindow.GetMenuItem("plugins");
 			ToolStripItem item = pluginsMenu.DropDownItems["SetLeftPasteAroundSelectionCommandToolStripMenuItem"];
 			item.Visible = false;
 			item = pluginsMenu.DropDownItems["SetRightPasteAroundSelectionCommandToolStripMenuItem"];
 			item.Visible = false;
+
+			_services.HostWindow.AddPluginCommand<GenerateCommandCodeCommand>();
 
 			CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(_services.HostWindow.Instance.MainMenuStrip);
 

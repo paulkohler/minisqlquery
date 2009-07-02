@@ -236,6 +236,22 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			}
 		}
 
+		private void toolStripButtonTest_Click(object sender, EventArgs e)
+		{
+			// do a standalone raw connection test
+			Exception exp = QueryRunner.TestDbConnection(ProviderName, ConnectionString);
+			if (exp == null)
+			{
+				string msg = string.Format("Connected to '{0}' successfully.", ConnectionName);
+				_services.HostWindow.DisplaySimpleMessageBox(this, msg, "Connection Successful");
+			}
+			else
+			{
+				string msg = string.Format("Failed connecting to '{0}'.{1}{2}", ConnectionName, Environment.NewLine, exp.Message);
+				_services.HostWindow.DisplaySimpleMessageBox(this, msg, "Connection Failed");
+			}
+		}
+
 #if DEBUG
 
 		public override string ToString()
