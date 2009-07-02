@@ -119,5 +119,20 @@ namespace MiniSqlQuery
 			List<IPlugIn> plugins = new List<IPlugIn>(_services.Plugins.Values);
 			pluginList.SetDataSource(plugins.ToArray());
 		}
+
+        private void linkLabelIcons_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Utility.ShowUrl("http://www.famfamfam.com/");
+        }
+
+        private void linkLabelTextEditor_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Utility.ShowUrl("http://www.icsharpcode.net/OpenSource/SD/");
+        }
+
+        private void linkLabelDockPanel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Utility.ShowUrl("http://www.codeproject.com/KB/miscctrl/DockManager.aspx");
+        }
 	}
 }

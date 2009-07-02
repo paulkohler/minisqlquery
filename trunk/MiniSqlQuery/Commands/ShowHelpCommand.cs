@@ -20,7 +20,7 @@ namespace MiniSqlQuery.Commands
 		public override void Execute()
 		{
 			// todo - version
-			Process.Start("http://www.pksoftware.net/MiniSqlQuery/Help/");
+			Utility.ShowUrl("http://www.pksoftware.net/MiniSqlQuery/Help/");
 		}
 
 	}

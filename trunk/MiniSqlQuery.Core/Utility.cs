@@ -16,7 +16,16 @@ namespace MiniSqlQuery.Core
 	/// </summary>
 	public static class Utility
 	{
-		/// <summary>
+        /// <summary>
+        /// Shows the URL in the defaut browser.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        public static void ShowUrl(string url)
+        {
+            Process.Start(url);
+        }
+
+	    /// <summary>
 		/// Returns an array of SQL provider types supported by the current platform.
 		/// </summary>
 		/// <returns>An array of SQL provider types.</returns>
