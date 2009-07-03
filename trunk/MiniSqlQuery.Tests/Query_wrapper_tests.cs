@@ -32,8 +32,11 @@ from bar
 
 select 3
 GO
+GO
+GO
+GO
 ");
-			Assert.That(batch.Queries.Count, Is.EqualTo(5));
+			Assert.That(batch.Queries.Count, Is.EqualTo(4), "Empty queries should be ignored");
 			Assert.That(batch.Queries[0].Sql, Is.EqualTo(@"-- test query...
 
 select 1"));
@@ -41,7 +44,6 @@ select 1"));
 			Assert.That(batch.Queries[2].Sql, Is.EqualTo(@"insert into table 1 (name, desc)
 	values('a name like gogo', 'i want to GO now.')"));
 			Assert.That(batch.Queries[3].Sql, Is.EqualTo("select 3"));
-			Assert.That(batch.Queries[4].Sql, Is.Empty);
 		}
 
 		[Test]

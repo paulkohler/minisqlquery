@@ -83,6 +83,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="QueryRunnerTests.cs" />
     <Compile Include="Query_wrapper_tests.cs" />
   </ItemGroup>
   <ItemGroup>
