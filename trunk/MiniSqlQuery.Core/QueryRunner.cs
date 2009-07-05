@@ -21,15 +21,27 @@ namespace MiniSqlQuery.Core
 			Messages = string.Empty;
 		}
 
-		public QueryBatch Batch { get; private set; }
-		public string Messages { get; private set; }
+		public QueryBatch Batch { get; protected set; }
+		public string Messages { get; protected set; }
 		public bool IsBusy { get; set; }
+
+		public static QueryRunner Create(DbProviderFactory factory, string connectionString, bool enableQueryBatching)
+		{
+			// todo , use IOC etc
+			if (factory.GetType().Name == "SqlClientFactory")
+			{
+				return new SqlQueryRunner(factory, connectionString, enableQueryBatching);
+			}
+
+			// otherwise ise the default
+			return new QueryRunner(factory, connectionString, enableQueryBatching);
+		}
 
 		public void ExecuteQuery(string sql)
 		{
 			ValidateState();
 
-			DbConnection dbConnection;
+			DbConnection dbConnection = null;
 			DbDataAdapter adapter = null;
 			DbCommand cmd = null;
 
@@ -42,11 +54,7 @@ namespace MiniSqlQuery.Core
 				dbConnection.Open();
 
 				Messages = string.Empty;
-				//if (dbConnection is System.Data.SqlClient.SqlConnection)
-				//{
-				//    // todo - inprogress - support various InfoMessage events
-				//    ((System.Data.SqlClient.SqlConnection)dbConnection).InfoMessage += SqlClienInfoMessage;
-				//}
+				SubscribeToMessages(dbConnection);
 
 				if (_enableQueryBatching)
 				{
@@ -57,6 +65,7 @@ namespace MiniSqlQuery.Core
 					Batch = new QueryBatch(sql);
 				}
 
+				Batch.StartTime = DateTime.Now;
 				adapter = _factory.CreateDataAdapter();
 				cmd = dbConnection.CreateCommand();
 				cmd.CommandType = CommandType.Text;
@@ -72,8 +81,13 @@ namespace MiniSqlQuery.Core
 					query.EndTime = DateTime.Now;
 				}
 			}
+			catch (DbException dbException)
+			{
+				HandleBatchException(dbException);
+			}
 			finally
 			{
+				Batch.EndTime = DateTime.Now;
 				if (adapter != null)
 				{
 					adapter.Dispose();
@@ -83,11 +97,22 @@ namespace MiniSqlQuery.Core
 					cmd.Dispose();
 				}
 				IsBusy = false;
-				//if (dbConnection is System.Data.SqlClient.SqlConnection)
-				//{
-				//    ((System.Data.SqlClient.SqlConnection)dbConnection).InfoMessage -= SqlClienInfoMessage;
-				//}
+				UnsubscribeFromMessages(dbConnection);
 			}
+			Batch.Messages = Messages;
+		}
+
+		protected virtual void HandleBatchException(DbException dbException)
+		{
+			Messages += dbException.Message + Environment.NewLine;
+		}
+
+		protected virtual void SubscribeToMessages(DbConnection connection)
+		{
+		}
+
+		protected virtual void UnsubscribeFromMessages(DbConnection connection)
+		{
 		}
 
 		private void ValidateState()

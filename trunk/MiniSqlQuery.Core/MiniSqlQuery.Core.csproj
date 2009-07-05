@@ -144,6 +144,7 @@
     <Compile Include="Query.cs" />
     <Compile Include="QueryBatch.cs" />
     <Compile Include="QueryRunner.cs" />
+    <Compile Include="SqlQueryRunner.cs" />
     <Compile Include="StringWriterWithEncoding.cs" />
     <Compile Include="SystemMessage.cs" />
     <Compile Include="SystemMessageEventArgs.cs" />

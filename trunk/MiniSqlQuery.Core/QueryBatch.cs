@@ -26,7 +26,25 @@ namespace MiniSqlQuery.Core
 			Queries = new List<Query>();
 		}
 
+		/// <summary>
+		/// Gets the query list for this batch.
+		/// </summary>
+		/// <value>The queries.</value>
 		public List<Query> Queries { get; private set; }
+
+		/// <summary>
+		/// Gets or sets the start time of the batch.
+		/// </summary>
+		/// <value>The start time.</value>
+		public DateTime StartTime { get; set; }
+
+		/// <summary>
+		/// Gets or sets the end time of the batch.
+		/// </summary>
+		/// <value>The end time.</value>
+		public DateTime EndTime { get; set; }
+
+		public string Messages { get; set; }
 
 		public void Add(Query query)
 		{

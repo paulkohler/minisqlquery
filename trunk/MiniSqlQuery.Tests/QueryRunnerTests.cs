@@ -15,7 +15,7 @@ namespace MiniSqlQuery.Tests
 		[SetUp]
 		public void TestSetUp()
 		{
-			_runner = new QueryRunner(DbProviderFactories.GetFactory("System.Data.SqlClient"), _conn, true);
+			_runner = QueryRunner.Create(DbProviderFactories.GetFactory("System.Data.SqlClient"), _conn, true);
 		}
 
 		#endregion
@@ -70,6 +70,36 @@ namespace MiniSqlQuery.Tests
 			Assert.That(_runner.Batch.Queries[1].Result.Tables.Count, Is.EqualTo(1));
 			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[0].ColumnName, Is.EqualTo("id"));
 			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[1].ColumnName, Is.EqualTo("Title"));
+			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[2].ColumnName, Is.EqualTo("FirstName"));
+			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[3].ColumnName, Is.EqualTo("LastName"));
+			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[4].ColumnName, Is.EqualTo("EmailAddress"));
+			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[5].ColumnName, Is.EqualTo("Phone"));
+			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[6].ColumnName, Is.EqualTo("BirthDate"));
+		}
+
+		[Test]
+		public void Bad_SQL_expects_an_error()
+		{
+			_runner.ExecuteQuery("SELECT foo FROM bar ");
+			Console.WriteLine(_runner.Messages);
+			Assert.That(_runner.Messages, Is.Not.Empty);
+		}
+
+		[Test]
+		public void Execute_a_comment_is_OK()
+		{
+			_runner.ExecuteQuery("-- should be OK");
+			_runner.ExecuteQuery("/* should be OK */");
+			_runner.ExecuteQuery(@"/*
+				should be OK 
+				*/");
+		}
+
+		[Test]
+		public void Can_PRINT_messages()
+		{
+			_runner.ExecuteQuery("PRINT 'test data'");
+			Assert.That(_runner.Messages, Text.StartsWith("test data"));
 		}
 
 		[Test]

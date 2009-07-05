@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Data.Common;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
@@ -15,11 +14,12 @@ namespace MiniSqlQuery
 	public partial class QueryForm : DockContent, IQueryEditor, IPrintableContent
 	{
 		private static int _untitledCounter = 1;
+
 		private bool _highlightingProviderLoaded;
 		private bool _isDirty;
-		private string _messages = string.Empty;
+		private QueryRunner _runner;
 
-		private IApplicationServices _services;
+		private readonly IApplicationServices _services;
 		private string _status = string.Empty;
 		private ITextFindService _textFindService;
 
@@ -79,7 +79,6 @@ namespace MiniSqlQuery
 			get { return txtQuery; }
 		}
 
-		public TabControl ResultsControl { get; set; }
 
 		public string FileName
 		{
@@ -304,7 +303,14 @@ namespace MiniSqlQuery
 			return true;
 		}
 
-		public QueryBatch Batch { get; private set; }
+		/// <summary>
+		/// Gets a reference to the batch of queries.
+		/// </summary>
+		/// <value>The query batch.</value>
+		public QueryBatch Batch
+		{
+			get { return _runner == null ? null : _runner.Batch; }
+		}
 
 		#endregion
 
@@ -360,10 +366,8 @@ namespace MiniSqlQuery
 
 		public void ExecuteQuery(string sql)
 		{
-			DbConnection dbConnection;
-			DbDataAdapter adapter = null;
-			DbCommand cmd = null;
 			bool errored = false;
+			IApplicationSettings settings = _services.Settings;
 
 			if (IsBusy)
 			{
@@ -371,60 +375,14 @@ namespace MiniSqlQuery
 				return;
 			}
 
-			if (string.IsNullOrEmpty(_services.Settings.ConnectionDefinition.ConnectionString))
-			{
-				_services.HostWindow.DisplaySimpleMessageBox(this, "Please supply a connection string", "No Connection");
-				return;
-			}
-
-			DateTime start = DateTime.Now;
-			DateTime end;
+			_runner = QueryRunner.Create(settings.ProviderFactory, settings.ConnectionDefinition.ConnectionString, settings.EnableQueryBatching);
 
 			try
 			{
 				_services.HostWindow.SetPointerState(Cursors.WaitCursor);
 				txtQuery.Enabled = false;
 				IsBusy = true;
-
-				dbConnection = _services.Settings.GetOpenConnection();
-				dbConnection.StateChange += ConnStateChange;
-				_messages = string.Empty;
-				//if (dbConnection is System.Data.SqlClient.SqlConnection)
-				//{
-				//    // todo - inprogress - support various InfoMessage events
-				//    ((System.Data.SqlClient.SqlConnection)dbConnection).InfoMessage += SqlClienInfoMessage;
-				//}
-
-				if (_services.Settings.EnableQueryBatching)
-				{
-					Batch = QueryBatch.Parse(sql);
-				}
-				else
-				{
-					Batch = new QueryBatch(sql);
-				}
-
-				adapter = _services.Settings.ProviderFactory.CreateDataAdapter();
-				cmd = dbConnection.CreateCommand();
-				cmd.CommandType = CommandType.Text;
-				adapter.SelectCommand = cmd;
-
-				for (int i = 0; i < Batch.Queries.Count; i++)
-				{
-					Query query = Batch.Queries[i];
-					cmd.CommandText = query.Sql;
-					query.Result = new DataSet("Batch " + (i + 1));
-					query.StartTime = DateTime.Now;
-					adapter.Fill(query.Result);
-					query.EndTime = DateTime.Now;
-				}
-			}
-			catch (DbException dbExp)
-			{
-				// todo: improve!
-				_services.HostWindow.DisplaySimpleMessageBox(this, dbExp.Message, "Error");
-				SetStatus(dbExp.Message);
-				errored = true;
+				_runner.ExecuteQuery(sql);
 			}
 			catch (InvalidOperationException invalidExp)
 			{
@@ -435,38 +393,19 @@ namespace MiniSqlQuery
 			}
 			finally
 			{
-				end = DateTime.Now;
 				txtQuery.Enabled = true;
-				if (adapter != null)
-				{
-					adapter.Dispose();
-				}
-				if (cmd != null)
-				{
-					cmd.Dispose();
-				}
 				IsBusy = false;
 				_services.HostWindow.SetPointerState(Cursors.Default);
-				//if (dbConnection is System.Data.SqlClient.SqlConnection)
-				//{
-				//    ((System.Data.SqlClient.SqlConnection)dbConnection).InfoMessage -= SqlClienInfoMessage;
-				//}
 			}
 
 			if (!errored)
 			{
-				_services.HostWindow.SetStatus(this, CreateQueryCompleteMessage(start, end));
+				_services.HostWindow.SetStatus(this, CreateQueryCompleteMessage(_runner.Batch.StartTime, _runner.Batch.EndTime));
 				AddTables();
 			}
 
 			txtQuery.Focus();
 		}
-
-		//void SqlClienInfoMessage(object sender, System.Data.SqlClient.SqlInfoMessageEventArgs e)
-		//{
-		//    _messages += e.Message + Environment.NewLine;
-
-		//}
 
 		private static string CreateQueryCompleteMessage(DateTime start, DateTime end)
 		{
@@ -481,7 +420,7 @@ namespace MiniSqlQuery
 
 		private void AddTables()
 		{
-			ResultsControl.TabPages.Clear();
+			_resultsTabControl.TabPages.Clear();
 
 			if (Batch != null)
 			{
@@ -489,6 +428,7 @@ namespace MiniSqlQuery
 				foreach (Query query in Batch.Queries)
 				{
 					DataSet ds = query.Result;
+
 					foreach (DataTable dt in ds.Tables)
 					{
 						DataGridView grid = new DataGridView();
@@ -504,7 +444,7 @@ namespace MiniSqlQuery
 						grid.DefaultCellStyle = cellStyle;
 
 						cellStyle.NullValue = "<NULL>";
-						cellStyle.Font = new Font("Courier New", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
+						cellStyle.Font = CreateDefaultFont();
 
 						TabPage tabPage = new TabPage();
 						tabPage.Controls.Add(grid);
@@ -513,37 +453,40 @@ namespace MiniSqlQuery
 						tabPage.Text = string.Format("{0}/Table {1}", ds.DataSetName, counter);
 						tabPage.UseVisualStyleBackColor = false;
 
-						ResultsControl.TabPages.Add(tabPage);
-						counter++;
-					}
-
-					if (!string.IsNullOrEmpty(_messages))
-					{
-						RichTextBox rtf = new RichTextBox();
-						rtf.Text = _messages;
-
-						TabPage tabPage = new TabPage();
-						tabPage.Controls.Add(rtf);
-						tabPage.Name = "tabPageResults_Messages";
-						tabPage.Padding = new Padding(3);
-						tabPage.Text = "Messages";
-						tabPage.UseVisualStyleBackColor = false;
-
-						ResultsControl.TabPages.Add(tabPage);
+						_resultsTabControl.TabPages.Add(tabPage);
 						counter++;
 					}
 				}
+
+				if (!string.IsNullOrEmpty(Batch.Messages))
+				{
+					RichTextBox rtf = new RichTextBox();
+					rtf.Font = CreateDefaultFont();
+					rtf.Dock = DockStyle.Fill;
+					rtf.ScrollBars = RichTextBoxScrollBars.ForcedBoth;
+					rtf.Text = Batch.Messages;
+
+					TabPage tabPage = new TabPage();
+					tabPage.Controls.Add(rtf);
+					tabPage.Name = "tabPageResults_Messages";
+					tabPage.Padding = new Padding(3);
+					tabPage.Dock = DockStyle.Fill;
+					tabPage.Text = "Messages";
+					tabPage.UseVisualStyleBackColor = false;
+
+					_resultsTabControl.TabPages.Add(tabPage);
+				}
 			}
+		}
+
+		protected Font CreateDefaultFont()
+		{
+			return new Font("Courier New", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
 		}
 
 		private void GridDataError(object sender, DataGridViewDataErrorEventArgs e)
 		{
 			e.ThrowException = false;
-		}
-
-		private void ConnStateChange(object sender, StateChangeEventArgs e)
-		{
-			SetStatus(e.CurrentState.ToString());
 		}
 
 		private void QueryForm_Load(object sender, EventArgs e)

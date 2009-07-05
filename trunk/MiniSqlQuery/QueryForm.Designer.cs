@@ -35,7 +35,7 @@ namespace MiniSqlQuery
 			this.contextMenuStripQuery = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.queryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.ResultsControl = new System.Windows.Forms.TabControl();
+			this._resultsTabControl = new System.Windows.Forms.TabControl();
 			this.tabPageResults = new System.Windows.Forms.TabPage();
 			this.gridResults1 = new System.Windows.Forms.DataGridView();
 			this.editorContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -43,7 +43,7 @@ namespace MiniSqlQuery
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
-			this.ResultsControl.SuspendLayout();
+			this._resultsTabControl.SuspendLayout();
 			this.tabPageResults.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridResults1)).BeginInit();
 			this.SuspendLayout();
@@ -63,7 +63,7 @@ namespace MiniSqlQuery
 			// 
 			// splitContainer1.Panel2
 			// 
-			this.splitContainer1.Panel2.Controls.Add(this.ResultsControl);
+			this.splitContainer1.Panel2.Controls.Add(this._resultsTabControl);
 			this.splitContainer1.Size = new System.Drawing.Size(879, 414);
 			this.splitContainer1.SplitterDistance = 150;
 			this.splitContainer1.TabIndex = 0;
@@ -109,13 +109,13 @@ namespace MiniSqlQuery
 			// 
 			// tabControlResults
 			// 
-			this.ResultsControl.Controls.Add(this.tabPageResults);
-			this.ResultsControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ResultsControl.Location = new System.Drawing.Point(0, 0);
-			this.ResultsControl.Name = "ResultsControl";
-			this.ResultsControl.SelectedIndex = 0;
-			this.ResultsControl.Size = new System.Drawing.Size(879, 260);
-			this.ResultsControl.TabIndex = 0;
+			this._resultsTabControl.Controls.Add(this.tabPageResults);
+			this._resultsTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._resultsTabControl.Location = new System.Drawing.Point(0, 0);
+			this._resultsTabControl.Name = "_resultsTabControl";
+			this._resultsTabControl.SelectedIndex = 0;
+			this._resultsTabControl.Size = new System.Drawing.Size(879, 260);
+			this._resultsTabControl.TabIndex = 0;
 			// 
 			// tabPageResults
 			// 
@@ -167,7 +167,7 @@ namespace MiniSqlQuery
 			this.splitContainer1.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
-			this.ResultsControl.ResumeLayout(false);
+			this._resultsTabControl.ResumeLayout(false);
 			this.tabPageResults.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.gridResults1)).EndInit();
 			this.ResumeLayout(false);
@@ -177,6 +177,7 @@ namespace MiniSqlQuery
 		#endregion
 
 		private System.Windows.Forms.SplitContainer splitContainer1;
+		private System.Windows.Forms.TabControl _resultsTabControl;
 		private System.Windows.Forms.TabPage tabPageResults;
 		private System.Windows.Forms.DataGridView gridResults1;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStripQuery;

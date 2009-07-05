@@ -36,11 +36,6 @@ namespace MiniSqlQuery.Core
 		Control EditorControl { get; }
 
 		/// <summary>
-		/// Provides access to the actual results control, each tab contains a data grid view object.
-		/// </summary>
-		TabControl ResultsControl { get; }
-
-		/// <summary>
 		/// The filename of the docuemnt being edited (can be null, as in not saved yet).
 		/// </summary>
 		string FileName { get; set; }
