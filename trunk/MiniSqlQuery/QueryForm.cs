@@ -13,6 +13,7 @@ namespace MiniSqlQuery
 {
 	public partial class QueryForm : DockContent, IQueryEditor, IPrintableContent
 	{
+		private static object _syncLock = new object();
 		private static int _untitledCounter = 1;
 		private readonly IApplicationServices _services;
 
@@ -374,7 +375,13 @@ namespace MiniSqlQuery
 				return;
 			}
 
+			lock (_syncLock)
+			{
+				IsBusy = true;
+			}
+
 			_runner = QueryRunner.Create(settings.ProviderFactory, settings.ConnectionDefinition.ConnectionString, settings.EnableQueryBatching);
+			UseWaitCursor = true;
 			queryBackgroundWorker.RunWorkerAsync(sql);
 		}
 
@@ -512,13 +519,15 @@ namespace MiniSqlQuery
 
 		private void RunnerBatchProgress(object sender, BatchProgressEventArgs e)
 		{
-			// push the progress through to the background worker
-			queryBackgroundWorker.ReportProgress(e.Index);
+			// push the progress % through to the background worker
+			decimal i = Math.Max(1, e.Index);
+			decimal count = Math.Max(1, e.Count);
+			queryBackgroundWorker.ReportProgress(Convert.ToInt32(i / count * 100m));
 		}
 
 		private void queryBackgroundWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
 		{
-			SetStatus(string.Format("Query# {0}.", e.ProgressPercentage));
+			SetStatus(string.Format("Processing batch {0}%...", e.ProgressPercentage));
 		}
 
 		private void queryBackgroundWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -546,8 +555,12 @@ namespace MiniSqlQuery
 				}
 				finally
 				{
+					UseWaitCursor = false;
 					txtQuery.Enabled = true;
-					IsBusy = false;
+					lock (_syncLock)
+					{
+						IsBusy = false;
+					}
 				}
 			}
 		}

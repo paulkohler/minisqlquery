@@ -19,6 +19,11 @@ namespace MiniSqlQuery.Commands
 
 		public override void Execute()
 		{
+			if (!Enabled)
+			{
+				return;
+			}
+
 			IQueryEditor editor = ActiveFormAsEditor;
 			if (editor != null)
 			{
