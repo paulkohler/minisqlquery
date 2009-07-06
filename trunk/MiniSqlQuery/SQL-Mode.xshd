@@ -4,7 +4,7 @@
 	<RuleSets>
 		<RuleSet ignorecase = "true">
 			<Delimiters>&amp;&lt;&gt;~!%^*()-+=|\#/{}[]:;"' ,	.?</Delimiters>
-			<Span name="String" bold="false" italic="false" color="Blue" stopateol="false">
+			<Span name="String" bold="false" italic="false" color="Red" stopateol="false">
 				<Begin>'</Begin>
 				<End>'</End>
 			</Span>
