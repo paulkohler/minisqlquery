@@ -4,7 +4,7 @@
 	<RuleSets>
 		<RuleSet ignorecase = "true">
 			<Delimiters>&amp;&lt;&gt;~!%^*()-+=|\#/{}[]:;"' ,	.?</Delimiters>
-			<Span name="String" bold="false" italic="false" color="Blue" stopateol="true">
+			<Span name="String" bold="false" italic="false" color="Blue" stopateol="false">
 				<Begin>'</Begin>
 				<End>'</End>
 			</Span>
@@ -16,32 +16,51 @@
 				<End>*/</End>
 			</Span>
 			<KeyWords name="JoinKeywords" bold="true" italic="false" color="Purple">
+				<Key word="INNER" />
 				<Key word="JOIN" />
 				<Key word="LEFT" />
+				<Key word="RIGHT" />
 				<Key word="OUTER" />
+				<Key word="UNION" />
 			</KeyWords>
 			<KeyWords name="AliasKeywords" bold="false" italic="false" color="Maroon">
 				<Key word="AS" />
 			</KeyWords>
-			<KeyWords name="ComparisonKeywords" bold="false" italic="false" color="Navy">
+			<KeyWords name="ComparisonKeywords" bold="true" italic="false" color="Navy">
 				<Key word="AND" />
 				<Key word="OR" />
 				<Key word="LIKE" />
 			</KeyWords>			
 			<KeyWords name="SpecializedKeywords" bold="true" italic="false" color="Gray">
+				<Key word="TOP" />
+				<Key word="LIMIT" />
 				<Key word="OPENDATASOURCE" />
 				<Key word="GO" />
 			</KeyWords>
 			<KeyWords name="DestructiveKeywords" bold="true" italic="false" color="Red">
 				<Key word="DROP" />
 				<Key word="DELETE" />
+				<Key word="TRUNCATE" />
 			</KeyWords>
-			<KeyWords name="SqlKeywords" bold="true" italic="false" color="Blue">
+			<KeyWords name="SqlKeywordsBold" bold="true" italic="false" color="Blue">
+				<Key word="BEGIN" />
+				<Key word="END" />
+				<Key word="EXEC" />
+				<Key word="CREATE" />
+				<Key word="COMMIT" />
+				<Key word="RAISERROR" />
+				<Key word="ROLLBACK" />
+				<Key word="TRAN" />
+				<Key word="TRANSACTION" />
+				<Key word="USE" />
+				<Key word="USER" />
+				<Key word="VIEW" />
+			</KeyWords>
+			<KeyWords name="SqlKeywordsNormal" bold="false" italic="false" color="Blue">
 				<Key word="ADD" />
 				<Key word="ALL" />
 				<Key word="ANY" />
 				<Key word="ASC" />
-				<Key word="BEGIN" />
 				<Key word="BETWEEN" />
 				<Key word="BREAK" />
 				<Key word="BY" />
@@ -53,13 +72,11 @@
 				<Key word="COALESCE" />
 				<Key word="COLLATE" />
 				<Key word="COLUMN" />
-				<Key word="COMMIT" />
 				<Key word="COMPUTE" />
 				<Key word="CONSTRAINT" />
 				<Key word="CONTAINS" />
 				<Key word="CONTINUE" />
 				<Key word="CONVERT" />
-				<Key word="CREATE" />
 				<Key word="CROSS" />
 				<Key word="CURSOR" />
 				<Key word="DECLARE" />
@@ -68,10 +85,8 @@
 				<Key word="DISTINCT" />
 				<Key word="DOUBLE" />
 				<Key word="ELSE" />
-				<Key word="END" />
 				<Key word="ESCAPE" />
 				<Key word="EXCEPT" />
-				<Key word="EXEC" />
 				<Key word="EXECUTE" />
 				<Key word="EXISTS" />
 				<Key word="EXIT" />
@@ -88,7 +103,6 @@
 				<Key word="IDENTITYCOL" />
 				<Key word="IF" />
 				<Key word="IN" />
-				<Key word="INNER" />
 				<Key word="INSERT" />
 				<Key word="INTO" />
 				<Key word="IS" />
@@ -108,15 +122,12 @@
 				<Key word="PROC" />
 				<Key word="PROCEDURE" />
 				<Key word="PUBLIC" />
-				<Key word="RAISERROR" />
 				<Key word="READ" />
 				<Key word="READTEXT" />
 				<Key word="REFERENCES" />
 				<Key word="RESTORE" />
 				<Key word="RESTRICT" />
 				<Key word="RETURN" />
-				<Key word="RIGHT" />
-				<Key word="ROLLBACK" />
 				<Key word="ROWCOUNT" />
 				<Key word="RULE" />
 				<Key word="SAVE" />
@@ -127,19 +138,11 @@
 				<Key word="TABLE" />
 				<Key word="THEN" />
 				<Key word="TO" />
-				<Key word="TOP" />
-				<Key word="TRAN" />
-				<Key word="TRANSACTION" />
 				<Key word="TRIGGER" />
-				<Key word="TRUNCATE" />
-				<Key word="UNION" />
 				<Key word="UNIQUE" />
 				<Key word="UPDATE" />
-				<Key word="USE" />
-				<Key word="USER" />
 				<Key word="VALUES" />
 				<Key word="VARYING" />
-				<Key word="VIEW" />
 				<Key word="WAITFOR" />
 				<Key word="WHEN" />
 				<Key word="WHERE" />
