@@ -78,6 +78,7 @@
     <Compile Include="CommandManager.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="ApplicationServices.cs" />
+    <Compile Include="Commands\CloseDatabaseConnectionCommand.cs" />
     <Compile Include="Commands\GenerateCommandCodeCommand.cs" />
     <Compile Include="ConnectionDefinition.cs" />
     <Compile Include="Controls\BatchQuerySelectControl.cs">

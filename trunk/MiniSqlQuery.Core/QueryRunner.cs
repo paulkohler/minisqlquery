@@ -44,6 +44,7 @@ namespace MiniSqlQuery.Core
 			DbConnection dbConnection = null;
 			DbDataAdapter adapter = null;
 			DbCommand cmd = null;
+			Query query;
 
 			try
 			{
@@ -73,7 +74,7 @@ namespace MiniSqlQuery.Core
 
 				for (int i = 0; i < Batch.Queries.Count; i++)
 				{
-					Query query = Batch.Queries[i];
+					query = Batch.Queries[i];
 					cmd.CommandText = query.Sql;
 					query.Result = new DataSet("Batch " + (i + 1));
 					query.StartTime = DateTime.Now;

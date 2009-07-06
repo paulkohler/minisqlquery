@@ -61,6 +61,15 @@ namespace MiniSqlQuery
 			}
 		}
 
+		public void CloseConnection()
+		{
+			if (_dbConnection != null &&
+			    (_dbConnection.State != ConnectionState.Closed && _dbConnection.State != ConnectionState.Broken))
+			{
+				_dbConnection.Close();
+			}
+		}
+
 		public string DefaultFileFilter
 		{
 			get { return Settings.Default.FileDialogFilter; }

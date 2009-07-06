@@ -60,6 +60,11 @@ namespace MiniSqlQuery.Core
 		DbConnection GetOpenConnection();
 
 		/// <summary>
+		/// Closes the current connection (if any).
+		/// </summary>
+		void CloseConnection();
+
+		/// <summary>
 		/// The default filter string for dialog boxes.
 		/// </summary>
 		string DefaultFileFilter { get; }
