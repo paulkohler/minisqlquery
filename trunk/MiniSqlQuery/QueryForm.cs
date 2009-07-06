@@ -428,33 +428,35 @@ namespace MiniSqlQuery
 				foreach (Query query in Batch.Queries)
 				{
 					DataSet ds = query.Result;
-
-					foreach (DataTable dt in ds.Tables)
+					if (query.Result != null)
 					{
-						DataGridView grid = new DataGridView();
-						DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
+						foreach (DataTable dt in ds.Tables)
+						{
+							DataGridView grid = new DataGridView();
+							DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
 
-						grid.AllowUserToAddRows = false;
-						grid.AllowUserToDeleteRows = false;
-						grid.Dock = DockStyle.Fill;
-						grid.Name = "gridResults_" + counter;
-						grid.ReadOnly = true;
-						grid.DataSource = dt;
-						grid.DataError += GridDataError;
-						grid.DefaultCellStyle = cellStyle;
+							grid.AllowUserToAddRows = false;
+							grid.AllowUserToDeleteRows = false;
+							grid.Dock = DockStyle.Fill;
+							grid.Name = "gridResults_" + counter;
+							grid.ReadOnly = true;
+							grid.DataSource = dt;
+							grid.DataError += GridDataError;
+							grid.DefaultCellStyle = cellStyle;
 
-						cellStyle.NullValue = "<NULL>";
-						cellStyle.Font = CreateDefaultFont();
+							cellStyle.NullValue = "<NULL>";
+							cellStyle.Font = CreateDefaultFont();
 
-						TabPage tabPage = new TabPage();
-						tabPage.Controls.Add(grid);
-						tabPage.Name = "tabPageResults_" + counter;
-						tabPage.Padding = new Padding(3);
-						tabPage.Text = string.Format("{0}/Table {1}", ds.DataSetName, counter);
-						tabPage.UseVisualStyleBackColor = false;
+							TabPage tabPage = new TabPage();
+							tabPage.Controls.Add(grid);
+							tabPage.Name = "tabPageResults_" + counter;
+							tabPage.Padding = new Padding(3);
+							tabPage.Text = string.Format("{0}/Table {1}", ds.DataSetName, counter);
+							tabPage.UseVisualStyleBackColor = false;
 
-						_resultsTabControl.TabPages.Add(tabPage);
-						counter++;
+							_resultsTabControl.TabPages.Add(tabPage);
+							counter++;
+						}
 					}
 				}
 
