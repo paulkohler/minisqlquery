@@ -39,6 +39,7 @@ namespace MiniSqlQuery
 			this.tabPageResults = new System.Windows.Forms.TabPage();
 			this.gridResults1 = new System.Windows.Forms.DataGridView();
 			this.editorContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.queryBackgroundWorker = new System.ComponentModel.BackgroundWorker();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -64,8 +65,8 @@ namespace MiniSqlQuery
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this._resultsTabControl);
-			this.splitContainer1.Size = new System.Drawing.Size(879, 414);
-			this.splitContainer1.SplitterDistance = 150;
+			this.splitContainer1.Size = new System.Drawing.Size(1037, 508);
+			this.splitContainer1.SplitterDistance = 230;
 			this.splitContainer1.TabIndex = 0;
 			// 
 			// txtQuery
@@ -73,15 +74,13 @@ namespace MiniSqlQuery
 			this.txtQuery.ContextMenuStrip = this.contextMenuStripQuery;
 			this.txtQuery.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.txtQuery.EnableFolding = false;
-			this.txtQuery.IsIconBarVisible = false;
+			this.txtQuery.IsReadOnly = false;
 			this.txtQuery.Location = new System.Drawing.Point(0, 0);
 			this.txtQuery.Name = "txtQuery";
 			this.txtQuery.ShowEOLMarkers = true;
-			this.txtQuery.ShowInvalidLines = false;
 			this.txtQuery.ShowSpaces = true;
 			this.txtQuery.ShowTabs = true;
-			this.txtQuery.ShowVRuler = true;
-			this.txtQuery.Size = new System.Drawing.Size(879, 150);
+			this.txtQuery.Size = new System.Drawing.Size(1037, 230);
 			this.txtQuery.TabIndex = 1;
 			// 
 			// contextMenuStripQuery
@@ -104,17 +103,17 @@ namespace MiniSqlQuery
 			// 
 			this.queryToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.MatchOnly;
 			this.queryToolStripMenuItem.Name = "queryToolStripMenuItem";
-			this.queryToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+			this.queryToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
 			this.queryToolStripMenuItem.Text = "&Query";
 			// 
-			// tabControlResults
+			// _resultsTabControl
 			// 
 			this._resultsTabControl.Controls.Add(this.tabPageResults);
 			this._resultsTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._resultsTabControl.Location = new System.Drawing.Point(0, 0);
 			this._resultsTabControl.Name = "_resultsTabControl";
 			this._resultsTabControl.SelectedIndex = 0;
-			this._resultsTabControl.Size = new System.Drawing.Size(879, 260);
+			this._resultsTabControl.Size = new System.Drawing.Size(1037, 274);
 			this._resultsTabControl.TabIndex = 0;
 			// 
 			// tabPageResults
@@ -123,7 +122,7 @@ namespace MiniSqlQuery
 			this.tabPageResults.Location = new System.Drawing.Point(4, 22);
 			this.tabPageResults.Name = "tabPageResults";
 			this.tabPageResults.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageResults.Size = new System.Drawing.Size(871, 234);
+			this.tabPageResults.Size = new System.Drawing.Size(1029, 248);
 			this.tabPageResults.TabIndex = 0;
 			this.tabPageResults.Text = "Results";
 			this.tabPageResults.UseVisualStyleBackColor = true;
@@ -132,12 +131,13 @@ namespace MiniSqlQuery
 			// 
 			this.gridResults1.AllowUserToAddRows = false;
 			this.gridResults1.AllowUserToDeleteRows = false;
+			this.gridResults1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
 			this.gridResults1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.gridResults1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gridResults1.Location = new System.Drawing.Point(3, 3);
 			this.gridResults1.Name = "gridResults1";
 			this.gridResults1.ReadOnly = true;
-			this.gridResults1.Size = new System.Drawing.Size(865, 228);
+			this.gridResults1.Size = new System.Drawing.Size(1023, 242);
 			this.gridResults1.TabIndex = 0;
 			// 
 			// editorContextMenuStrip
@@ -145,12 +145,21 @@ namespace MiniSqlQuery
 			this.editorContextMenuStrip.Name = "editorContextMenuStrip";
 			this.editorContextMenuStrip.Size = new System.Drawing.Size(61, 4);
 			// 
+			// queryBackgroundWorker
+			// 
+			this.queryBackgroundWorker.WorkerReportsProgress = true;
+			this.queryBackgroundWorker.WorkerSupportsCancellation = true;
+			this.queryBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.queryBackgroundWorker_DoWork);
+			this.queryBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.queryBackgroundWorker_RunWorkerCompleted);
+			this.queryBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.queryBackgroundWorker_ProgressChanged);
+			// 
 			// QueryForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(879, 414);
+			this.ClientSize = new System.Drawing.Size(1037, 508);
 			this.Controls.Add(this.splitContainer1);
+			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "QueryForm";
@@ -185,5 +194,6 @@ namespace MiniSqlQuery
 		private System.Windows.Forms.ToolStripMenuItem queryToolStripMenuItem;
 		private ICSharpCode.TextEditor.TextEditorControl txtQuery;
 		private System.Windows.Forms.ContextMenuStrip editorContextMenuStrip;
+		protected System.ComponentModel.BackgroundWorker queryBackgroundWorker;
 	}
 }

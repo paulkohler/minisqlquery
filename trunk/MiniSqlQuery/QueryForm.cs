@@ -14,12 +14,12 @@ namespace MiniSqlQuery
 	public partial class QueryForm : DockContent, IQueryEditor, IPrintableContent
 	{
 		private static int _untitledCounter = 1;
+		private readonly IApplicationServices _services;
 
 		private bool _highlightingProviderLoaded;
 		private bool _isDirty;
 		private QueryRunner _runner;
 
-		private readonly IApplicationServices _services;
 		private string _status = string.Empty;
 		private ITextFindService _textFindService;
 
@@ -366,7 +366,6 @@ namespace MiniSqlQuery
 
 		public void ExecuteQuery(string sql)
 		{
-			bool errored = false;
 			IApplicationSettings settings = _services.Settings;
 
 			if (IsBusy)
@@ -376,35 +375,7 @@ namespace MiniSqlQuery
 			}
 
 			_runner = QueryRunner.Create(settings.ProviderFactory, settings.ConnectionDefinition.ConnectionString, settings.EnableQueryBatching);
-
-			try
-			{
-				_services.HostWindow.SetPointerState(Cursors.WaitCursor);
-				txtQuery.Enabled = false;
-				IsBusy = true;
-				_runner.ExecuteQuery(sql);
-			}
-			catch (InvalidOperationException invalidExp)
-			{
-				// todo: improve!
-				_services.HostWindow.DisplaySimpleMessageBox(this, invalidExp.Message, "Error");
-				SetStatus(invalidExp.Message);
-				errored = true;
-			}
-			finally
-			{
-				txtQuery.Enabled = true;
-				IsBusy = false;
-				_services.HostWindow.SetPointerState(Cursors.Default);
-			}
-
-			if (!errored)
-			{
-				_services.HostWindow.SetStatus(this, CreateQueryCompleteMessage(_runner.Batch.StartTime, _runner.Batch.EndTime));
-				AddTables();
-			}
-
-			txtQuery.Focus();
+			queryBackgroundWorker.RunWorkerAsync(sql);
 		}
 
 		private static string CreateQueryCompleteMessage(DateTime start, DateTime end)
@@ -443,6 +414,8 @@ namespace MiniSqlQuery
 							grid.DataSource = dt;
 							grid.DataError += GridDataError;
 							grid.DefaultCellStyle = cellStyle;
+							grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+							grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 
 							cellStyle.NullValue = "<NULL>";
 							cellStyle.Font = CreateDefaultFont();
@@ -526,6 +499,55 @@ namespace MiniSqlQuery
 				else if (saveFile == DialogResult.Yes)
 				{
 					CommandManager.GetCommandInstance<SaveFileCommand>().Execute();
+				}
+			}
+		}
+
+		private void queryBackgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+		{
+			string sql = (string) e.Argument;
+			_runner.BatchProgress += RunnerBatchProgress;
+			_runner.ExecuteQuery(sql);
+		}
+
+		private void RunnerBatchProgress(object sender, BatchProgressEventArgs e)
+		{
+			// push the progress through to the background worker
+			queryBackgroundWorker.ReportProgress(e.Index);
+		}
+
+		private void queryBackgroundWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+		{
+			SetStatus(string.Format("Query# {0}.", e.ProgressPercentage));
+		}
+
+		private void queryBackgroundWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+		{
+			_runner.BatchProgress -= RunnerBatchProgress;
+			if (e.Error != null)
+			{
+				// todo: improve!
+				_services.HostWindow.DisplaySimpleMessageBox(this, e.Error.Message, "Error");
+				SetStatus(e.Error.Message);
+			}
+			else
+			{
+				try
+				{
+					_services.HostWindow.SetPointerState(Cursors.Default);
+					string message = CreateQueryCompleteMessage(_runner.Batch.StartTime, _runner.Batch.EndTime);
+					if (_runner.Exception != null)
+					{
+						message = "ERROR - " + message;
+					}
+					_services.HostWindow.SetStatus(this, message);
+					AddTables();
+					txtQuery.Focus();
+				}
+				finally
+				{
+					txtQuery.Enabled = true;
+					IsBusy = false;
 				}
 			}
 		}

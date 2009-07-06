@@ -13,6 +13,17 @@ namespace MiniSqlQuery.Core
 		private readonly bool _enableQueryBatching;
 		private readonly DbProviderFactory _factory;
 
+		public event EventHandler<BatchProgressEventArgs> BatchProgress;
+
+		protected void OnBatchProgress(BatchProgressEventArgs e)
+		{
+			EventHandler<BatchProgressEventArgs> progress = BatchProgress;
+			if (progress != null)
+			{
+				progress(this, e);
+			}
+		}
+
 		public QueryRunner(DbProviderFactory factory, string connectionString, bool enableQueryBatching)
 		{
 			_factory = factory;
@@ -24,6 +35,7 @@ namespace MiniSqlQuery.Core
 		public QueryBatch Batch { get; protected set; }
 		public string Messages { get; protected set; }
 		public bool IsBusy { get; set; }
+		public DbException Exception { get; protected set; }
 
 		public static QueryRunner Create(DbProviderFactory factory, string connectionString, bool enableQueryBatching)
 		{
@@ -72,7 +84,8 @@ namespace MiniSqlQuery.Core
 				cmd.CommandType = CommandType.Text;
 				adapter.SelectCommand = cmd;
 
-				for (int i = 0; i < Batch.Queries.Count; i++)
+				int queryCount = Batch.Queries.Count;
+				for (int i = 0; i < queryCount; i++)
 				{
 					query = Batch.Queries[i];
 					cmd.CommandText = query.Sql;
@@ -80,6 +93,7 @@ namespace MiniSqlQuery.Core
 					query.StartTime = DateTime.Now;
 					adapter.Fill(query.Result);
 					query.EndTime = DateTime.Now;
+					OnBatchProgress(new BatchProgressEventArgs(query, queryCount, (i+1)));
 				}
 			}
 			catch (DbException dbException)
@@ -105,6 +119,7 @@ namespace MiniSqlQuery.Core
 
 		protected virtual void HandleBatchException(DbException dbException)
 		{
+			Exception = dbException;
 			Messages += dbException.Message + Environment.NewLine;
 		}
 

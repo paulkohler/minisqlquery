@@ -13,6 +13,7 @@ namespace MiniSqlQuery.Core
 
 		protected override void HandleBatchException(DbException dbException)
 		{
+			Exception = dbException;
 			SqlException exp = dbException as SqlException;
 			if (exp != null)
 			{

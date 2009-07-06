@@ -75,6 +75,7 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BasicTextFindService.cs" />
+    <Compile Include="BatchProgressEventArgs.cs" />
     <Compile Include="CommandManager.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="ApplicationServices.cs" />
