@@ -79,12 +79,12 @@ namespace MiniSqlQuery.Core
 			DataTable columns = dbConn.GetSchema("Columns");
 			DataTable dataTypes = dbConn.GetSchema("DataTypes");
 
-//#if DEBUG
-//            dbConn.GetSchema().WriteXml("schema.xml", XmlWriteMode.WriteSchema);
-//            tables.WriteXml("tables-metadata.xml", XmlWriteMode.WriteSchema);
-//            columns.WriteXml("columns-metadata.xml", XmlWriteMode.WriteSchema); // DATA_TYPE ->
-//            dataTypes.WriteXml("dataTypes-metadata.xml", XmlWriteMode.WriteSchema); // NativeDataType (TypeName/DataType)
-//#endif
+#if DEBUG
+			dbConn.GetSchema().WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\schema.xml", XmlWriteMode.WriteSchema);
+			tables.WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\tables-metadata.xml", XmlWriteMode.WriteSchema);
+			columns.WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\columns-metadata.xml", XmlWriteMode.WriteSchema); // DATA_TYPE ->
+			dataTypes.WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\dataTypes-metadata.xml", XmlWriteMode.WriteSchema); // NativeDataType (TypeName/DataType)
+#endif
 
 			DataView dv = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_NAME",
 			                           DataViewRowState.CurrentRows);
@@ -99,22 +99,11 @@ namespace MiniSqlQuery.Core
 					int dataTypeId;
 					if (int.TryParse(dataType, out dataTypeId))
 					{
-						// need to look it up
+						// need to look up the type name (e.g. OLEDB report id's not actual type names)
 						DataRow[] dtRows = dataTypes.Select("NativeDataType = " + dataTypeId);
-						if (dtRows != null && dtRows.Length == 1)
+						if (dtRows != null && dtRows.Length > 0)
 						{
 							dataType = dtRows[0]["TypeName"].ToString();
-						}
-						else
-						{
-							if (dataType == "130") //access hack
-							{
-								dataType = "Text";
-							}
-							else
-							{
-								dataType += "?";
-							}
 						}
 					}
 
@@ -135,9 +124,9 @@ namespace MiniSqlQuery.Core
 				}
 			}
 
-#if DEBUG
-			metadata.WriteXml("db-schema.xml", XmlWriteMode.WriteSchema);
-#endif
+//#if DEBUG
+//            metadata.WriteXml("db-schema.xml", XmlWriteMode.WriteSchema);
+//#endif
 
 			dbConn.Dispose();
 			return metadata;

@@ -39,12 +39,11 @@ namespace MiniSqlQuery.Core
 
 		public static QueryRunner Create(DbProviderFactory factory, string connectionString, bool enableQueryBatching)
 		{
-			// todo , use IOC etc
 			if (factory.GetType().Name == "SqlClientFactory")
 			{
 				return new SqlQueryRunner(factory, connectionString, enableQueryBatching);
 			}
-
+			
 			// otherwise ise the default
 			return new QueryRunner(factory, connectionString, enableQueryBatching);
 		}
