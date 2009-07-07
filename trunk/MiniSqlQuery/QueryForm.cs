@@ -34,7 +34,6 @@ namespace MiniSqlQuery
 
 			queryToolStripMenuItem.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ExecuteQueryCommand>());
 			queryToolStripMenuItem.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveResultsAsDataSetCommand>());
-			queryToolStripMenuItem.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
 
 			contextMenuStripQuery.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<ExecuteQueryCommand>());
 
