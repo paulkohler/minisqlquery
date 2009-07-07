@@ -79,12 +79,12 @@ namespace MiniSqlQuery.Core
 			DataTable columns = dbConn.GetSchema("Columns");
 			DataTable dataTypes = dbConn.GetSchema("DataTypes");
 
-#if DEBUG
-			dbConn.GetSchema().WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\schema.xml", XmlWriteMode.WriteSchema);
-			tables.WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\tables-metadata.xml", XmlWriteMode.WriteSchema);
-			columns.WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\columns-metadata.xml", XmlWriteMode.WriteSchema); // DATA_TYPE ->
-			dataTypes.WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\dataTypes-metadata.xml", XmlWriteMode.WriteSchema); // NativeDataType (TypeName/DataType)
-#endif
+//#if DEBUG
+//            dbConn.GetSchema().WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\schema.xml", XmlWriteMode.WriteSchema);
+//            tables.WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\tables-metadata.xml", XmlWriteMode.WriteSchema);
+//            columns.WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\columns-metadata.xml", XmlWriteMode.WriteSchema); // DATA_TYPE ->
+//            dataTypes.WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\dataTypes-metadata.xml", XmlWriteMode.WriteSchema); // NativeDataType (TypeName/DataType)
+//#endif
 
 			DataView dv = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_NAME",
 			                           DataViewRowState.CurrentRows);
