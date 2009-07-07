@@ -118,5 +118,22 @@ namespace MiniSqlQuery.Tests
 			_runner.ExecuteQuery(" ");
 		}
 	}
-	
+
+	[TestFixture]
+	public class CustomHighlightTests
+	{
+
+		[SetUp]
+		public void TestSetUp()
+		{
+
+		}
+
+
+		[Test]
+		public void test_name()
+		{
+			
+		}
+	}	
 }

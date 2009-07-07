@@ -158,6 +158,7 @@
     <Content Include="Images\around_text.png" />
     <Content Include="Images\cancel.png" />
     <Content Include="Images\cog.png" />
+    <None Include="Images\column.png" />
     <Content Include="Images\cross.png" />
     <Content Include="Images\database.png" />
     <Content Include="Images\database_add.png" />
@@ -180,9 +181,23 @@
     <Content Include="Images\script.png" />
     <Content Include="Images\script_code.png" />
     <Content Include="Images\table.png" />
+    <None Include="Images\table_add.png" />
     <Content Include="Images\table_delete.png" />
+    <None Include="Images\table_edit.png" />
+    <None Include="Images\table_error.png" />
+    <None Include="Images\table_gear.png" />
     <Content Include="Images\table_go.png" />
+    <None Include="Images\table_key.png" />
+    <None Include="Images\table_row_insert.png" />
+    <None Include="Images\table_row_delete.png" />
+    <None Include="Images\table_relationship.png" />
+    <None Include="Images\table_refresh.png" />
+    <None Include="Images\table_multiple.png" />
+    <None Include="Images\table_link.png" />
+    <None Include="Images\table_lightning.png" />
     <Content Include="Images\table_save.png" />
+    <None Include="Images\view.png" />
+    <None Include="Images\table_sort.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\BatchQuerySelectControl.resx">

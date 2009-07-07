@@ -67,6 +67,7 @@ namespace MiniSqlQuery.Core
 		{
 			DataTable metadata = new DataTable("DbMetaData");
 
+			metadata.Columns.Add("ObjectType", typeof (string));
 			metadata.Columns.Add("Schema", typeof (string));
 			metadata.Columns.Add("Table", typeof (string));
 			metadata.Columns.Add("Column", typeof (string));
@@ -86,8 +87,22 @@ namespace MiniSqlQuery.Core
 //            dataTypes.WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\dataTypes-metadata.xml", XmlWriteMode.WriteSchema); // NativeDataType (TypeName/DataType)
 //#endif
 
-			DataView dv = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_NAME",
-			                           DataViewRowState.CurrentRows);
+			DataView dv = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_NAME", DataViewRowState.CurrentRows);
+			FindObjectByType(metadata, dv, columns, dataTypes, "table");
+
+			dv = new DataView(tables, "TABLE_TYPE='VIEW'", "TABLE_NAME", DataViewRowState.CurrentRows);
+			FindObjectByType(metadata, dv, columns, dataTypes, "view");
+
+//#if DEBUG
+//            metadata.WriteXml("db-schema.xml", XmlWriteMode.WriteSchema);
+//#endif
+
+			dbConn.Dispose();
+			return metadata;
+		}
+
+		private void FindObjectByType(DataTable metadata, DataView dv, DataTable columns, DataTable dataTypes, string objectType)
+		{
 			foreach (DataRowView row in dv)
 			{
 				DataView columnView = new DataView(columns, string.Format("TABLE_NAME='{0}'", row["TABLE_NAME"]), "ORDINAL_POSITION",
@@ -115,6 +130,7 @@ namespace MiniSqlQuery.Core
 					columnName = MakeSqlFriendly(columnName);
 
 					metadata.Rows.Add(
+						objectType,
 						schemaName,
 						tableName,
 						columnName,
@@ -123,13 +139,6 @@ namespace MiniSqlQuery.Core
 						SafeGetBool(columnRow.Row, "IS_NULLABLE"));
 				}
 			}
-
-//#if DEBUG
-//            metadata.WriteXml("db-schema.xml", XmlWriteMode.WriteSchema);
-//#endif
-
-			dbConn.Dispose();
-			return metadata;
 		}
 
 		private string MakeSqlFriendly(string name)

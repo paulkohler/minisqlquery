@@ -11,10 +11,14 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 	public partial class DatabaseInspectorForm : DockContent, IDatabaseInspector
 	{
 		private static object RootTag = new object();
+		private static object TablesTag = new object();
+		private static object ViewsTag = new object();
 		private DataTable _metaData;
 		internal DatabaseMetaDataService _metaDataService;
 		private bool _populated;
 		private TreeNode _rightClickedNode;
+		private TreeNode _tablesNode;
+		private TreeNode _viewsNode;
 
 		internal IApplicationServices Services;
 
@@ -22,7 +26,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 		{
 			InitializeComponent();
 			DatabaseTreeView.Nodes.Clear();
-			TreeNode root = CreateRootNode();
+			TreeNode root = CreateRootNodes();
 			root.Nodes.Add("Loading problem - check connection details and reset...");
 			DatabaseTreeView.Nodes.Add(root);
 
@@ -83,7 +87,6 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 
 		private bool ExecLoadDatabaseDetails()
 		{
-			// todo - push into command?
 			bool populate = false;
 			string connection = string.Empty;
 			bool success = false;
@@ -135,87 +138,15 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 //#endif
 
 				DatabaseTreeView.Nodes.Clear();
-				TreeNode root = CreateRootNode();
+				TreeNode root = CreateRootNodes();
 				root.ToolTipText = connection;
 
 				// create a list of unique the schema.table names
-				List<string> tableNames = new List<string>();
-				DataView tablesDv = new DataView(_metaData, null, "Schema, Table", DataViewRowState.CurrentRows);
-				foreach (DataRowView row in tablesDv)
-				{
-					string schemaName = (string) row["Schema"];
-					string tableName = (string) row["Table"];
-					string dot = ".";
-					if (string.IsNullOrEmpty(schemaName)) // allow no schema
-					{
-						dot = string.Empty;
-					}
-					string fullTableName = string.Concat(schemaName, dot, tableName);
+				List<string> tableNames = FindTypes("table");
+				List<string> viewNames = FindTypes("view");
 
-					if (!tableNames.Contains(fullTableName))
-					{
-						tableNames.Add(fullTableName);
-					}
-				}
-
-				// loop tables and add column info
-				foreach (string tableSchemaAndName in tableNames)
-				{
-					TreeNode tableNode = new TreeNode(tableSchemaAndName);
-					tableNode.Name = tableSchemaAndName;
-					tableNode.ImageKey = "Table";
-					tableNode.SelectedImageKey = "Table";
-					tableNode.ContextMenuStrip = TableNodeContextMenuStrip;
-					string[] schemaTablePair = tableSchemaAndName.Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
-					string schemaName = string.Empty;
-					string tableName = string.Empty;
-					if (schemaTablePair.Length == 1)
-					{
-						tableName = schemaTablePair[0];
-					}
-					else if (schemaTablePair.Length == 2)
-					{
-						schemaName = schemaTablePair[0];
-						tableName = schemaTablePair[1];
-					}
-
-					string filter = string.Format("Table = '{0}'", tableName);
-					if (string.IsNullOrEmpty(schemaName) == false)
-					{
-						filter += string.Format(" AND Schema = '{0}'", schemaName);
-					}
-					DataView columnsDv = new DataView(_metaData, filter, null, DataViewRowState.CurrentRows);
-					tableNode.Tag = new TableInfo(tableName, schemaName);
-
-					foreach (DataRowView rowView in columnsDv)
-					{
-						//rowView.Row
-						int len = (int) rowView["Length"];
-						string extra = rowView["DataType"].ToString();
-						if (len > 0)
-						{
-							extra = string.Format("{0} ({1})", rowView["DataType"], len);
-						}
-						bool nullable = (bool) rowView["IsNullable"];
-						if (nullable)
-						{
-							extra += " NULL";
-						}
-						else
-						{
-							extra += " NOT NULL";
-						}
-						string columnName = string.Format("{0} [{1}]", rowView["Column"], extra);
-						TreeNode columnNode = new TreeNode(columnName);
-						columnNode.Name = columnName;
-						columnNode.ImageKey = "Column";
-						columnNode.SelectedImageKey = "Column";
-						columnNode.ContextMenuStrip = ColumnNameContextMenuStrip;
-						columnNode.Tag = new ColumnInfo(rowView.Row);
-						tableNode.Nodes.Add(columnNode);
-					}
-					root.Nodes.Add(tableNode);
-				}
+				CreateNodes("table", tableNames);
+				CreateNodes("view", viewNames);
 
 				DatabaseTreeView.Nodes.Add(root);
 				Services.HostWindow.SetStatus(this, string.Empty);
@@ -230,13 +161,133 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			return success;
 		}
 
-		private TreeNode CreateRootNode()
+		private void CreateNodes(string objectType, List<string> names)
+		{
+			foreach (string name in names)
+			{
+				TreeNode tableNode = new TreeNode(name);
+				tableNode.Name = name;
+				string imageKey = "Table";
+				if (objectType != "table")
+				{
+					imageKey = "View";
+				}
+
+				tableNode.ImageKey = imageKey;
+				tableNode.SelectedImageKey = imageKey;
+				tableNode.ContextMenuStrip = TableNodeContextMenuStrip;
+				string[] schemaTablePair = name.Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
+				string schemaName = string.Empty;
+				string tableName = string.Empty;
+				if (schemaTablePair.Length == 1)
+				{
+					tableName = schemaTablePair[0];
+				}
+				else if (schemaTablePair.Length == 2)
+				{
+					schemaName = schemaTablePair[0];
+					tableName = schemaTablePair[1];
+				}
+
+				string filter = string.Format("Table = '{0}'", tableName);
+				if (string.IsNullOrEmpty(schemaName) == false)
+				{
+					filter += string.Format(" AND Schema = '{0}'", schemaName);
+				}
+				DataView columnsDv = new DataView(_metaData, filter, null, DataViewRowState.CurrentRows);
+				if (objectType == "table")
+				{
+					tableNode.Tag = new TableInfo(tableName, schemaName);
+				}
+				else
+				{
+					tableNode.Tag = new ViewInfo(tableName, schemaName);
+				}
+
+				foreach (DataRowView rowView in columnsDv)
+				{
+					//rowView.Row
+					int len = (int) rowView["Length"];
+					string extra = rowView["DataType"].ToString();
+					if (len > 0)
+					{
+						extra = string.Format("{0} ({1})", rowView["DataType"], len);
+					}
+					bool nullable = (bool) rowView["IsNullable"];
+					if (nullable)
+					{
+						extra += " NULL";
+					}
+					else
+					{
+						extra += " NOT NULL";
+					}
+					string columnName = string.Format("{0} [{1}]", rowView["Column"], extra);
+					TreeNode columnNode = new TreeNode(columnName);
+					columnNode.Name = columnName;
+					columnNode.ImageKey = "Column";
+					columnNode.SelectedImageKey = "Column";
+					columnNode.ContextMenuStrip = ColumnNameContextMenuStrip;
+					columnNode.Tag = new ColumnInfo(rowView.Row);
+					tableNode.Nodes.Add(columnNode);
+				}
+				if (objectType == "table")
+				{
+					_tablesNode.Nodes.Add(tableNode);
+				}
+				else
+				{
+					_viewsNode.Nodes.Add(tableNode);
+				}
+			}
+		}
+
+		private List<string> FindTypes(string objectType)
+		{
+			List<string> names = new List<string>();
+			DataView tablesDv = new DataView(_metaData, string.Format("ObjectType = '{0}'", objectType), "Schema, Table", DataViewRowState.CurrentRows);
+			foreach (DataRowView row in tablesDv)
+			{
+				string schemaName = (string) row["Schema"];
+				string tableName = (string) row["Table"];
+				string dot = ".";
+				if (string.IsNullOrEmpty(schemaName)) // allow no schema
+				{
+					dot = string.Empty;
+				}
+				string fullTableName = string.Concat(schemaName, dot, tableName);
+
+				if (!names.Contains(fullTableName))
+				{
+					names.Add(fullTableName);
+				}
+			}
+			return names;
+		}
+
+		private TreeNode CreateRootNodes()
 		{
 			TreeNode root = new TreeNode("Database");
 			root.ImageKey = "Database";
 			root.SelectedImageKey = "Database";
 			root.ContextMenuStrip = InspectorContextMenuStrip;
 			root.Tag = RootTag;
+
+			_tablesNode = new TreeNode("Tables");
+			_tablesNode.ImageKey = "Tables";
+			_tablesNode.SelectedImageKey = "Tables";
+			//_tablesNode.ContextMenuStrip = ?;
+			_tablesNode.Tag = TablesTag;
+
+			_viewsNode = new TreeNode("Views");
+			_viewsNode.ImageKey = "Views";
+			_viewsNode.SelectedImageKey = "Views";
+			//_viewsNode.ContextMenuStrip = ?;
+			_viewsNode.Tag = ViewsTag;
+
+			root.Nodes.Add(_tablesNode);
+			root.Nodes.Add(_viewsNode);
+
 			return root;
 		}
 
@@ -305,7 +356,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			TreeNode node = e.Node;
 			if (e.Button == MouseButtons.Right)
 			{
-				if (node != null && node.Tag is TableInfo)
+				if (node != null && (node.Tag is TableInfo || node.Tag is ViewInfo))
 				{
 					_rightClickedNode = node;
 					//Debug.WriteLine(node.Text);
@@ -361,6 +412,32 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 				Name = name;
 			}
 		}
+		private class ViewInfo : ISchemaClass
+		{
+			public string Name;
+			public string Schema;
+
+			public ViewInfo(string schema, string name)
+			{
+				Schema = schema;
+				Name = name;
+			}
+		}
+
+		#endregion
+
+		#region Nested type: TablesNode
+
+		private class TablesNode : ISchemaClass
+		{
+			public string Name;
+
+			public TablesNode()
+			{
+				Name = "Tables";
+			}
+		}
+
 
 		#endregion
 	}

@@ -42,14 +42,14 @@
 			// InspectorContextMenuStrip
 			// 
 			this.InspectorContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			                                                                                       	this.loadToolStripMenuItem});
+            this.loadToolStripMenuItem});
 			this.InspectorContextMenuStrip.Name = "InspectorContextMenuStrip";
-			this.InspectorContextMenuStrip.Size = new System.Drawing.Size(160, 26);
+			this.InspectorContextMenuStrip.Size = new System.Drawing.Size(163, 26);
 			// 
 			// loadToolStripMenuItem
 			// 
 			this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-			this.loadToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+			this.loadToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
 			this.loadToolStripMenuItem.Text = "&Load Meta-Data";
 			this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
 			// 
@@ -57,9 +57,12 @@
 			// 
 			this.InspectorImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("InspectorImageList.ImageStream")));
 			this.InspectorImageList.TransparentColor = System.Drawing.Color.Transparent;
-			this.InspectorImageList.Images.SetKeyName(0, "Column");
-			this.InspectorImageList.Images.SetKeyName(1, "Table");
-			this.InspectorImageList.Images.SetKeyName(2, "Database");
+			this.InspectorImageList.Images.SetKeyName(0, "Table");
+			this.InspectorImageList.Images.SetKeyName(1, "Database");
+			this.InspectorImageList.Images.SetKeyName(2, "Column");
+			this.InspectorImageList.Images.SetKeyName(3, "Tables");
+			this.InspectorImageList.Images.SetKeyName(4, "Views");
+			this.InspectorImageList.Images.SetKeyName(5, "View");
 			// 
 			// TableNodeContextMenuStrip
 			// 
@@ -93,6 +96,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(307, 294);
 			this.Controls.Add(this.DatabaseTreeView);
+			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "DatabaseInspectorForm";
 			this.TabText = "DB Inspector";

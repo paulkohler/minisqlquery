@@ -121,6 +121,9 @@
   <data name="LicenseMiniSqlQuery" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\license-minisqlquery.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="SqlModeXshd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\sql-mode.xshd;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="TemplatesDirectoryName" xml:space="preserve">
     <value>Templates</value>
   </data>
