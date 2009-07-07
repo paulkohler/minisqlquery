@@ -532,16 +532,16 @@ namespace MiniSqlQuery
 
 		private void queryBackgroundWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
-			_runner.BatchProgress -= RunnerBatchProgress;
-			if (e.Error != null)
+			try
 			{
-				// todo: improve!
-				_services.HostWindow.DisplaySimpleMessageBox(this, e.Error.Message, "Error");
-				SetStatus(e.Error.Message);
-			}
-			else
-			{
-				try
+				_runner.BatchProgress -= RunnerBatchProgress;
+				if (e.Error != null)
+				{
+					// todo: improve!
+					_services.HostWindow.DisplaySimpleMessageBox(this, e.Error.Message, "Error");
+					SetStatus(e.Error.Message);
+				}
+				else
 				{
 					_services.HostWindow.SetPointerState(Cursors.Default);
 					string message = CreateQueryCompleteMessage(_runner.Batch.StartTime, _runner.Batch.EndTime);
@@ -553,14 +553,13 @@ namespace MiniSqlQuery
 					AddTables();
 					txtQuery.Focus();
 				}
-				finally
+			}
+			finally
+			{
+				UseWaitCursor = false;
+				lock (_syncLock)
 				{
-					UseWaitCursor = false;
-					txtQuery.Enabled = true;
-					lock (_syncLock)
-					{
-						IsBusy = false;
-					}
+					IsBusy = false;
 				}
 			}
 		}
