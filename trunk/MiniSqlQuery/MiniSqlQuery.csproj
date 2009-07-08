@@ -101,7 +101,10 @@
     <Compile Include="Commands\SaveFileCommand.cs" />
     <Compile Include="Commands\SaveResultsAsDataSetCommand.cs" />
     <Compile Include="Commands\ShowAboutCommand.cs" />
+    <Compile Include="Commands\ShowDiscussionsWebPageCommand.cs" />
     <Compile Include="Commands\ShowHelpCommand.cs" />
+    <Compile Include="Commands\ShowUrlCommand.cs" />
+    <Compile Include="Commands\ShowWebPageCommand.cs" />
     <Compile Include="Commands\TurnEnableQueryBatchingOffCommand.cs" />
     <Compile Include="Commands\TurnEnableQueryBatchingOnCommand.cs" />
     <Compile Include="ErrorForm.cs">

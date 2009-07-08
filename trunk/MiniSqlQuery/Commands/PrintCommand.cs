@@ -1,19 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MiniSqlQuery.Core.Commands;
-using MiniSqlQuery.Core;
-using System.Windows.Forms;
 using System.Drawing.Printing;
+using System.Windows.Forms;
+using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.Commands;
 
 namespace MiniSqlQuery.Commands
 {
 	public class PrintCommand
-	   : CommandBase
+		: CommandBase
 	{
 		public PrintCommand()
 			: base("Print...")
 		{
+			SmallImage = ImageResource.printer;
+		}
+
+		public override bool Enabled
+		{
+			get
+			{
+				IPrintableContent printable = Services.HostWindow.ActiveChildForm as IPrintableContent;
+				if (printable != null)
+				{
+					PrintDocument doc = printable.PrintDocument;
+
+					if (doc != null)
+					{
+						return true;
+					}
+				}
+				return false;
+			}
 		}
 
 		public override void Execute()
@@ -35,24 +52,6 @@ namespace MiniSqlQuery.Commands
 						}
 					}
 				}
-			}
-		}
-
-		public override bool Enabled
-		{
-			get
-			{
-				IPrintableContent printable = Services.HostWindow.ActiveChildForm as IPrintableContent;
-				if (printable != null)
-				{
-					PrintDocument doc = printable.PrintDocument;
-
-					if (doc != null)
-					{
-						return true;
-					}
-				}
-				return false;
 			}
 		}
 	}

@@ -9,19 +9,11 @@ using System.Windows.Forms;
 namespace MiniSqlQuery.Commands
 {
 	public class ShowHelpCommand
-		: CommandBase
+		: ShowUrlCommand
 	{
 		public ShowHelpCommand()
-			: base("&Index (pksoftware.net/MiniSqlQuery/Help)")
+			: base("&Index (pksoftware.net/MiniSqlQuery/Help)", "http://www.pksoftware.net/MiniSqlQuery/Help/", ImageResource.help)
 		{
-			// TODO SmallImage = ImageResource. ?help;
 		}
-
-		public override void Execute()
-		{
-			// todo - version
-			Utility.ShowUrl("http://www.pksoftware.net/MiniSqlQuery/Help/");
-		}
-
 	}
 }

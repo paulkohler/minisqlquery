@@ -17,10 +17,10 @@ namespace MiniSqlQuery.PlugIns
 
         public override void InitializePlugIn()
         {
-            ToolStripMenuItem fileMenu = (ToolStripMenuItem) Services.HostWindow.Instance.MainMenuStrip.Items["fileMenu"];
-            ToolStripMenuItem pluginsMenu = (ToolStripMenuItem) Services.HostWindow.Instance.MainMenuStrip.Items["pluginsMenu"];
-            ToolStripMenuItem queryMenu = (ToolStripMenuItem) Services.HostWindow.Instance.MainMenuStrip.Items["queryToolStripMenuItem"];
-            ToolStripMenuItem helpMenu = (ToolStripMenuItem) Services.HostWindow.Instance.MainMenuStrip.Items["helpMenu"];
+			ToolStripMenuItem fileMenu = Services.HostWindow.GetMenuItem("File");
+			ToolStripMenuItem pluginsMenu = Services.HostWindow.GetMenuItem("plugins");
+			ToolStripMenuItem queryMenu = Services.HostWindow.GetMenuItem("query");
+			ToolStripMenuItem helpMenu = Services.HostWindow.GetMenuItem("help");
 
             fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<NewQueryFormCommand>());
             fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
@@ -39,6 +39,8 @@ namespace MiniSqlQuery.PlugIns
             queryMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<TurnEnableQueryBatchingOffCommand>());
 
             helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowHelpCommand>());
+			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowWebPageCommand>());
+			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowDiscussionsWebPageCommand>());
 			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<EmailAuthorCommand>());
             helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
             helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowAboutCommand>());
