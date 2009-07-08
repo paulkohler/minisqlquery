@@ -88,6 +88,7 @@
     <Compile Include="Commands\CloseActiveWindowCommand.cs" />
     <Compile Include="Commands\CloseAllWindowsCommand.cs" />
     <Compile Include="Commands\CopyQueryEditorFileNameCommand.cs" />
+    <Compile Include="Commands\EmailAuthorCommand.cs" />
     <Compile Include="Commands\ExecuteQueryCommand.cs" />
     <Compile Include="Commands\ExitApplicationCommand.cs" />
     <Compile Include="Commands\GenerateCommandCodeCommand.cs" />
