@@ -50,6 +50,7 @@
 			// 
 			this.dataGridViewResult.AllowUserToAddRows = false;
 			this.dataGridViewResult.AllowUserToDeleteRows = false;
+			this.dataGridViewResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
 			this.dataGridViewResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
@@ -85,7 +86,7 @@
             this.refreshToolStripMenuItem});
 			this.queryToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.MatchOnly;
 			this.queryToolStripMenuItem.Name = "queryToolStripMenuItem";
-			this.queryToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+			this.queryToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
 			this.queryToolStripMenuItem.Text = "&Query";
 			this.queryToolStripMenuItem.Click += new System.EventHandler(this.queryToolStripMenuItem_Click);
 			// 
@@ -93,7 +94,7 @@
 			// 
 			this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
 			this.refreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-			this.refreshToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.refreshToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
 			this.refreshToolStripMenuItem.Text = "&Refresh";
 			this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
 			// 
@@ -143,6 +144,7 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.cboTableName.FormattingEnabled = true;
 			this.cboTableName.Location = new System.Drawing.Point(12, 19);
+			this.cboTableName.MaxDropDownItems = 20;
 			this.cboTableName.Name = "cboTableName";
 			this.cboTableName.Size = new System.Drawing.Size(454, 21);
 			this.cboTableName.TabIndex = 0;
@@ -160,6 +162,7 @@
 			this.Controls.Add(this.dataGridViewResult);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.menuStrip1);
+			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "ViewTableForm";

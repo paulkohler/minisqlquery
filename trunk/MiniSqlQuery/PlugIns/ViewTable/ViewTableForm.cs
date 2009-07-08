@@ -143,11 +143,12 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 			try
 			{
-				_services.HostWindow.SetPointerState(Cursors.WaitCursor);
+				UseWaitCursor = true;
+				Application.DoEvents();
+
 				if (_dbConnection == null)
 				{
 					_dbConnection = _services.Settings.GetOpenConnection();
-					_dbConnection.StateChange += DbConnectionStateChange;
 				}
 
 				query.Result = new DataSet(TableName + " View");
@@ -178,7 +179,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 				{
 					cmd.Dispose();
 				}
-				_services.HostWindow.SetPointerState(Cursors.Default);
+				UseWaitCursor = false;
 			}
 
 			if (query.Result != null && query.Result.Tables.Count > 0)
@@ -188,10 +189,6 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			}
 
 			dataGridViewResult.DataSource = dt;
-		}
-
-		private void DbConnectionStateChange(object sender, StateChangeEventArgs e)
-		{
 		}
 
 		private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
