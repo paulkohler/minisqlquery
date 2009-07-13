@@ -17,14 +17,15 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 
 		public override void InitializePlugIn()
 		{
+			ToolStripMenuItem editMenu = Services.HostWindow.GetMenuItem("edit");
+
 			// add the find to the plugins menu
-			Services.HostWindow.AddPluginCommand<ShowFindTextFormCommand>();
-			Services.HostWindow.AddPluginCommand<FindNextStringCommand>();
-			Services.HostWindow.AddPluginCommand<ShowGoToLineFormCommand>();
+			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowFindTextFormCommand>());
+			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<FindNextStringCommand>());
+			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowGoToLineFormCommand>());
 
 			// get the new item and make in invisible - the shortcut key is still available etc ;-)
-			ToolStripMenuItem pluginsMenu = Services.HostWindow.GetMenuItem("plugins");
-			ToolStripItem item = pluginsMenu.DropDownItems["FindNextStringCommandToolStripMenuItem"];
+			ToolStripItem item = editMenu.DropDownItems["FindNextStringCommandToolStripMenuItem"];
 			item.Visible = false;
 
 			// append the button the the toolbar items

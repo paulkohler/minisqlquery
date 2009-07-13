@@ -67,6 +67,7 @@
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripComboBoxConnection = new System.Windows.Forms.ToolStripComboBox();
 			this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+			this.editMenu = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.toolStrip.SuspendLayout();
 			this.statusStrip.SuspendLayout();
@@ -77,6 +78,7 @@
 			// 
 			this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileMenu,
+            this.editMenu,
             this.queryToolStripMenuItem,
             this.toolsMenu,
             this.pluginsMenu,
@@ -299,6 +301,12 @@
 			this.dockPanel.Skin = dockPanelSkin1;
 			this.dockPanel.TabIndex = 6;
 			// 
+			// editMenu
+			// 
+			this.editMenu.Name = "editMenu";
+			this.editMenu.Size = new System.Drawing.Size(39, 20);
+			this.editMenu.Text = "&Edit";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -355,6 +363,7 @@
         private System.Windows.Forms.ToolStripMenuItem queryToolStripMenuItem;
 		internal WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
 		private System.Windows.Forms.ToolStripMenuItem pluginsMenu;
+		private System.Windows.Forms.ToolStripMenuItem editMenu;
 	}
 }
 

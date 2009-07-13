@@ -8,7 +8,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 	public class ShowGoToLineFormCommand : CommandBase
 	{
 		public ShowGoToLineFormCommand() 
-			: base("Go To...")
+			: base("Go To Line...")
 		{
 			ShortcutKeys = Keys.Control | Keys.G;
 		}

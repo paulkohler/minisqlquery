@@ -83,7 +83,7 @@ namespace MiniSqlQuery.Core
 
 		/// <summary>
 		/// Resolves the full filename of the connection string file, by default in the application data folder
-		/// for "MiniSqlQuery", e.g. "C:\Users\(username)\AppData\Roaming\MiniSqlQuery\connections.txt".
+		/// for "MiniSqlQuery", e.g. "C:\Users\(username)\AppData\Roaming\MiniSqlQuery\connections.xml".
 		/// Allows for the override vis the "MiniSqlQuery.Core.dll.config" file "DefaultConnectionDefinitionFilename" 
 		/// setting.
 		/// </summary>

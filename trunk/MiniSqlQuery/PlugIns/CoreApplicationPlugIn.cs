@@ -18,6 +18,7 @@ namespace MiniSqlQuery.PlugIns
         public override void InitializePlugIn()
         {
 			ToolStripMenuItem fileMenu = Services.HostWindow.GetMenuItem("File");
+			ToolStripMenuItem editMenu = Services.HostWindow.GetMenuItem("edit");
 			ToolStripMenuItem pluginsMenu = Services.HostWindow.GetMenuItem("plugins");
 			ToolStripMenuItem queryMenu = Services.HostWindow.GetMenuItem("query");
 			ToolStripMenuItem helpMenu = Services.HostWindow.GetMenuItem("help");
@@ -38,25 +39,25 @@ namespace MiniSqlQuery.PlugIns
             queryMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<TurnEnableQueryBatchingOnCommand>());
             queryMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<TurnEnableQueryBatchingOffCommand>());
 
+			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<PasteAroundSelectionCommand>());
+			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SetLeftPasteAroundSelectionCommand>());
+			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SetRightPasteAroundSelectionCommand>());
+			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenConnectionFileCommand>());
+			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<GenerateCommandCodeCommand>());
+
+			// get the new item and make in invisible - the shortcut key is still available etc ;-)
+			ToolStripItem item = editMenu.DropDownItems["SetLeftPasteAroundSelectionCommandToolStripMenuItem"];
+			item.Visible = false;
+			item = editMenu.DropDownItems["SetRightPasteAroundSelectionCommandToolStripMenuItem"];
+			item.Visible = false;
+
+
             helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowHelpCommand>());
 			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowWebPageCommand>());
 			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowDiscussionsWebPageCommand>());
 			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<EmailAuthorCommand>());
             helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
             helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowAboutCommand>());
-
-            Services.HostWindow.AddPluginCommand<PasteAroundSelectionCommand>();
-            Services.HostWindow.AddPluginCommand<SetLeftPasteAroundSelectionCommand>();
-            Services.HostWindow.AddPluginCommand<SetRightPasteAroundSelectionCommand>();
-
-            // get the new item and make in invisible - the shortcut key is still available etc ;-)
-            //ToolStripMenuItem pluginsMenu = Services.HostWindow.GetMenuItem("plugins");
-            ToolStripItem item = pluginsMenu.DropDownItems["SetLeftPasteAroundSelectionCommandToolStripMenuItem"];
-            item.Visible = false;
-            item = pluginsMenu.DropDownItems["SetRightPasteAroundSelectionCommandToolStripMenuItem"];
-            item.Visible = false;
-
-            Services.HostWindow.AddPluginCommand<GenerateCommandCodeCommand>();
 
             CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(Services.HostWindow.Instance.MainMenuStrip);
 

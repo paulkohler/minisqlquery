@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.PlugIns.ConnectionStringsManager.Commands;
 
@@ -15,7 +16,8 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 
 		public override void InitializePlugIn()
 		{
-			Services.HostWindow.AddPluginCommand<EditConnectionsFormCommand>();
+			ToolStripMenuItem editMenu = Services.HostWindow.GetMenuItem("edit");
+			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<EditConnectionsFormCommand>());
 			Services.HostWindow.AddToolStripCommand<EditConnectionsFormCommand>(null);
 		}
 	}

@@ -81,6 +81,7 @@
     <Compile Include="ApplicationServices.cs" />
     <Compile Include="Commands\CloseDatabaseConnectionCommand.cs" />
     <Compile Include="Commands\GenerateCommandCodeCommand.cs" />
+    <Compile Include="Commands\OpenConnectionFileCommand.cs" />
     <Compile Include="ConnectionDefinition.cs" />
     <Compile Include="Controls\BatchQuerySelectControl.cs">
       <SubType>UserControl</SubType>
