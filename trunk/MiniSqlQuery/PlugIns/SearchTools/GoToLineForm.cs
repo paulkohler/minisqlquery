@@ -24,6 +24,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 			if (navDoc != null)
 			{
 				LineValue = (navDoc.CursorLine + 1).ToString();
+				Text = string.Format("{0} (1-{1})", Text, navDoc.TotalLines);
 			}
 		}
 

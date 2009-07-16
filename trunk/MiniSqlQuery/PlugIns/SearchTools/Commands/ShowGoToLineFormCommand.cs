@@ -15,7 +15,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 
 		public override bool Enabled
 		{
-			get { return ApplicationServices.Instance.HostWindow.ActiveChildForm is IQueryEditor; }
+			get { return ApplicationServices.Instance.HostWindow.ActiveChildForm is INavigatableDocument; }
 		}
 
 		public override void Execute()

@@ -8,9 +8,8 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.PlugIns.ViewTable
 {
-	public partial class ViewTableForm : DockContent, IQueryBatchProvider
+	public partial class ViewTableForm : DockContent, IQueryBatchProvider, INavigatableDocument
 	{
-		//DataSet _result;
 		private QueryBatch _batch;
 		private DbConnection _dbConnection;
 		private DatabaseMetaDataService _metaDataService;
@@ -209,5 +208,50 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 		private void queryToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 		}
+
+		#region Implementation of ISupportCursorOffset
+
+		public int CursorOffset
+		{
+			get { return CursorLine; }
+		}
+
+		#endregion
+
+		#region Implementation of INavigatableDocument
+
+		public bool SetCursorByOffset(int offset)
+		{
+			return SetCursorByLocation(offset, 0);
+		}
+
+		public bool SetCursorByLocation(int line, int column)
+		{
+			if (line > 0 && line <= TotalLines)
+			{
+				dataGridViewResult.FirstDisplayedScrollingRowIndex = line;
+				dataGridViewResult.Refresh();
+				dataGridViewResult.Rows[line].Selected = true;
+				return true;
+			}
+			return false;
+		}
+
+		public int CursorLine
+		{
+			get { return (dataGridViewResult.CurrentRow != null) ? dataGridViewResult.CurrentRow.Index : 0; }
+		}
+
+		public int CursorColumn
+		{
+			get { return dataGridViewResult.SelectedCells.Count > 0 ? dataGridViewResult.SelectedCells[0].ColumnIndex : 0; }
+		}
+
+		public int TotalLines
+		{
+			get { return (dataGridViewResult.DataSource != null) ? dataGridViewResult.Rows.Count : 0; }
+		}
+
+		#endregion
 	}
 }
