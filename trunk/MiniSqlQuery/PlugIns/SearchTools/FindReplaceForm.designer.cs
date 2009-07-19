@@ -51,6 +51,8 @@
 			this.txtFindString.Name = "txtFindString";
 			this.txtFindString.Size = new System.Drawing.Size(222, 20);
 			this.txtFindString.TabIndex = 1;
+			this.txtFindString.Leave += new System.EventHandler(this.txtFindString_Leave);
+			this.txtFindString.Enter += new System.EventHandler(this.txtFindString_Enter);
 			// 
 			// btnFindNext
 			// 
@@ -81,7 +83,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(329, 76);
+			this.ClientSize = new System.Drawing.Size(329, 84);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnFindNext);
 			this.Controls.Add(this.txtFindString);
@@ -89,8 +91,11 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.MinimumSize = new System.Drawing.Size(320, 110);
 			this.Name = "FindReplaceForm";
+			this.Opacity = 0.8;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Find Text";
+			this.Deactivate += new System.EventHandler(this.FindReplaceForm_Deactivate);
+			this.Activated += new System.EventHandler(this.FindReplaceForm_Activated);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

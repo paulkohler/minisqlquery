@@ -14,18 +14,29 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 			ShortcutKeys = Keys.Control | Keys.F;
 		}
 
+		public IFindReplaceWindow FindReplaceWindow { get; private set; }
+
 		public override void Execute()
 		{
+			// if the window is an editor, grab the highlighted text
 			IQueryEditor editor = Services.HostWindow.ActiveChildForm as IQueryEditor;
 
-			FindReplaceForm frm = new FindReplaceForm();
-			if (editor != null)
+			if (FindReplaceWindow == null)
 			{
-				frm.FindString = editor.SelectedText;
+				FindReplaceWindow = new FindReplaceForm(Services);
 			}
 
-			frm.TopMost = true;
-			frm.Show(Services.HostWindow.Instance);
+			if (editor != null)
+			{
+				FindReplaceWindow.FindString = editor.SelectedText;
+			}
+
+			FindReplaceWindow.TopMost = true;
+
+			if (!FindReplaceWindow.Visible)
+			{
+				FindReplaceWindow.Show(Services.HostWindow.Instance);
+			}
 		}
 	}
 }

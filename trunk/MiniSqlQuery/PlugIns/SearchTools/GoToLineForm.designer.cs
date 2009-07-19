@@ -83,6 +83,7 @@
 			this.Controls.Add(this.lblLinePrompt);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Name = "GoToLineForm";
+			this.Opacity = 0.8;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Go to Line";
 			this.Load += new System.EventHandler(this.GoToLineForm_Load);
