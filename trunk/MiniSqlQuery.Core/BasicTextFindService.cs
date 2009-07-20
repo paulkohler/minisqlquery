@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MiniSqlQuery.Core
 {
@@ -20,6 +18,8 @@ namespace MiniSqlQuery.Core
 			_services = applicationServices;
 		}
 
+		#region ITextFindService Members
+
 		/// <summary>
 		/// Looks for the next match depending on the settings in the <paramref name="request"/>.
 		/// </summary>
@@ -34,24 +34,24 @@ namespace MiniSqlQuery.Core
 
 			int pos = -1;
 
-			if (request.SearchUp)
-			{
-				//todo - I think its the TextProvider's job...?
-			}
-			else // search down.
-			{
-				pos = request.TextProvider.FindString(request.SearchValue, request.Position, request.StringComparison);
-				//pos = request.TextProvider.FindString(request);
-			}
+			//if (request.SearchUp)
+			//{
+			//    //todo - I think its the TextProvider's job...?
+			//}
+			//else // search down.
+			//{
+			pos = request.TextProvider.FindString(request.SearchValue, request.Position, request.StringComparison);
+			//    //pos = request.TextProvider.FindString(request);
+			//}
 
 			if (pos > -1)
 			{
 				// the editor will highlight the find
-				request.Position = pos; // +request.SearchValue.Length;
+				request.Position = pos;
 			}
 			else
 			{
-				// rest to start of buffer.
+				// reset to start of buffer.
 				request.Position = 0;
 
 				// todo - notify, beep etc
@@ -59,5 +59,7 @@ namespace MiniSqlQuery.Core
 
 			return request;
 		}
+
+		#endregion
 	}
 }

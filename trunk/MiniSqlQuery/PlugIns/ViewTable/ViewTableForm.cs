@@ -110,7 +110,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			_dbConnection = null;
 		}
 
-		private void ViewTableForm_Load(object sender, EventArgs e)
+		private void ViewTableForm_Shown(object sender, EventArgs e)
 		{
 			LoadTableData();
 		}

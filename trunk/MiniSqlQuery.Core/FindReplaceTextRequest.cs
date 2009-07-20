@@ -41,11 +41,11 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		public int Position { get; set; }
 
-		/// <summary>
-		/// If true, signals the <see cref="TextProvider"/> to search "up", otherwise "down".
-		/// </summary>
-		/// <value>True to search up, false for down (the default).</value>
-		public bool SearchUp { get; set; }
+		///// <summary>
+		///// If true, signals the <see cref="TextProvider"/> to search "up", otherwise "down".
+		///// </summary>
+		///// <value>True to search up, false for down (the default).</value>
+		//public bool SearchUp { get; set; }
 
 		/// <summary>
 		/// The string comparison settings, e.g. case insensitive.

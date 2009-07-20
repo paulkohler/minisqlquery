@@ -169,7 +169,7 @@
 			this.Padding = new System.Windows.Forms.Padding(4);
 			this.TabText = "ViewTableForm";
 			this.Text = "ViewTableForm";
-			this.Load += new System.EventHandler(this.ViewTableForm_Load);
+			this.Shown += new System.EventHandler(this.ViewTableForm_Shown);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewResult)).EndInit();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
