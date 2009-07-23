@@ -1,7 +1,6 @@
 using System;
-using MiniSqlQuery.Core.Commands;
 
-namespace MiniSqlQuery.Commands
+namespace MiniSqlQuery.Core.Commands
 {
 	public class TurnEnableQueryBatchingOnCommand
 		: CommandBase

@@ -1,7 +1,6 @@
-using MiniSqlQuery.Core;
-using MiniSqlQuery.Core.Commands;
+using System;
 
-namespace MiniSqlQuery.Commands
+namespace MiniSqlQuery.Core.Commands
 {
 	public class EmailAuthorCommand
 		: ShowUrlCommand

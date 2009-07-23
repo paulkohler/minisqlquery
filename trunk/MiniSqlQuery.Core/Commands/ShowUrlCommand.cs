@@ -1,9 +1,7 @@
 using System;
 using System.Drawing;
-using MiniSqlQuery.Core;
-using MiniSqlQuery.Core.Commands;
 
-namespace MiniSqlQuery.Commands
+namespace MiniSqlQuery.Core.Commands
 {
 	public class ShowUrlCommand
 		: CommandBase

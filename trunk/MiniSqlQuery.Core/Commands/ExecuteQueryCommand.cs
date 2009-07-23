@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MiniSqlQuery.Core.Commands;
 using System.Windows.Forms;
-using MiniSqlQuery.Core;
 
-namespace MiniSqlQuery.Commands
+namespace MiniSqlQuery.Core.Commands
 {
 	public class ExecuteQueryCommand
 		: CommandBase
@@ -15,6 +11,19 @@ namespace MiniSqlQuery.Commands
 		{
 			ShortcutKeys = Keys.F5;
 			SmallImage = ImageResource.lightning;
+		}
+
+		public override bool Enabled
+		{
+			get
+			{
+				IQueryEditor editor = ActiveFormAsEditor;
+				if (editor != null)
+				{
+					return !editor.IsBusy;
+				}
+				return false;
+			}
 		}
 
 		public override void Execute()
@@ -28,19 +37,6 @@ namespace MiniSqlQuery.Commands
 			if (editor != null)
 			{
 				editor.ExecuteQuery();
-			}
-		}
-
-		public override bool Enabled
-		{
-			get
-			{
-				IQueryEditor editor = ActiveFormAsEditor;
-				if (editor != null)
-				{
-					return !editor.IsBusy;
-				}
-				return false;
 			}
 		}
 	}

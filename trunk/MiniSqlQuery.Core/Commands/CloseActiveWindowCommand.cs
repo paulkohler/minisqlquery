@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MiniSqlQuery.Core.Commands;
 using System.Windows.Forms;
 
-namespace MiniSqlQuery.Commands
+namespace MiniSqlQuery.Core.Commands
 {
 	public class CloseActiveWindowCommand
 		: CommandBase
@@ -14,20 +11,17 @@ namespace MiniSqlQuery.Commands
 		{
 		}
 
+		public override bool Enabled
+		{
+			get { return Services.HostWindow.ActiveChildForm != null; }
+		}
+
 		public override void Execute()
 		{
 			Form frm = Services.HostWindow.ActiveChildForm;
 			if (frm != null)
 			{
 				frm.Close();
-			}
-		}
-
-		public override bool Enabled
-		{
-			get
-			{
-				return Services.HostWindow.ActiveChildForm != null;
 			}
 		}
 	}

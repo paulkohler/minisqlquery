@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MiniSqlQuery.Core.Commands;
-using System.Diagnostics;
-using MiniSqlQuery.Core;
-using System.Windows.Forms;
 
-namespace MiniSqlQuery.Commands
+namespace MiniSqlQuery.Core.Commands
 {
 	public class ShowHelpCommand
 		: ShowUrlCommand

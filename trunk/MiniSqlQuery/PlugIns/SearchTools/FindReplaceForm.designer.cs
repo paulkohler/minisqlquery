@@ -96,6 +96,7 @@
 			this.Text = "Find Text";
 			this.Deactivate += new System.EventHandler(this.FindReplaceForm_Deactivate);
 			this.Activated += new System.EventHandler(this.FindReplaceForm_Activated);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FindReplaceForm_FormClosing);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

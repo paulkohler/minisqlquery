@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Drawing.Printing;
 using System.Windows.Forms;
-using MiniSqlQuery.Core;
-using MiniSqlQuery.Core.Commands;
 
-namespace MiniSqlQuery.Commands
+namespace MiniSqlQuery.Core.Commands
 {
 	public class PrintCommand
 		: CommandBase

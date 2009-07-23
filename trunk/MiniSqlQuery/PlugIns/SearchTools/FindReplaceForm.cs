@@ -38,7 +38,16 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
-			Close();
+			Hide();
+		}
+
+		private void FindReplaceForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (e.CloseReason == CloseReason.UserClosing)
+			{
+				Hide();
+				e.Cancel = true;
+			}
 		}
 
 		private void HandleFindNext(IFindReplaceProvider provider, string findString)
@@ -106,4 +115,5 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 
 		#endregion
 	}
+
 }

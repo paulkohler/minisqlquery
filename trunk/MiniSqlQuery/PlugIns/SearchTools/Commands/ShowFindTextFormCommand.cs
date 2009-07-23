@@ -16,12 +16,24 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 
 		public IFindReplaceWindow FindReplaceWindow { get; private set; }
 
+
+		public override bool Enabled
+		{
+			// todo - support: get { return ApplicationServices.Instance.HostWindow.ActiveChildForm is INavigatableDocument; }
+			get { return ApplicationServices.Instance.HostWindow.ActiveChildForm is IQueryEditor; }
+		}
+
 		public override void Execute()
 		{
+			if (!Enabled)
+			{
+				return;
+			}
+
 			// if the window is an editor, grab the highlighted text
 			IQueryEditor editor = Services.HostWindow.ActiveChildForm as IQueryEditor;
 
-			if (FindReplaceWindow == null)
+			if (FindReplaceWindow == null || FindReplaceWindow.IsDisposed)
 			{
 				FindReplaceWindow = new FindReplaceForm(Services);
 			}

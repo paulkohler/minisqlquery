@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-using MiniSqlQuery.Core.Commands;
-using MiniSqlQuery.Core;
 
-namespace MiniSqlQuery.Commands
+namespace MiniSqlQuery.Core.Commands
 {
 	public class CopyQueryEditorFileNameCommand
 		: CommandBase

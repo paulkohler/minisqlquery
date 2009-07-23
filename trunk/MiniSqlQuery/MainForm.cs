@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.Commands;
 using MiniSqlQuery.Properties;
 using WeifenLuo.WinFormsUI.Docking;
 

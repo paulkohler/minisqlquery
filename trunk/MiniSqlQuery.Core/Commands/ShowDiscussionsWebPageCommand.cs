@@ -1,7 +1,6 @@
 using System;
-using MiniSqlQuery.Core;
 
-namespace MiniSqlQuery.Commands
+namespace MiniSqlQuery.Core.Commands
 {
 	public class ShowDiscussionsWebPageCommand
 		: ShowUrlCommand

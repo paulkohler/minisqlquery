@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using ICSharpCode.TextEditor.Document;
 using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.Commands;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery
