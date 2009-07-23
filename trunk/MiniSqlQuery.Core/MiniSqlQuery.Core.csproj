@@ -77,11 +77,27 @@
     <Compile Include="BasicTextFindService.cs" />
     <Compile Include="BatchProgressEventArgs.cs" />
     <Compile Include="CommandManager.cs" />
+    <Compile Include="Commands\CloseActiveWindowCommand.cs" />
+    <Compile Include="Commands\CloseAllWindowsCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="ApplicationServices.cs" />
     <Compile Include="Commands\CloseDatabaseConnectionCommand.cs" />
+    <Compile Include="Commands\CopyQueryEditorFileNameCommand.cs" />
+    <Compile Include="Commands\EmailAuthorCommand.cs" />
+    <Compile Include="Commands\ExecuteQueryCommand.cs" />
+    <Compile Include="Commands\ExitApplicationCommand.cs" />
     <Compile Include="Commands\GenerateCommandCodeCommand.cs" />
+    <Compile Include="Commands\NewQueryFormCommand.cs" />
     <Compile Include="Commands\OpenConnectionFileCommand.cs" />
+    <Compile Include="Commands\PasteAroundSelectionCommand.cs" />
+    <Compile Include="Commands\PrintCommand.cs" />
+    <Compile Include="Commands\RefreshDatabaseConnectionCommand.cs" />
+    <Compile Include="Commands\ShowDiscussionsWebPageCommand.cs" />
+    <Compile Include="Commands\ShowHelpCommand.cs" />
+    <Compile Include="Commands\ShowUrlCommand.cs" />
+    <Compile Include="Commands\ShowWebPageCommand.cs" />
+    <Compile Include="Commands\TurnEnableQueryBatchingOffCommand.cs" />
+    <Compile Include="Commands\TurnEnableQueryBatchingOnCommand.cs" />
     <Compile Include="ConnectionDefinition.cs" />
     <Compile Include="Controls\BatchQuerySelectControl.cs">
       <SubType>UserControl</SubType>
@@ -116,7 +132,7 @@
     <Compile Include="IApplicationSettings.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="IDatabaseInspector.cs" />
-    <Compile Include="IFindReplaceWindow.cs" />
+    <Compile Include="FindReplaceWindow.cs" />
     <Compile Include="IHostWindow.cs" />
     <Compile Include="ImageResource.Designer.cs">
       <AutoGen>True</AutoGen>
