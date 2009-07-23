@@ -132,7 +132,7 @@
     <Compile Include="IApplicationSettings.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="IDatabaseInspector.cs" />
-    <Compile Include="FindReplaceWindow.cs" />
+    <Compile Include="IFindReplaceWindow.cs" />
     <Compile Include="IHostWindow.cs" />
     <Compile Include="ImageResource.Designer.cs">
       <AutoGen>True</AutoGen>

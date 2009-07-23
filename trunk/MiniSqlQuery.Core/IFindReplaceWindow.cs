@@ -27,6 +27,14 @@ namespace MiniSqlQuery.Core
 		bool Visible { get; set; }
 
 		/// <summary>
+		/// Gets a value indicating whether this instance is disposed.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if this instance is disposed; otherwise, <c>false</c>.
+		/// </value>
+		bool IsDisposed { get; }
+
+		/// <summary>
 		/// Shows the window.
 		/// </summary>
 		/// <param name="owner">The owner form.</param>
