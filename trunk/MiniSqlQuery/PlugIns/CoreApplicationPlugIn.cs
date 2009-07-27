@@ -19,7 +19,6 @@ namespace MiniSqlQuery.PlugIns
         {
 			ToolStripMenuItem fileMenu = Services.HostWindow.GetMenuItem("File");
 			ToolStripMenuItem editMenu = Services.HostWindow.GetMenuItem("edit");
-			ToolStripMenuItem pluginsMenu = Services.HostWindow.GetMenuItem("plugins");
 			ToolStripMenuItem queryMenu = Services.HostWindow.GetMenuItem("query");
 			ToolStripMenuItem helpMenu = Services.HostWindow.GetMenuItem("help");
 

@@ -130,7 +130,6 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 		{
 			DbDataAdapter adapter = null;
 			DbCommand cmd = null;
-			//bool errored = false;
 			DataTable dt = null;
 			Query query = new Query("SELECT * FROM " + TableName);
 
@@ -143,6 +142,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			try
 			{
 				UseWaitCursor = true;
+				dataGridViewResult.DataSource = null;
 				Application.DoEvents();
 
 				if (_dbConnection == null)
@@ -188,6 +188,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			}
 
 			dataGridViewResult.DataSource = dt;
+			dataGridViewResult.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
 		}
 
 		private void refreshToolStripMenuItem_Click(object sender, EventArgs e)

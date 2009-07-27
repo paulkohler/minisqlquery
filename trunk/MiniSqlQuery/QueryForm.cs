@@ -406,7 +406,7 @@ namespace MiniSqlQuery
 				foreach (Query query in Batch.Queries)
 				{
 					DataSet ds = query.Result;
-					if (query.Result != null)
+					if (ds != null)
 					{
 						foreach (DataTable dt in ds.Tables)
 						{
@@ -421,8 +421,6 @@ namespace MiniSqlQuery
 							grid.DataSource = dt;
 							grid.DataError += GridDataError;
 							grid.DefaultCellStyle = cellStyle;
-							grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-							grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 
 							cellStyle.NullValue = "<NULL>";
 							cellStyle.Font = CreateDefaultFont();
@@ -435,10 +433,12 @@ namespace MiniSqlQuery
 							tabPage.UseVisualStyleBackColor = false;
 
 							_resultsTabControl.TabPages.Add(tabPage);
+							grid.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
 							counter++;
 						}
 					}
 				}
+
 
 				if (!string.IsNullOrEmpty(Batch.Messages))
 				{
