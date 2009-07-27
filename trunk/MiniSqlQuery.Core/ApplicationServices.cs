@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using Castle.Core;
 using Castle.Windsor;
-using Castle.Windsor.Configuration;
-using Castle.Windsor.Configuration.Interpreters;
 
 namespace MiniSqlQuery.Core
 {
@@ -20,8 +18,10 @@ namespace MiniSqlQuery.Core
 
 		static ApplicationServices()
 		{
-			IConfigurationInterpreter config = new XmlInterpreter("Configuration.xml");
-			_container = new WindsorContainer(config);
+			_container = new WindsorContainer();
+
+			// add self
+			_container.AddComponentWithLifestyle<IApplicationServices, ApplicationServices>("ApplicationServices", LifestyleType.Singleton);
 		}
 
 		/// <summary>
@@ -30,7 +30,7 @@ namespace MiniSqlQuery.Core
 		/// <value>The singleton instance of <see cref="IApplicationServices"/>.</value>
 		public static IApplicationServices Instance
 		{
-			get { return (IApplicationServices) _container.GetService(typeof(IApplicationServices)); }
+			get { return _container.GetService<IApplicationServices>(); }
 		}
 
 		#region IApplicationServices Members
@@ -49,7 +49,7 @@ namespace MiniSqlQuery.Core
 		/// <value>The host window - a <see cref="Form"/>.</value>
 		public IHostWindow HostWindow
 		{
-			get { return (IHostWindow) _container.GetService(typeof(IHostWindow)); }
+			get { return _container.GetService<IHostWindow>(); }
 		}
 
 		/// <summary>
@@ -58,7 +58,7 @@ namespace MiniSqlQuery.Core
 		/// <value>A reference to the settings handler.</value>
 		public IApplicationSettings Settings
 		{
-			get { return (IApplicationSettings) _container.GetService(typeof(IApplicationSettings)); }
+			get { return _container.GetService<IApplicationSettings>(); }
 		}
 
 		/// <summary>

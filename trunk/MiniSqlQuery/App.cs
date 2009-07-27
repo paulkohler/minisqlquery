@@ -29,8 +29,19 @@ namespace MiniSqlQuery
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+			// singletons
+			ApplicationServices.Instance.Container.AddComponentWithLifestyle<IApplicationSettings, ApplicationSettings>(
+				"ApplicationSettings", LifestyleType.Singleton);
+			ApplicationServices.Instance.Container.AddComponentWithLifestyle<IHostWindow, MainForm>(
+				"HostWindow", LifestyleType.Singleton);
+
+			// components
             ApplicationServices.Instance.Container.AddComponentWithLifestyle<AboutForm>(
                 "AboutForm", LifestyleType.Transient);
+			ApplicationServices.Instance.Container.AddComponentWithLifestyle<ITextFindService, BasicTextFindService>(
+				"DefaultTextFindService", LifestyleType.Transient);
+			ApplicationServices.Instance.Container.AddComponentWithLifestyle<IQueryEditor, QueryForm>(
+				"QueryForm", LifestyleType.Transient);
 
             ApplicationServices.Instance.LoadPlugIn(new CoreApplicationPlugIn());
             ApplicationServices.Instance.LoadPlugIn(new ConnectionStringsManagerLoader());
