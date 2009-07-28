@@ -15,7 +15,7 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		/// <param name="textProvider">The search provider for this request,</param>
 		public FindTextRequest(IFindReplaceProvider textProvider)
-			: this(textProvider, string.Empty)
+			: this(textProvider, null)
 		{
 		}
 
@@ -27,7 +27,10 @@ namespace MiniSqlQuery.Core
 		public FindTextRequest(IFindReplaceProvider textProvider, string searchValue)
 		{
 			TextProvider = textProvider;
-			SearchValue = searchValue;
+			if (searchValue != null)
+			{
+				SearchValue = searchValue;
+			}
 			Position = 0;
 			StringComparison = StringComparison.CurrentCultureIgnoreCase;
 		}

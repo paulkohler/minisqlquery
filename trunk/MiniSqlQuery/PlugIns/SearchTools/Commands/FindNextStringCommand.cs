@@ -34,12 +34,21 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 				}
 				else
 				{
-					// none in table, default to curently selected text if its the editor
-					IQueryEditor editor = Services.HostWindow.ActiveChildForm as IQueryEditor;
-
-					if (editor != null && editor.SelectedText.Length > 0)
+					if (SearchToolsCommon.FindReplaceTextRequests.Count > 0)
 					{
-						findTextRequest = new FindTextRequest(editorFindProvider, editor.SelectedText);
+						// if there is an entry in the list of searches create an instance
+						findTextRequest = new FindTextRequest(editorFindProvider);
+						findTextRequest.Position = editorFindProvider.CursorOffset;
+					}
+					else
+					{
+						// none in table, default to curently selected text if its the editor
+						IQueryEditor editor = Services.HostWindow.ActiveChildForm as IQueryEditor;
+						if (editor != null && editor.SelectedText.Length > 0)
+						{
+							findTextRequest = new FindTextRequest(editorFindProvider, editor.SelectedText);
+							findTextRequest.Position = editor.CursorOffset;
+						}
 					}
 				}
 

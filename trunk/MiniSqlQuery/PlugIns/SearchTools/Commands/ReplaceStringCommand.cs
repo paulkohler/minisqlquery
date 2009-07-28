@@ -10,8 +10,6 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 		public ReplaceStringCommand()
 			: base("Replace String")
 		{
-			SmallImage = ImageResource.find;
-			ShortcutKeys = Keys.Alt | Keys.R;
 		}
 
 		public override void Execute()
