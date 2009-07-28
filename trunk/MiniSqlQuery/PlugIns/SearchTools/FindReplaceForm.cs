@@ -13,8 +13,11 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 		public FindReplaceForm(IApplicationServices services)
 		{
 			InitializeComponent();
+			StartPosition = FormStartPosition.CenterParent;
 			_services = services;
 		}
+
+		#region IFindReplaceWindow Members
 
 		public string FindString
 		{
@@ -26,6 +29,27 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 		{
 			get { return txtReplaceText.Text; }
 			set { txtReplaceText.Text = value; }
+		}
+
+		#endregion
+
+		private void FindReplaceForm_KeyUp(object sender, KeyEventArgs e)
+		{
+			// simulate close
+			if (e.KeyCode == Keys.Escape)
+			{
+				e.Handled = true;
+				Hide();
+			}
+		}
+
+		private void FindReplaceForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (e.CloseReason == CloseReason.UserClosing)
+			{
+				e.Cancel = true;
+				Hide();
+			}
 		}
 
 		private void btnFindNext_Click(object sender, EventArgs e)
@@ -61,14 +85,6 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 			Hide();
 		}
 
-		private void FindReplaceForm_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (e.CloseReason == CloseReason.UserClosing)
-			{
-				Hide();
-				e.Cancel = true;
-			}
-		}
 
 		private void HandleFindNext(IFindReplaceProvider provider, string findString, string replaceValue)
 		{
@@ -148,5 +164,4 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 
 		#endregion
 	}
-
 }
