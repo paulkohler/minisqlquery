@@ -32,6 +32,9 @@
 			this.txtFindString = new System.Windows.Forms.TextBox();
 			this.btnFindNext = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
+			this.txtReplaceText = new System.Windows.Forms.TextBox();
+			this.btnReplace = new System.Windows.Forms.Button();
+			this.label2 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -57,10 +60,10 @@
 			// btnFindNext
 			// 
 			this.btnFindNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnFindNext.Location = new System.Drawing.Point(161, 41);
+			this.btnFindNext.Location = new System.Drawing.Point(161, 64);
 			this.btnFindNext.Name = "btnFindNext";
 			this.btnFindNext.Size = new System.Drawing.Size(75, 23);
-			this.btnFindNext.TabIndex = 4;
+			this.btnFindNext.TabIndex = 10;
 			this.btnFindNext.Text = "&Find Next";
 			this.btnFindNext.UseVisualStyleBackColor = true;
 			this.btnFindNext.Click += new System.EventHandler(this.btnFindNext_Click);
@@ -69,13 +72,44 @@
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(242, 41);
+			this.btnCancel.Location = new System.Drawing.Point(242, 93);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
-			this.btnCancel.TabIndex = 6;
+			this.btnCancel.TabIndex = 12;
 			this.btnCancel.Text = "&Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+			// 
+			// txtReplaceText
+			// 
+			this.txtReplaceText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtReplaceText.Location = new System.Drawing.Point(95, 38);
+			this.txtReplaceText.Name = "txtReplaceText";
+			this.txtReplaceText.Size = new System.Drawing.Size(222, 20);
+			this.txtReplaceText.TabIndex = 3;
+			this.txtReplaceText.Leave += new System.EventHandler(this.txtFindString_Leave);
+			this.txtReplaceText.Enter += new System.EventHandler(this.txtFindString_Enter);
+			// 
+			// btnReplace
+			// 
+			this.btnReplace.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnReplace.Location = new System.Drawing.Point(242, 64);
+			this.btnReplace.Name = "btnReplace";
+			this.btnReplace.Size = new System.Drawing.Size(75, 23);
+			this.btnReplace.TabIndex = 11;
+			this.btnReplace.Text = "&Replace";
+			this.btnReplace.UseVisualStyleBackColor = true;
+			this.btnReplace.Click += new System.EventHandler(this.btnReplace_Click);
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(12, 41);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(69, 13);
+			this.label2.TabIndex = 2;
+			this.label2.Text = "&Replace with";
 			// 
 			// FindReplaceForm
 			// 
@@ -83,7 +117,10 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(329, 84);
+			this.ClientSize = new System.Drawing.Size(329, 124);
+			this.Controls.Add(this.label2);
+			this.Controls.Add(this.btnReplace);
+			this.Controls.Add(this.txtReplaceText);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnFindNext);
 			this.Controls.Add(this.txtFindString);
@@ -108,6 +145,9 @@
 		private System.Windows.Forms.TextBox txtFindString;
 		private System.Windows.Forms.Button btnFindNext;
 		private System.Windows.Forms.Button btnCancel;
+		private System.Windows.Forms.TextBox txtReplaceText;
+		private System.Windows.Forms.Button btnReplace;
+		private System.Windows.Forms.Label label2;
 	}
 }
 

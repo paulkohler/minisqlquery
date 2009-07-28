@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MiniSqlQuery.Core
 {
@@ -9,6 +7,9 @@ namespace MiniSqlQuery.Core
 	/// </summary>
 	public class FindTextRequest
 	{
+		private static string _replaceValue;
+		private static string _searchValue;
+
 		/// <summary>
 		/// Creates a new request using the specified <paramref name="textProvider"/> for searching.
 		/// </summary>
@@ -32,9 +33,24 @@ namespace MiniSqlQuery.Core
 		}
 
 		/// <summary>
-		/// The search text.
+		/// The search text (shared value).
 		/// </summary>
-		public string SearchValue { get; set; }
+		/// <value>The search value.</value>
+		public string SearchValue
+		{
+			get { return _searchValue; }
+			set { _searchValue = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the text replace value (shared value).
+		/// </summary>
+		/// <value>The replace value.</value>
+		public string ReplaceValue
+		{
+			get { return _replaceValue; }
+			set { _replaceValue = value; }
+		}
 
 		/// <summary>
 		/// The position of the currently "found" text (or the starting position of the search).

@@ -132,6 +132,7 @@
     </Compile>
     <Compile Include="PlugIns\DatabaseInspector\DatabaseInspectorLoader.cs" />
     <Compile Include="PlugIns\SearchTools\Commands\FindNextStringCommand.cs" />
+    <Compile Include="PlugIns\SearchTools\Commands\ReplaceStringCommand.cs" />
     <Compile Include="PlugIns\SearchTools\Commands\ShowFindTextFormCommand.cs" />
     <Compile Include="PlugIns\SearchTools\Commands\ShowGoToLineFormCommand.cs" />
     <Compile Include="PlugIns\SearchTools\FindReplaceForm.cs">

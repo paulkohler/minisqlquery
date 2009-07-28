@@ -15,6 +15,12 @@ namespace MiniSqlQuery.Core
 		string FindString { get; set; }
 
 		/// <summary>
+		/// Gets or sets the "replace string".
+		/// </summary>
+		/// <value>The replace string.</value>
+		string ReplaceString { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether the form is "top most" in the window stack.
 		/// </summary>
 		/// <value><c>true</c> if it's top most; otherwise, <c>false</c>.</value>

@@ -22,6 +22,12 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 			set { txtFindString.Text = value; }
 		}
 
+		public string ReplaceString
+		{
+			get { return txtReplaceText.Text; }
+			set { txtReplaceText.Text = value; }
+		}
+
 		private void btnFindNext_Click(object sender, EventArgs e)
 		{
 			IFindReplaceProvider provider = _services.HostWindow.ActiveChildForm as IFindReplaceProvider;
@@ -32,7 +38,21 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 			}
 			else
 			{
-				HandleFindNext(provider, FindString);
+				HandleFindNext(provider, FindString, ReplaceString);
+			}
+		}
+
+		private void btnReplace_Click(object sender, EventArgs e)
+		{
+			IFindReplaceProvider provider = _services.HostWindow.ActiveChildForm as IFindReplaceProvider;
+
+			if (provider == null)
+			{
+				SystemSounds.Beep.Play();
+			}
+			else
+			{
+				HandleReplaceNext(provider, FindString, ReplaceString);
 			}
 		}
 
@@ -50,7 +70,19 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 			}
 		}
 
-		private void HandleFindNext(IFindReplaceProvider provider, string findString)
+		private void HandleFindNext(IFindReplaceProvider provider, string findString, string replaceValue)
+		{
+			CreateFindRequest(provider, findString, replaceValue);
+			CommandManager.GetCommandInstance<FindNextStringCommand>().Execute();
+		}
+
+		private void HandleReplaceNext(IFindReplaceProvider provider, string findString, string replaceValue)
+		{
+			//CreateFindRequest(provider, findString);
+			CommandManager.GetCommandInstance<ReplaceStringCommand>().Execute();
+		}
+
+		private void CreateFindRequest(IFindReplaceProvider provider, string findString, string replaceValue)
 		{
 			int key = provider.GetHashCode();
 			FindTextRequest request;
@@ -62,16 +94,17 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 				{
 					// reset find text and set the starting position to the current cursor location
 					request.SearchValue = findString;
+					request.ReplaceValue = replaceValue;
 					request.Position = provider.CursorOffset;
 				}
 			}
 			else
 			{
 				request = new FindTextRequest(provider, findString);
+				request.ReplaceValue = replaceValue;
 			}
 
 			SearchToolsCommon.FindReplaceTextRequests[key] = request;
-			CommandManager.GetCommandInstance<FindNextStringCommand>().Execute();
 		}
 
 		#region Dim Handling
@@ -93,7 +126,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 
 		private void FindReplaceForm_Activated(object sender, EventArgs e)
 		{
-			if (txtFindString.Focused)
+			if (txtFindString.Focused | txtReplaceText.Focused)
 			{
 				UnDimForm();
 			}

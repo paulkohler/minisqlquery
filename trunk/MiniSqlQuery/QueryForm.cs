@@ -289,7 +289,7 @@ namespace MiniSqlQuery
 
 		public bool ReplaceString(string value, int startIndex, int length)
 		{
-			if (value == null)
+			if (value == null || startIndex < 0 || length < 0)
 			{
 				return false;
 			}
