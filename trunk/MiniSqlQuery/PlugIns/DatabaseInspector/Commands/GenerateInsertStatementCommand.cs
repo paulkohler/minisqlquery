@@ -24,16 +24,24 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 				DataView columnsDv = GetColumnInfoForTable(schema, tableName);
 				foreach (DataRowView rowView in columnsDv)
 				{
-					sb.Append(rowView["Column"]);
-					sb.Append(", ");
+					string dataType = rowView["DataType"].ToString();
+					if (!dataType.Equals("timestamp", StringComparison.CurrentCultureIgnoreCase))
+					{
+						sb.Append(rowView["Column"]);
+						sb.Append(", ");
+					}
 				}
 				string columns = TrimTrailingComma(sb.ToString());
 
 				sb = new StringBuilder();
 				foreach (DataRowView rowView in columnsDv)
 				{
-					sb.AppendFormat("<{0},{1}({2})>", rowView["Column"], rowView["DataType"], rowView["Length"]);
-					sb.Append(", ");
+					string dataType = rowView["DataType"].ToString();
+					if (!dataType.Equals("timestamp", StringComparison.CurrentCultureIgnoreCase))
+					{
+						sb.AppendFormat("<{0},{1}({2})>", rowView["Column"], dataType, rowView["Length"]);
+						sb.Append(", ");
+					}
 				}
 				string values = TrimTrailingComma(sb.ToString());
 

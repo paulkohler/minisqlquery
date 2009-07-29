@@ -2,4 +2,9 @@
 DISTRO
 Help
 ReleaseBuild
+</Value></Property><Property><Name>svn:ignore</Name><Value>Build
+DISTRO
+Help
+ReleaseBuild
+_ReSharper.MiniSqlQuery
 </Value></Property></Properties></ItemProperties>

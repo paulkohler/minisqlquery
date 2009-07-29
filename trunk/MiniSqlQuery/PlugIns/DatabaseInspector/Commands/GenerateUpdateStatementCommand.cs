@@ -20,16 +20,21 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 
 			if (tableName != null && editor != null)
 			{
-				string pkClause = "(idToDo = ?)";
+				string pkClause = "\t(idToDo = ?)";
 				StringBuilder sb = new StringBuilder();
 				sb.AppendFormat("UPDATE {0}{1}SET{1}", tableName, Environment.NewLine);
 				DataView columnsDv = GetColumnInfoForTable(schema, tableName);
 				foreach (DataRowView rowView in columnsDv)
 				{
-					sb.AppendFormat("\t{0} = '{0}',", rowView["Column"]);
-					sb.AppendLine();
+					string dataType = rowView["DataType"].ToString();
+					if (!dataType.Equals("timestamp", StringComparison.CurrentCultureIgnoreCase))
+					{
+						sb.AppendFormat("\t{0} = '{0}',", rowView["Column"]);
+						sb.AppendLine();
+					}
 				}
 				sb.Remove(sb.Length - 3, 3); // remove ",\r\n"
+				sb.AppendLine();
 				sb.AppendLine("WHERE");
 				sb.Append(pkClause);
 
