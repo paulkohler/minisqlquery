@@ -80,26 +80,78 @@ namespace MiniSqlQuery.Core
 			DataTable columns = dbConn.GetSchema("Columns");
 			DataTable dataTypes = dbConn.GetSchema("DataTypes");
 
-//#if DEBUG
-//            dbConn.GetSchema().WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\schema.xml", XmlWriteMode.WriteSchema);
-//            tables.WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\tables-metadata.xml", XmlWriteMode.WriteSchema);
-//            columns.WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\columns-metadata.xml", XmlWriteMode.WriteSchema); // DATA_TYPE ->
-//            dataTypes.WriteXml(@"C:\Projects\CodePlex\MiniSqlQuery\trunk\Build\dataTypes-metadata.xml", XmlWriteMode.WriteSchema); // NativeDataType (TypeName/DataType)
-//#endif
-
 			DataView dv = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_NAME", DataViewRowState.CurrentRows);
 			FindObjectByType(metadata, dv, columns, dataTypes, "table");
 
 			dv = new DataView(tables, "TABLE_TYPE='VIEW'", "TABLE_NAME", DataViewRowState.CurrentRows);
 			FindObjectByType(metadata, dv, columns, dataTypes, "view");
 
-//#if DEBUG
-//            metadata.WriteXml("db-schema.xml", XmlWriteMode.WriteSchema);
-//#endif
-
 			dbConn.Dispose();
 			return metadata;
 		}
+
+
+		public DbObjectModel GetDbObjectModel()
+		{
+			DbObjectModel model = new DbObjectModel();
+
+			DbConnection dbConn = CreateOpenConnection();
+			DataTable tables = dbConn.GetSchema("Tables");
+			DataTable columns = dbConn.GetSchema("Columns");
+			DataTable dataTypes = dbConn.GetSchema("DataTypes");
+
+			DataView dv = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_SCHEMA, TABLE_NAME", DataViewRowState.CurrentRows);
+
+			foreach (DataRowView row in dv)
+			{
+				string schemaName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_SCHEMA"));
+				string tableName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_NAME"));
+
+				DbTable dbTable = new DbTable
+				{
+					Schema = schemaName,
+					Name = tableName
+				};
+
+				model.Tables.Add(dbTable);
+
+				DataView columnView = new DataView(columns, string.Format("TABLE_NAME='{0}'", row["TABLE_NAME"]), "ORDINAL_POSITION",
+												   DataViewRowState.CurrentRows);
+				foreach (DataRowView columnRow in columnView)
+				{
+				    string columnName = SafeGetString(columnRow.Row, "COLUMN_NAME");
+				    string dataType = SafeGetString(columnRow.Row, "DATA_TYPE");
+					int dataTypeId;
+					if (int.TryParse(dataType, out dataTypeId))
+					{
+						// need to look up the type name (e.g. OLEDB report id's not actual type names)
+						DataRow[] dtRows = dataTypes.Select("NativeDataType = " + dataTypeId);
+						if (dtRows != null && dtRows.Length > 0)
+						{
+							dataType = dtRows[0]["TypeName"].ToString();
+						}
+					}
+
+					DbColumn dbColumn = new DbColumn
+						{
+							Name = MakeSqlFriendly(columnName),
+							Nullable = SafeGetBool(columnRow.Row, "IS_NULLABLE"),
+							Type = DbType.Create(dataType, SafeGetInt(columnRow.Row, "CHARACTER_MAXIMUM_LENGTH"))
+						};
+					dbTable.Add(dbColumn);
+				}
+			}
+
+//#if DEBUG
+//            dbConn.GetSchema().WriteXml(@"schema.xml", XmlWriteMode.WriteSchema);
+//            tables.WriteXml(@"tables-metadata.xml", XmlWriteMode.WriteSchema);
+//            columns.WriteXml(@"columns-metadata.xml", XmlWriteMode.WriteSchema); // DATA_TYPE ->
+//            dataTypes.WriteXml(@"dataTypes-metadata.xml", XmlWriteMode.WriteSchema); // NativeDataType (TypeName/DataType)
+//#endif
+
+			return model;
+		}
+
 
 		private void FindObjectByType(DataTable metadata, DataView dv, DataTable columns, DataTable dataTypes, string objectType)
 		{

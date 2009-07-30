@@ -118,8 +118,13 @@
       <DependentUpon>PluginListControl.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseMetaDataService.cs" />
+    <Compile Include="DbObjectModel.cs" />
+    <Compile Include="DbColumn.cs" />
     <Compile Include="DbConnectionDefinition.cs" />
     <Compile Include="DbConnectionDefinitionList.cs" />
+    <Compile Include="DbTable.cs" />
+    <Compile Include="DbTableCollection.cs" />
+    <Compile Include="DbType.cs" />
     <Compile Include="Forms\BatchQuerySelectForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +144,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ImageResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="INamedObject.cs" />
     <Compile Include="INavigatableDocument.cs" />
     <Compile Include="IPlugIn.cs" />
     <Compile Include="IPrintableContent.cs" />
