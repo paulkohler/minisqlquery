@@ -143,10 +143,15 @@ namespace MiniSqlQuery.Core
 			}
 
 //#if DEBUG
-//            dbConn.GetSchema().WriteXml(@"schema.xml", XmlWriteMode.WriteSchema);
-//            tables.WriteXml(@"tables-metadata.xml", XmlWriteMode.WriteSchema);
-//            columns.WriteXml(@"columns-metadata.xml", XmlWriteMode.WriteSchema); // DATA_TYPE ->
-//            dataTypes.WriteXml(@"dataTypes-metadata.xml", XmlWriteMode.WriteSchema); // NativeDataType (TypeName/DataType)
+//            string prefix = _factory.GetType().Name + "-";
+//            tables.WriteXml(prefix + @"schema-tables-metadata.xml", XmlWriteMode.WriteSchema);
+//            columns.WriteXml(prefix + @"schema-columns-metadata.xml", XmlWriteMode.WriteSchema); // DATA_TYPE ->
+//            dataTypes.WriteXml(prefix + @"schema-dataTypes-metadata.xml", XmlWriteMode.WriteSchema); // NativeDataType (TypeName/DataType)
+//            dbConn.GetSchema().WriteXml(prefix + @"schema.xml", XmlWriteMode.WriteSchema);
+//            dbConn.GetSchema("Indexes").WriteXml(prefix + @"schema-Indexes.xml", XmlWriteMode.WriteSchema);
+//            dbConn.GetSchema("ReservedWords").WriteXml(prefix + @"schema-ReservedWords.xml", XmlWriteMode.WriteSchema);
+//            dbConn.GetSchema("ForeignKeys").WriteXml(prefix + @"schema-ForeignKeys.xml", XmlWriteMode.WriteSchema);
+//            dbConn.GetSchema("IndexColumns").WriteXml(prefix + @"schema-IndexColumns.xml", XmlWriteMode.WriteSchema);
 //#endif
 
 			return model;
