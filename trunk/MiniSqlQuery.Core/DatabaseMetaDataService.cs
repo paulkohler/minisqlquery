@@ -104,6 +104,7 @@ namespace MiniSqlQuery.Core
 
 			foreach (DataRowView row in dv)
 			{
+				DataTable schemaTableKeyInfo;
 				string schemaName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_SCHEMA"));
 				string tableName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_NAME"));
 
@@ -114,6 +115,7 @@ namespace MiniSqlQuery.Core
 				};
 
 				model.Tables.Add(dbTable);
+				schemaTableKeyInfo = GetTableKeyInfo(dbConn, schemaName, tableName);
 
 				DataView columnView = new DataView(columns, string.Format("TABLE_NAME='{0}'", row["TABLE_NAME"]), "ORDINAL_POSITION",
 												   DataViewRowState.CurrentRows);
@@ -155,6 +157,25 @@ namespace MiniSqlQuery.Core
 //#endif
 
 			return model;
+		}
+
+		protected DataTable GetTableKeyInfo(DbConnection dbConn, string schema, string name)
+		{
+			DataTable schemaTableKeyInfo;
+			using (DbCommand command = dbConn.CreateCommand())
+			{
+				string tableName = (string.IsNullOrEmpty(schema) ? "" : schema + ".") + name;
+				command.CommandText = "SELECT * FROM " + tableName;
+				using (DbDataReader reader = command.ExecuteReader(CommandBehavior.SchemaOnly | CommandBehavior.KeyInfo))
+				{
+					schemaTableKeyInfo = reader.GetSchemaTable();
+#if DEBUG
+					string fileName = string.Format(@"{0}-schema-table-keyinfo--{1}.xml", _factory.GetType().Name, tableName);
+					schemaTableKeyInfo.WriteXml(fileName, XmlWriteMode.WriteSchema);
+#endif
+				}
+			}
+			return schemaTableKeyInfo;
 		}
 
 
