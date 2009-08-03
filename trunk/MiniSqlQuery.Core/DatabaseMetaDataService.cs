@@ -117,28 +117,20 @@ namespace MiniSqlQuery.Core
 				model.Tables.Add(dbTable);
 				schemaTableKeyInfo = GetTableKeyInfo(dbConn, schemaName, tableName);
 
-				DataView columnView = new DataView(columns, string.Format("TABLE_NAME='{0}'", row["TABLE_NAME"]), "ORDINAL_POSITION",
-												   DataViewRowState.CurrentRows);
-				foreach (DataRowView columnRow in columnView)
+				foreach (DataRow columnRow in schemaTableKeyInfo.Rows)
 				{
-				    string columnName = SafeGetString(columnRow.Row, "COLUMN_NAME");
-				    string dataType = SafeGetString(columnRow.Row, "DATA_TYPE");
-					int dataTypeId;
-					if (int.TryParse(dataType, out dataTypeId))
-					{
-						// need to look up the type name (e.g. OLEDB report id's not actual type names)
-						DataRow[] dtRows = dataTypes.Select("NativeDataType = " + dataTypeId);
-						if (dtRows != null && dtRows.Length > 0)
-						{
-							dataType = dtRows[0]["TypeName"].ToString();
-						}
-					}
+					string columnName = SafeGetString(columnRow, "ColumnName");
+					string dataType = SafeGetString(columnRow, "DataTypeName"); // todo, use "DataTypes.CreateFormat"
 
 					DbColumn dbColumn = new DbColumn
 						{
 							Name = MakeSqlFriendly(columnName),
-							Nullable = SafeGetBool(columnRow.Row, "IS_NULLABLE"),
-							Type = DbType.Create(dataType, SafeGetInt(columnRow.Row, "CHARACTER_MAXIMUM_LENGTH"))
+							Nullable = SafeGetBool(columnRow, "AllowDBNull"),
+							IsKey = SafeGetBool(columnRow, "IsKey"),
+							IsUnique = SafeGetBool(columnRow, "IsUnique"),
+							IsRowVersion = SafeGetBool(columnRow, "IsRowVersion"),
+							Type = DbType.Create(dataType, SafeGetInt(columnRow, "ColumnSize")),
+							SystemType = Type.GetType(SafeGetString(columnRow, "DataType")),
 						};
 					dbTable.Add(dbColumn);
 				}
@@ -154,6 +146,8 @@ namespace MiniSqlQuery.Core
 //            dbConn.GetSchema("ReservedWords").WriteXml(prefix + @"schema-ReservedWords.xml", XmlWriteMode.WriteSchema);
 //            dbConn.GetSchema("ForeignKeys").WriteXml(prefix + @"schema-ForeignKeys.xml", XmlWriteMode.WriteSchema);
 //            dbConn.GetSchema("IndexColumns").WriteXml(prefix + @"schema-IndexColumns.xml", XmlWriteMode.WriteSchema);
+//            dbConn.GetSchema("DataSourceInformation").WriteXml(prefix + @"schema-DataSourceInformation.xml", XmlWriteMode.WriteSchema);
+//            dbConn.GetSchema("Restrictions").WriteXml(prefix + @"schema-Restrictions.xml", XmlWriteMode.WriteSchema);
 //#endif
 
 			return model;
@@ -169,10 +163,10 @@ namespace MiniSqlQuery.Core
 				using (DbDataReader reader = command.ExecuteReader(CommandBehavior.SchemaOnly | CommandBehavior.KeyInfo))
 				{
 					schemaTableKeyInfo = reader.GetSchemaTable();
-#if DEBUG
-					string fileName = string.Format(@"{0}-schema-table-keyinfo--{1}.xml", _factory.GetType().Name, tableName);
-					schemaTableKeyInfo.WriteXml(fileName, XmlWriteMode.WriteSchema);
-#endif
+//#if DEBUG
+//                    string fileName = string.Format(@"{0}-schema-table-keyinfo--{1}.xml", _factory.GetType().Name, tableName);
+//                    schemaTableKeyInfo.WriteXml(fileName, XmlWriteMode.WriteSchema);
+//#endif
 				}
 			}
 			return schemaTableKeyInfo;

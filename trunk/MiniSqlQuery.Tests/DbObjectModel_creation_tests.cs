@@ -9,12 +9,13 @@ namespace MiniSqlQuery.Tests
 	[Category("Functional")]
 	public class DbObjectModel_creation_tests
 	{
-		private string _conn = @"Server=.\sqlexpress; Database=AdventureWorks; Integrated Security=SSPI";
+		private string _conn = @"Server=.; Database=AdventureWorks; Integrated Security=SSPI";
 		DatabaseMetaDataService _dataService;
 
 		[SetUp]
 		public void TestSetup()
 		{
+			Console.WriteLine(Environment.CurrentDirectory);
 			_dataService = new DatabaseMetaDataService(DbProviderFactories.GetFactory("System.Data.SqlClient"), _conn);
 		}
 
