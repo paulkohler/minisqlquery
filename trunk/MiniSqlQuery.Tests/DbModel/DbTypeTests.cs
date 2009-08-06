@@ -30,6 +30,13 @@ namespace MiniSqlQuery.Tests.DbModel
 		}
 
 		[Test]
+		public void Summary_renders_a_decimal_as_default()
+		{
+			DbModelType dbType = new DbModelType("decimal", 26) { Precision = -1, Scale = -1, CreateFormat = "decimal({0}, {1})" };
+			Assert.That(dbType.Summary, Is.EqualTo("decimal"));
+		}
+
+		[Test]
 		public void Summary_renders_uses_CreateFormat_over_name_if_present()
 		{
 			DbModelType dbType = new DbModelType("mytype", 100) { CreateFormat = "MyType" };

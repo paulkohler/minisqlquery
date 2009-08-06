@@ -29,13 +29,18 @@ namespace MiniSqlQuery.Core.DbModel
 			{
 				if (!string.IsNullOrEmpty(CreateFormat))
 				{
-					if (CreateFormat.Contains("{1}"))
+					if (CreateFormat.Contains("{1}") && (Precision != -1 && Scale != -1))
 					{
 						return string.Format(CreateFormat, Precision, Scale);
 					}
-					if (CreateFormat.Contains("{0}"))
+					if (CreateFormat.Contains("{0}") && !CreateFormat.Contains("{1}") && (Length != -1))
 					{
 						return string.Format(CreateFormat, Length);
+					}
+					if (CreateFormat.Contains("{0}"))
+					{
+						// err...
+						return Name;
 					}
 					return CreateFormat;
 				}
@@ -46,15 +51,15 @@ namespace MiniSqlQuery.Core.DbModel
 		public DbModelType Copy()
 		{
 			DbModelType copy = new DbModelType(Name, Length)
-			              {
-			              	CreateFormat = CreateFormat,
-			              	CreateParameters = CreateParameters,
-			              	LiteralPrefix = LiteralPrefix,
-			              	LiteralSuffix = LiteralSuffix,
-			              	Precision = Precision,
-			              	Scale = Scale,
-			              	SystemType = SystemType,
-			              };
+			                   {
+			                   	CreateFormat = CreateFormat,
+			                   	CreateParameters = CreateParameters,
+			                   	LiteralPrefix = LiteralPrefix,
+			                   	LiteralSuffix = LiteralSuffix,
+			                   	Precision = Precision,
+			                   	Scale = Scale,
+			                   	SystemType = SystemType,
+			                   };
 			return copy;
 		}
 

@@ -18,8 +18,8 @@ namespace MiniSqlQuery.Tests.DbModel
 		public void TestSetup()
 		{
 			Console.WriteLine(Environment.CurrentDirectory);
-			//_dataService = new DatabaseMetaDataService(DbProviderFactories.GetFactory("System.Data.SqlClient"), _conn);
-			_dataService = new DatabaseMetaDataService(DbProviderFactories.GetFactory("System.Data.SQLite"), _sqliteConn);
+			_dataService = new DatabaseMetaDataService(DbProviderFactories.GetFactory("System.Data.SqlClient"), _conn);
+			//_dataService = new DatabaseMetaDataService(DbProviderFactories.GetFactory("System.Data.SQLite"), _sqliteConn);
 		}
 
 		#endregion
