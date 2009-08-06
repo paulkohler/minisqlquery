@@ -51,18 +51,8 @@ namespace MiniSqlQuery.Tests.DbModel
 		}
 
 		/*
-		 * consider nvarchar(MAX)
+		 * consider nvarchar(MAX) for sql?
 		 * 
-BillOfMaterials
-  BillOfMaterialsID [int]
-  ProductAssemblyID [int]
-  ComponentID [int]
-  StartDate [datetime]
-  EndDate [datetime]
-  UnitMeasureCode [nchar(3)]
-  BOMLevel [smallint]
-  PerAssemblyQty [decimal(-1, -1)]
-  ModifiedDate [datetime]
 		 * */
 	}
 }

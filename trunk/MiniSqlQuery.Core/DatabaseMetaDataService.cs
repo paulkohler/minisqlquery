@@ -69,13 +69,13 @@ namespace MiniSqlQuery.Core
 		{
 			DataTable metadata = new DataTable("DbMetaData");
 
-			metadata.Columns.Add("ObjectType", typeof (string));
-			metadata.Columns.Add("Schema", typeof (string));
-			metadata.Columns.Add("Table", typeof (string));
-			metadata.Columns.Add("Column", typeof (string));
-			metadata.Columns.Add("DataType", typeof (string));
-			metadata.Columns.Add("Length", typeof (int));
-			metadata.Columns.Add("IsNullable", typeof (bool));
+			metadata.Columns.Add("ObjectType", typeof(string));
+			metadata.Columns.Add("Schema", typeof(string));
+			metadata.Columns.Add("Table", typeof(string));
+			metadata.Columns.Add("Column", typeof(string));
+			metadata.Columns.Add("DataType", typeof(string));
+			metadata.Columns.Add("Length", typeof(int));
+			metadata.Columns.Add("IsNullable", typeof(bool));
 
 			DbConnection dbConn = CreateOpenConnection();
 			DataTable tables = dbConn.GetSchema("Tables");
@@ -93,73 +93,75 @@ namespace MiniSqlQuery.Core
 		}
 
 
-		public DbModel.DbModelInstance GetDbObjectModel()
+		public DbModelInstance GetDbObjectModel()
 		{
-			DbModel.DbModelInstance model = new DbModel.DbModelInstance();
+			DbModelInstance model = new DbModelInstance();
 
-			DbConnection dbConn = CreateOpenConnection();
-			DataTable tables = dbConn.GetSchema("Tables");
-			DataTable columns = dbConn.GetSchema("Columns");
-			Dictionary<string, DbModelType> dbTypes = GetDbTypes(dbConn);
-
-
-			DataView dv = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_SCHEMA, TABLE_NAME", DataViewRowState.CurrentRows);
-
-			foreach (DataRowView row in dv)
+			using (DbConnection dbConn = CreateOpenConnection())
 			{
-				DataTable schemaTableKeyInfo;
-				string schemaName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_SCHEMA"));
-				string tableName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_NAME"));
+				DataTable tables = dbConn.GetSchema("Tables");
+				Dictionary<string, DbModelType> dbTypes = GetDbTypes(dbConn);
+				model.ProviderName = _factory.GetType().FullName;
+				model.ConnectionString = _connection;
 
-				DbModelTable dbTable = new DbModelTable
+				DataView dv = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_SCHEMA, TABLE_NAME", DataViewRowState.CurrentRows);
+
+				foreach (DataRowView row in dv)
 				{
-					Schema = schemaName,
-					Name = tableName
-				};
+					string schemaName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_SCHEMA"));
+					string tableName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_NAME"));
 
-				model.Tables.Add(dbTable);
-				schemaTableKeyInfo = GetTableKeyInfo(dbConn, schemaName, tableName);
+					DbModelTable dbTable = new DbModelTable
+					                       {
+					                       	Schema = schemaName,
+					                       	Name = tableName
+					                       };
+					model.Tables.Add(dbTable);
 
-				foreach (DataRow columnRow in schemaTableKeyInfo.Rows)
-				{
-					string columnName = SafeGetString(columnRow, "ColumnName");
-					string dataType = SafeGetString(columnRow, "DataTypeName"); // todo, use "DataTypes.CreateFormat"
-					string providerType = SafeGetString(columnRow, "ProviderType"); // todo, use "DataTypes.CreateFormat"
+					DataTable schemaTableKeyInfo = GetTableKeyInfo(dbConn, schemaName, tableName);
 
-					DbModelType dbType = DbModelType.Create(
-						dbTypes,
-						dataType,
-						SafeGetInt(columnRow, "ColumnSize"),
-						SafeGetInt(columnRow, "Precision"),
-						SafeGetInt(columnRow, "Scale"),
-						SafeGetString(columnRow, "DataType"));
+					foreach (DataRow columnRow in schemaTableKeyInfo.Rows)
+					{
+						string columnName = SafeGetString(columnRow, "ColumnName");
+						string dataType = SafeGetString(columnRow, "DataTypeName");
 
-					DbModelColumn dbColumn = new DbModelColumn
-						{
-							Name = MakeSqlFriendly(columnName),
-							Nullable = SafeGetBool(columnRow, "AllowDBNull"),
-							IsKey = SafeGetBool(columnRow, "IsKey"),
-							IsUnique = SafeGetBool(columnRow, "IsUnique"),
-							IsRowVersion = SafeGetBool(columnRow, "IsRowVersion"),
-							DbType = dbType,
-						};
-					dbTable.Add(dbColumn);
+						DbModelType dbType = DbModelType.Create(
+							dbTypes,
+							dataType,
+							SafeGetInt(columnRow, "ColumnSize"),
+							SafeGetInt(columnRow, "Precision"),
+							SafeGetInt(columnRow, "Scale"),
+							SafeGetString(columnRow, "DataType"));
+
+						// todo - FK info
+
+						DbModelColumn dbColumn = new DbModelColumn
+						                         {
+						                         	Name = MakeSqlFriendly(columnName),
+						                         	Nullable = SafeGetBool(columnRow, "AllowDBNull"),
+						                         	IsKey = SafeGetBool(columnRow, "IsKey"),
+						                         	IsUnique = SafeGetBool(columnRow, "IsUnique"),
+						                         	IsRowVersion = SafeGetBool(columnRow, "IsRowVersion"),
+						                         	DbType = dbType,
+						                         };
+						dbTable.Add(dbColumn);
+					}
 				}
-			}
 
-//#if DEBUG
-//            string prefix = _factory.GetType().Name + "-";
-//            tables.WriteXml(prefix + @"schema-tables-metadata.xml", XmlWriteMode.WriteSchema);
-//            columns.WriteXml(prefix + @"schema-columns-metadata.xml", XmlWriteMode.WriteSchema); // DATA_TYPE ->
-//            dataTypes.WriteXml(prefix + @"schema-dataTypes-metadata.xml", XmlWriteMode.WriteSchema); // NativeDataType (TypeName/DataType)
-//            dbConn.GetSchema().WriteXml(prefix + @"schema.xml", XmlWriteMode.WriteSchema);
-//            dbConn.GetSchema("Indexes").WriteXml(prefix + @"schema-Indexes.xml", XmlWriteMode.WriteSchema);
-//            dbConn.GetSchema("ReservedWords").WriteXml(prefix + @"schema-ReservedWords.xml", XmlWriteMode.WriteSchema);
-//            dbConn.GetSchema("ForeignKeys").WriteXml(prefix + @"schema-ForeignKeys.xml", XmlWriteMode.WriteSchema);
-//            dbConn.GetSchema("IndexColumns").WriteXml(prefix + @"schema-IndexColumns.xml", XmlWriteMode.WriteSchema);
-//            dbConn.GetSchema("DataSourceInformation").WriteXml(prefix + @"schema-DataSourceInformation.xml", XmlWriteMode.WriteSchema);
-//            dbConn.GetSchema("Restrictions").WriteXml(prefix + @"schema-Restrictions.xml", XmlWriteMode.WriteSchema);
-//#endif
+				//#if DEBUG
+				string prefix = _factory.GetType().Name + "-";
+				//            tables.WriteXml(prefix + @"schema-tables-metadata.xml", XmlWriteMode.WriteSchema);
+				//            columns.WriteXml(prefix + @"schema-columns-metadata.xml", XmlWriteMode.WriteSchema); // DATA_TYPE ->
+				//            dataTypes.WriteXml(prefix + @"schema-dataTypes-metadata.xml", XmlWriteMode.WriteSchema); // NativeDataType (TypeName/DataType)
+				//            dbConn.GetSchema().WriteXml(prefix + @"schema.xml", XmlWriteMode.WriteSchema);
+				//            dbConn.GetSchema("Indexes").WriteXml(prefix + @"schema-Indexes.xml", XmlWriteMode.WriteSchema);
+				//            dbConn.GetSchema("ReservedWords").WriteXml(prefix + @"schema-ReservedWords.xml", XmlWriteMode.WriteSchema);
+				dbConn.GetSchema("ForeignKeys").WriteXml(prefix + @"schema-ForeignKeys.xml", XmlWriteMode.WriteSchema);
+				//            dbConn.GetSchema("IndexColumns").WriteXml(prefix + @"schema-IndexColumns.xml", XmlWriteMode.WriteSchema);
+				//            dbConn.GetSchema("DataSourceInformation").WriteXml(prefix + @"schema-DataSourceInformation.xml", XmlWriteMode.WriteSchema);
+				//            dbConn.GetSchema("Restrictions").WriteXml(prefix + @"schema-Restrictions.xml", XmlWriteMode.WriteSchema);
+				//#endif
+			}
 
 			return model;
 		}
@@ -353,8 +355,8 @@ namespace MiniSqlQuery.Core
 				DbModelType dbType = new DbModelType(typeName, columnSize);
 				dbTypes.Add(typeName, dbType);
 
-				dbType.CreateFormat=SafeGetString(row, "CreateFormat");
-				dbType.CreateParameters=SafeGetString(row, "CreateParameters");
+				dbType.CreateFormat = SafeGetString(row, "CreateFormat");
+				dbType.CreateParameters = SafeGetString(row, "CreateParameters");
 				dbType.LiteralPrefix = SafeGetString(row, "LiteralPrefix");
 				dbType.LiteralSuffix = SafeGetString(row, "LiteralSuffix");
 				dbType.SystemType = Type.GetType(SafeGetString(row, "DataType"));

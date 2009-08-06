@@ -18,8 +18,8 @@ namespace MiniSqlQuery.Tests.DbModel
 		public void TestSetup()
 		{
 			Console.WriteLine(Environment.CurrentDirectory);
-			_dataService = new DatabaseMetaDataService(DbProviderFactories.GetFactory("System.Data.SqlClient"), _conn);
-			//_dataService = new DatabaseMetaDataService(DbProviderFactories.GetFactory("System.Data.SQLite"), _sqliteConn);
+			//_dataService = new DatabaseMetaDataService(DbProviderFactories.GetFactory("System.Data.SqlClient"), _conn);
+			_dataService = new DatabaseMetaDataService(DbProviderFactories.GetFactory("System.Data.SQLite"), _sqliteConn);
 		}
 
 		#endregion
@@ -93,13 +93,17 @@ namespace MiniSqlQuery.Tests.DbModel
 		{
 			DbModelInstance model = _dataService.GetDbObjectModel();
 
+			Assert.That(model.ProviderName, Is.Not.Null);
+			Assert.That(model.ConnectionString, Is.Not.Null);
+
+
 			Console.WriteLine(model.Tables.Count);
 			foreach (DbModelTable table in model.Tables)
 			{
 				Console.WriteLine(table.Name);
 				foreach (DbModelColumn column in table.Columns)
 				{
-					Console.WriteLine("  {0} [{1}]", column.Name, column.DbType.Summary);
+					Console.WriteLine("  {0} - type: {1}, null: {2}", column.Name, column.DbType.Summary, column.Nullable);
 				}
 			}
 		}

@@ -13,6 +13,10 @@ namespace MiniSqlQuery.Core.DbModel
 
 		public virtual DbModelTableCollection Tables { get; internal set; }
 
+		public string ProviderName { get; set; }
+
+		public string ConnectionString { get; set; }
+
 		public virtual void Add(DbModelTable table)
 		{
 			table.ParentDb = this;
