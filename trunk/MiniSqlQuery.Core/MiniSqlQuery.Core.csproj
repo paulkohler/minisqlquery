@@ -118,13 +118,15 @@
       <DependentUpon>PluginListControl.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseMetaDataService.cs" />
-    <Compile Include="DbObjectModel.cs" />
-    <Compile Include="DbColumn.cs" />
+    <Compile Include="DbModel\DbModelColumnCollection.cs" />
+    <Compile Include="DbModel\DbModelObjectBase.cs" />
+    <Compile Include="DbModel\DbModelInstance.cs" />
+    <Compile Include="DbModel\DbModelColumn.cs" />
     <Compile Include="DbConnectionDefinition.cs" />
     <Compile Include="DbConnectionDefinitionList.cs" />
-    <Compile Include="DbTable.cs" />
-    <Compile Include="DbTableCollection.cs" />
-    <Compile Include="DbType.cs" />
+    <Compile Include="DbModel\DbModelTable.cs" />
+    <Compile Include="DbModel\DbModelTableCollection.cs" />
+    <Compile Include="DbModel\DbModelType.cs" />
     <Compile Include="Forms\BatchQuerySelectForm.cs">
       <SubType>Form</SubType>
     </Compile>

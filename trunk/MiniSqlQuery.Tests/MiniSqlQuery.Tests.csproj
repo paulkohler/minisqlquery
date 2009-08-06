@@ -75,7 +75,8 @@
   <ItemGroup>
     <Compile Include="ConnectionDefinitionTests.cs" />
     <Compile Include="DbConnectionDefinitionListTests.cs" />
-    <Compile Include="DbObjectModel_creation_tests.cs" />
+    <Compile Include="DbModel\DbObjectModel_creation_tests.cs" />
+    <Compile Include="DbModel\DbTypeTests.cs" />
     <Compile Include="Gui\Basic_GUI_tests.cs" />
     <Compile Include="Gui\QueryFormTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

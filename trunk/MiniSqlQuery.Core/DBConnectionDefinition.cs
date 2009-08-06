@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace MiniSqlQuery.Core
@@ -22,18 +21,11 @@ namespace MiniSqlQuery.Core
 		static DbConnectionDefinition()
 		{
 			Default = new DbConnectionDefinition
-			          	{
-			          		Name = "Default - MSSQL Master@localhost",
-			          		ProviderName = "System.Data.SqlClient",
-			          		ConnectionString = @"Server=.; Database=Master; Integrated Security=SSPI"
-			          	};
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DbConnectionDefinition"/> class.
-		/// </summary>
-		public DbConnectionDefinition()
-		{
+			          {
+			          	Name = "Default - MSSQL Master@localhost",
+			          	ProviderName = "System.Data.SqlClient",
+			          	ConnectionString = @"Server=.; Database=Master; Integrated Security=SSPI"
+			          };
 		}
 
 		/// <summary>
@@ -89,9 +81,8 @@ namespace MiniSqlQuery.Core
 			using (StringReader sr = new StringReader(xml))
 			{
 				XmlSerializer serializer = new XmlSerializer(typeof(DbConnectionDefinition));
-				return (DbConnectionDefinition)serializer.Deserialize(sr);
+				return (DbConnectionDefinition) serializer.Deserialize(sr);
 			}
 		}
-
 	}
 }

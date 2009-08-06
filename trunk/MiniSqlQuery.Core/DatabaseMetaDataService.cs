@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using MiniSqlQuery.Core.DbModel;
 
 namespace MiniSqlQuery.Core
 {
@@ -91,14 +93,15 @@ namespace MiniSqlQuery.Core
 		}
 
 
-		public DbObjectModel GetDbObjectModel()
+		public DbModel.DbModelInstance GetDbObjectModel()
 		{
-			DbObjectModel model = new DbObjectModel();
+			DbModel.DbModelInstance model = new DbModel.DbModelInstance();
 
 			DbConnection dbConn = CreateOpenConnection();
 			DataTable tables = dbConn.GetSchema("Tables");
 			DataTable columns = dbConn.GetSchema("Columns");
-			DataTable dataTypes = dbConn.GetSchema("DataTypes");
+			Dictionary<string, DbModelType> dbTypes = GetDbTypes(dbConn);
+
 
 			DataView dv = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_SCHEMA, TABLE_NAME", DataViewRowState.CurrentRows);
 
@@ -108,7 +111,7 @@ namespace MiniSqlQuery.Core
 				string schemaName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_SCHEMA"));
 				string tableName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_NAME"));
 
-				DbTable dbTable = new DbTable
+				DbModelTable dbTable = new DbModelTable
 				{
 					Schema = schemaName,
 					Name = tableName
@@ -121,16 +124,24 @@ namespace MiniSqlQuery.Core
 				{
 					string columnName = SafeGetString(columnRow, "ColumnName");
 					string dataType = SafeGetString(columnRow, "DataTypeName"); // todo, use "DataTypes.CreateFormat"
+					string providerType = SafeGetString(columnRow, "ProviderType"); // todo, use "DataTypes.CreateFormat"
 
-					DbColumn dbColumn = new DbColumn
+					DbModelType dbType = DbModelType.Create(
+						dbTypes,
+						dataType,
+						SafeGetInt(columnRow, "ColumnSize"),
+						SafeGetInt(columnRow, "Precision"),
+						SafeGetInt(columnRow, "Scale"),
+						SafeGetString(columnRow, "DataType"));
+
+					DbModelColumn dbColumn = new DbModelColumn
 						{
 							Name = MakeSqlFriendly(columnName),
 							Nullable = SafeGetBool(columnRow, "AllowDBNull"),
 							IsKey = SafeGetBool(columnRow, "IsKey"),
 							IsUnique = SafeGetBool(columnRow, "IsUnique"),
 							IsRowVersion = SafeGetBool(columnRow, "IsRowVersion"),
-							Type = DbType.Create(dataType, SafeGetInt(columnRow, "ColumnSize")),
-							SystemType = Type.GetType(SafeGetString(columnRow, "DataType")),
+							DbType = dbType,
 						};
 					dbTable.Add(dbColumn);
 				}
@@ -240,7 +251,7 @@ namespace MiniSqlQuery.Core
 			return dataTypes;
 		}
 
-		private DbConnection CreateOpenConnection()
+		public DbConnection CreateOpenConnection()
 		{
 			DbConnection dbConn = _factory.CreateConnection();
 			dbConn.ConnectionString = _connection;
@@ -293,7 +304,7 @@ namespace MiniSqlQuery.Core
 
 		private int SafeGetInt(DataRow row, string columnName)
 		{
-			int result = 0;
+			int result = -1;
 
 			if (row.Table.Columns.Contains(columnName) && !row.IsNull(columnName))
 			{
@@ -321,6 +332,35 @@ namespace MiniSqlQuery.Core
 			}
 
 			return false;
+		}
+
+		public Dictionary<string, DbModelType> GetDbTypes(DbConnection connection)
+		{
+			if (connection == null)
+			{
+				throw new ArgumentNullException("connection");
+			}
+
+			Dictionary<string, DbModelType> dbTypes = new Dictionary<string, DbModelType>();
+
+			DataTable dataTypes = connection.GetSchema("DataTypes");
+
+			foreach (DataRow row in dataTypes.Rows)
+			{
+				string typeName = SafeGetString(row, "TypeName");
+				int providerDbType = SafeGetInt(row, "ProviderDbType");
+				int columnSize = SafeGetInt(row, "ColumnSize");
+				DbModelType dbType = new DbModelType(typeName, columnSize);
+				dbTypes.Add(typeName, dbType);
+
+				dbType.CreateFormat=SafeGetString(row, "CreateFormat");
+				dbType.CreateParameters=SafeGetString(row, "CreateParameters");
+				dbType.LiteralPrefix = SafeGetString(row, "LiteralPrefix");
+				dbType.LiteralSuffix = SafeGetString(row, "LiteralSuffix");
+				dbType.SystemType = Type.GetType(SafeGetString(row, "DataType"));
+			}
+
+			return dbTypes;
 		}
 	}
 }
