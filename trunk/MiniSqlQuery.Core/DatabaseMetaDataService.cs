@@ -125,6 +125,21 @@ namespace MiniSqlQuery.Core
 						string columnName = SafeGetString(columnRow, "ColumnName");
 						string dataType = SafeGetString(columnRow, "DataTypeName");
 
+						// note - need a better work around for columns missing the data type info (e.g. access)
+						if (string.IsNullOrEmpty(dataType))
+						{
+							// try using the "ProviderDbType" to match
+							string providerDbType = SafeGetString(columnRow, "ProviderType");
+							foreach (var type in dbTypes.Values)
+							{
+								if (type.ProviderDbType == providerDbType)
+								{
+									dataType = type.Name;
+									break;
+								}
+							}
+						}
+
 						DbModelType dbType = DbModelType.Create(
 							dbTypes,
 							dataType,
@@ -149,14 +164,14 @@ namespace MiniSqlQuery.Core
 				}
 
 				//#if DEBUG
-				string prefix = _factory.GetType().Name + "-";
+				//            string prefix = _factory.GetType().Name + "-";
 				//            tables.WriteXml(prefix + @"schema-tables-metadata.xml", XmlWriteMode.WriteSchema);
 				//            columns.WriteXml(prefix + @"schema-columns-metadata.xml", XmlWriteMode.WriteSchema); // DATA_TYPE ->
 				//            dataTypes.WriteXml(prefix + @"schema-dataTypes-metadata.xml", XmlWriteMode.WriteSchema); // NativeDataType (TypeName/DataType)
 				//            dbConn.GetSchema().WriteXml(prefix + @"schema.xml", XmlWriteMode.WriteSchema);
 				//            dbConn.GetSchema("Indexes").WriteXml(prefix + @"schema-Indexes.xml", XmlWriteMode.WriteSchema);
 				//            dbConn.GetSchema("ReservedWords").WriteXml(prefix + @"schema-ReservedWords.xml", XmlWriteMode.WriteSchema);
-				dbConn.GetSchema("ForeignKeys").WriteXml(prefix + @"schema-ForeignKeys.xml", XmlWriteMode.WriteSchema);
+				//            dbConn.GetSchema("ForeignKeys").WriteXml(prefix + @"schema-ForeignKeys.xml", XmlWriteMode.WriteSchema);
 				//            dbConn.GetSchema("IndexColumns").WriteXml(prefix + @"schema-IndexColumns.xml", XmlWriteMode.WriteSchema);
 				//            dbConn.GetSchema("DataSourceInformation").WriteXml(prefix + @"schema-DataSourceInformation.xml", XmlWriteMode.WriteSchema);
 				//            dbConn.GetSchema("Restrictions").WriteXml(prefix + @"schema-Restrictions.xml", XmlWriteMode.WriteSchema);
@@ -360,6 +375,7 @@ namespace MiniSqlQuery.Core
 				dbType.LiteralPrefix = SafeGetString(row, "LiteralPrefix");
 				dbType.LiteralSuffix = SafeGetString(row, "LiteralSuffix");
 				dbType.SystemType = Type.GetType(SafeGetString(row, "DataType"));
+				dbType.ProviderDbType = SafeGetString(row, "ProviderDbType");
 			}
 
 			return dbTypes;

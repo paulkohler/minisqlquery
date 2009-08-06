@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace MiniSqlQuery.Core.DbModel
 {
-	[DebuggerDisplay("{GetType()} {Name} [{Length},{Precision},{Scale} : {CreateFormat}, {CreateParameters}]")]
+	[DebuggerDisplay("DbModelType: {Name} [{Summary,nq}]")]
 	public class DbModelType : DbModelObjectBase
 	{
 		public DbModelType(string name, int length)
@@ -22,6 +22,7 @@ namespace MiniSqlQuery.Core.DbModel
 		public virtual string CreateParameters { get; set; }
 		public virtual string LiteralPrefix { get; set; }
 		public virtual string LiteralSuffix { get; set; }
+		public virtual string ProviderDbType { get; set; }
 
 		public virtual string Summary
 		{
