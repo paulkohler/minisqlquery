@@ -17,21 +17,24 @@ namespace MiniSqlQuery.Tests.DbModel
 		[SetUp]
 		public void TestSetup()
 		{
-			Console.WriteLine(Environment.CurrentDirectory);
 			//_dataService = new DatabaseMetaDataService(DbProviderFactories.GetFactory("System.Data.SqlClient"), _conn);
 			_dataService = new DatabaseMetaDataService(DbProviderFactories.GetFactory("System.Data.SQLite"), _sqliteConn);
+			//_dataService = new DatabaseMetaDataService(DbProviderFactories.GetFactory("System.Data.SqlServerCe.3.5"), _sqlceConn);
 		}
 
 		#endregion
 
-		private string _conn = @"Server=.\sqlexpress; Database=AdventureWorks; Integrated Security=SSPI";
+		//private string _conn = @"Server=.\sqlexpress; Database=AdventureWorks; Integrated Security=SSPI";
+		private string _conn = @"Server=.; Database=AdventureWorks; Integrated Security=SSPI";
 		private string _sqliteConn = @"Data Source=..\..\..\TestDatabases\sqlite.db3";
+		private string _sqlceConn = @"data source=|DataDirectory|\sqlce-test.sdf";
 		private DatabaseMetaDataService _dataService;
 
 		[Test]
 		public void Can_get_all_data_types()
 		{
 			DbConnection openConnection = _dataService.CreateOpenConnection();
+
 			Dictionary<string, DbModelType> dbTypes = _dataService.GetDbTypes(openConnection);
 
 			//List<DbModelType> ary = new List<DbModelType>(dbTypes.Values);
@@ -45,47 +48,6 @@ namespace MiniSqlQuery.Tests.DbModel
 			Assert.That(nvarcharType.LiteralPrefix, SyntaxHelper.Not.Null);
 			Assert.That(nvarcharType.LiteralSuffix, SyntaxHelper.Not.Null);
 			Assert.That(nvarcharType.SystemType, Is.EqualTo(typeof(string)));
-			/*
-    <TypeName>nvarchar</TypeName>
-    <ProviderDbType>16</ProviderDbType>
-    <ColumnSize>2147483647</ColumnSize>
-    <CreateFormat>nvarchar({0})</CreateFormat>
-    <CreateParameters>max length</CreateParameters>
-    <DataType>System.String</DataType>
-    <IsAutoIncrementable>false</IsAutoIncrementable>
-    <IsBestMatch>true</IsBestMatch>
-    <IsCaseSensitive>false</IsCaseSensitive>
-    <IsFixedLength>false</IsFixedLength>
-    <IsFixedPrecisionScale>false</IsFixedPrecisionScale>
-    <IsLong>false</IsLong>
-    <IsNullable>true</IsNullable>
-    <IsSearchable>true</IsSearchable>
-    <IsSearchableWithLike>true</IsSearchableWithLike>
-    <LiteralPrefix>'</LiteralPrefix>
-    <LiteralSuffix>'</LiteralSuffix>
-                <xs:element name="TypeName" type="xs:string" minOccurs="0" />
-                <xs:element name="ProviderDbType" type="xs:int" minOccurs="0" />
-                <xs:element name="ColumnSize" type="xs:long" minOccurs="0" />
-                <xs:element name="CreateFormat" type="xs:string" minOccurs="0" />
-                <xs:element name="CreateParameters" type="xs:string" minOccurs="0" />
-                <xs:element name="DataType" type="xs:string" minOccurs="0" />
-                <xs:element name="IsAutoIncrementable" type="xs:boolean" minOccurs="0" />
-                <xs:element name="IsBestMatch" type="xs:boolean" minOccurs="0" />
-                <xs:element name="IsCaseSensitive" type="xs:boolean" minOccurs="0" />
-                <xs:element name="IsFixedLength" type="xs:boolean" minOccurs="0" />
-                <xs:element name="IsFixedPrecisionScale" type="xs:boolean" minOccurs="0" />
-                <xs:element name="IsLong" type="xs:boolean" minOccurs="0" />
-                <xs:element name="IsNullable" type="xs:boolean" minOccurs="0" />
-                <xs:element name="IsSearchable" type="xs:boolean" minOccurs="0" />
-                <xs:element name="IsSearchableWithLike" type="xs:boolean" minOccurs="0" />
-                <xs:element name="IsLiteralSupported" type="xs:boolean" minOccurs="0" />
-                <xs:element name="LiteralPrefix" type="xs:string" minOccurs="0" />
-                <xs:element name="LiteralSuffix" type="xs:string" minOccurs="0" />
-                <xs:element name="IsUnsigned" type="xs:boolean" minOccurs="0" />
-                <xs:element name="MaximumScale" type="xs:short" minOccurs="0" />
-                <xs:element name="MinimumScale" type="xs:short" minOccurs="0" />
-                <xs:element name="IsConcurrencyType" type="xs:boolean" minOccurs="0" />
-*/
 		}
 
 		[Test]
