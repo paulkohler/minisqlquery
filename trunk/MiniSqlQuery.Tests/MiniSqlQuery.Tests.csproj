@@ -103,6 +103,10 @@
     <None Include="Gui\mssql-aw-select-from-employee.sql" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\TestDatabases\sqlce-test.sdf">
+      <Link>sqlce-test.sdf</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Gui\mssql-aw-select-from-employee.xml" />
   </ItemGroup>
   <ItemGroup>
