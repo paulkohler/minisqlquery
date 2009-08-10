@@ -11,7 +11,7 @@ namespace MiniSqlQuery.PlugIns
         private Timer _timer;
 
         public CoreApplicationPlugIn()
-            : base("Mini SQL Query Core", "Plugin to to setup the core features of Mini SQL Query.", 1)
+            : base("Mini SQL Query Core", "Plugin to setup the core features of Mini SQL Query.", 1)
         {
         }
 
