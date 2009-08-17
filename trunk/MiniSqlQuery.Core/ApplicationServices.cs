@@ -1,27 +1,27 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Castle.Core;
-using Castle.Windsor;
+using Castle.MicroKernel;
 
 namespace MiniSqlQuery.Core
 {
 	/// <summary>
 	/// The core services of the application (singleton).
 	/// </summary>
-	[Singleton]
 	public class ApplicationServices : IApplicationServices
 	{
-		private static readonly IWindsorContainer _container;
+		private static readonly IKernel _container;
 
 		private Dictionary<Type, IPlugIn> _plugins = new Dictionary<Type, IPlugIn>();
 
 		static ApplicationServices()
 		{
-			_container = new WindsorContainer();
+			_container = new DefaultKernel();
 
 			// add self
-			_container.AddComponentWithLifestyle<IApplicationServices, ApplicationServices>("ApplicationServices", LifestyleType.Singleton);
+			_container.AddComponent("ApplicationServices", typeof (IApplicationServices), typeof (ApplicationServices), LifestyleType.Singleton);
 		}
 
 		/// <summary>
@@ -38,9 +38,41 @@ namespace MiniSqlQuery.Core
 		/// <summary>
 		/// The Dependency Injection container.
 		/// </summary>
-		public IWindsorContainer Container
+		public IKernel Container
 		{
 			get { return _container; }
+		}
+
+		/// <summary>
+		/// Registers the component service type <typeparamref name="TService"/> with and implemetation of type <typeparamref name="TImp"/>.
+		/// </summary>
+		/// <typeparam name="TService">The contract type.</typeparam>
+		/// <typeparam name="TImp">The implementing type.</typeparam>
+		/// <param name="key">The key or name of the service.</param>
+		public void RegisterComponent<TService, TImp>(string key)
+		{
+			_container.AddComponent(key, typeof (TService), typeof (TImp), LifestyleType.Transient);
+		}
+
+		/// <summary>
+		/// Registers the component implemetation of type <typeparamref name="TImp"/>.
+		/// </summary>
+		/// <typeparam name="TImp">The implementing type.</typeparam>
+		/// <param name="key">The key or name of the service.</param>
+		public void RegisterComponent<TImp>(string key)
+		{
+			_container.AddComponent(key, typeof (TImp), LifestyleType.Transient);
+		}
+
+		/// <summary>
+		/// Registers the component service type <typeparamref name="TService"/> with and implemetation of type <typeparamref name="TImp"/> as a singleton.
+		/// </summary>
+		/// <typeparam name="TService">The contract type.</typeparam>
+		/// <typeparam name="TImp">The implementing type.</typeparam>
+		/// <param name="key">The key or name of the service.</param>
+		public void RegisterSingletonComponent<TService, TImp>(string key)
+		{
+			_container.AddComponent(key, typeof (TService), typeof (TImp), LifestyleType.Singleton);
 		}
 
 		/// <summary>
@@ -85,7 +117,7 @@ namespace MiniSqlQuery.Core
 
 			plugIn.LoadPlugIn(this);
 			_plugins.Add(plugIn.GetType(), plugIn);
-			_container.AddComponent(plugIn.PluginName, typeof(IPlugIn), plugIn.GetType());
+			_container.AddComponent(plugIn.PluginName, typeof (IPlugIn), plugIn.GetType());
 		}
 
 		/// <summary>
@@ -102,27 +134,23 @@ namespace MiniSqlQuery.Core
 						HostWindow.SetStatus(null, "Initializing " + plugIn.PluginName);
 					}
 					plugIn.InitializePlugIn();
-					//err?
 				}
 				catch (Exception exp)
 				{
 					if (HostWindow == null)
 					{
-						throw exp;
+						throw;
 					}
-					else
-					{
-						HostWindow.DisplayMessageBox(
-							null,
-							"Error Initializing " + plugIn.PluginName,
-							"Plugin Error",
-							MessageBoxButtons.OK,
-							MessageBoxIcon.Warning,
-							MessageBoxDefaultButton.Button1,
-							0,
-							null,
-							null);
-					}
+					HostWindow.DisplayMessageBox(
+						null,
+						string.Format("Error Initializing {0}:{1}{2}", plugIn.PluginName, Environment.NewLine, exp),
+						"Plugin Error",
+						MessageBoxButtons.OK,
+						MessageBoxIcon.Warning,
+						MessageBoxDefaultButton.Button1,
+						0,
+						null,
+						null);
 				}
 			}
 		}
@@ -143,21 +171,6 @@ namespace MiniSqlQuery.Core
 		}
 
 		#endregion
-
-		/// <summary>
-		/// Loads a plugin configured via the <see cref="Container"/>.
-		/// </summary>
-		/// <param name="plugInKeyName">The "key" of the service.</param>
-		public void LoadPlugFromContainer(string plugInKeyName)
-		{
-			if (plugInKeyName == null)
-			{
-				throw new ArgumentNullException("plugInKeyName");
-			}
-
-			IPlugIn plugin = Container[plugInKeyName] as IPlugIn;
-			LoadPlugIn(plugin);
-		}
 
 		protected void OnSystemMessagePosted(SystemMessageEventArgs eventArgs)
 		{

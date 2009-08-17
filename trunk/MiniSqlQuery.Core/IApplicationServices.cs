@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using MiniSqlQuery.Core;
-using Castle.Windsor;
+using Castle.MicroKernel;
 
 namespace MiniSqlQuery.Core
 {
@@ -16,14 +15,37 @@ namespace MiniSqlQuery.Core
 		/// This container holds all major application components and plugins.
 		/// See the "Configuration.xml" file in the main application for settings.
 		/// </summary>
-		IWindsorContainer Container { get; }
+		IKernel Container { get; }
+
+		/// <summary>
+		/// Registers the component service type <typeparamref name="TService"/> with and implemetation of type <typeparamref name="TImp"/>.
+		/// </summary>
+		/// <typeparam name="TService">The contract type.</typeparam>
+		/// <typeparam name="TImp">The implementing type.</typeparam>
+		/// <param name="key">The key or name of the service.</param>
+		void RegisterComponent<TService, TImp>(string key);
+
+		/// <summary>
+		/// Registers the component implemetation of type <typeparamref name="TImp"/>.
+		/// </summary>
+		/// <typeparam name="TImp">The implementing type.</typeparam>
+		/// <param name="key">The key or name of the service.</param>
+		void RegisterComponent<TImp>(string key);
+
+		/// <summary>
+		/// Registers the component service type <typeparamref name="TService"/> with and implemetation of type <typeparamref name="TImp"/> as a singleton.
+		/// </summary>
+		/// <typeparam name="TService">The contract type.</typeparam>
+		/// <typeparam name="TImp">The implementing type.</typeparam>
+		/// <param name="key">The key or name of the service.</param>
+		void RegisterSingletonComponent<TService, TImp>(string key);
 
 		/// <summary>
 		/// The application host window.
 		/// </summary>
 		/// <value>The application host window - a <see cref="System.Windows.Forms.Form"/>.</value>
 		IHostWindow HostWindow { get; }
-		
+
 		/// <summary>
 		/// The application settings instance.
 		/// </summary>

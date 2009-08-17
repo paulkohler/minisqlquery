@@ -252,7 +252,7 @@ namespace MiniSqlQuery
 			{
 				if (_textFindService == null)
 				{
-					_textFindService = _services.Container.Resolve<ITextFindService>("DefaultTextFindService");
+					_textFindService = _services.Container.Resolve<ITextFindService>();
 				}
 				return _textFindService;
 			}

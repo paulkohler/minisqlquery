@@ -1,7 +1,10 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using Castle.Core;
+using Castle.MicroKernel;
+using Castle.MicroKernel.Registration;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.PlugIns;
 using MiniSqlQuery.PlugIns.ConnectionStringsManager;
@@ -29,19 +32,16 @@ namespace MiniSqlQuery
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+			IApplicationServices services = ApplicationServices.Instance;
+
 			// singletons
-			ApplicationServices.Instance.Container.AddComponentWithLifestyle<IApplicationSettings, ApplicationSettings>(
-				"ApplicationSettings", LifestyleType.Singleton);
-			ApplicationServices.Instance.Container.AddComponentWithLifestyle<IHostWindow, MainForm>(
-				"HostWindow", LifestyleType.Singleton);
+			services.RegisterSingletonComponent<IApplicationSettings, ApplicationSettings>("ApplicationSettings");
+			services.RegisterSingletonComponent<IHostWindow, MainForm>("HostWindow");
 
 			// components
-            ApplicationServices.Instance.Container.AddComponentWithLifestyle<AboutForm>(
-                "AboutForm", LifestyleType.Transient);
-			ApplicationServices.Instance.Container.AddComponentWithLifestyle<ITextFindService, BasicTextFindService>(
-				"DefaultTextFindService", LifestyleType.Transient);
-			ApplicationServices.Instance.Container.AddComponentWithLifestyle<IQueryEditor, QueryForm>(
-				"QueryForm", LifestyleType.Transient);
+			services.RegisterComponent<AboutForm>("AboutForm");
+			services.RegisterComponent<ITextFindService, BasicTextFindService>("DefaultTextFindService");
+			services.RegisterComponent<IQueryEditor, QueryForm>("QueryForm");
 
             ApplicationServices.Instance.LoadPlugIn(new CoreApplicationPlugIn());
             ApplicationServices.Instance.LoadPlugIn(new ConnectionStringsManagerLoader());
@@ -50,12 +50,12 @@ namespace MiniSqlQuery
             ApplicationServices.Instance.LoadPlugIn(new TemplateViewerLoader());
             ApplicationServices.Instance.LoadPlugIn(new SearchToolsLoader());
 
-            IPlugIn[] plugins = PlugInUtility.GetInstances<IPlugIn>(Environment.CurrentDirectory, Settings.Default.PlugInFileFilter);
-            Array.Sort(plugins, new PlugInComparer());
-            foreach (IPlugIn plugin in plugins)
-            {
-                ApplicationServices.Instance.LoadPlugIn(plugin);
-            }
+			IPlugIn[] plugins = PlugInUtility.GetInstances<IPlugIn>(Environment.CurrentDirectory, Settings.Default.PlugInFileFilter);
+			Array.Sort(plugins, new PlugInComparer());
+			foreach (IPlugIn plugin in plugins)
+			{
+				ApplicationServices.Instance.LoadPlugIn(plugin);
+			}
 
             ApplicationServices.Instance.HostWindow.SetArguements(args);
             Application.Run(ApplicationServices.Instance.HostWindow.Instance);
