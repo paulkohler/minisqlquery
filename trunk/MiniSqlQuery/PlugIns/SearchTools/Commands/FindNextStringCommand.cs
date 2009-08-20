@@ -43,7 +43,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 					else
 					{
 						// none in table, default to curently selected text if its the editor
-						IQueryEditor editor = Services.HostWindow.ActiveChildForm as IQueryEditor;
+						IQueryEditor editor = ActiveFormAsEditor;
 						if (editor != null && editor.SelectedText.Length > 0)
 						{
 							findTextRequest = new FindTextRequest(editorFindProvider, editor.SelectedText);

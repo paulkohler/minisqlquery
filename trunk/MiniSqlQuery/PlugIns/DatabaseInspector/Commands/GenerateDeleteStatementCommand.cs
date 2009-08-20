@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Data;
+using System.IO;
+using System.Text;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.DbModel;
 
 namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 {
@@ -13,16 +16,15 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 
 		public override void Execute()
 		{
-			IQueryEditor editor = Services.HostWindow.ActiveChildForm as IQueryEditor;
+			IQueryEditor editor = ActiveFormAsEditor;
 			string tableName = Services.HostWindow.DatabaseInspector.RightClickedTableName;
-			DataTable schema = Services.HostWindow.DatabaseInspector.DbSchema;
+			DbModelInstance model = Services.HostWindow.DatabaseInspector.DbSchema;
 
 			if (tableName != null && editor != null)
 			{
-				//todo - calc PK?
-				string pkClause = "(idToDo = ?)";
-				string text = string.Format("DELETE\r\nFROM {0}\r\nWHERE {1}", tableName, pkClause);
-				editor.InsertText(text);
+				StringWriter sql = new StringWriter();
+				SqlWriter.WriteDelete(sql, GetTableByName(model, tableName));
+				editor.InsertText(sql.ToString());
 			}
 		}
 	}

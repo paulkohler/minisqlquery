@@ -1,24 +1,39 @@
 ﻿using System;
-using System.Data;
 using MiniSqlQuery.Core.Commands;
+using MiniSqlQuery.Core.DbModel;
 
 namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 {
 	public abstract class GenerateStatementCommandBase : CommandBase
 	{
+		private ISqlWriter _sqlWriter;
+
 		public GenerateStatementCommandBase(string name)
 			: base(name)
 		{
 		}
 
-		protected DataView GetColumnInfoForTable(DataTable schema, string tableName)
+		protected ISqlWriter SqlWriter
 		{
-			if (tableName.IndexOf('.') > -1)
+			get
 			{
-				tableName = tableName.Substring(tableName.IndexOf('.') + 1);
+				if (_sqlWriter == null)
+				{
+					_sqlWriter = Services.Resolve<ISqlWriter>(null);
+				}
+				return _sqlWriter;
 			}
-			DataView columnsDv = new DataView(schema, string.Format("Table = '{0}'", tableName), null, DataViewRowState.CurrentRows);
-			return columnsDv;
+		}
+
+		protected DbModelTable GetTableByName(DbModelInstance model, string tableName)
+		{
+			DbModelTable tableOrView = model.Tables.Find(t => t.FullName.Equals(tableName));
+			if (tableOrView == null)
+			{
+				// check the views
+				tableOrView = model.Views.Find(t => t.FullName.Equals(tableName));
+			}
+			return tableOrView;
 		}
 
 		protected string TrimTrailingComma(string sql)

@@ -41,6 +41,14 @@ namespace MiniSqlQuery.Core
 		void RegisterSingletonComponent<TService, TImp>(string key);
 
 		/// <summary>
+		/// Resolves an instance of <typeparamref name="T"/> from the container.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="key">The key (can be null if not applicable).</param>
+		/// <returns></returns>
+		T Resolve<T>(string key);
+
+		/// <summary>
 		/// The application host window.
 		/// </summary>
 		/// <value>The application host window - a <see cref="System.Windows.Forms.Form"/>.</value>

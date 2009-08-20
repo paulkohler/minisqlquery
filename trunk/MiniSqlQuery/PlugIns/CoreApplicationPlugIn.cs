@@ -70,6 +70,8 @@ namespace MiniSqlQuery.PlugIns
             Services.HostWindow.AddToolStripSeperator(null);
             Services.HostWindow.AddToolStripCommand<RefreshDatabaseConnectionCommand>(null);
 
+			Services.HostWindow.AddPluginCommand<InsertGuidCommand>();
+
             // watch tool strip enabled properties
             // by simply iterating each one every second or so we avoid the need to track via events
             _timer = new Timer();

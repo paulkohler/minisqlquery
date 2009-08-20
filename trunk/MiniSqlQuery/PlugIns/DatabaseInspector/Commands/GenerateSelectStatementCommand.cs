@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Data;
+using System.IO;
 using System.Text;
+using System.Collections.Generic;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.DbModel;
 
 namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 {
@@ -14,33 +17,15 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 
 		public override void Execute()
 		{
-			IQueryEditor editor = Services.HostWindow.ActiveChildForm as IQueryEditor;
+			IQueryEditor editor = ActiveFormAsEditor;
 			string tableName = Services.HostWindow.DatabaseInspector.RightClickedTableName;
-			DataTable schema = Services.HostWindow.DatabaseInspector.DbSchema;
+			DbModelInstance model = Services.HostWindow.DatabaseInspector.DbSchema;
 
 			if (tableName != null && editor != null)
 			{
-				StringBuilder sb = new StringBuilder("SELECT\r\n");
-				DataView columnsDv = GetColumnInfoForTable(schema, tableName);
-				foreach (DataRowView rowView in columnsDv)
-				{
-					sb.Append("\t");
-					sb.Append(rowView["Column"]);
-					sb.Append(",\r\n");
-				}
-
-				sb.Remove(sb.Length - 3, 3); // remove ",\r\n"
-				sb.Append("\r\nFROM ");
-				if (tableName.Contains(" "))
-				{
-					sb.AppendFormat("[{0}]", tableName);
-				}
-				else
-				{
-					sb.Append(tableName);
-				}
-
-				editor.InsertText(sb.ToString());
+				StringWriter sql = new StringWriter();
+				SqlWriter.WriteSelect(sql, GetTableByName(model, tableName));
+				editor.InsertText(sql.ToString());
 			}
 		}
 	}

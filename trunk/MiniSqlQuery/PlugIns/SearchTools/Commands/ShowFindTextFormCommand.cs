@@ -31,7 +31,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 			}
 
 			// if the window is an editor, grab the highlighted text
-			IQueryEditor editor = Services.HostWindow.ActiveChildForm as IQueryEditor;
+			IQueryEditor editor = ActiveFormAsEditor;
 
 			if (FindReplaceWindow == null || FindReplaceWindow.IsDisposed)
 			{

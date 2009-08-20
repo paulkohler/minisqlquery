@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Data;
+using System.IO;
 using System.Media;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.DbModel;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.PlugIns.DatabaseInspector
@@ -13,10 +15,11 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 		private static object RootTag = new object();
 		private static object TablesTag = new object();
 		private static object ViewsTag = new object();
-		private DataTable _metaData;
-		internal DatabaseMetaDataService _metaDataService;
+		internal IDatabaseSchemaService _metaDataService;
+		private DbModelInstance _model;
 		private bool _populated;
 		private TreeNode _rightClickedNode;
+		private ISqlWriter _sqlWriter;
 		private TreeNode _tablesNode;
 		private TreeNode _viewsNode;
 
@@ -41,20 +44,17 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 		{
 			get
 			{
-				string result = null;
-
-				if (_rightClickedNode != null)
+				if (_rightClickedNode == null)
 				{
-					result = _rightClickedNode.Text;
+					return null;
 				}
-
-				return result;
+				return _rightClickedNode.Text;
 			}
 		}
 
-		public DataTable DbSchema
+		public DbModelInstance DbSchema
 		{
-			get { return _metaData; }
+			get { return _model; }
 		}
 
 		public ContextMenuStrip TableMenu
@@ -72,6 +72,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 		private void Settings_DatabaseConnectionReset(object sender, EventArgs e)
 		{
 			_metaDataService = null;
+			_sqlWriter = null;
 			ExecLoadDatabaseDetails();
 		}
 
@@ -96,9 +97,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 				Services.HostWindow.SetPointerState(Cursors.WaitCursor);
 				if (_metaDataService == null)
 				{
-					_metaDataService = new DatabaseMetaDataService(
-						Services.Settings.ProviderFactory,
-						Services.Settings.ConnectionDefinition.ConnectionString);
+					_metaDataService = DatabaseMetaDataService.Create(Services.Settings.ConnectionDefinition.ProviderName);
 				}
 				connection = _metaDataService.GetDescription();
 				populate = true;
@@ -118,37 +117,17 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 
 			if (populate)
 			{
-				if (_metaData != null)
-				{
-					_metaData.Dispose();
-				}
-
 				try
 				{
 					Services.HostWindow.SetPointerState(Cursors.WaitCursor);
-					_metaData = _metaDataService.GetSchema();
+					_model = _metaDataService.GetDbObjectModel(Services.Settings.ConnectionDefinition.ConnectionString);
 				}
 				finally
 				{
 					Services.HostWindow.SetPointerState(Cursors.Default);
 				}
 
-//#if DEBUG
-//                _metaData.WriteXml("DbMetaData.xml", XmlWriteMode.WriteSchema);
-//#endif
-
-				DatabaseTreeView.Nodes.Clear();
-				TreeNode root = CreateRootNodes();
-				root.ToolTipText = connection;
-
-				// create a list of unique the schema.table names
-				List<string> tableNames = FindTypes("table");
-				List<string> viewNames = FindTypes("view");
-
-				CreateNodes("table", tableNames);
-				CreateNodes("view", viewNames);
-
-				DatabaseTreeView.Nodes.Add(root);
+				BildTreeFromDbModel(connection);
 				Services.HostWindow.SetStatus(this, string.Empty);
 				success = true;
 			}
@@ -161,108 +140,48 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			return success;
 		}
 
-		private void CreateNodes(string objectType, List<string> names)
+		private void BildTreeFromDbModel(string connection)
 		{
-			foreach (string name in names)
-			{
-				TreeNode tableNode = new TreeNode(name);
-				tableNode.Name = name;
-				string imageKey = "Table";
-				if (objectType != "table")
-				{
-					imageKey = "View";
-				}
+			DatabaseTreeView.Nodes.Clear();
+			TreeNode root = CreateRootNodes();
+			root.ToolTipText = connection;
 
-				tableNode.ImageKey = imageKey;
-				tableNode.SelectedImageKey = imageKey;
-				tableNode.ContextMenuStrip = TableNodeContextMenuStrip;
-				string[] schemaTablePair = name.Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
-				string schemaName = string.Empty;
-				string tableName = string.Empty;
-				if (schemaTablePair.Length == 1)
-				{
-					tableName = schemaTablePair[0];
-				}
-				else if (schemaTablePair.Length == 2)
-				{
-					schemaName = schemaTablePair[0];
-					tableName = schemaTablePair[1];
-				}
+			_model.Tables.ForEach(CreateTreeNodes);
+			_model.Views.ForEach(CreateTreeNodes);
 
-				string filter = string.Format("Table = '{0}'", tableName);
-				if (string.IsNullOrEmpty(schemaName) == false)
-				{
-					filter += string.Format(" AND Schema = '{0}'", schemaName);
-				}
-				DataView columnsDv = new DataView(_metaData, filter, null, DataViewRowState.CurrentRows);
-				if (objectType == "table")
-				{
-					tableNode.Tag = new TableInfo(tableName, schemaName);
-				}
-				else
-				{
-					tableNode.Tag = new ViewInfo(tableName, schemaName);
-				}
-
-				foreach (DataRowView rowView in columnsDv)
-				{
-					//rowView.Row
-					int len = (int) rowView["Length"];
-					string extra = rowView["DataType"].ToString();
-					if (len > 0)
-					{
-						extra = string.Format("{0} ({1})", rowView["DataType"], len);
-					}
-					bool nullable = (bool) rowView["IsNullable"];
-					if (nullable)
-					{
-						extra += " NULL";
-					}
-					else
-					{
-						extra += " NOT NULL";
-					}
-					string columnName = string.Format("{0} [{1}]", rowView["Column"], extra);
-					TreeNode columnNode = new TreeNode(columnName);
-					columnNode.Name = columnName;
-					columnNode.ImageKey = "Column";
-					columnNode.SelectedImageKey = "Column";
-					columnNode.ContextMenuStrip = ColumnNameContextMenuStrip;
-					columnNode.Tag = new ColumnInfo(rowView.Row);
-					tableNode.Nodes.Add(columnNode);
-				}
-				if (objectType == "table")
-				{
-					_tablesNode.Nodes.Add(tableNode);
-				}
-				else
-				{
-					_viewsNode.Nodes.Add(tableNode);
-				}
-			}
+			DatabaseTreeView.Nodes.Add(root);
 		}
 
-		private List<string> FindTypes(string objectType)
+		private void CreateTreeNodes(DbModelTable table)
 		{
-			List<string> names = new List<string>();
-			DataView tablesDv = new DataView(_metaData, string.Format("ObjectType = '{0}'", objectType), "Schema, Table", DataViewRowState.CurrentRows);
-			foreach (DataRowView row in tablesDv)
-			{
-				string schemaName = (string) row["Schema"];
-				string tableName = (string) row["Table"];
-				string dot = ".";
-				if (string.IsNullOrEmpty(schemaName)) // allow no schema
-				{
-					dot = string.Empty;
-				}
-				string fullTableName = string.Concat(schemaName, dot, tableName);
+			TreeNode tableNode = new TreeNode(table.FullName);
+			tableNode.Name = table.FullName;
+			tableNode.ImageKey = table.ObjectType;
+			tableNode.SelectedImageKey = table.ObjectType;
+			tableNode.ContextMenuStrip = TableNodeContextMenuStrip;
+			tableNode.Tag = table;
 
-				if (!names.Contains(fullTableName))
-				{
-					names.Add(fullTableName);
-				}
+			foreach (DbModelColumn column in table.Columns)
+			{
+				TreeNode columnNode = new TreeNode(column.Name);
+				columnNode.Name = column.Name;
+				columnNode.ImageKey = column.ObjectType;
+				columnNode.SelectedImageKey = column.ObjectType;
+				columnNode.ContextMenuStrip = ColumnNameContextMenuStrip;
+				columnNode.Tag = column;
+				columnNode.Text = GetSummary(column);
+				tableNode.Nodes.Add(columnNode);
 			}
-			return names;
+
+			switch (table.ObjectType)
+			{
+				case ObjectTypes.Table:
+					_tablesNode.Nodes.Add(tableNode);
+					break;
+				case ObjectTypes.View:
+					_viewsNode.Nodes.Add(tableNode);
+					break;
+			}
 		}
 
 		private TreeNode CreateRootNodes()
@@ -276,13 +195,11 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			_tablesNode = new TreeNode("Tables");
 			_tablesNode.ImageKey = "Tables";
 			_tablesNode.SelectedImageKey = "Tables";
-			//_tablesNode.ContextMenuStrip = ?;
 			_tablesNode.Tag = TablesTag;
 
 			_viewsNode = new TreeNode("Views");
 			_viewsNode.ImageKey = "Views";
 			_viewsNode.SelectedImageKey = "Views";
-			//_viewsNode.ContextMenuStrip = ?;
 			_viewsNode.Tag = ViewsTag;
 
 			root.Nodes.Add(_tablesNode);
@@ -311,18 +228,10 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			TreeNode node = e.Node;
 			if (e.Button == MouseButtons.Left)
 			{
-				if (node != null && (node.Tag is ISchemaClass))
+				IDbModelNamedObject namedObject = node.Tag as IDbModelNamedObject;
+				if (namedObject != null)
 				{
-					string name = node.Text;
-					if (node.Tag is TableInfo)
-					{
-						name = ((TableInfo) node.Tag).Name;
-					}
-					else if (node.Tag is ColumnInfo)
-					{
-						name = ((ColumnInfo) node.Tag).ColumnSchemaDataRow["Column"].ToString();
-					}
-					SetText(name);
+					SetText(namedObject.FullName);
 				}
 			}
 		}
@@ -356,10 +265,12 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			TreeNode node = e.Node;
 			if (e.Button == MouseButtons.Right)
 			{
-				if (node != null && (node.Tag is TableInfo || node.Tag is ViewInfo))
+				IDbModelNamedObject namedObject = node.Tag as IDbModelNamedObject;
+
+				if (namedObject != null && 
+					(namedObject.ObjectType == ObjectTypes.Table || namedObject.ObjectType == ObjectTypes.View))
 				{
 					_rightClickedNode = node;
-					//Debug.WriteLine(node.Text);
 				}
 				else
 				{
@@ -368,77 +279,15 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			}
 		}
 
-		#region Nested type: ColumnInfo
-
-		/// <summary>
-		/// Simple helper class to identify a node as a column and store it's schema info.
-		/// </summary>
-		private class ColumnInfo : ISchemaClass
+		private string GetSummary(DbModelColumn column)
 		{
-			public DataRow ColumnSchemaDataRow;
-
-			public ColumnInfo(DataRow info)
+			StringWriter stringWriter = new StringWriter();
+			if (_sqlWriter == null)
 			{
-				ColumnSchemaDataRow = info;
+				_sqlWriter = Services.Resolve<ISqlWriter>(null);
 			}
+			_sqlWriter.WriteSummary(stringWriter, column);
+			return stringWriter.ToString();
 		}
-
-		#endregion
-
-		#region Nested type: ISchemaClass
-
-		/// <summary>
-		/// Just for referencing.
-		/// </summary>
-		private interface ISchemaClass
-		{
-		}
-
-		#endregion
-
-		#region Nested type: TableInfo
-
-		/// <summary>
-		/// Simple helper class to identify a node as a table and store the schema info.
-		/// </summary>
-		private class TableInfo : ISchemaClass
-		{
-			public string Name;
-			public string Schema;
-
-			public TableInfo(string schema, string name)
-			{
-				Schema = schema;
-				Name = name;
-			}
-		}
-		private class ViewInfo : ISchemaClass
-		{
-			public string Name;
-			public string Schema;
-
-			public ViewInfo(string schema, string name)
-			{
-				Schema = schema;
-				Name = name;
-			}
-		}
-
-		#endregion
-
-		#region Nested type: TablesNode
-
-		private class TablesNode : ISchemaClass
-		{
-			public string Name;
-
-			public TablesNode()
-			{
-				Name = "Tables";
-			}
-		}
-
-
-		#endregion
 	}
 }

@@ -79,6 +79,7 @@
     <Compile Include="Commands\ExecuteQueryCommand.cs" />
     <Compile Include="Commands\ExitApplicationCommand.cs" />
     <Compile Include="Commands\GenerateCommandCodeCommand.cs" />
+    <Compile Include="Commands\InsertGuidCommand.cs" />
     <Compile Include="Commands\NewQueryFormCommand.cs" />
     <Compile Include="Commands\OpenConnectionFileCommand.cs" />
     <Compile Include="Commands\PasteAroundSelectionCommand.cs" />
@@ -119,6 +120,12 @@
     <Compile Include="DbModel\DbModelTable.cs" />
     <Compile Include="DbModel\DbModelTableCollection.cs" />
     <Compile Include="DbModel\DbModelType.cs" />
+    <Compile Include="DbModel\DbModelView.cs" />
+    <Compile Include="DbModel\GenericSchemaService.cs" />
+    <Compile Include="DbModel\ISqlWriter.cs" />
+    <Compile Include="DbModel\SqlCeSchemaService.cs" />
+    <Compile Include="DbModel\SqlClientSchemaService.cs" />
+    <Compile Include="DbModel\SqlWriter.cs" />
     <Compile Include="Forms\BatchQuerySelectForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +133,7 @@
       <DependentUpon>BatchQuerySelectForm.cs</DependentUpon>
     </Compile>
     <Compile Include="IApplicationServices.cs" />
+    <Compile Include="IDatabaseSchemaService.cs" />
     <Compile Include="IFindReplaceProvider.cs" />
     <Compile Include="FindReplaceTextRequest.cs" />
     <Compile Include="IApplicationSettings.cs" />
@@ -138,7 +146,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ImageResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="INamedObject.cs" />
+    <Compile Include="IDbModelNamedObject.cs" />
     <Compile Include="INavigatableDocument.cs" />
     <Compile Include="IPlugIn.cs" />
     <Compile Include="IPrintableContent.cs" />
@@ -147,6 +155,7 @@
     <Compile Include="CommandControlBuilder.cs" />
     <Compile Include="ISupportCursorOffset.cs" />
     <Compile Include="ITextFindService.cs" />
+    <Compile Include="ObjectTypes.cs" />
     <Compile Include="PlugInComparer.cs" />
     <Compile Include="PluginLoaderBase.cs" />
     <Compile Include="PlugInUtility.cs" />

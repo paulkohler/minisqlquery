@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MiniSqlQuery.Core.DbModel
 {
@@ -7,15 +8,20 @@ namespace MiniSqlQuery.Core.DbModel
 		public DbModelInstance()
 		{
 			Tables = new DbModelTableCollection();
+			Views = new DbModelTableCollection();
 		}
 
 		//conn info etc
 
 		public virtual DbModelTableCollection Tables { get; internal set; }
 
+		public virtual DbModelTableCollection Views { get; internal set; }
+
 		public string ProviderName { get; set; }
 
 		public string ConnectionString { get; set; }
+
+		public Dictionary<string, DbModelType> Types { get; set; }
 
 		public virtual void Add(DbModelTable table)
 		{

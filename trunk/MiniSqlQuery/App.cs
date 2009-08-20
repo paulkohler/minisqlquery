@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.DbModel;
 using MiniSqlQuery.PlugIns;
 using MiniSqlQuery.PlugIns.ConnectionStringsManager;
 using MiniSqlQuery.PlugIns.DatabaseInspector;
@@ -42,6 +43,7 @@ namespace MiniSqlQuery
 			services.RegisterComponent<AboutForm>("AboutForm");
 			services.RegisterComponent<ITextFindService, BasicTextFindService>("DefaultTextFindService");
 			services.RegisterComponent<IQueryEditor, QueryForm>("QueryForm");
+			services.RegisterComponent<ISqlWriter, SqlWriter>("DefaultSqlWriter");
 
             ApplicationServices.Instance.LoadPlugIn(new CoreApplicationPlugIn());
             ApplicationServices.Instance.LoadPlugIn(new ConnectionStringsManagerLoader());

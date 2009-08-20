@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Data;
+using MiniSqlQuery.Core.DbModel;
 
 namespace MiniSqlQuery.Core
 {
@@ -10,9 +11,9 @@ namespace MiniSqlQuery.Core
 	public interface IDatabaseInspector
 	{
 		/// <summary>
-		/// The name of the curent table in the tree view that is being clicked.
+		/// The name of the curent table (or view) with schema if applicable in the tree view that is being clicked.
 		/// </summary>
-		/// <value>The table name or null if none selected.</value>
+		/// <value>The table or view name or null if none selected.</value>
 		string RightClickedTableName { get; }
 
 		/// <summary>
@@ -33,6 +34,6 @@ namespace MiniSqlQuery.Core
 		/// <summary>
 		/// Gets the current database schema info (if any).
 		/// </summary>
-		DataTable DbSchema { get; }
+		DbModelInstance DbSchema { get; }
 	}
 }

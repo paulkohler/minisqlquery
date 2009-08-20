@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.DbModel;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.PlugIns.ViewTable
@@ -12,7 +13,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 	{
 		private QueryBatch _batch;
 		private DbConnection _dbConnection;
-		private DatabaseMetaDataService _metaDataService;
+		private IDatabaseSchemaService _metaDataService;
 		private IApplicationServices _services;
 		private string _status = string.Empty;
 
@@ -33,25 +34,21 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 			if (_metaDataService == null)
 			{
-				_metaDataService = new DatabaseMetaDataService(
-					_services.Settings.ProviderFactory,
-					_services.Settings.ConnectionDefinition.ConnectionString);
+				_metaDataService = DatabaseMetaDataService.Create(_services.Settings.ConnectionDefinition.ProviderName);
 
-				DataTable schema = _metaDataService.GetSchema();
+				DbModelInstance model = _metaDataService.GetDbObjectModel(_services.Settings.ConnectionDefinition.ConnectionString);
 				List<string> tableNames = new List<string>();
-				foreach (DataRow row in schema.Rows)
+				foreach (DbModelTable dbModelTable in model.Tables)
 				{
-					string schemaName = string.Format("{0}", row["Schema"]);
-					string table = string.Format("{0}", row["Table"]);
 					string fullTableName;
 
-					if (string.IsNullOrEmpty(schemaName))
+					if (string.IsNullOrEmpty(dbModelTable.Schema))
 					{
-						fullTableName = table;
+						fullTableName = dbModelTable.Name;
 					}
 					else
 					{
-						fullTableName = string.Concat(schemaName, ".", table);
+						fullTableName = string.Concat(dbModelTable.Schema, ".", dbModelTable.Name);
 					}
 
 					if (!tableNames.Contains(fullTableName))

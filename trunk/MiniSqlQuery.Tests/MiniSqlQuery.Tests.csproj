@@ -77,6 +77,10 @@
     <Compile Include="DbConnectionDefinitionListTests.cs" />
     <Compile Include="DbModel\DbObjectModel_creation_tests.cs" />
     <Compile Include="DbModel\DbTypeTests.cs" />
+    <Compile Include="DbModel\SqlCeSchemaService_DataType_ToDDL_Tests.cs" />
+    <Compile Include="DbModel\SqlCeSchemaService_Tests.cs" />
+    <Compile Include="DbModel\SqlCeSchemaService_DataType_Tests.cs" />
+    <Compile Include="DbModel\SqlWriterTests.cs" />
     <Compile Include="Gui\Basic_GUI_tests.cs" />
     <Compile Include="Gui\QueryFormTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

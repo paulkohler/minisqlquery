@@ -76,6 +76,22 @@ namespace MiniSqlQuery.Core
 		}
 
 		/// <summary>
+		/// Resolves an instance of <typeparamref name="T"/> from the container.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="key">The key (can be null if not applicable).</param>
+		/// <returns></returns>
+		public T Resolve<T>(string key)
+		{
+			if (key == null)
+			{
+				return _container.Resolve<T>();
+			}
+			return _container.Resolve<T>(key);
+		}
+
+
+		/// <summary>
 		/// The application host window.
 		/// </summary>
 		/// <value>The host window - a <see cref="Form"/>.</value>
