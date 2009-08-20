@@ -1,0 +1,155 @@
+﻿<?xml version="1.0"?>
+<!--
+Build file for Mini SQL Query.
+* To create a build (all binaries): "nant full-build"
+* To create a release distribution (all binaries, API docs, SDK etc ==> ZIP files - no PDBs): "nant distro"
+-->
+<project name="Mini SQL Query" default="build">
+  <description>Mini SQL Query build file.</description>
+  <property name="project.name" value="MiniSqlQuery"/>
+  <property name="project.friendly.name" value="Mini SQL Query"/>
+  <property name="project.version" value="1.0"/>
+  <property name="project.docs" value="false"/>
+
+  <!-- The release build is the 'public distribution', its should not incude test DLLs -->
+  <property name="project.release.type" value="Release - No Tests"/>
+  
+  <property name="project.description" value="Mini SQL Query from PK Software is a minimalist SQL query tool for multiple providers (MSSQL, Oracle, OLEDB, MS Access files etc). The goal of the Mini SQL Query tool is to allow a developer or trouble-shooter to quickly diagnose issues or make changes to a database using a tool with a small footprint, that is fast and easy to use." />
+  <property name="create.assemblyinfo" value="true" />
+
+  <property name="release-base" value="${project::get-base-directory()}\"/>
+  <property name="release-build-dir" value="${release-base}ReleaseBuild\"/>
+  <property name="release-distro-dir" value="${release-base}DISTRO\"/>
+  <property name="release-sdk-dir" value="${release-base}SDK\"/>
+  <property name="release-contrib-dir" value="${release-base}Contrib\"/>
+  <property name="release-help-api-dir" value="${release-base}Help\API\"/>
+  
+  <target name="full-build" depends="create-common-assemblyinfo,build,copy-licences" description="" />
+  <target name="distro" depends="create-common-assemblyinfo,build,copy-licences,build-api-docs,zip-release-build" description="" />
+
+  <target name="build" description="compiles the source code for a release distribution.">
+    <delete dir="${release-build-dir}" />
+    <exec program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
+      <arg value="/p:Configuration=${project.release.type}" />
+      <arg value="/p:OutDir=${release-build-dir}" />
+      <arg value="/p:Platform=&quot;Any CPU&quot;" />
+      <arg value="/t:Rebuild" />
+    </exec>
+    <call target="build-contrib-plugins" />
+    <delete>
+      <!--clean up some extras-->
+      <fileset>
+        <include name="${release-build-dir}*.pdb"/>
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="build-contrib-plugins" depends="create-common-assemblyinfo" description="compiles the plugins under the CONTRIB directory source code for a release distribution.">
+    <exec workingdir="${release-contrib-dir}" program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
+      <arg value="/p:Configuration=${project.release.type}" />
+      <arg value="/p:OutDir=${release-build-dir}" />
+      <arg value="/p:Platform=&quot;Any CPU&quot;" />
+      <arg value="/t:Rebuild" />
+    </exec>
+  </target>
+
+  <target name="clean-debug" description="">
+    <exec program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
+      <arg value="/p:Configuration=Debug" />
+      <arg value="/p:Platform=&quot;Any CPU&quot;" />
+      <arg value="/t:Clean" />
+    </exec>
+  </target>
+
+  <target name="clean-release" description="">
+    <exec program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
+      <arg value="/p:Configuration=Release" />
+      <arg value="/p:Platform=&quot;Any CPU&quot;" />
+      <arg value="/t:Clean" />
+    </exec>
+  </target>w
+
+  <target name="build-api-docs" description="" if="${project.docs}" >
+    <delete dir="${release-help-api-dir}" />
+    <exec program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
+      <arg value="&quot;/p:SHFBROOT=C:\Program Files\EWSoftware\Sandcastle Help File Builder&quot;" />
+      <arg value="${project.name}.shfbproj" />
+    </exec>
+  </target>
+
+  <target name="zip-release-build" description="Create ZIP file of the ReleaseBuild output, the SDK files and all source.">
+    <delete dir="${release-distro-dir}" />
+    <mkdir dir="${release-distro-dir}" />
+    <copy file="Help\MiniSqlQueryExtensibilityDocumentation.chm" todir="${release-sdk-dir}" if="${project.docs}" />
+    <copy file="ChangeLog.txt" todir="${release-build-dir}" />
+    <copy file="ReadMe.htm" todir="${release-build-dir}" />
+    <zip zipfile="${release-distro-dir}${project.name}.zip" ziplevel="9">
+      <fileset basedir="${release-build-dir}" >
+        <include name="*" />
+        <include name="Templates\*" />
+      </fileset>
+    </zip>
+    <zip zipfile="${release-sdk-dir}${project.name}.PlugIn.ProjectTemplate.zip" ziplevel="9">
+      <fileset basedir="${release-sdk-dir}PlugInProjectTemplate" >
+        <include name="*" />
+      </fileset>
+    </zip>
+
+		<zip zipfile="${release-distro-dir}\${project.name}.Source.zip" ziplevel="9">
+			<fileset basedir="${release-base}" >
+				<exclude name="*.cache/**" />
+				<exclude name="*.suo/**" />
+				<exclude name="*.user/**" />
+				<exclude name="*.ini/**" />
+				<exclude name="**/bin/**" />
+				<exclude name="**/obj/**" />
+				<exclude name="Help/**" />
+				<exclude name="DISTRO/**" />
+				<exclude name="**/_ReSharper*/**" />
+				<exclude name="*.resharper/**" />
+				
+				<!-- Specific directories to include in the source ZIP -->
+				<include name="*.*" />
+				<include name="MiniSqlQuery*/**" />
+				<include name="*.PlugIn*/**" />
+				<include name="TestDatabases/**" />
+				<include name="References/**" />
+				<include name="Contrib/**" />
+
+				<!-- include SDK text and help files, any dirs that are for templates or plugins -->
+				<include name="SDK/*.PlugIn/**" />
+				<include name="SDK/*Template/**" />
+				<include name="SDK/*.txt" />
+				<include name="SDK/*.chm" />
+			</fileset>
+		</zip>
+  </target>
+
+  <target name="copy-licences" description="">
+    <copy todir="${release-build-dir}">
+      <fileset basedir="References">
+        <include name="License-*" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="create-common-assemblyinfo" if="${create.assemblyinfo}">
+    <!-- ensure src/CommonAssemblyInfo.cs is writable if it already exists -->
+    <attrib file="CommonAssemblyInfo.cs" readonly="false" if="${file::exists('CommonAssemblyInfo.cs')}" />
+    <asminfo output="CommonAssemblyInfo.cs" language="CSharp">
+      <imports>
+        <import namespace="System" />
+        <import namespace="System.Reflection" />
+        <import namespace="System.Runtime.InteropServices" />
+      </imports>
+      <attributes>
+        <attribute type="ComVisibleAttribute" value="false" />
+        <attribute type="CLSCompliantAttribute" value="true" />
+        <attribute type="AssemblyConfigurationAttribute" value="${project.release.type}" />
+        <attribute type="AssemblyCompanyAttribute" value="Paul Kohler" />
+        <attribute type="AssemblyCopyrightAttribute" value="Copyright (C) 2005-${datetime::get-year(datetime::now())} Paul Kohler" />
+      </attributes>
+    </asminfo>
+  </target>
+
+</project>
