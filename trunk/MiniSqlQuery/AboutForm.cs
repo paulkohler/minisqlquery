@@ -19,6 +19,7 @@ namespace MiniSqlQuery
 		public AboutForm()
 		{
 			InitializeComponent();
+			pic.Image = ImageResource.ApplicationIcon;
 			this.Text = String.Format("About {0}", AssemblyTitle);
 			this.labelProductName.Text = AssemblyTitle;
 			this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);

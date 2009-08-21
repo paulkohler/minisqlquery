@@ -47,6 +47,7 @@
 			WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient7 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
 			this.menuStrip = new System.Windows.Forms.MenuStrip();
 			this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
+			this.editMenu = new System.Windows.Forms.ToolStripMenuItem();
 			this.queryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolsMenu = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,7 +68,6 @@
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripComboBoxConnection = new System.Windows.Forms.ToolStripComboBox();
 			this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-			this.editMenu = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.toolStrip.SuspendLayout();
 			this.statusStrip.SuspendLayout();
@@ -93,13 +93,19 @@
 			// 
 			this.fileMenu.ImageTransparentColor = System.Drawing.SystemColors.ActiveBorder;
 			this.fileMenu.Name = "fileMenu";
-			this.fileMenu.Size = new System.Drawing.Size(37, 20);
+			this.fileMenu.Size = new System.Drawing.Size(35, 20);
 			this.fileMenu.Text = "&File";
+			// 
+			// editMenu
+			// 
+			this.editMenu.Name = "editMenu";
+			this.editMenu.Size = new System.Drawing.Size(37, 20);
+			this.editMenu.Text = "&Edit";
 			// 
 			// queryToolStripMenuItem
 			// 
 			this.queryToolStripMenuItem.Name = "queryToolStripMenuItem";
-			this.queryToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+			this.queryToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
 			this.queryToolStripMenuItem.Text = "&Query";
 			// 
 			// toolsMenu
@@ -107,26 +113,26 @@
 			this.toolsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.optionsToolStripMenuItem});
 			this.toolsMenu.Name = "toolsMenu";
-			this.toolsMenu.Size = new System.Drawing.Size(48, 20);
+			this.toolsMenu.Size = new System.Drawing.Size(44, 20);
 			this.toolsMenu.Text = "&Tools";
 			this.toolsMenu.Visible = false;
 			// 
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.optionsToolStripMenuItem.Text = "&Options";
 			// 
 			// pluginsMenu
 			// 
 			this.pluginsMenu.Name = "pluginsMenu";
-			this.pluginsMenu.Size = new System.Drawing.Size(58, 20);
+			this.pluginsMenu.Size = new System.Drawing.Size(52, 20);
 			this.pluginsMenu.Text = "&Plugins";
 			// 
 			// helpMenu
 			// 
 			this.helpMenu.Name = "helpMenu";
-			this.helpMenu.Size = new System.Drawing.Size(44, 20);
+			this.helpMenu.Size = new System.Drawing.Size(40, 20);
 			this.helpMenu.Text = "&Help";
 			// 
 			// toolBarToolStripMenuItem
@@ -216,7 +222,7 @@
 			// toolStripStatusLabel
 			// 
 			this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-			this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
+			this.toolStripStatusLabel.Size = new System.Drawing.Size(38, 17);
 			this.toolStripStatusLabel.Text = "Status";
 			// 
 			// toolStripConnection
@@ -234,7 +240,7 @@
 			// toolStripLabel1
 			// 
 			this.toolStripLabel1.Name = "toolStripLabel1";
-			this.toolStripLabel1.Size = new System.Drawing.Size(72, 22);
+			this.toolStripLabel1.Size = new System.Drawing.Size(65, 22);
 			this.toolStripLabel1.Text = "Connection:";
 			// 
 			// toolStripComboBoxConnection
@@ -300,12 +306,6 @@
 			dockPanelSkin1.DockPaneStripSkin = dockPaneStripSkin1;
 			this.dockPanel.Skin = dockPanelSkin1;
 			this.dockPanel.TabIndex = 6;
-			// 
-			// editMenu
-			// 
-			this.editMenu.Name = "editMenu";
-			this.editMenu.Size = new System.Drawing.Size(39, 20);
-			this.editMenu.Text = "&Edit";
 			// 
 			// MainForm
 			// 

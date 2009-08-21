@@ -183,6 +183,8 @@
     <Content Include="DefaultConnectionDefinitionFile.xml" />
     <Content Include="Images\accept.png" />
     <None Include="Images\add.png" />
+    <Content Include="Images\App.ico" />
+    <Content Include="Images\ApplicationIcon.png" />
     <Content Include="Images\around_text.png" />
     <Content Include="Images\cancel.png" />
     <Content Include="Images\cog.png" />
@@ -195,6 +197,7 @@
     <Content Include="Images\database_edit.png" />
     <Content Include="Images\database_error.png" />
     <Content Include="Images\database_refresh.png" />
+    <Content Include="Images\disconnect.png" />
     <Content Include="Images\disk.png" />
     <Content Include="Images\disk_multiple.png" />
     <Content Include="Images\email.png" />
