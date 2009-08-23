@@ -245,7 +245,7 @@ namespace MiniSqlQuery.Core.DbModel
 				string typeName = SafeGetString(row, "TypeName");
 				int columnSize = SafeGetInt(row, "ColumnSize");
 				DbModelType dbType = new DbModelType(typeName, columnSize);
-				dbTypes.Add(typeName, dbType);
+				dbTypes.Add(typeName.ToLower(), dbType);
 
 				dbType.CreateFormat = SafeGetString(row, "CreateFormat");
 				dbType.CreateParameters = SafeGetString(row, "CreateParameters");
