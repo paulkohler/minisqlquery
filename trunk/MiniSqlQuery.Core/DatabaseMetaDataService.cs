@@ -12,6 +12,9 @@ namespace MiniSqlQuery.Core
 		{
 			switch (providerName)
 			{
+				case "System.Data.OleDb":
+					return new OleDbSchemaService() { ProviderName = providerName };
+
 				case "System.Data.SqlClient":
 					return new SqlClientSchemaService { ProviderName = providerName };
 
