@@ -17,6 +17,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			toolStripButtonCopyAsNew.Image = ImageResource.database_add;
 			toolStripButtonEditConnStr.Image = ImageResource.database_edit;
 			toolStripButtonDelete.Image = ImageResource.database_delete;
+			Icon = ImageResource.disconnect_icon;
 		}
 
 		public DbConnectionsForm(IApplicationServices services)

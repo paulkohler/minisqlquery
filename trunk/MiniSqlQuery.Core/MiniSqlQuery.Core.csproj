@@ -194,9 +194,11 @@
     <Content Include="Images\database.png" />
     <Content Include="Images\database_add.png" />
     <Content Include="Images\database_delete.png" />
+    <Content Include="Images\database_edit.ico" />
     <Content Include="Images\database_edit.png" />
     <Content Include="Images\database_error.png" />
     <Content Include="Images\database_refresh.png" />
+    <Content Include="Images\disconnect.ico" />
     <Content Include="Images\disconnect.png" />
     <Content Include="Images\disk.png" />
     <Content Include="Images\disk_multiple.png" />

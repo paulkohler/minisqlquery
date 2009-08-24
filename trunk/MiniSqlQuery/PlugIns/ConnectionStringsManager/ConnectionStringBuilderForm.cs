@@ -74,6 +74,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 		{
 			InitializeComponent();
 			_services = services;
+			Icon = ImageResource.database_edit_icon;
 		}
 
 		public ConnectionStringBuilderForm(DbConnectionDefinition definition, IApplicationServices services)
