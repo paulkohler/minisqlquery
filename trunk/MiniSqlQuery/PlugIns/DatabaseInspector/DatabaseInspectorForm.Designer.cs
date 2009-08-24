@@ -102,6 +102,7 @@
 			this.TabText = "DB Inspector";
 			this.Text = "Database Inspector";
 			this.Load += new System.EventHandler(this.DatabaseInspectorForm_Load);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DatabaseInspectorForm_FormClosing);
 			this.InspectorContextMenuStrip.ResumeLayout(false);
 			this.ResumeLayout(false);
 

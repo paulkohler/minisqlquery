@@ -9,16 +9,15 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 		public DatabaseInspectorLoader()
 			: base(
 				"Database Inspector",
-				"A Mini SQL Query Plugin for displaying the database schema as a tree view",
+				"A Mini SQL Query Plugin for displaying the database schema in a tree view",
 				20)
 		{
 		}
 
 		public override void InitializePlugIn() 
 		{
-			DatabaseInspectorForm dbi = new DatabaseInspectorForm(Services);
-			Services.HostWindow.ShowDatabaseInspector(dbi, WeifenLuo.WinFormsUI.Docking.DockState.DockLeft);
-			dbi.Activate();
+			Services.HostWindow.AddPluginCommand<ShowDatabaseInspectorCommand>();
+			CommandManager.GetCommandInstance<ShowDatabaseInspectorCommand>().Execute();
 
 			Services.HostWindow.DatabaseInspector.TableMenu.Items.Add(
 				CommandControlBuilder.CreateToolStripMenuItem<GenerateSelectStatementCommand>());

@@ -97,7 +97,7 @@ namespace MiniSqlQuery
 
 		public void ShowDatabaseInspector(IDatabaseInspector databaseInspector, DockState dockState)
 		{
-			if (_dbInspector != null)
+			if (_dbInspector != null && _dbInspector != databaseInspector)
 			{
 				_dbInspector.Close();
 			}

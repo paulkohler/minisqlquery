@@ -28,6 +28,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 		public DatabaseInspectorForm(IApplicationServices services)
 		{
 			InitializeComponent();
+
 			DatabaseTreeView.Nodes.Clear();
 			TreeNode root = CreateRootNodes();
 			root.Nodes.Add("Loading problem - check connection details and reset...");
@@ -79,6 +80,15 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 
 		private void DatabaseInspectorControl_Load(object sender, EventArgs e)
 		{
+		}
+
+		private void DatabaseInspectorForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (e.CloseReason == CloseReason.UserClosing)
+			{
+				Hide();
+				e.Cancel = true;
+			}
 		}
 
 		private void loadToolStripMenuItem_Click(object sender, EventArgs e)

@@ -116,6 +116,7 @@
     <Compile Include="PlugIns\DatabaseInspector\Commands\GenerateSelectStatementCommand.cs" />
     <Compile Include="PlugIns\DatabaseInspector\Commands\GenerateStatementCommandBase.cs" />
     <Compile Include="PlugIns\DatabaseInspector\Commands\GenerateUpdateStatementCommand.cs" />
+    <Compile Include="PlugIns\DatabaseInspector\Commands\ShowDatabaseInspectorCommand.cs" />
     <Compile Include="PlugIns\DatabaseInspector\Commands\TruncateTableCommand.cs" />
     <Compile Include="PlugIns\DatabaseInspector\DatabaseInspectorForm.cs">
       <SubType>Form</SubType>
