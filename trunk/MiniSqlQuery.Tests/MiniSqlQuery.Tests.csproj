@@ -92,7 +92,8 @@
     </Compile>
     <Compile Include="QueryRunnerTests.cs" />
     <Compile Include="Query_wrapper_tests.cs" />
-    <Compile Include="TextFormater_tests.cs" />
+    <Compile Include="Templates\TemplateModel_tests.cs" />
+    <Compile Include="Templates\TextFormater_tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MiniSqlQuery.Core\MiniSqlQuery.Core.csproj">

@@ -1,6 +1,9 @@
 Mini SQL Query Change Log
 =========================
 
+2009-08-26	ENH: Added simple template processing, access to properties of IApplicationServices using braces.
+2009-08-21	ENH: Major breaking changes around the collection of the database schemas (See Core.DbModel).
+2009-08-21	ENH: Added support for SQL CE 3.5 databases.
 2009-07-08	ENH: Added views to the DB Inspector plugin - added "Tables" and "Views" nodes at the root.
 2009-07-07	ENH: Pushed the query execution into background worker.
 2009-07-06	ENH: Added the messages pane to the results, started to add providers (these are provider specific, just 'generic' and SqlClient for now).

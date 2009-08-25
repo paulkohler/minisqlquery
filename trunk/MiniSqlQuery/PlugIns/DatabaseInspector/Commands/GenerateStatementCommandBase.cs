@@ -19,7 +19,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 			{
 				if (_sqlWriter == null)
 				{
-					_sqlWriter = Services.Resolve<ISqlWriter>(null);
+					_sqlWriter = Services.Resolve<ISqlWriter>();
 				}
 				return _sqlWriter;
 			}

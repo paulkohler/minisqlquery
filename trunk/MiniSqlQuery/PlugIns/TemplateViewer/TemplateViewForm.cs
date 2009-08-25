@@ -9,13 +9,14 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
 	public partial class TemplateViewForm : DockContent
 	{
+		private readonly IApplicationServices _services;
 		private readonly TemplateModel _model;
 
-		public TemplateViewForm()
+		public TemplateViewForm(IApplicationServices services, TemplateModel model)
 		{
 			InitializeComponent();
-
-			_model = new TemplateModel();
+			_services = services;
+			_model = model;
 		}
 
 		private void TemplateViewForm_Load(object sender, EventArgs e)
@@ -33,7 +34,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				{
 					new NewQueryByTemplateCommand().Execute();
 					IQueryEditor editor = (IQueryEditor) ApplicationServices.Instance.HostWindow.ActiveChildForm;
-					string template = _model.ProcessTemplate(fi.FullName);
+					string template = _model.ProcessTemplateFile(fi.FullName);
 					editor.AllText = template;
 				}
 			}

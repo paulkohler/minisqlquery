@@ -294,7 +294,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			StringWriter stringWriter = new StringWriter();
 			if (_sqlWriter == null)
 			{
-				_sqlWriter = Services.Resolve<ISqlWriter>(null);
+				_sqlWriter = Services.Resolve<ISqlWriter>();
 			}
 			_sqlWriter.WriteSummary(stringWriter, column);
 			return stringWriter.ToString();

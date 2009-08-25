@@ -48,6 +48,8 @@ namespace MiniSqlQuery.Core
 		/// <returns></returns>
 		T Resolve<T>(string key);
 
+		T Resolve<T>();
+
 		/// <summary>
 		/// The application host window.
 		/// </summary>

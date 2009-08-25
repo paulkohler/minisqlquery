@@ -3,17 +3,26 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.Template;
 using MiniSqlQuery.Properties;
 
 namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
 	public class TemplateModel
 	{
+		private readonly IApplicationServices _services;
+		private ITextFormatter _formatter;
+
+		public TemplateModel(IApplicationServices services, ITextFormatter formatter)
+		{
+			_services = services;
+			_formatter = formatter;
+		}
+
 		public string GetTemplatePath()
 		{
-			string path = null;
-
-			path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			path = Path.Combine(path, Resources.TemplatesDirectoryName);
 
 			return path;
@@ -53,11 +62,39 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			return nodes.ToArray();
 		}
 
-		public string ProcessTemplate(string filename)
+		public string ProcessTemplateFile(string filename)
 		{
-			string template = File.ReadAllText(filename);
-			// todo - params etc
-			return template;
+			return ProcessTemplate(File.ReadAllText(filename));
 		}
+
+		public string ProcessTemplate(string text)
+		{
+			ModelData data = new ModelData { Services = _services };
+			return _formatter.Format(text, data);
+		}
+
+		#region Nested type: ModelData
+
+		public class ModelData
+		{
+			public IApplicationServices Services { get; set; }
+
+			public DateTime CurrentDateTime
+			{
+				get { return DateTime.Now; }
+			}
+
+			public string MachineName
+			{
+				get { return Environment.MachineName; }
+			}
+
+			public string UserName
+			{
+				get { return Environment.UserName; }
+			}
+		}
+
+		#endregion
 	}
 }

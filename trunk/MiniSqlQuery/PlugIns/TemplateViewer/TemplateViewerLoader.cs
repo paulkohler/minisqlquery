@@ -12,7 +12,8 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 		public override void InitializePlugIn()
 		{
-			Services.HostWindow.ShowToolWindow(new TemplateViewForm(), WeifenLuo.WinFormsUI.Docking.DockState.DockLeft);
+			Services.RegisterComponent<TemplateViewForm>("TemplateViewForm");
+			Services.HostWindow.ShowToolWindow(Services.Resolve<TemplateViewForm>(), WeifenLuo.WinFormsUI.Docking.DockState.DockLeft);
 		}
 	}
 }

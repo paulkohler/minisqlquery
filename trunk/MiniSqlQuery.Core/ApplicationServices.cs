@@ -90,6 +90,11 @@ namespace MiniSqlQuery.Core
 			return _container.Resolve<T>(key);
 		}
 
+		public T Resolve<T>()
+		{
+			return _container.Resolve<T>();
+		}
+
 
 		/// <summary>
 		/// The application host window.
