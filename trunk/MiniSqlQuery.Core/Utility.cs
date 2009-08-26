@@ -15,6 +15,20 @@ namespace MiniSqlQuery.Core
 	/// </summary>
 	public static class Utility
 	{
+		public static string MakeSqlFriendly(string name)
+		{
+			if (name == null)
+			{
+				return string.Empty;
+			}
+			if (!name.StartsWith("[") && (name.Contains(" ") || name.Contains("$")))
+			{
+				// TODO - reserved wods?
+				return string.Concat("[", name, "]");
+			}
+			return name;
+		}
+
         /// <summary>
         /// Shows the URL in the defaut browser.
         /// </summary>

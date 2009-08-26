@@ -59,6 +59,7 @@ namespace MiniSqlQuery.Core.DbModel
 					while (reader.Read())
 					{
 						DbModelTable table = new DbModelTable();
+						//table.Name = MakeSqlFriendly((string)reader["table_name"]);
 						table.Name = (string)reader["table_name"];
 						model.Add(table);
 					}

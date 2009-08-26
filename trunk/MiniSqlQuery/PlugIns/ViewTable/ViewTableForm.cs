@@ -38,25 +38,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 				DbModelInstance model = _metaDataService.GetDbObjectModel(_services.Settings.ConnectionDefinition.ConnectionString);
 				List<string> tableNames = new List<string>();
-				foreach (DbModelTable dbModelTable in model.Tables)
-				{
-					string fullTableName;
-
-					if (string.IsNullOrEmpty(dbModelTable.Schema))
-					{
-						fullTableName = dbModelTable.Name;
-					}
-					else
-					{
-						fullTableName = string.Concat(dbModelTable.Schema, ".", dbModelTable.Name);
-					}
-
-					if (!tableNames.Contains(fullTableName))
-					{
-						tableNames.Add(fullTableName);
-					}
-				}
-
+				model.Tables.ForEach(t => tableNames.Add(Utility.MakeSqlFriendly(t.FullName)));
 				cboTableName.Items.AddRange(tableNames.ToArray());
 			}
 		}

@@ -164,7 +164,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 
 		private void CreateTreeNodes(DbModelTable table)
 		{
-			TreeNode tableNode = new TreeNode(table.FullName);
+			TreeNode tableNode = new TreeNode(Utility.MakeSqlFriendly(table.FullName));
 			tableNode.Name = table.FullName;
 			tableNode.ImageKey = table.ObjectType;
 			tableNode.SelectedImageKey = table.ObjectType;
@@ -173,7 +173,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 
 			foreach (DbModelColumn column in table.Columns)
 			{
-				TreeNode columnNode = new TreeNode(column.Name);
+				TreeNode columnNode = new TreeNode(Utility.MakeSqlFriendly(column.Name));
 				columnNode.Name = column.Name;
 				columnNode.ImageKey = column.ObjectType;
 				columnNode.SelectedImageKey = column.ObjectType;

@@ -1,4 +1,5 @@
 ﻿using System;
+using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Commands;
 using MiniSqlQuery.Core.DbModel;
 
@@ -27,7 +28,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 
 		protected DbModelTable GetTableByName(DbModelInstance model, string tableName)
 		{
-			DbModelTable tableOrView = model.Tables.Find(t => t.FullName.Equals(tableName));
+			DbModelTable tableOrView = model.Tables.Find(t => Utility.MakeSqlFriendly(t.FullName).Equals(tableName));
 			if (tableOrView == null)
 			{
 				// check the views

@@ -14,7 +14,7 @@ namespace MiniSqlQuery.Core.DbModel
 
 		public virtual void WriteCreate(TextWriter writer, DbModelColumn column)
 		{
-			writer.Write("{0} {1} ", column.Name, column.DbType.Summary);
+			writer.Write("{0} {1} ", MakeSqlFriendly(column.Name), column.DbType.Summary);
 
 			if (!column.Nullable)
 			{
@@ -25,7 +25,7 @@ namespace MiniSqlQuery.Core.DbModel
 
 		public void WriteSummary(TextWriter writer, DbModelColumn column)
 		{
-			writer.Write("{0} ({1} ", column.Name, column.DbType.Summary);
+			writer.Write("{0} ({1} ", MakeSqlFriendly(column.Name), column.DbType.Summary);
 
 			if (!column.Nullable)
 			{
@@ -41,7 +41,7 @@ namespace MiniSqlQuery.Core.DbModel
 			for (int i = 0; i < tableOrView.Columns.Count; i++)
 			{
 				writer.Write("\t");
-				writer.Write(tableOrView.Columns[i].Name);
+				writer.Write(MakeSqlFriendly(tableOrView.Columns[i].Name));
 				if (i < tableOrView.Columns.Count - 1)
 				{
 					writer.Write(",");
@@ -102,7 +102,7 @@ namespace MiniSqlQuery.Core.DbModel
 			for (int i = 0; i < writableColumns.Count; i++)
 			{
 				var column = writableColumns[i];
-				writer.Write("\t{0} = {1}", column.Name, column.DbType.ToDDLValue(column.Nullable));
+				writer.Write("\t{0} = {1}", MakeSqlFriendly(column.Name), column.DbType.ToDDLValue(column.Nullable));
 				if (i < writableColumns.Count - 1)
 				{
 					writer.Write(",");
@@ -116,7 +116,7 @@ namespace MiniSqlQuery.Core.DbModel
 			for (int i = 0; i < tableOrView.PrimaryKeyColumns.Count; i++)
 			{
 				var column = tableOrView.PrimaryKeyColumns[i];
-				writer.Write("\t{0} = ", column.Name);
+				writer.Write("\t{0} = ", MakeSqlFriendly(column.Name));
 				if (i < tableOrView.PrimaryKeyColumns.Count - 1)
 				{
 					writer.Write(" /*value:{0},{1}*/ AND", column.Name, column.DbType.Summary);
@@ -140,7 +140,7 @@ namespace MiniSqlQuery.Core.DbModel
 			for (int i = 0; i < tableOrView.PrimaryKeyColumns.Count; i++)
 			{
 				var column = tableOrView.PrimaryKeyColumns[i];
-				writer.Write("\t{0} = ", column.Name);
+				writer.Write("\t{0} = ", MakeSqlFriendly(column.Name));
 				if (i < tableOrView.PrimaryKeyColumns.Count - 1)
 				{
 					writer.Write(" /*value:{0}*/ AND", column.Name);
@@ -157,16 +157,7 @@ namespace MiniSqlQuery.Core.DbModel
 
 		protected string MakeSqlFriendly(string name)
 		{
-			if (name == null)
-			{
-				return string.Empty;
-			}
-			if (name.Contains(" ") || name.Contains("$"))
-			{
-				// TODO - reserved wods?
-				return string.Concat("[", name, "]");
-			}
-			return name;
+			return Utility.MakeSqlFriendly(name);
 		}
 	}
 }

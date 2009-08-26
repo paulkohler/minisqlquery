@@ -38,8 +38,10 @@ namespace MiniSqlQuery.Core.DbModel
 
 				foreach (DataRowView row in tablesDV)
 				{
-					string schemaName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_SCHEMA"));
-					string tableName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_NAME"));
+					string schemaName = SafeGetString(row.Row, "TABLE_SCHEMA");
+					string tableName = SafeGetString(row.Row, "TABLE_NAME");
+					//string schemaName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_SCHEMA"));
+					//string tableName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_NAME"));
 
 					DbModelTable dbTable = new DbModelTable { Schema = schemaName, Name = tableName };
 					model.Tables.Add(dbTable);
@@ -51,8 +53,10 @@ namespace MiniSqlQuery.Core.DbModel
 				DataView viewsDV = new DataView(tables, "TABLE_TYPE='VIEW'", "TABLE_SCHEMA, TABLE_NAME", DataViewRowState.CurrentRows);
 				foreach (DataRowView row in viewsDV)
 				{
-					string schemaName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_SCHEMA"));
-					string tableName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_NAME"));
+					string schemaName = SafeGetString(row.Row, "TABLE_SCHEMA");
+					string tableName = SafeGetString(row.Row, "TABLE_NAME");
+					//string schemaName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_SCHEMA"));
+					//string tableName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_NAME"));
 
 					DbModelView dbTable = new DbModelView { Schema = schemaName, Name = tableName };
 					model.Views.Add(dbTable);
@@ -104,7 +108,8 @@ namespace MiniSqlQuery.Core.DbModel
 
 				DbModelColumn dbColumn = new DbModelColumn
 				                         {
-				                         	Name = MakeSqlFriendly(columnName),
+				                         	Name = columnName,
+				                         	//Name = MakeSqlFriendly(columnName),
 				                         	Nullable = SafeGetBool(columnRow, "AllowDBNull"),
 				                         	IsKey = SafeGetBool(columnRow, "IsKey"),
 				                         	IsUnique = SafeGetBool(columnRow, "IsUnique"),
@@ -129,7 +134,7 @@ namespace MiniSqlQuery.Core.DbModel
 			using (DbCommand command = dbConn.CreateCommand())
 			{
 				string tableName = (string.IsNullOrEmpty(schema) ? "" : schema + ".") + name;
-				command.CommandText = "SELECT * FROM " + tableName;
+				command.CommandText = "SELECT * FROM " + MakeSqlFriendly(tableName);
 				using (DbDataReader reader = command.ExecuteReader(CommandBehavior.SchemaOnly | CommandBehavior.KeyInfo))
 				{
 					schemaTableKeyInfo = reader.GetSchemaTable();
@@ -172,16 +177,7 @@ namespace MiniSqlQuery.Core.DbModel
 
 		protected string MakeSqlFriendly(string name)
 		{
-			if (name == null)
-			{
-				return string.Empty;
-			}
-			if (name.Contains(" ") || name.Contains("$"))
-			{
-				// TODO - reserved wods?
-				return string.Concat("[", name, "]");
-			}
-			return name;
+			return Utility.MakeSqlFriendly(name);
 		}
 
 
