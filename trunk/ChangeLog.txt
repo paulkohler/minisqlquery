@@ -1,6 +1,7 @@
 Mini SQL Query Change Log
 =========================
 
+2009-08-28	ENH: Re-implementation of templating using the NVelocity engine
 2009-08-26	FIX: Improved handling of db objects with 'unfriendly names' (e.g. spaces etc).
 2009-08-26	ENH: Added simple template processing, access to properties of IApplicationServices using braces.
 2009-08-21	ENH: Major breaking changes around the collection of the database schemas (See Core.DbModel).

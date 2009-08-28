@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Template;
 using MiniSqlQuery.Properties;
@@ -13,6 +14,8 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 	{
 		private readonly IApplicationServices _services;
 		private ITextFormatter _formatter;
+
+		public delegate string GetValueForParameter(string parameter);
 
 		public TemplateModel(IApplicationServices services, ITextFormatter formatter)
 		{
@@ -62,15 +65,48 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			return nodes.ToArray();
 		}
 
-		public string ProcessTemplateFile(string filename)
+		public string ProcessTemplateFile(string filename, GetValueForParameter getValueForParameter)
 		{
-			return ProcessTemplate(File.ReadAllText(filename));
+			string[] lines = File.ReadAllLines(filename);
+			Dictionary<string, object> items = new Dictionary<string, object>();
+
+			int i = 0;
+			for (; i < lines.Length; i++)
+			{
+				string line = lines[i];
+				if (line.StartsWith("#@")) // process cmd
+				{
+					if (line.StartsWith("#@get "))
+					{
+						string name = line.Substring("#@get ".Length);
+						string val = getValueForParameter(name);
+						items.Add(name, val);
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			string text = string.Join(Environment.NewLine, lines, i, lines.Length - i);
+
+			return ProcessTemplate(text, items);
 		}
 
-		public string ProcessTemplate(string text)
+		public string ProcessTemplate(string text, Dictionary<string, object> items)
 		{
-			ModelData data = new ModelData { Services = _services };
-			return _formatter.Format(text, data);
+			if (items != null)
+			{
+				ModelData data = new ModelData { Services = _services };
+				items.Add("Host", data);
+				if (_services.HostWindow.DatabaseInspector.DbSchema == null)
+				{
+					_services.HostWindow.DatabaseInspector.LoadDatabaseDetails();
+				}
+				items.Add("Model", _services.HostWindow.DatabaseInspector.DbSchema);
+			}
+			return _formatter.Format(text, items);
 		}
 
 		#region Nested type: ModelData
@@ -78,6 +114,11 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		public class ModelData
 		{
 			public IApplicationServices Services { get; set; }
+
+			public string Date(string format)
+			{
+				return DateTime.Now.ToString(format);
+			}
 
 			public DateTime CurrentDateTime
 			{

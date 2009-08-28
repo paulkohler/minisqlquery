@@ -45,7 +45,7 @@ namespace MiniSqlQuery
 			services.RegisterComponent<ITextFindService, BasicTextFindService>("DefaultTextFindService");
 			services.RegisterComponent<IQueryEditor, QueryForm>("QueryForm");
 			services.RegisterComponent<ISqlWriter, SqlWriter>("DefaultSqlWriter");
-			services.RegisterComponent<ITextFormatter, HenriFormatter>("TextFormatter");
+			services.RegisterComponent<ITextFormatter, NVelocityWrapper>("TextFormatter");
 			services.RegisterComponent<TemplateModel>("TemplateModel");
 
             ApplicationServices.Instance.LoadPlugIn(new CoreApplicationPlugIn());

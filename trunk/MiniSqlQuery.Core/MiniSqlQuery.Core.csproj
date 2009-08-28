@@ -52,6 +52,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\Castle.MicroKernel.dll</HintPath>
     </Reference>
+    <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=fc81dc5cbb334820, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\NVelocity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -179,7 +183,7 @@
     <Compile Include="StringWriterWithEncoding.cs" />
     <Compile Include="SystemMessage.cs" />
     <Compile Include="SystemMessageEventArgs.cs" />
-    <Compile Include="Template\HenriFormatter.cs" />
+    <Compile Include="Template\NVelocityWrapper.cs" />
     <Compile Include="Template\TextFormatter.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>

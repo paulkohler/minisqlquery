@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Template;
 using MiniSqlQuery.PlugIns.TemplateViewer;
@@ -19,13 +20,16 @@ namespace MiniSqlQuery.Tests.Templates
 		{
 			var appServicesMock = new Mock<IApplicationServices>(MockBehavior.Relaxed);
 			_services = appServicesMock.Object;
-			_model = new TemplateModel(_services, new HenriFormatter());
+			_model = new TemplateModel(_services, new NVelocityWrapper());
 		}
 
+		// todo ParseErrorException
+		
 		[Test]
 		public void ModelData_parameters_are_precessed()
 		{
-			string processedtext = _model.ProcessTemplate("create new {CurrentDateTime:yyyy}");
+			Dictionary<string, object> items = new Dictionary<string, object>();
+			string processedtext = _model.ProcessTemplate("create new ${Host.Date(\"yyyy\")}", items);
 			Assert.That(processedtext, Is.EqualTo("create new " + DateTime.Now.Year));
 		}
 	}

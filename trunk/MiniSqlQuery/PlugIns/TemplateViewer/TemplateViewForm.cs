@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.PlugIns.TemplateViewer.Commands;
 using WeifenLuo.WinFormsUI.Docking;
@@ -34,10 +35,16 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				{
 					new NewQueryByTemplateCommand().Execute();
 					IQueryEditor editor = (IQueryEditor) ApplicationServices.Instance.HostWindow.ActiveChildForm;
-					string template = _model.ProcessTemplateFile(fi.FullName);
+					string template = _model.ProcessTemplateFile(fi.FullName, GetValue);
 					editor.AllText = template;
 				}
 			}
+		}
+
+		string GetValue(string name)
+		{
+			string val = Interaction.InputBox(string.Format("Value for '{0}'", name), "Supply a Value", name, -1, -1);
+			return val;
 		}
 	}
 }
