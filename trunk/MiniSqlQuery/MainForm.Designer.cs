@@ -68,10 +68,18 @@
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripComboBoxConnection = new System.Windows.Forms.ToolStripComboBox();
 			this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+			this.sysIcon = new System.Windows.Forms.NotifyIcon(this.components);
+			this.ctxSysIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.hideShowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.optionsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.toolStrip.SuspendLayout();
 			this.statusStrip.SuspendLayout();
 			this.toolStripConnection.SuspendLayout();
+			this.ctxSysIcon.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip
@@ -93,19 +101,19 @@
 			// 
 			this.fileMenu.ImageTransparentColor = System.Drawing.SystemColors.ActiveBorder;
 			this.fileMenu.Name = "fileMenu";
-			this.fileMenu.Size = new System.Drawing.Size(35, 20);
+			this.fileMenu.Size = new System.Drawing.Size(37, 20);
 			this.fileMenu.Text = "&File";
 			// 
 			// editMenu
 			// 
 			this.editMenu.Name = "editMenu";
-			this.editMenu.Size = new System.Drawing.Size(37, 20);
+			this.editMenu.Size = new System.Drawing.Size(39, 20);
 			this.editMenu.Text = "&Edit";
 			// 
 			// queryToolStripMenuItem
 			// 
 			this.queryToolStripMenuItem.Name = "queryToolStripMenuItem";
-			this.queryToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+			this.queryToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
 			this.queryToolStripMenuItem.Text = "&Query";
 			// 
 			// toolsMenu
@@ -113,26 +121,26 @@
 			this.toolsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.optionsToolStripMenuItem});
 			this.toolsMenu.Name = "toolsMenu";
-			this.toolsMenu.Size = new System.Drawing.Size(44, 20);
+			this.toolsMenu.Size = new System.Drawing.Size(48, 20);
 			this.toolsMenu.Text = "&Tools";
 			this.toolsMenu.Visible = false;
 			// 
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
 			this.optionsToolStripMenuItem.Text = "&Options";
 			// 
 			// pluginsMenu
 			// 
 			this.pluginsMenu.Name = "pluginsMenu";
-			this.pluginsMenu.Size = new System.Drawing.Size(52, 20);
+			this.pluginsMenu.Size = new System.Drawing.Size(58, 20);
 			this.pluginsMenu.Text = "&Plugins";
 			// 
 			// helpMenu
 			// 
 			this.helpMenu.Name = "helpMenu";
-			this.helpMenu.Size = new System.Drawing.Size(40, 20);
+			this.helpMenu.Size = new System.Drawing.Size(44, 20);
 			this.helpMenu.Text = "&Help";
 			// 
 			// toolBarToolStripMenuItem
@@ -222,7 +230,7 @@
 			// toolStripStatusLabel
 			// 
 			this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-			this.toolStripStatusLabel.Size = new System.Drawing.Size(38, 17);
+			this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
 			this.toolStripStatusLabel.Text = "Status";
 			// 
 			// toolStripConnection
@@ -240,7 +248,7 @@
 			// toolStripLabel1
 			// 
 			this.toolStripLabel1.Name = "toolStripLabel1";
-			this.toolStripLabel1.Size = new System.Drawing.Size(65, 22);
+			this.toolStripLabel1.Size = new System.Drawing.Size(72, 22);
 			this.toolStripLabel1.Text = "Connection:";
 			// 
 			// toolStripComboBoxConnection
@@ -307,6 +315,58 @@
 			this.dockPanel.Skin = dockPanelSkin1;
 			this.dockPanel.TabIndex = 6;
 			// 
+			// sysIcon
+			// 
+			this.sysIcon.ContextMenuStrip = this.ctxSysIcon;
+			this.sysIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("sysIcon.Icon")));
+			this.sysIcon.Text = "Mini SQL Query";
+			this.sysIcon.Visible = true;
+			this.sysIcon.DoubleClick += new System.EventHandler(this.sysIcon_DoubleClick);
+			// 
+			// ctxSysIcon
+			// 
+			this.ctxSysIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hideShowToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.optionsToolStripMenuItem1,
+            this.toolStripSeparator1,
+            this.exitToolStripMenuItem});
+			this.ctxSysIcon.Name = "ctxSysIcon";
+			this.ctxSysIcon.Size = new System.Drawing.Size(134, 82);
+			// 
+			// hideShowToolStripMenuItem
+			// 
+			this.hideShowToolStripMenuItem.Name = "hideShowToolStripMenuItem";
+			this.hideShowToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+			this.hideShowToolStripMenuItem.Text = "Hide/Show";
+			this.hideShowToolStripMenuItem.Click += new System.EventHandler(this.hideShowToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(130, 6);
+			// 
+			// optionsToolStripMenuItem1
+			// 
+			this.optionsToolStripMenuItem1.Name = "optionsToolStripMenuItem1";
+			this.optionsToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
+			this.optionsToolStripMenuItem1.Text = "Options";
+			this.optionsToolStripMenuItem1.Visible = false;
+			this.optionsToolStripMenuItem1.Click += new System.EventHandler(this.optionsToolStripMenuItem1_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(130, 6);
+			this.toolStripSeparator1.Visible = false;
+			// 
+			// exitToolStripMenuItem
+			// 
+			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+			this.exitToolStripMenuItem.Text = "Exit";
+			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -334,6 +394,7 @@
 			this.statusStrip.PerformLayout();
 			this.toolStripConnection.ResumeLayout(false);
 			this.toolStripConnection.PerformLayout();
+			this.ctxSysIcon.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -364,6 +425,13 @@
 		internal WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
 		private System.Windows.Forms.ToolStripMenuItem pluginsMenu;
 		private System.Windows.Forms.ToolStripMenuItem editMenu;
+        private System.Windows.Forms.NotifyIcon sysIcon;
+        private System.Windows.Forms.ContextMenuStrip ctxSysIcon;
+        private System.Windows.Forms.ToolStripMenuItem hideShowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
 	}
 }
 

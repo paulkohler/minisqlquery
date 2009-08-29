@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -422,6 +423,8 @@ namespace MiniSqlQuery
 							grid.DataError += GridDataError;
 							grid.DefaultCellStyle = cellStyle;
 
+							grid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(grid_KeyPress);
+
 							cellStyle.NullValue = "<NULL>";
 							cellStyle.Font = CreateDefaultFont();
 
@@ -522,7 +525,7 @@ namespace MiniSqlQuery
 			// push the progress % through to the background worker
 			decimal i = Math.Max(1, e.Index);
 			decimal count = Math.Max(1, e.Count);
-			queryBackgroundWorker.ReportProgress(Convert.ToInt32(i / count * 100m));
+			queryBackgroundWorker.ReportProgress(Convert.ToInt32(i/count*100m));
 		}
 
 		private void queryBackgroundWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
@@ -561,6 +564,114 @@ namespace MiniSqlQuery
 				{
 					IsBusy = false;
 				}
+			}
+		}
+
+		private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			DataGridView grid = (DataGridView) _resultsTabControl.SelectedTab.Controls[0];
+			grid.SelectAll();
+		}
+
+		private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CopyForm win = null;
+
+			try
+			{
+				DataGridView grid = (DataGridView) _resultsTabControl.SelectedTab.Controls[0];
+
+				if (grid.SelectedCells.Count == 0)
+				{
+					return;
+				}
+
+				win = new CopyForm();
+
+				if (win.ShowDialog() == DialogResult.Cancel)
+				{
+					return;
+				}
+
+				SortedList headers = new SortedList();
+				SortedList rows = new SortedList();
+
+				string delimiter = win.Delimiter;
+				string line = string.Empty;
+
+				for (int i = 0; i < grid.SelectedCells.Count; i++)
+				{
+					DataGridViewCell cell = grid.SelectedCells[i];
+					DataGridViewColumn col = cell.OwningColumn;
+
+					if (!headers.ContainsKey(col.Index))
+					{
+						headers.Add(col.Index, col.Name);
+					}
+					if (!rows.ContainsKey(cell.RowIndex))
+					{
+						rows.Add(cell.RowIndex, cell.RowIndex);
+					}
+				}
+
+				if (win.IncludeHeaders)
+				{
+					for (int i = 0; i < headers.Count; i++)
+					{
+						line += (string) headers.GetByIndex(i);
+						if (i != headers.Count)
+						{
+							line += delimiter;
+						}
+					}
+
+					line += "\r\n";
+				}
+
+				for (int i = 0; i < rows.Count; i++)
+				{
+					DataGridViewRow row = grid.Rows[(int) rows.GetKey(i)];
+					DataGridViewCellCollection cells = row.Cells;
+
+					for (int j = 0; j < headers.Count; j++)
+					{
+						DataGridViewCell cell = cells[(int) headers.GetKey(j)];
+
+						if (cell.Selected)
+						{
+							line += cell.Value;
+						}
+						if (j != (headers.Count - 1))
+						{
+							line += delimiter;
+						}
+					}
+
+					line += "\r\n";
+				}
+
+				if (!string.IsNullOrEmpty(line))
+				{
+					Clipboard.Clear();
+					Clipboard.SetText(line);
+
+					_services.HostWindow.SetStatus(this, "Selected data has been copied to your clipboard");
+				}
+			}
+			finally
+			{
+				if (win != null)
+				{
+					win.Dispose();
+				}
+			}
+		}
+
+		private void grid_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == 3)
+			{
+				copyToolStripMenuItem_Click(null, null);
 			}
 		}
 	}

@@ -151,7 +151,7 @@ namespace MiniSqlQuery
 
 		public void SetPointerState(Cursor cursor)
 		{
-			this.Cursor = cursor;
+			Cursor = cursor;
 			Application.DoEvents();
 		}
 
@@ -160,9 +160,10 @@ namespace MiniSqlQuery
 			return MessageBox.Show(source, text, caption);
 		}
 
-		public DialogResult DisplayMessageBox(Form source, string text, string caption, MessageBoxButtons buttons,
-		                                      MessageBoxIcon icon, MessageBoxDefaultButton defaultButton,
-		                                      MessageBoxOptions options, string helpFilePath, string keyword)
+		public DialogResult DisplayMessageBox(
+			Form source, string text, string caption, MessageBoxButtons buttons,
+			MessageBoxIcon icon, MessageBoxDefaultButton defaultButton,
+			MessageBoxOptions options, string helpFilePath, string keyword)
 		{
 			if (helpFilePath == null && keyword == null)
 			{
@@ -253,7 +254,7 @@ namespace MiniSqlQuery
 			}
 			else
 			{
-                CommandManager.GetCommandInstance<NewQueryFormCommand>().Execute();
+				CommandManager.GetCommandInstance<NewQueryFormCommand>().Execute();
 			}
 		}
 
@@ -276,6 +277,44 @@ namespace MiniSqlQuery
 		private void MainForm_MdiChildActivate(object sender, EventArgs e)
 		{
 			ActiveChildForm = ActiveMdiChild;
+		}
+
+		private void sysIcon_DoubleClick(object sender, EventArgs e)
+		{
+			if (WindowState == FormWindowState.Normal)
+			{
+				Hide();
+				WindowState = FormWindowState.Minimized;
+			}
+			else
+			{
+				Show();
+				WindowState = FormWindowState.Normal;
+			}
+		}
+
+		private void hideShowToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (WindowState == FormWindowState.Normal)
+			{
+				Hide();
+				WindowState = FormWindowState.Minimized;
+			}
+			else
+			{
+				Show();
+				WindowState = FormWindowState.Normal;
+			}
+		}
+
+		private void optionsToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			//todo!
+		}
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CommandManager.GetCommandInstance<ExitApplicationCommand>().Execute();
 		}
 	}
 }
