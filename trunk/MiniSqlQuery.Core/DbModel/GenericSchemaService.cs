@@ -64,12 +64,36 @@ namespace MiniSqlQuery.Core.DbModel
 					DataTable schemaTableKeyInfo = GetTableKeyInfo(dbConn, schemaName, tableName);
 					GetColumnsForTable(dbTable, schemaTableKeyInfo, dbTypes);
 				}
+
+				model.Tables.ForEach(delegate(DbModelTable t)
+				                     	{
+				                     		GetForiegnKeyReferencesForTable(dbConn, t);
+				                     		ProcessForiegnKeyReferencesForTable(dbConn, t);
+				                     	});
+				model.Views.ForEach(delegate(DbModelTable t)
+				                    	{
+				                    		GetForiegnKeyReferencesForTable(dbConn, t);
+				                    		ProcessForiegnKeyReferencesForTable(dbConn, t);
+				                    	});
 			}
 
 			return model;
 		}
 
-		protected void GetColumnsForTable(DbModelTable dbTable, DataTable schemaTableKeyInfo, Dictionary<string, DbModelType> dbTypes)
+		protected virtual void GetForiegnKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
+		{
+			//foreach (DbModelColumn column in dbTable.Columns)
+			//{
+			//    // KF info for DB's varies widley, needs to be implemented by derived class
+			//    column.ForiegnKeyReference = DbModelForiegnKeyReference.NullForiegnKeyReference;
+			//}
+		}
+
+		protected virtual void ProcessForiegnKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
+		{
+		}
+
+		protected virtual void GetColumnsForTable(DbModelTable dbTable, DataTable schemaTableKeyInfo, Dictionary<string, DbModelType> dbTypes)
 		{
 			foreach (DataRow columnRow in schemaTableKeyInfo.Rows)
 			{
@@ -128,7 +152,7 @@ namespace MiniSqlQuery.Core.DbModel
 			return SafeGetString(columnRow, "DataTypeName");
 		}
 
-		protected DataTable GetTableKeyInfo(DbConnection dbConn, string schema, string name)
+		protected virtual DataTable GetTableKeyInfo(DbConnection dbConn, string schema, string name)
 		{
 			DataTable schemaTableKeyInfo;
 			using (DbCommand command = dbConn.CreateCommand())
@@ -175,7 +199,7 @@ namespace MiniSqlQuery.Core.DbModel
 		//    return description;
 		//}
 
-		protected string MakeSqlFriendly(string name)
+		protected virtual string MakeSqlFriendly(string name)
 		{
 			return Utility.MakeSqlFriendly(name);
 		}

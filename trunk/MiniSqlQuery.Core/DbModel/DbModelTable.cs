@@ -1,37 +1,48 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace MiniSqlQuery.Core.DbModel
 {
-	[DebuggerDisplay("DbModelTable: {FullName} (Columns: {Columns.Count})")]
+	[DebuggerDisplay("DbModelTable: {FullName} (Columns: {Columns.Count}, PKs: {PrimaryKeyColumns.Count}, FKs: {ForiegnKeyColumns.Count})")]
 	public class DbModelTable : DbModelObjectBase
 	{
 		public DbModelTable()
 		{
-			Columns = new DbModelColumnCollection();
-			PrimaryKeyColumns = new DbModelColumnCollection();
-			NonKeyColumns = new DbModelColumnCollection();
+			Columns = new List<DbModelColumn>();
+			Constraints = new List<DbModelConstraint>();
 			ObjectType = ObjectTypes.Table;
 		}
 
 		public virtual DbModelInstance ParentDb { get; internal set; }
-		public virtual DbModelColumnCollection Columns { get; internal set; }
-		public virtual DbModelColumnCollection PrimaryKeyColumns { get; private set; }
-		public virtual DbModelColumnCollection NonKeyColumns { get; private set; }
+		public virtual List<DbModelColumn> Columns { get; internal set; }
 
+		public virtual List<DbModelColumn> PrimaryKeyColumns
+		{
+			get { return Columns.FindAll(c => c.IsKey); }
+		}
+
+		public virtual List<DbModelColumn> ForiegnKeyColumns
+		{
+			get { return Columns.FindAll(c => c.ForiegnKeyReference != null); }
+		}
+
+		public virtual List<DbModelColumn> NonKeyColumns
+		{
+			get { return Columns.FindAll(c => !c.IsKey && c.ForiegnKeyReference == null); }
+		}
+
+		public virtual List<DbModelConstraint> Constraints { get; private set; }
+
+		/// <summary>
+		/// Adds the <paramref name="column"/> to the list of <see cref="Columns"/> assigning the 
+		/// <see cref="DbModelColumn.ParentTable"/>.
+		/// </summary>
+		/// <param name="column">The new column.</param>
 		public virtual void Add(DbModelColumn column)
 		{
 			column.ParentTable = this;
 			Columns.Add(column);
-
-			if (column.IsKey)
-			{
-				PrimaryKeyColumns.Add(column);
-			}
-			else // todo and not FK...
-			{
-				NonKeyColumns.Add(column);
-			}
 		}
 	}
 }

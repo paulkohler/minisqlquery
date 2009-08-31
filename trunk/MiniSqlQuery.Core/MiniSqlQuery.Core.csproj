@@ -117,6 +117,8 @@
     </Compile>
     <Compile Include="DatabaseMetaDataService.cs" />
     <Compile Include="DbModel\DbModelColumnCollection.cs" />
+    <Compile Include="DbModel\DbModelConstraint.cs" />
+    <Compile Include="DbModel\DbModelForiegnKeyReference.cs" />
     <Compile Include="DbModel\DbModelObjectBase.cs" />
     <Compile Include="DbModel\DbModelInstance.cs" />
     <Compile Include="DbModel\DbModelColumn.cs" />

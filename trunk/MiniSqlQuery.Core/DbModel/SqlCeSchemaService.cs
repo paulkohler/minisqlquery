@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Diagnostics;
 
 namespace MiniSqlQuery.Core.DbModel
 {
+	/// <summary>
+	/// SQL Compact Edition schema service.
+	/// Made possible with contributions form ExportSQLCE project.
+	/// </summary>
 	public class SqlCeSchemaService : GenericSchemaService
 	{
 		internal static readonly int MAX_BINARY_COLUMN_SIZE = 8000;
@@ -39,6 +42,12 @@ namespace MiniSqlQuery.Core.DbModel
 					GetColumnsForTable(table, schemaTableKeyInfo, dbTypes);
 				}
 
+				model.Tables.ForEach(delegate(DbModelTable t)
+				{
+					GetForiegnKeyReferencesForTable(dbConn, t);
+					ProcessForiegnKeyReferencesForTable(dbConn, t);
+				});
+
 				return model;
 			}
 		}
@@ -60,10 +69,74 @@ namespace MiniSqlQuery.Core.DbModel
 					{
 						DbModelTable table = new DbModelTable();
 						//table.Name = MakeSqlFriendly((string)reader["table_name"]);
-						table.Name = (string)reader["table_name"];
+						table.Name = (string) reader["table_name"];
 						model.Add(table);
 					}
 				}
+			}
+		}
+
+		protected override void GetForiegnKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
+		{
+			using (var cmd = dbConn.CreateCommand())
+			{
+				cmd.CommandText =
+					string.Format(
+						@"SELECT 
+	KCU1.TABLE_NAME AS FK_TABLE_NAME,  
+	KCU1.CONSTRAINT_NAME AS FK_CONSTRAINT_NAME, 
+	KCU1.COLUMN_NAME AS FK_COLUMN_NAME,
+	KCU2.TABLE_NAME AS UQ_TABLE_NAME, 
+	KCU2.CONSTRAINT_NAME AS UQ_CONSTRAINT_NAME, 
+	KCU2.COLUMN_NAME AS UQ_COLUMN_NAME, 
+	RC.UPDATE_RULE, 
+	RC.DELETE_RULE, 
+	KCU2.ORDINAL_POSITION AS UQ_ORDINAL_POSITION, 
+	KCU1.ORDINAL_POSITION AS FK_ORDINAL_POSITION
+FROM 
+	INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS RC 
+		JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE KCU1 ON KCU1.CONSTRAINT_NAME = RC.CONSTRAINT_NAME 
+			JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE KCU2 ON  KCU2.CONSTRAINT_NAME =  RC.UNIQUE_CONSTRAINT_NAME AND KCU2.ORDINAL_POSITION = KCU1.ORDINAL_POSITION AND KCU2.TABLE_NAME = RC.UNIQUE_CONSTRAINT_TABLE_NAME 
+WHERE KCU1.TABLE_NAME = '{0}'
+ORDER BY 
+	FK_TABLE_NAME, 
+	FK_CONSTRAINT_NAME, 
+	FK_ORDINAL_POSITION
+",
+						dbTable.Name);
+				cmd.CommandType = CommandType.Text;
+				using (var dr = cmd.ExecuteReader())
+				{
+					while (dr.Read())
+					{
+						dbTable.Constraints.Add(new DbModelConstraint
+						         {
+						         	ConstraintTableName = dr.GetString(0),
+						         	ConstraintName = dr.GetString(1),
+						         	ColumnName = dr.GetString(2),
+						         	UniqueConstraintTableName = dr.GetString(3),
+						         	UniqueConstraintName = dr.GetString(4),
+						         	UniqueColumnName = dr.GetString(5),
+						         	UpdateRule = dr.GetString(6),
+						         	DeleteRule = dr.GetString(7)
+						         });
+					}
+				}
+			}
+		}
+
+		protected override void ProcessForiegnKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
+		{
+			// todo - check GetGroupForeingKeys
+			foreach (DbModelConstraint constraint in dbTable.Constraints)
+			{
+				var column = dbTable.Columns.Find(c => c.Name == constraint.ColumnName);
+				var refTable = dbTable.ParentDb.Tables.Find(t => t.Name == constraint.UniqueConstraintTableName);
+				var refColumn = refTable.Columns.Find(c => c.Name == constraint.UniqueColumnName);
+				DbModelForiegnKeyReference fk = new DbModelForiegnKeyReference(column, refTable, refColumn);
+				fk.UpdateRule = constraint.UpdateRule;
+				fk.DeleteRule = constraint.DeleteRule;
+				column.ForiegnKeyReference = fk;
 			}
 		}
 
@@ -113,18 +186,18 @@ namespace MiniSqlQuery.Core.DbModel
 					dbType.Length = MAX_NCHAR_COLUMN_SIZE;
 					break;
 				case "ntext":
-					dbType.Length =MAX_NTEXT_COLUMN_SIZE;
+					dbType.Length = MAX_NTEXT_COLUMN_SIZE;
 					break;
 				case "binary":
 				case "varbinary":
 					dbType.Length = MAX_BINARY_COLUMN_SIZE;
 					break;
 				case "image":
-					dbType.Length =MAX_IMAGE_COLUMN_SIZE;
+					dbType.Length = MAX_IMAGE_COLUMN_SIZE;
 					break;
 			}
 		}
-		
+
 		private void FixCreateFormat(DbModelType dbType)
 		{
 			switch (dbType.Name.ToLower())

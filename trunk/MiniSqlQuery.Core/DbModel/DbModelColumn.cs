@@ -38,5 +38,6 @@ namespace MiniSqlQuery.Core.DbModel
 		public virtual bool IsAutoIncrement { get; set; }
 		public virtual bool IsReadOnly { get; set; }
 		public virtual bool IsWritable { get { return !IsReadOnly; } }
+		public virtual DbModelForiegnKeyReference ForiegnKeyReference { get; set; }
 	}
 }
