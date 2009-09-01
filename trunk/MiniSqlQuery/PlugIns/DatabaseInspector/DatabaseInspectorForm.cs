@@ -28,6 +28,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 		public DatabaseInspectorForm(IApplicationServices services)
 		{
 			InitializeComponent();
+			BuildImageList();
 
 			DatabaseTreeView.Nodes.Clear();
 			TreeNode root = CreateRootNodes();
@@ -37,6 +38,24 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			Services = services;
 
 			Services.Settings.DatabaseConnectionReset += Settings_DatabaseConnectionReset;
+		}
+
+		/// <summary>
+		/// Builds the image list.
+		/// It's nicer to hadle image lists this way, easier to update etc
+		/// </summary>
+		private void BuildImageList()
+		{
+			InspectorImageList.Images.Add("Table", ImageResource.table);
+			InspectorImageList.Images.Add("Database", ImageResource.database);
+			InspectorImageList.Images.Add("Column", ImageResource.column);
+			InspectorImageList.Images.Add("Tables", ImageResource.table_multiple);
+			InspectorImageList.Images.Add("Views", ImageResource.view_multiple);
+			InspectorImageList.Images.Add("View", ImageResource.view);
+			InspectorImageList.Images.Add("Column-PK", ImageResource.key);
+			InspectorImageList.Images.Add("Column-FK", ImageResource.key_disabled);
+			InspectorImageList.Images.Add("Column-PK-FK", ImageResource.key_go_disabled);
+			InspectorImageList.Images.Add("Column-RowVersion", ImageResource.column_row_version);
 		}
 
 		#region IDatabaseInspector Members
@@ -173,13 +192,17 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 
 			foreach (DbModelColumn column in table.Columns)
 			{
-				TreeNode columnNode = new TreeNode(Utility.MakeSqlFriendly(column.Name));
+				string friendlyColumnName = Utility.MakeSqlFriendly(column.Name);
+				TreeNode columnNode = new TreeNode(friendlyColumnName);
 				columnNode.Name = column.Name;
-				columnNode.ImageKey = column.ObjectType;
-				columnNode.SelectedImageKey = column.ObjectType;
+				string imageKey = BuildImageKey(column);
+				columnNode.ImageKey = imageKey;
+				columnNode.SelectedImageKey = imageKey;
 				columnNode.ContextMenuStrip = ColumnNameContextMenuStrip;
 				columnNode.Tag = column;
 				columnNode.Text = GetSummary(column);
+				string toolTip = BuildToolTip(table, column);
+				columnNode.ToolTipText = toolTip;
 				tableNode.Nodes.Add(columnNode);
 			}
 
@@ -192,6 +215,50 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 					_viewsNode.Nodes.Add(tableNode);
 					break;
 			}
+		}
+
+		private string BuildImageKey(DbModelColumn column)
+		{
+			string imageKey = column.ObjectType;
+			if (column.IsRowVersion)
+			{
+				imageKey += "-RowVersion";
+			}
+			else
+			{
+				if (column.IsKey)
+				{
+					imageKey += "-PK";
+				}
+				if (column.ForiegnKeyReference != null)
+				{
+					imageKey += "-FK";
+				}
+			}
+			return imageKey;
+		}
+
+		private string BuildToolTip(DbModelTable table, DbModelColumn column)
+		{
+			string friendlyColumnName = Utility.MakeSqlFriendly(column.Name);
+			string toolTip = table.FullName + "." + friendlyColumnName;
+			if (column.IsKey)
+			{
+				toolTip += "; Primary Key";
+			}
+			if (column.IsAutoIncrement)
+			{
+				toolTip += "; Auto*";
+			}
+			if (column.ForiegnKeyReference != null)
+			{
+				toolTip += string.Format("; FK -> {0}.{1}", column.ForiegnKeyReference.ReferenceTable.FullName, column.ForiegnKeyReference.ReferenceColumn.Name);
+			}
+			if (column.IsReadOnly)
+			{
+				toolTip += "; Read Only";
+			}
+			return toolTip;
 		}
 
 		private TreeNode CreateRootNodes()

@@ -200,6 +200,9 @@
     <Content Include="Images\cog.png" />
     <None Include="Images\column.png" />
     <None Include="Images\comments.png" />
+    <None Include="Images\key_disabled.png" />
+    <None Include="Images\key_go_disabled.png" />
+    <Content Include="Images\column_row_version.png" />
     <Content Include="Images\cross.png" />
     <Content Include="Images\database.png" />
     <Content Include="Images\database_add.png" />

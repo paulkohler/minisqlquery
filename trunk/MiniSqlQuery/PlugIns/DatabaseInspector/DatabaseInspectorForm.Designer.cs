@@ -44,25 +44,20 @@
 			this.InspectorContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadToolStripMenuItem});
 			this.InspectorContextMenuStrip.Name = "InspectorContextMenuStrip";
-			this.InspectorContextMenuStrip.Size = new System.Drawing.Size(163, 26);
+			this.InspectorContextMenuStrip.Size = new System.Drawing.Size(160, 26);
 			// 
 			// loadToolStripMenuItem
 			// 
 			this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-			this.loadToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+			this.loadToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
 			this.loadToolStripMenuItem.Text = "&Load Meta-Data";
 			this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
 			// 
 			// InspectorImageList
 			// 
-			this.InspectorImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("InspectorImageList.ImageStream")));
+			this.InspectorImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+			this.InspectorImageList.ImageSize = new System.Drawing.Size(16, 16);
 			this.InspectorImageList.TransparentColor = System.Drawing.Color.Transparent;
-			this.InspectorImageList.Images.SetKeyName(0, "Table");
-			this.InspectorImageList.Images.SetKeyName(1, "Database");
-			this.InspectorImageList.Images.SetKeyName(2, "Column");
-			this.InspectorImageList.Images.SetKeyName(3, "Tables");
-			this.InspectorImageList.Images.SetKeyName(4, "Views");
-			this.InspectorImageList.Images.SetKeyName(5, "View");
 			// 
 			// TableNodeContextMenuStrip
 			// 

@@ -116,6 +116,13 @@ namespace MiniSqlQuery.Core {
             }
         }
         
+        public static System.Drawing.Bitmap column_row_version {
+            get {
+                object obj = ResourceManager.GetObject("column_row_version", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap comments {
             get {
                 object obj = ResourceManager.GetObject("comments", resourceCulture);
@@ -280,6 +287,20 @@ namespace MiniSqlQuery.Core {
         public static System.Drawing.Bitmap key {
             get {
                 object obj = ResourceManager.GetObject("key", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap key_disabled {
+            get {
+                object obj = ResourceManager.GetObject("key_disabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap key_go_disabled {
+            get {
+                object obj = ResourceManager.GetObject("key_go_disabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
