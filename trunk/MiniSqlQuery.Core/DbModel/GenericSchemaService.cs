@@ -10,6 +10,7 @@ namespace MiniSqlQuery.Core.DbModel
 		private string _connection;
 
 		public string ProviderName { get; set; }
+		public bool ForiegnKeyInformationAvailable { get; set; }
 
 		/// <summary>
 		/// Gets a database object model that represents the items defined by the <paramref name="connection"/>.
@@ -40,11 +41,9 @@ namespace MiniSqlQuery.Core.DbModel
 				{
 					string schemaName = SafeGetString(row.Row, "TABLE_SCHEMA");
 					string tableName = SafeGetString(row.Row, "TABLE_NAME");
-					//string schemaName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_SCHEMA"));
-					//string tableName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_NAME"));
 
 					DbModelTable dbTable = new DbModelTable { Schema = schemaName, Name = tableName };
-					model.Tables.Add(dbTable);
+					model.Add(dbTable);
 
 					DataTable schemaTableKeyInfo = GetTableKeyInfo(dbConn, schemaName, tableName);
 					GetColumnsForTable(dbTable, schemaTableKeyInfo, dbTypes);
@@ -55,11 +54,9 @@ namespace MiniSqlQuery.Core.DbModel
 				{
 					string schemaName = SafeGetString(row.Row, "TABLE_SCHEMA");
 					string tableName = SafeGetString(row.Row, "TABLE_NAME");
-					//string schemaName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_SCHEMA"));
-					//string tableName = MakeSqlFriendly(SafeGetString(row.Row, "TABLE_NAME"));
 
 					DbModelView dbTable = new DbModelView { Schema = schemaName, Name = tableName };
-					model.Views.Add(dbTable);
+					model.Add(dbTable);
 
 					DataTable schemaTableKeyInfo = GetTableKeyInfo(dbConn, schemaName, tableName);
 					GetColumnsForTable(dbTable, schemaTableKeyInfo, dbTypes);

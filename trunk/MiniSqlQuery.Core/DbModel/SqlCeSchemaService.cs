@@ -43,10 +43,10 @@ namespace MiniSqlQuery.Core.DbModel
 				}
 
 				model.Tables.ForEach(delegate(DbModelTable t)
-				{
-					GetForiegnKeyReferencesForTable(dbConn, t);
-					ProcessForiegnKeyReferencesForTable(dbConn, t);
-				});
+				                     	{
+				                     		GetForiegnKeyReferencesForTable(dbConn, t);
+				                     		ProcessForiegnKeyReferencesForTable(dbConn, t);
+				                     	});
 
 				return model;
 			}
@@ -78,11 +78,14 @@ namespace MiniSqlQuery.Core.DbModel
 
 		protected override void GetForiegnKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
 		{
-			using (var cmd = dbConn.CreateCommand())
+			ForiegnKeyInformationAvailable = true;
+			try
 			{
-				cmd.CommandText =
-					string.Format(
-						@"SELECT 
+				using (var cmd = dbConn.CreateCommand())
+				{
+					cmd.CommandText =
+						string.Format(
+							@"SELECT 
 	KCU1.TABLE_NAME AS FK_TABLE_NAME,  
 	KCU1.CONSTRAINT_NAME AS FK_CONSTRAINT_NAME, 
 	KCU1.COLUMN_NAME AS FK_COLUMN_NAME,
@@ -103,25 +106,30 @@ ORDER BY
 	FK_CONSTRAINT_NAME, 
 	FK_ORDINAL_POSITION
 ",
-						dbTable.Name);
-				cmd.CommandType = CommandType.Text;
-				using (var dr = cmd.ExecuteReader())
-				{
-					while (dr.Read())
+							dbTable.Name);
+					cmd.CommandType = CommandType.Text;
+					using (var dr = cmd.ExecuteReader())
 					{
-						dbTable.Constraints.Add(new DbModelConstraint
-						         {
-						         	ConstraintTableName = dr.GetString(0),
-						         	ConstraintName = dr.GetString(1),
-						         	ColumnName = dr.GetString(2),
-						         	UniqueConstraintTableName = dr.GetString(3),
-						         	UniqueConstraintName = dr.GetString(4),
-						         	UniqueColumnName = dr.GetString(5),
-						         	UpdateRule = dr.GetString(6),
-						         	DeleteRule = dr.GetString(7)
-						         });
+						while (dr.Read())
+						{
+							dbTable.Constraints.Add(new DbModelConstraint
+							                        {
+							                        	ConstraintTableName = dr.GetString(0),
+							                        	ConstraintName = dr.GetString(1),
+							                        	ColumnName = dr.GetString(2),
+							                        	UniqueConstraintTableName = dr.GetString(3),
+							                        	UniqueConstraintName = dr.GetString(4),
+							                        	UniqueColumnName = dr.GetString(5),
+							                        	UpdateRule = dr.GetString(6),
+							                        	DeleteRule = dr.GetString(7)
+							                        });
+						}
 					}
 				}
+			}
+			catch (DbException)
+			{
+				ForiegnKeyInformationAvailable = false;
 			}
 		}
 

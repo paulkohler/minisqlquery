@@ -227,6 +227,7 @@
     <None Include="Images\house.png" />
     <None Include="Images\information.png" />
     <None Include="Images\key.png" />
+    <Content Include="Images\key_go.png" />
     <Content Include="Images\lightning.png" />
     <Content Include="Images\page.png" />
     <Content Include="Images\page_white.png" />

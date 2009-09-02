@@ -28,5 +28,11 @@ namespace MiniSqlQuery.Core.DbModel
 			table.ParentDb = this;
 			Tables.Add(table);
 		}
+
+		public virtual void Add(DbModelView view)
+		{
+			view.ParentDb = this;
+			Views.Add(view);
+		}
 	}
 }
