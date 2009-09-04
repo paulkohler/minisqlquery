@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using Microsoft.VisualBasic;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.DbModel;
 using MiniSqlQuery.Core.Template;
 using MiniSqlQuery.Properties;
 
@@ -12,10 +12,14 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
 	public class TemplateModel
 	{
-		private readonly IApplicationServices _services;
-		private ITextFormatter _formatter;
+		#region Delegates
 
 		public delegate string GetValueForParameter(string parameter);
+
+		#endregion
+
+		private readonly IApplicationServices _services;
+		private ITextFormatter _formatter;
 
 		public TemplateModel(IApplicationServices services, ITextFormatter formatter)
 		{
@@ -33,7 +37,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 		public string[] GetFilesForFolder(string path)
 		{
-			return Directory.GetFiles(path, Settings.Default.SqlFileFilter, SearchOption.TopDirectoryOnly);
+			return Directory.GetFiles(path, "*.mt", SearchOption.TopDirectoryOnly);
 		}
 
 		public TreeNode[] CreateNodes()
@@ -65,22 +69,36 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			return nodes.ToArray();
 		}
 
-		public string ProcessTemplateFile(string filename, GetValueForParameter getValueForParameter)
+		public TemplateResult ProcessTemplateFile(string filename, GetValueForParameter getValueForParameter)
 		{
 			string[] lines = File.ReadAllLines(filename);
+			string text;
 			Dictionary<string, object> items = new Dictionary<string, object>();
+			text = PreProcessTemplate(lines, getValueForParameter, items);
+			return ProcessTemplate(text, items);
+		}
 
+		public string PreProcessTemplate(
+			string[] lines,
+			GetValueForParameter getValueForParameter,
+			Dictionary<string, object> items)
+		{
 			int i = 0;
 			for (; i < lines.Length; i++)
 			{
 				string line = lines[i];
 				if (line.StartsWith("#@")) // process cmd
 				{
-					if (line.StartsWith("#@get "))
+					if (line.StartsWith("#@get ", StringComparison.CurrentCultureIgnoreCase))
 					{
 						string name = line.Substring("#@get ".Length);
 						string val = getValueForParameter(name);
 						items.Add(name, val);
+					}
+					else if (line.StartsWith("#@set extension ", StringComparison.CurrentCultureIgnoreCase))
+					{
+						string ext = line.Substring("#@set extension ".Length);
+						items.Add("extension", ext);
 					}
 				}
 				else
@@ -91,39 +109,39 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 			string text = string.Join(Environment.NewLine, lines, i, lines.Length - i);
 
-			return ProcessTemplate(text, items);
+			return text;
 		}
 
-		public string ProcessTemplate(string text, Dictionary<string, object> items)
+		public TemplateResult ProcessTemplate(string text, Dictionary<string, object> items)
 		{
 			if (items != null)
 			{
-				ModelData data = new ModelData { Services = _services };
-				items.Add("Host", data);
 				if (_services.HostWindow.DatabaseInspector.DbSchema == null)
 				{
 					_services.HostWindow.DatabaseInspector.LoadDatabaseDetails();
 				}
-				items.Add("Model", _services.HostWindow.DatabaseInspector.DbSchema);
+				HostData data = new HostData {Services = _services, Model = _services.HostWindow.DatabaseInspector.DbSchema};
+				items.Add("Host", data);
+				items.Add("Model", data.Model);
 			}
-			return _formatter.Format(text, items);
+
+			TemplateResult result = new TemplateResult();
+			result.Text = _formatter.Format(text, items);
+			result.Extension = "sql";
+			if (items != null && items.ContainsKey("extension"))
+			{
+				result.Extension = (string) items["extension"];
+			}
+
+			return result;
 		}
 
-		#region Nested type: ModelData
+		#region Nested type: HostData
 
-		public class ModelData
+		public class HostData
 		{
 			public IApplicationServices Services { get; set; }
-
-			public string Date(string format)
-			{
-				return DateTime.Now.ToString(format);
-			}
-
-			public DateTime CurrentDateTime
-			{
-				get { return DateTime.Now; }
-			}
+			public DbModelInstance Model { get; set; }
 
 			public string MachineName
 			{
@@ -134,6 +152,13 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			{
 				get { return Environment.UserName; }
 			}
+
+			public string Date(string format)
+			{
+				return DateTime.Now.ToString(format);
+			}
+
+			// to do - helper functions for changing names too code friendly etc
 		}
 
 		#endregion

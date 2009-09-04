@@ -85,6 +85,7 @@
     <Compile Include="Commands\ExitApplicationCommand.cs" />
     <Compile Include="Commands\GenerateCommandCodeCommand.cs" />
     <Compile Include="Commands\InsertGuidCommand.cs" />
+    <Compile Include="Commands\NewFileCommand.cs" />
     <Compile Include="Commands\NewQueryFormCommand.cs" />
     <Compile Include="Commands\OpenConnectionFileCommand.cs" />
     <Compile Include="Commands\PasteAroundSelectionCommand.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="DbModel\SqlCeSchemaService.cs" />
     <Compile Include="DbModel\SqlClientSchemaService.cs" />
     <Compile Include="DbModel\SqlWriter.cs" />
+    <Compile Include="FileEditorResolverService.cs" />
     <Compile Include="Forms\BatchQuerySelectForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +144,7 @@
     </Compile>
     <Compile Include="IApplicationServices.cs" />
     <Compile Include="IDatabaseSchemaService.cs" />
+    <Compile Include="IEditor.cs" />
     <Compile Include="IFindReplaceProvider.cs" />
     <Compile Include="FindReplaceTextRequest.cs" />
     <Compile Include="IApplicationSettings.cs" />

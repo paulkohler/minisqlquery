@@ -19,8 +19,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 
 		public override bool Enabled
 		{
-			// todo - support: get { return ApplicationServices.Instance.HostWindow.ActiveChildForm is INavigatableDocument; }
-			get { return ApplicationServices.Instance.HostWindow.ActiveChildForm is IQueryEditor; }
+			get { return ApplicationServices.Instance.HostWindow.ActiveChildForm is IFindReplaceProvider; }
 		}
 
 		public override void Execute()
@@ -31,16 +30,16 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 			}
 
 			// if the window is an editor, grab the highlighted text
-			IQueryEditor editor = ActiveFormAsEditor;
+			IFindReplaceProvider findReplaceProvider = Services.HostWindow.ActiveChildForm as IFindReplaceProvider;
 
 			if (FindReplaceWindow == null || FindReplaceWindow.IsDisposed)
 			{
 				FindReplaceWindow = new FindReplaceForm(Services);
 			}
 
-			if (editor != null)
+			if (findReplaceProvider is IEditor)
 			{
-				FindReplaceWindow.FindString = editor.SelectedText;
+				FindReplaceWindow.FindString = ((IEditor)findReplaceProvider).SelectedText;
 			}
 
 			FindReplaceWindow.TopMost = true;

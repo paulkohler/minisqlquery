@@ -191,6 +191,18 @@ namespace MiniSqlQuery.Core
 			OnSystemMessagePosted(new SystemMessageEventArgs(message, data));
 		}
 
+		/// <summary>
+		/// Registers the editor of type <typeparamref name="TEditor"/> using the <paramref name="editorKeyName"/>.
+		/// </summary>
+		/// <typeparam name="TEditor">The editor type.</typeparam>
+		/// <param name="editorKeyName">Name of the editor key.</param>
+		/// <param name="extension">The extension, "sql", "cs" etc.</param>
+		public void RegisterEditor<TEditor>(string editorKeyName, params string[] extension) where TEditor : IEditor
+		{
+			RegisterComponent<IEditor, TEditor>(editorKeyName);
+			// todo - push the ext reg into the resolver....
+		}
+
 		#endregion
 
 		protected void OnSystemMessagePosted(SystemMessageEventArgs eventArgs)

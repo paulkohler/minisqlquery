@@ -32,11 +32,16 @@
 			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Templates");
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TemplateViewForm));
 			this.tvTemplates = new System.Windows.Forms.TreeView();
+			this.treeMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.toolStripMenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageList = new System.Windows.Forms.ImageList(this.components);
+			this.treeMenuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tvTemplates
 			// 
+			this.tvTemplates.ContextMenuStrip = this.treeMenuStrip;
 			this.tvTemplates.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tvTemplates.ImageKey = "folder_page";
 			this.tvTemplates.ImageList = this.imageList;
@@ -52,6 +57,31 @@
 			this.tvTemplates.Size = new System.Drawing.Size(292, 266);
 			this.tvTemplates.TabIndex = 0;
 			this.tvTemplates.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvTemplates_NodeMouseDoubleClick);
+			this.tvTemplates.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvTemplates_NodeMouseClick);
+			this.tvTemplates.Click += new System.EventHandler(this.tvTemplates_Click);
+			// 
+			// treeMenuStrip
+			// 
+			this.treeMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemRun,
+            this.toolStripMenuItemEdit});
+			this.treeMenuStrip.Name = "treeMenuStrip";
+			this.treeMenuStrip.Size = new System.Drawing.Size(153, 70);
+			// 
+			// toolStripMenuItemRun
+			// 
+			this.toolStripMenuItemRun.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			this.toolStripMenuItemRun.Name = "toolStripMenuItemRun";
+			this.toolStripMenuItemRun.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItemRun.Text = "Run";
+			this.toolStripMenuItemRun.Click += new System.EventHandler(this.toolStripMenuItemRun_Click);
+			// 
+			// toolStripMenuItemEdit
+			// 
+			this.toolStripMenuItemEdit.Name = "toolStripMenuItemEdit";
+			this.toolStripMenuItemEdit.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItemEdit.Text = "Edit Template";
+			this.toolStripMenuItemEdit.Click += new System.EventHandler(this.toolStripMenuItemEdit_Click);
 			// 
 			// imageList
 			// 
@@ -67,11 +97,13 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(292, 266);
 			this.Controls.Add(this.tvTemplates);
+			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "TemplateViewForm";
 			this.TabText = "Templates";
 			this.Text = "Templates";
 			this.Load += new System.EventHandler(this.TemplateViewForm_Load);
+			this.treeMenuStrip.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -80,5 +112,8 @@
 
 		private System.Windows.Forms.TreeView tvTemplates;
 		private System.Windows.Forms.ImageList imageList;
+		private System.Windows.Forms.ContextMenuStrip treeMenuStrip;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRun;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEdit;
 	}
 }

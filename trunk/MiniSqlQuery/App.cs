@@ -36,19 +36,9 @@ namespace MiniSqlQuery
 
 			IApplicationServices services = ApplicationServices.Instance;
 
-			// singletons
-			services.RegisterSingletonComponent<IApplicationSettings, ApplicationSettings>("ApplicationSettings");
-			services.RegisterSingletonComponent<IHostWindow, MainForm>("HostWindow");
+			ConfigureContainer(services);
 
-			// components
-			services.RegisterComponent<AboutForm>("AboutForm");
-			services.RegisterComponent<ITextFindService, BasicTextFindService>("DefaultTextFindService");
-			services.RegisterComponent<IQueryEditor, QueryForm>("QueryForm");
-			services.RegisterComponent<ISqlWriter, SqlWriter>("DefaultSqlWriter");
-			services.RegisterComponent<ITextFormatter, NVelocityWrapper>("TextFormatter");
-			services.RegisterComponent<TemplateModel>("TemplateModel");
-
-            ApplicationServices.Instance.LoadPlugIn(new CoreApplicationPlugIn());
+			ApplicationServices.Instance.LoadPlugIn(new CoreApplicationPlugIn());
             ApplicationServices.Instance.LoadPlugIn(new ConnectionStringsManagerLoader());
             ApplicationServices.Instance.LoadPlugIn(new DatabaseInspectorLoader());
             ApplicationServices.Instance.LoadPlugIn(new ViewTableLoader());
@@ -64,6 +54,22 @@ namespace MiniSqlQuery
 
             ApplicationServices.Instance.HostWindow.SetArguements(args);
             Application.Run(ApplicationServices.Instance.HostWindow.Instance);
+		}
+
+		public static void ConfigureContainer(IApplicationServices services)
+		{
+			// singletons
+			services.RegisterSingletonComponent<IApplicationSettings, ApplicationSettings>("ApplicationSettings");
+			services.RegisterSingletonComponent<IHostWindow, MainForm>("HostWindow");
+
+			// components
+			services.RegisterComponent<AboutForm>("AboutForm");
+			services.RegisterComponent<IFileEditorResolver, FileEditorResolverService>("FileEditorResolver");
+			services.RegisterComponent<ITextFindService, BasicTextFindService>("DefaultTextFindService");
+			services.RegisterComponent<IQueryEditor, QueryForm>("QueryForm");
+			services.RegisterComponent<ISqlWriter, SqlWriter>("DefaultSqlWriter");
+			services.RegisterComponent<ITextFormatter, NVelocityWrapper>("TextFormatter");
+			services.RegisterComponent<TemplateModel>("TemplateModel");
 		}
 
 		private static void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Castle.MicroKernel;
 
@@ -16,6 +15,24 @@ namespace MiniSqlQuery.Core
 		/// See the "Configuration.xml" file in the main application for settings.
 		/// </summary>
 		IKernel Container { get; }
+
+		/// <summary>
+		/// The application host window.
+		/// </summary>
+		/// <value>The application host window - a <see cref="System.Windows.Forms.Form"/>.</value>
+		IHostWindow HostWindow { get; }
+
+		/// <summary>
+		/// The application settings instance.
+		/// </summary>
+		/// <value>A reference to the settings handler.</value>
+		IApplicationSettings Settings { get; }
+
+		/// <summary>
+		/// A dictionary of the current plugins for this application.
+		/// </summary>
+		/// <value>A reference to the plugin dictionary.</value>
+		Dictionary<Type, IPlugIn> Plugins { get; }
 
 		/// <summary>
 		/// Registers the component service type <typeparamref name="TService"/> with and implemetation of type <typeparamref name="TImp"/>.
@@ -51,24 +68,6 @@ namespace MiniSqlQuery.Core
 		T Resolve<T>();
 
 		/// <summary>
-		/// The application host window.
-		/// </summary>
-		/// <value>The application host window - a <see cref="System.Windows.Forms.Form"/>.</value>
-		IHostWindow HostWindow { get; }
-
-		/// <summary>
-		/// The application settings instance.
-		/// </summary>
-		/// <value>A reference to the settings handler.</value>
-		IApplicationSettings Settings { get; }
-
-		/// <summary>
-		/// A dictionary of the current plugins for this application.
-		/// </summary>
-		/// <value>A reference to the plugin dictionary.</value>
-		Dictionary<Type, IPlugIn> Plugins { get; }
-
-		/// <summary>
 		/// Loads the <paramref name="plugIn"/> (calling its <see cref="IPlugIn.LoadPlugIn"/> method) and
 		/// adds it to the <see cref="Plugins"/> dictionary for access by other services.
 		/// </summary>
@@ -92,5 +91,13 @@ namespace MiniSqlQuery.Core
 		/// <param name="message">A system message type.</param>
 		/// <param name="data">The asssociated data.</param>
 		void PostMessage(SystemMessage message, object data);
+
+		/// <summary>
+		/// Registers the editor of type <typeparamref name="TEditor"/> using the <paramref name="editorKeyName"/>.
+		/// </summary>
+		/// <typeparam name="TEditor">The editor type.</typeparam>
+		/// <param name="editorKeyName">Name of the editor key.</param>
+		/// <param name="extension">The extension, "sql", "cs" etc.</param>
+		void RegisterEditor<TEditor>(string editorKeyName, params string[] extension) where TEditor : IEditor;
 	}
 }

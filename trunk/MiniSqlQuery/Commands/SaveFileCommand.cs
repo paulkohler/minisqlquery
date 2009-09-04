@@ -19,16 +19,16 @@ namespace MiniSqlQuery.Commands
 
         public override void Execute()
         {
-			IQueryEditor queryForm = Services.HostWindow.Instance.ActiveMdiChild as IQueryEditor;
-			if (queryForm != null)
+			IEditor editor = Services.HostWindow.Instance.ActiveMdiChild as IEditor;
+			if (editor != null)
 			{
-				if (queryForm.FileName == null)
+				if (editor.FileName == null)
 				{
 					CommandManager.GetCommandInstance<SaveFileAsCommand>().Execute();
 				}
 				else
 				{
-					queryForm.SaveFile();
+					editor.SaveFile();
 				}
 			}
 		}
@@ -37,10 +37,10 @@ namespace MiniSqlQuery.Commands
 		{
 			get
 			{
-				IQueryEditor queryForm = Services.HostWindow.Instance.ActiveMdiChild as IQueryEditor;
-				if (queryForm != null)
+				IEditor editor = Services.HostWindow.Instance.ActiveMdiChild as IEditor;
+				if (editor != null)
 				{
-					return queryForm.IsDirty;
+					return editor.IsDirty;
 				}
 				return false;
 			}

@@ -17,12 +17,23 @@ namespace MiniSqlQuery.PlugIns
 
         public override void InitializePlugIn()
         {
+			Services.RegisterEditor<BasicEditor>("default-editor");
+			Services.RegisterEditor<QueryForm>("sql-editor", "sql");
+			Services.RegisterEditor<BasicEditor>("cs-editor", "cs");
+			Services.RegisterEditor<BasicEditor>("vb-editor", "vb");
+			Services.RegisterEditor<BasicEditor>("xml-editor", "xml");
+			//Services.RegisterEditor<BasicEditor>("htm-editor", "htm", "html");
+			Services.RegisterEditor<BasicEditor>("htm-editor", "htm");
+			Services.RegisterEditor<BasicEditor>("html-editor", "html");
+			Services.RegisterEditor<BasicEditor>("txt-editor", "txt");
+
 			ToolStripMenuItem fileMenu = Services.HostWindow.GetMenuItem("File");
 			ToolStripMenuItem editMenu = Services.HostWindow.GetMenuItem("edit");
 			ToolStripMenuItem queryMenu = Services.HostWindow.GetMenuItem("query");
 			ToolStripMenuItem helpMenu = Services.HostWindow.GetMenuItem("help");
 
             fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<NewQueryFormCommand>());
+			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<NewFileCommand>());
             fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
             fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenFileCommand>());
             fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveFileCommand>());
@@ -80,16 +91,31 @@ namespace MiniSqlQuery.PlugIns
             _timer.Enabled = true;
         }
 
+		/// <summary>
+		/// Called frequently to run through all the commands on the toolstrip and check their enabled state. 
+		/// Marked as "DebuggerNonUserCode" because it can get in the way of a debug sesssion.
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		[System.Diagnostics.DebuggerNonUserCode]
         private void TimerTick(object sender, EventArgs e)
         {
-            foreach (ToolStripItem item in Services.HostWindow.ToolStrip.Items)
-            {
-                ICommand cmd = item.Tag as ICommand;
-                if (cmd != null)
-                {
-                    item.Enabled = cmd.Enabled;
-                }
-            }
+			try
+			{
+				_timer.Enabled = false;
+				foreach (ToolStripItem item in Services.HostWindow.ToolStrip.Items)
+				{
+					ICommand cmd = item.Tag as ICommand;
+					if (cmd != null)
+					{
+						item.Enabled = cmd.Enabled;
+					}
+				}
+			}
+			finally
+			{
+				_timer.Enabled = true;
+			}
         }
 
         public override void UnloadPlugIn()

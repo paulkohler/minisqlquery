@@ -7,17 +7,8 @@ namespace MiniSqlQuery.Core
 	/// <summary>
 	/// The functions of the editing window.
 	/// </summary>
-	public interface IQueryEditor : IFindReplaceProvider, INavigatableDocument, IQueryBatchProvider
+	public interface IQueryEditor : IFindReplaceProvider, INavigatableDocument, IQueryBatchProvider, IEditor
 	{
-		/// <summary>
-		/// The currently selected text (if any) in the editor.
-		/// </summary>
-		string SelectedText { get; }
-
-		/// <summary>
-		/// The contetnts of the editor.
-		/// </summary>
-		string AllText { get; set; }
 
 		/// <summary>
 		/// Obsolete in favour of <see cref="IQueryBatchProvider.Batch"/>. The current data displayed in the result window.
@@ -36,26 +27,6 @@ namespace MiniSqlQuery.Core
 		Control EditorControl { get; }
 
 		/// <summary>
-		/// The filename of the docuemnt being edited (can be null, as in not saved yet).
-		/// </summary>
-		string FileName { get; set; }
-
-		/// <summary>
-		/// Loads the file by the path in <see cref="FileName"/>.
-		/// </summary>
-		void LoadFile();
-
-		/// <summary>
-		/// Saves the file by the path in <see cref="FileName"/>.
-		/// </summary>
-		void SaveFile();
-
-		/// <summary>
-		/// True if the document has unsaved changes.
-		/// </summary>
-		bool IsDirty { get; }
-
-		/// <summary>
 		/// True if a query is being executed.
 		/// </summary>
 		bool IsBusy { get; }
@@ -65,8 +36,6 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		/// <param name="text">The message to appear in the status bar.</param>
 		void SetStatus(string text);
-
-		void SetSyntax(string name);
 
 		/// <summary>
 		/// Inserts <paramref name="text"/> at the current cursor position (selected text is overwritten).

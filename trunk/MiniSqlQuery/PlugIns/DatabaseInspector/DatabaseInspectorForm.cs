@@ -53,8 +53,8 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			InspectorImageList.Images.Add("Views", ImageResource.view_multiple);
 			InspectorImageList.Images.Add("View", ImageResource.view);
 			InspectorImageList.Images.Add("Column-PK", ImageResource.key);
-			InspectorImageList.Images.Add("Column-FK", ImageResource.key_disabled);
-			InspectorImageList.Images.Add("Column-PK-FK", ImageResource.key_go_disabled);
+			InspectorImageList.Images.Add("Column-FK", ImageResource.key_go_disabled);
+			InspectorImageList.Images.Add("Column-PK-FK", ImageResource.key_go);
 			InspectorImageList.Images.Add("Column-RowVersion", ImageResource.column_row_version);
 		}
 

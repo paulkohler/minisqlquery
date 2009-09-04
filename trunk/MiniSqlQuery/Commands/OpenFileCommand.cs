@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using MiniSqlQuery.Core.Commands;
 using System.Windows.Forms;
@@ -28,12 +29,15 @@ namespace MiniSqlQuery.Commands
 			{
 				//todo: check for file exist file in open windows;
 
-				IQueryEditor editor = Services.Container.Resolve<IQueryEditor>();
+				IFileEditorResolver resolver = Services.Resolve<IFileEditorResolver>();
+				IEditor editor = resolver.ResolveEditorInstance(openFileDialog.FileName);
 				editor.FileName = openFileDialog.FileName;
 				editor.LoadFile();
 				Services.HostWindow.DisplayDockedForm(editor as DockContent);
 			}
 
         }
+
+
     }
 }

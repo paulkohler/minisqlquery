@@ -90,6 +90,12 @@
     <Compile Include="CopyForm.Designer.cs">
       <DependentUpon>CopyForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BasicEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BasicEditor.Designer.cs">
+      <DependentUpon>BasicEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="ErrorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +157,14 @@
     <Compile Include="PlugIns\SearchTools\SearchToolsLoader.cs" />
     <Compile Include="PlugIns\SearchTools\SearchToolsCommon.cs" />
     <Compile Include="PlugIns\TemplateViewer\Commands\NewQueryByTemplateCommand.cs" />
+    <Compile Include="PlugIns\TemplateViewer\Commands\RunTemplateCommand.cs" />
+    <Compile Include="PlugIns\TemplateViewer\TemplateEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlugIns\TemplateViewer\TemplateEditorForm.Designer.cs">
+      <DependentUpon>TemplateEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\TemplateViewer\TemplateResult.cs" />
     <Compile Include="PlugIns\TemplateViewer\TemplateViewerLoader.cs" />
     <Compile Include="PlugIns\TemplateViewer\TemplateModel.cs" />
     <Compile Include="PlugIns\TemplateViewer\TemplateViewForm.cs">
@@ -172,6 +186,9 @@
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BasicEditor.resx">
+      <DependentUpon>BasicEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CopyForm.resx">
       <DependentUpon>CopyForm.cs</DependentUpon>
@@ -201,6 +218,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PlugIns\SearchTools\GoToLineForm.resx">
       <DependentUpon>GoToLineForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlugIns\TemplateViewer\TemplateEditorForm.resx">
+      <DependentUpon>TemplateEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PlugIns\TemplateViewer\TemplateViewForm.resx">
       <DependentUpon>TemplateViewForm.cs</DependentUpon>
@@ -235,6 +255,9 @@
     </Content>
     <None Include="Templates\Create Table.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\CSharpModel.mt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Templates\Empty.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

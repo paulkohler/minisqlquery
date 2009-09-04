@@ -18,6 +18,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniSqlQuery.Tests", "MiniSqlQuery.Tests\MiniSqlQuery.Tests.csproj", "{14805F53-5C87-4E8D-B88C-690C35C4CE8D}"
 EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release - No Tests|Any CPU = Release - No Tests|Any CPU

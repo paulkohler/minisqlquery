@@ -74,7 +74,7 @@ namespace MiniSqlQuery.Tests.Templates
 			model.ConnectionString = "conn str";
 			model.ProviderName = "sql.foo";
 			DbModelTable table = new DbModelTable {Name = "MyTable"};
-			model.Tables.Add(table);
+			model.Add(table);
 			table.Add(new DbModelColumn {Name = "ID"});
 			table.Add(new DbModelColumn {Name = "FirstName"});
 

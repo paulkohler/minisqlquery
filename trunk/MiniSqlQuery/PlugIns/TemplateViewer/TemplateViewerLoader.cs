@@ -1,5 +1,6 @@
 ﻿using System;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.PlugIns.TemplateViewer.Commands;
 
 namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
@@ -12,7 +13,10 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 		public override void InitializePlugIn()
 		{
+			Services.RegisterEditor<TemplateEditorForm>("mt-editor", "mt");
+
 			Services.RegisterComponent<TemplateViewForm>("TemplateViewForm");
+			Services.HostWindow.AddPluginCommand<RunTemplateCommand>();
 			Services.HostWindow.ShowToolWindow(Services.Resolve<TemplateViewForm>(), WeifenLuo.WinFormsUI.Docking.DockState.DockLeft);
 		}
 	}
