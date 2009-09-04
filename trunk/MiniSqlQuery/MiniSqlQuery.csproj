@@ -79,6 +79,9 @@
     </Compile>
     <Compile Include="App.cs" />
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="BasicEditors.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Commands\OpenFileCommand.cs" />
     <Compile Include="Commands\SaveFileAsCommand.cs" />
     <Compile Include="Commands\SaveFileCommand.cs" />

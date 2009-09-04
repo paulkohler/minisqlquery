@@ -19,12 +19,12 @@ namespace MiniSqlQuery.PlugIns
         {
 			Services.RegisterEditor<BasicEditor>("default-editor");
 			Services.RegisterEditor<QueryForm>("sql-editor", "sql");
-			Services.RegisterEditor<BasicEditor>("cs-editor", "cs");
-			Services.RegisterEditor<BasicEditor>("vb-editor", "vb");
-			Services.RegisterEditor<BasicEditor>("xml-editor", "xml");
-			//Services.RegisterEditor<BasicEditor>("htm-editor", "htm", "html");
-			Services.RegisterEditor<BasicEditor>("htm-editor", "htm");
-			Services.RegisterEditor<BasicEditor>("html-editor", "html");
+			Services.RegisterEditor<BasicCSharpEditor>("cs-editor", "cs");
+			Services.RegisterEditor<BasicVbNetEditor>("vb-editor", "vb");
+			Services.RegisterEditor<BasicXmlEditor>("xml-editor", "xml");
+			//Services.RegisterEditor<BasicHtmlEditor>("htm-editor", "htm", "html");
+			Services.RegisterEditor<BasicHtmlEditor>("htm-editor", "htm");
+			Services.RegisterEditor<BasicHtmlEditor>("html-editor", "html");
 			Services.RegisterEditor<BasicEditor>("txt-editor", "txt");
 
 			ToolStripMenuItem fileMenu = Services.HostWindow.GetMenuItem("File");
