@@ -266,7 +266,7 @@
     <None Include="Templates\Empty.sql.mt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\Tables and Columns.sql.mt">
+    <None Include="Templates\Tables and Columns.txt.mt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
