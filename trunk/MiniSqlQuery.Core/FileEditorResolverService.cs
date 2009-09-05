@@ -1,47 +1,44 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace MiniSqlQuery.Core
 {
-	public interface IFileEditorResolver
-	{
-		IEditor ResolveEditorInstance(string filename);
-		string ResolveEditorNameByExtension(string extension);
-	}
-
 	public class FileEditorResolverService : IFileEditorResolver
 	{
 		private readonly IApplicationServices _services;
+		private readonly List<string> _extentions;
 
 		public FileEditorResolverService(IApplicationServices services)
 		{
 			_services = services;
+			_extentions=new List<string>();
 		}
 
-		public string ResolveEditorNameByExtension(string ext)
+		public string ResolveEditorNameByExtension(string extention)
 		{
-			string editroName = "default-editor";
+			string editorName = "default-editor";
 
-			if (ext.StartsWith("."))
+			if (extention != null)
 			{
-				ext = ext.Substring(1);
+				if (extention.StartsWith("."))
+				{
+					extention = extention.Substring(1);
+				}
+
+				// is there a specific editor for this file type
+				if (_extentions.Contains(extention))
+				{
+					editorName = extention + "-editor";
+				}
 			}
 
-			switch (ext.ToLower())
-			{
-				case "sql":
-				case "mt":
-				case "cs":
-				case "vb":
-				case "xml":
-				case "htm":
-				case "html":
-				case "txt":
-					editroName = ext + "-editor";
-					break;
-			}
+			return editorName;
+		}
 
-			return editroName;
+		public void Register(string extention)
+		{
+			_extentions.Add(extention);
 		}
 
 

@@ -145,6 +145,7 @@
     <Compile Include="IApplicationServices.cs" />
     <Compile Include="IDatabaseSchemaService.cs" />
     <Compile Include="IEditor.cs" />
+    <Compile Include="IFileEditorResolver.cs" />
     <Compile Include="IFindReplaceProvider.cs" />
     <Compile Include="FindReplaceTextRequest.cs" />
     <Compile Include="IApplicationSettings.cs" />

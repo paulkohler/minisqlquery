@@ -61,10 +61,10 @@ namespace MiniSqlQuery
 			// singletons
 			services.RegisterSingletonComponent<IApplicationSettings, ApplicationSettings>("ApplicationSettings");
 			services.RegisterSingletonComponent<IHostWindow, MainForm>("HostWindow");
+			services.RegisterSingletonComponent<IFileEditorResolver, FileEditorResolverService>("FileEditorResolver");
 
 			// components
 			services.RegisterComponent<AboutForm>("AboutForm");
-			services.RegisterComponent<IFileEditorResolver, FileEditorResolverService>("FileEditorResolver");
 			services.RegisterComponent<ITextFindService, BasicTextFindService>("DefaultTextFindService");
 			services.RegisterComponent<IQueryEditor, QueryForm>("QueryForm");
 			services.RegisterComponent<ISqlWriter, SqlWriter>("DefaultSqlWriter");

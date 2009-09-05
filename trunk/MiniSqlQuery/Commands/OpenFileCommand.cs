@@ -13,7 +13,7 @@ namespace MiniSqlQuery.Commands
         : CommandBase
     {
 		public OpenFileCommand()
-            : base("&Open Query File")
+            : base("&Open File")
         {
             ShortcutKeys = Keys.Control | Keys.O;
 			SmallImage = ImageResource.folder_page;

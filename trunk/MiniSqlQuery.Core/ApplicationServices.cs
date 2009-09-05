@@ -196,11 +196,20 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		/// <typeparam name="TEditor">The editor type.</typeparam>
 		/// <param name="editorKeyName">Name of the editor key.</param>
-		/// <param name="extension">The extension, "sql", "cs" etc.</param>
-		public void RegisterEditor<TEditor>(string editorKeyName, params string[] extension) where TEditor : IEditor
+		/// <param name="extensions">The extensions, "sql", "cs" etc.</param>
+		public void RegisterEditor<TEditor>(string editorKeyName, params string[] extensions) where TEditor : IEditor
 		{
 			RegisterComponent<IEditor, TEditor>(editorKeyName);
-			// todo - push the ext reg into the resolver....
+
+			// push the ext reg into the resolver....
+			IFileEditorResolver resolver = Resolve<IFileEditorResolver>();
+			if (extensions != null && extensions.Length > 0)
+			{
+				foreach (string extention in extensions)
+				{
+					resolver.Register(extention);
+				}
+			}
 		}
 
 		#endregion
