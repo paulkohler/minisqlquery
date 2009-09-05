@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
@@ -41,11 +42,15 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 		private void RunTemplate(FileInfo fi)
 		{
-			new NewQueryByTemplateCommand().Execute();
-			IQueryEditor editor = (IQueryEditor) ApplicationServices.Instance.HostWindow.ActiveChildForm;
 			TemplateResult templateResult = _model.ProcessTemplateFile(fi.FullName, GetValue);
+
+			// display in new window
+			IFileEditorResolver resolver = _services.Resolve<IFileEditorResolver>();
+			IEditor editor = _services.Resolve<IEditor>(resolver.ResolveEditorNameByExtension(templateResult.Extension));
 			editor.AllText = templateResult.Text;
-			editor.FileName = "Untitled." + templateResult.Extension;
+			editor.SetSyntax(templateResult.SyntaxName);
+			_services.HostWindow.DisplayDockedForm(editor as DockContent);
+
 		}
 
 		string GetValue(string name)

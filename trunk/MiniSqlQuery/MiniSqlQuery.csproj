@@ -161,6 +161,7 @@
     <Compile Include="PlugIns\SearchTools\SearchToolsCommon.cs" />
     <Compile Include="PlugIns\TemplateViewer\Commands\NewQueryByTemplateCommand.cs" />
     <Compile Include="PlugIns\TemplateViewer\Commands\RunTemplateCommand.cs" />
+    <Compile Include="PlugIns\TemplateViewer\TemplateHost.cs" />
     <Compile Include="PlugIns\TemplateViewer\TemplateEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -256,16 +257,16 @@
     <Content Include="SQL-Mode.xshd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Templates\Create Table.sql">
+    <None Include="Templates\Create Table.sql.mt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\CSharpModel.mt">
+    <None Include="Templates\CSharp Model.cs.mt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\Empty.sql">
+    <None Include="Templates\Empty.sql.mt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\Tables and Columns.sql">
+    <None Include="Templates\Tables and Columns.sql.mt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">

@@ -17,6 +17,9 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 					case "cs":
 						return "C#";
 
+					case "txt":
+						return "";
+
 					default:
 						return "SQL";
 				}

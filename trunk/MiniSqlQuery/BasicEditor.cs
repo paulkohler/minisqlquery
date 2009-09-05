@@ -266,6 +266,11 @@ namespace MiniSqlQuery
 
 		private void BasicEditor_Load(object sender, EventArgs e)
 		{
+#if DEBUG
+			lblEditorInfo.Text = GetType().FullName;
+#else
+			panel1.Visible = false;
+#endif
 		}
 	}
 }

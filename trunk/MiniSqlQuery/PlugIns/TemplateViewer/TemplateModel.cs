@@ -4,7 +4,6 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
-using MiniSqlQuery.Core.DbModel;
 using MiniSqlQuery.Core.Template;
 using MiniSqlQuery.Properties;
 
@@ -120,7 +119,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				{
 					_services.HostWindow.DatabaseInspector.LoadDatabaseDetails();
 				}
-				HostData data = new HostData {Services = _services, Model = _services.HostWindow.DatabaseInspector.DbSchema};
+				TemplateHost data = new TemplateHost {Services = _services, Model = _services.HostWindow.DatabaseInspector.DbSchema};
 				items.Add("Host", data);
 				items.Add("Model", data.Model);
 			}
@@ -135,32 +134,5 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 			return result;
 		}
-
-		#region Nested type: HostData
-
-		public class HostData
-		{
-			public IApplicationServices Services { get; set; }
-			public DbModelInstance Model { get; set; }
-
-			public string MachineName
-			{
-				get { return Environment.MachineName; }
-			}
-
-			public string UserName
-			{
-				get { return Environment.UserName; }
-			}
-
-			public string Date(string format)
-			{
-				return DateTime.Now.ToString(format);
-			}
-
-			// to do - helper functions for changing names too code friendly etc
-		}
-
-		#endregion
 	}
 }

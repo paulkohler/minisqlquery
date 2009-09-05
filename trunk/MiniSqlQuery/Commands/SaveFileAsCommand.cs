@@ -15,7 +15,7 @@ namespace MiniSqlQuery.Commands
 
         public override void Execute()
         {
-			IQueryEditor queryForm = Services.HostWindow.Instance.ActiveMdiChild as IQueryEditor;
+			IEditor queryForm = Services.HostWindow.Instance.ActiveMdiChild as IEditor;
 			if (queryForm != null)
 			{
 				SaveFileDialog saveFileDialog = new SaveFileDialog();
