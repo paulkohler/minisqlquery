@@ -76,8 +76,9 @@ namespace MiniSqlQuery.PlugIns
             Services.HostWindow.AddToolStripCommand<OpenFileCommand>(1);
             Services.HostWindow.AddToolStripCommand<SaveFileCommand>(2);
             Services.HostWindow.AddToolStripSeperator(3);
-            Services.HostWindow.AddToolStripCommand<ExecuteQueryCommand>(4);
-            Services.HostWindow.AddToolStripSeperator(5);
+            Services.HostWindow.AddToolStripCommand<ExecuteTaskCommand>(4);
+			Services.HostWindow.AddToolStripCommand<CancelTaskCommand>(5);
+            Services.HostWindow.AddToolStripSeperator(6);
             Services.HostWindow.AddToolStripSeperator(null);
             Services.HostWindow.AddToolStripCommand<RefreshDatabaseConnectionCommand>(null);
 

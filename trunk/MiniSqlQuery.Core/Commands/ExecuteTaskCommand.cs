@@ -3,11 +3,11 @@ using System.Windows.Forms;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	public class ExecuteQueryCommand
+	public class ExecuteTaskCommand
 		: CommandBase
 	{
-		public ExecuteQueryCommand()
-			: base("&Execute Query")
+		public ExecuteTaskCommand()
+			: base("&Execute")
 		{
 			ShortcutKeys = Keys.F5;
 			SmallImage = ImageResource.lightning;
@@ -17,7 +17,7 @@ namespace MiniSqlQuery.Core.Commands
 		{
 			get
 			{
-				IQueryEditor editor = ActiveFormAsEditor;
+				IPerformTask editor = Services.HostWindow.ActiveChildForm as IPerformTask;
 				if (editor != null)
 				{
 					return !editor.IsBusy;
@@ -33,10 +33,10 @@ namespace MiniSqlQuery.Core.Commands
 				return;
 			}
 
-			IQueryEditor editor = ActiveFormAsEditor;
+			IPerformTask editor = Services.HostWindow.ActiveChildForm as IPerformTask;
 			if (editor != null)
 			{
-				editor.ExecuteQuery();
+				editor.ExecuteTask();
 			}
 		}
 	}

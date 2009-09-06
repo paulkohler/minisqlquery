@@ -34,10 +34,12 @@ namespace MiniSqlQuery
 			LoadHighlightingProvider();
 			txtQuery.Document.DocumentChanged += DocumentDocumentChanged;
 
-			queryToolStripMenuItem.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ExecuteQueryCommand>());
+			queryToolStripMenuItem.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ExecuteTaskCommand>());
+			queryToolStripMenuItem.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<CancelTaskCommand>());
 			queryToolStripMenuItem.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveResultsAsDataSetCommand>());
 
-			contextMenuStripQuery.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<ExecuteQueryCommand>());
+			contextMenuStripQuery.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<ExecuteTaskCommand>());
+			contextMenuStripQuery.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<CancelTaskCommand>());
 
 			editorContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveFileCommand>());
 			editorContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
@@ -141,7 +143,7 @@ namespace MiniSqlQuery
 		}
 
 
-		public void ExecuteQuery()
+		public void ExecuteTask()
 		{
 			if (!string.IsNullOrEmpty(SelectedText))
 			{
@@ -151,6 +153,11 @@ namespace MiniSqlQuery
 			{
 				ExecuteQuery(AllText);
 			}
+		}
+
+		public void CancelTask()
+		{
+			//todo
 		}
 
 		public void InsertText(string text)

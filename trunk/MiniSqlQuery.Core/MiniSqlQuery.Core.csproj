@@ -74,6 +74,7 @@
     <Compile Include="BasicTextFindService.cs" />
     <Compile Include="BatchProgressEventArgs.cs" />
     <Compile Include="CommandManager.cs" />
+    <Compile Include="Commands\CancelTaskCommand.cs" />
     <Compile Include="Commands\CloseActiveWindowCommand.cs" />
     <Compile Include="Commands\CloseAllWindowsCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
@@ -81,7 +82,7 @@
     <Compile Include="Commands\CloseDatabaseConnectionCommand.cs" />
     <Compile Include="Commands\CopyQueryEditorFileNameCommand.cs" />
     <Compile Include="Commands\EmailAuthorCommand.cs" />
-    <Compile Include="Commands\ExecuteQueryCommand.cs" />
+    <Compile Include="Commands\ExecuteTaskCommand.cs" />
     <Compile Include="Commands\ExitApplicationCommand.cs" />
     <Compile Include="Commands\GenerateCommandCodeCommand.cs" />
     <Compile Include="Commands\InsertGuidCommand.cs" />

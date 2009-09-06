@@ -5,9 +5,29 @@ using System.Data;
 namespace MiniSqlQuery.Core
 {
 	/// <summary>
+	/// Intended as a window level task such as executing a query.
+	/// </summary>
+	public interface IPerformTask
+	{
+		/// <summary>
+		/// Executes the current task.
+		/// </summary>
+		void ExecuteTask();
+
+		/// <summary>
+		/// Cancels the current task.
+		/// </summary>
+		void CancelTask();
+
+		/// <summary>
+		/// True if a task is being executed.
+		/// </summary>
+		bool IsBusy { get; }
+	}
+	/// <summary>
 	/// The functions of the editing window.
 	/// </summary>
-	public interface IQueryEditor : IFindReplaceProvider, INavigatableDocument, IQueryBatchProvider, IEditor
+	public interface IQueryEditor : IPerformTask, IFindReplaceProvider, INavigatableDocument, IQueryBatchProvider, IEditor
 	{
 
 		/// <summary>
@@ -17,19 +37,9 @@ namespace MiniSqlQuery.Core
 		DataSet DataSet { get; }
 
 		/// <summary>
-		/// Executes the current query.
-		/// </summary>
-		void ExecuteQuery();
-
-		/// <summary>
 		/// Provides access to the actual editor control.
 		/// </summary>
 		Control EditorControl { get; }
-
-		/// <summary>
-		/// True if a query is being executed.
-		/// </summary>
-		bool IsBusy { get; }
 
 		/// <summary>
 		/// Sets the "status" text for the form.
