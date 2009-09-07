@@ -310,6 +310,12 @@
     </Content>
     <Content Include="PlugIns\ViewTable\table.ico" />
     <Content Include="script.ico" />
+    <None Include="Templates\New.txt.mt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\New.xml.mt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MiniSqlQuery.Core\MiniSqlQuery.Core.csproj">
