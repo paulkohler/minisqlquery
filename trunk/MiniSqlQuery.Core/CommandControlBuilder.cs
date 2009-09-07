@@ -47,6 +47,12 @@ namespace MiniSqlQuery.Core
 			menuItem.Image = cmd.SmallImage;
 			menuItem.Click += CommandItemClick;
 
+			// todo...
+			//if (!string.IsNullOrEmpty(cmd.ShortcutKeysText))
+			//{
+			//    menuItem.ToolTipText = string.Format("{0} ({1})", cmd.Name, cmd.ShortcutKeysText);
+			//}
+
 			return menuItem;
 		}
 

@@ -8,7 +8,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
-	public interface ITemplateEditor
+	public interface ITemplateEditor : IPerformTask
 	{
 		void RunTemplate();
 	}
@@ -220,6 +220,21 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			editor.AllText = templateResult.Text;
 			editor.SetSyntax(templateResult.SyntaxName);
 			_services.HostWindow.DisplayDockedForm(editor as DockContent);
+		}
+
+		public void ExecuteTask()
+		{
+			RunTemplate();
+		}
+
+		public void CancelTask()
+		{
+			// N/A
+		}
+
+		public bool IsBusy
+		{
+			get { return false; }
 		}
 
 		#endregion

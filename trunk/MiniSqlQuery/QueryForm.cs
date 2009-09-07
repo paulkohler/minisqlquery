@@ -34,10 +34,6 @@ namespace MiniSqlQuery
 			LoadHighlightingProvider();
 			txtQuery.Document.DocumentChanged += DocumentDocumentChanged;
 
-			queryToolStripMenuItem.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ExecuteTaskCommand>());
-			queryToolStripMenuItem.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<CancelTaskCommand>());
-			queryToolStripMenuItem.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveResultsAsDataSetCommand>());
-
 			contextMenuStripQuery.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<ExecuteTaskCommand>());
 			contextMenuStripQuery.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<CancelTaskCommand>());
 

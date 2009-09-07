@@ -10,6 +10,7 @@ namespace MiniSqlQuery.Core.Commands
 			: base("&Execute")
 		{
 			ShortcutKeys = Keys.F5;
+			ShortcutKeysText = "F5";
 			SmallImage = ImageResource.lightning;
 		}
 

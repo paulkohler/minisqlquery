@@ -51,5 +51,11 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		/// <value>A reference to the <see cref="IApplicationServices"/> instance.</value>
 		IApplicationServices Services { get; set; }
+
+		/// <summary>
+		/// Gets the shortcut key text to be displayed as help.
+		/// </summary>
+		/// <value>The shortcut keys text.</value>
+		string ShortcutKeysText { get; }
 	}
 }

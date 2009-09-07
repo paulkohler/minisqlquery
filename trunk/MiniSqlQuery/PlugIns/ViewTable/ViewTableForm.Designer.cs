@@ -32,9 +32,6 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewTableForm));
 			this.dataGridViewResult = new System.Windows.Forms.DataGridView();
-			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-			this.queryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.chkAutoReload = new System.Windows.Forms.CheckBox();
 			this.lnkRefresh = new System.Windows.Forms.LinkLabel();
@@ -42,7 +39,6 @@
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewResult)).BeginInit();
-			this.menuStrip1.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -67,35 +63,6 @@
 			this.dataGridViewResult.Size = new System.Drawing.Size(562, 305);
 			this.dataGridViewResult.TabIndex = 0;
 			this.dataGridViewResult.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridViewResult_DataError);
-			// 
-			// menuStrip1
-			// 
-			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.queryToolStripMenuItem});
-			this.menuStrip1.Location = new System.Drawing.Point(4, 4);
-			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(562, 24);
-			this.menuStrip1.TabIndex = 1;
-			this.menuStrip1.Text = "menuStrip1";
-			this.menuStrip1.Visible = false;
-			// 
-			// queryToolStripMenuItem
-			// 
-			this.queryToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.refreshToolStripMenuItem});
-			this.queryToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.MatchOnly;
-			this.queryToolStripMenuItem.Name = "queryToolStripMenuItem";
-			this.queryToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
-			this.queryToolStripMenuItem.Text = "&Query";
-			this.queryToolStripMenuItem.Click += new System.EventHandler(this.queryToolStripMenuItem_Click);
-			// 
-			// refreshToolStripMenuItem
-			// 
-			this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-			this.refreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-			this.refreshToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
-			this.refreshToolStripMenuItem.Text = "&Refresh";
-			this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
 			// 
 			// groupBox1
 			// 
@@ -160,31 +127,23 @@
 			this.ClientSize = new System.Drawing.Size(570, 367);
 			this.Controls.Add(this.dataGridViewResult);
 			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.menuStrip1);
 			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "ViewTableForm";
 			this.Padding = new System.Windows.Forms.Padding(4);
 			this.TabText = "ViewTableForm";
 			this.Text = "ViewTableForm";
 			this.Shown += new System.EventHandler(this.ViewTableForm_Shown);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewResult)).EndInit();
-			this.menuStrip1.ResumeLayout(false);
-			this.menuStrip1.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
 		#endregion
 
 		private System.Windows.Forms.DataGridView dataGridViewResult;
-		private System.Windows.Forms.MenuStrip menuStrip1;
-		private System.Windows.Forms.ToolStripMenuItem queryToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.ComboBox cboTableName;
 		private System.Windows.Forms.LinkLabel lnkRefresh;

@@ -69,6 +69,12 @@ namespace MiniSqlQuery.Core.Commands
 		}
 
 		/// <summary>
+		/// Gets the shortcut key text to be displayed as help.
+		/// </summary>
+		/// <value>The shortcut keys text.</value>
+		public string ShortcutKeysText { get; protected set; }
+
+		/// <summary>
 		/// The name of the command, used in menus and buttons.
 		/// </summary>
 		/// <value>The name of the command.</value>

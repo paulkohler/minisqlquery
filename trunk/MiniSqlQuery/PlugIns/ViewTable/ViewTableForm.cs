@@ -9,13 +9,15 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.PlugIns.ViewTable
 {
-	public partial class ViewTableForm : DockContent, IQueryBatchProvider, INavigatableDocument
+	public partial class ViewTableForm : DockContent, IPerformTask, IQueryBatchProvider, INavigatableDocument
 	{
 		private QueryBatch _batch;
 		private DbConnection _dbConnection;
+		private bool _isBusy;
 		private IDatabaseSchemaService _metaDataService;
 		private IApplicationServices _services;
 		private string _status = string.Empty;
+		private object _syncLock = new object();
 
 		public ViewTableForm()
 		{
@@ -31,16 +33,6 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 			_services.Settings.DatabaseConnectionReset += SettingsDatabaseConnectionReset;
 			_services.SystemMessagePosted += ServicesSystemMessagePosted;
-
-			if (_metaDataService == null)
-			{
-				_metaDataService = DatabaseMetaDataService.Create(_services.Settings.ConnectionDefinition.ProviderName);
-
-				DbModelInstance model = _metaDataService.GetDbObjectModel(_services.Settings.ConnectionDefinition.ConnectionString);
-				List<string> tableNames = new List<string>();
-				model.Tables.ForEach(t => tableNames.Add(Utility.MakeSqlFriendly(t.FullName)));
-				cboTableName.Items.AddRange(tableNames.ToArray());
-			}
 		}
 
 		public string TableName
@@ -64,6 +56,32 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			get { return chkAutoReload.Checked; }
 		}
 
+		#region IPerformTask Members
+
+		public void ExecuteTask()
+		{
+			LoadTableData();
+		}
+
+		public void CancelTask()
+		{
+			// not supported (yet?)
+		}
+
+		public bool IsBusy
+		{
+			get { return _isBusy; }
+			set
+			{
+				lock (_syncLock)
+				{
+					_isBusy = value;
+				}
+			}
+		}
+
+		#endregion
+
 		#region IQueryBatchProvider Members
 
 		public QueryBatch Batch
@@ -77,7 +95,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 		{
 			if (e.Message == SystemMessage.TableTruncated)
 			{
-				if (TableName.Equals(e.Data) && AutoReload)
+				if (AutoReload && TableName.Equals(e.Data))
 				{
 					LoadTableData();
 				}
@@ -107,6 +125,8 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 		private void LoadTableData()
 		{
+			GetTablesAndViews();
+
 			DbDataAdapter adapter = null;
 			DbCommand cmd = null;
 			DataTable dt = null;
@@ -120,6 +140,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 			try
 			{
+				IsBusy = true;
 				UseWaitCursor = true;
 				dataGridViewResult.DataSource = null;
 				Application.DoEvents();
@@ -158,6 +179,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 					cmd.Dispose();
 				}
 				UseWaitCursor = false;
+				IsBusy = false;
 			}
 
 			if (query.Result != null && query.Result.Tables.Count > 0)
@@ -168,6 +190,19 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 			dataGridViewResult.DataSource = dt;
 			dataGridViewResult.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+		}
+
+		private void GetTablesAndViews()
+		{
+			if (_metaDataService == null)
+			{
+				_metaDataService = DatabaseMetaDataService.Create(_services.Settings.ConnectionDefinition.ProviderName);
+
+				DbModelInstance model = _metaDataService.GetDbObjectModel(_services.Settings.ConnectionDefinition.ConnectionString);
+				List<string> tableNames = new List<string>();
+				model.Tables.ForEach(t => tableNames.Add(Utility.MakeSqlFriendly(t.FullName)));
+				cboTableName.Items.AddRange(tableNames.ToArray());
+			}
 		}
 
 		private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
