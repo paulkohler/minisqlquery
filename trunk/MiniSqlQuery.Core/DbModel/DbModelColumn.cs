@@ -39,5 +39,6 @@ namespace MiniSqlQuery.Core.DbModel
 		public virtual bool IsReadOnly { get; set; }
 		public virtual bool IsWritable { get { return !IsReadOnly; } }
 		public virtual DbModelForiegnKeyReference ForiegnKeyReference { get; set; }
+		public virtual bool HasFK { get { return ForiegnKeyReference != null; } }
 	}
 }

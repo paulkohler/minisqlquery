@@ -55,6 +55,7 @@ namespace MiniSqlQuery.Tests.DbModel
 			var table = _model.Tables.First(t => t.Name == "Products");
 			var supplierIdColumn = table.Columns[1];
 			var categoryIdColumn = table.Columns[2];
+			var productNameColumn = table.Columns[3];
 
 			Assert.That(table.Columns.Count, Is.EqualTo(11));
 			Assert.That(table.PrimaryKeyColumns.Count, Is.EqualTo(1));
@@ -69,12 +70,16 @@ namespace MiniSqlQuery.Tests.DbModel
 			Assert.That(supplierIdColumn.ForiegnKeyReference.ReferenceColumn.Name, Is.EqualTo("Supplier ID"));
 			Assert.That(supplierIdColumn.ForiegnKeyReference.UpdateRule, Is.EqualTo("CASCADE"));
 			Assert.That(supplierIdColumn.ForiegnKeyReference.DeleteRule, Is.EqualTo("NO ACTION"));
+			Assert.That(supplierIdColumn.HasFK, Is.True);
 
 			Assert.That(categoryIdColumn.ForiegnKeyReference.OwningColumn.Name, Is.EqualTo("Category ID"));
 			Assert.That(categoryIdColumn.ForiegnKeyReference.ReferenceTable.Name, Is.EqualTo("Categories"));
 			Assert.That(categoryIdColumn.ForiegnKeyReference.ReferenceColumn.Name, Is.EqualTo("Category ID"));
 			Assert.That(categoryIdColumn.ForiegnKeyReference.UpdateRule, Is.EqualTo("CASCADE"));
 			Assert.That(categoryIdColumn.ForiegnKeyReference.DeleteRule, Is.EqualTo("NO ACTION"));
+
+			Assert.That(productNameColumn.HasFK, Is.False);
+			Assert.That(productNameColumn.Name, Is.EqualTo("Product Name"));
 		}
 	}
 }
