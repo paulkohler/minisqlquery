@@ -263,7 +263,7 @@
     <None Include="Templates\CSharp Model.cs.mt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\Empty.sql.mt">
+    <None Include="Templates\New.sql.mt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\Tables and Columns.txt.mt">
