@@ -74,5 +74,11 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		/// <value><c>true</c> if query batching is enabled; otherwise, <c>false</c>.</value>
 		bool EnableQueryBatching { get; set; }
+
+		/// <summary>
+		/// Gets, and increments, the "untitled document counter" starting at 1 for the "session".
+		/// </summary>
+		/// <value>The untitled document value.</value>
+		int GetUntitledDocumentCounter();
 	}
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Windows.Forms;
 using ICSharpCode.TextEditor.Document;
 using Microsoft.VisualBasic;
+using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -9,7 +11,6 @@ namespace MiniSqlQuery
 {
 	public partial class BasicEditor : DockContent, IEditor, IFindReplaceProvider, INavigatableDocument
 	{
-		private static int _untitledCounter = 1;
 		private readonly IApplicationServices _services;
 
 		private string _fileName;
@@ -250,8 +251,7 @@ namespace MiniSqlQuery
 			}
 			else
 			{
-				text += _untitledCounter;
-				_untitledCounter++;
+				text += _services.Settings.GetUntitledDocumentCounter();
 			}
 
 			text += dirty;
@@ -271,6 +271,31 @@ namespace MiniSqlQuery
 #else
 			panel1.Visible = false;
 #endif
+		}
+
+		private void BasicEditor_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (_isDirty)
+			{
+				DialogResult saveFile = _services.HostWindow.DisplayMessageBox(
+					this,
+					"Contents changed, do you want to save the file?\r\n" + TabText, "Save Changes?",
+					MessageBoxButtons.YesNoCancel,
+					MessageBoxIcon.Question,
+					MessageBoxDefaultButton.Button1,
+					0,
+					null,
+					null);
+
+				if (saveFile == DialogResult.Cancel)
+				{
+					e.Cancel = true;
+				}
+				else if (saveFile == DialogResult.Yes)
+				{
+					CommandManager.GetCommandInstance<SaveFileCommand>().Execute();
+				}
+			}
 		}
 	}
 }

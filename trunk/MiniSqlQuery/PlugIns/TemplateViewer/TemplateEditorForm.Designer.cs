@@ -50,6 +50,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			this.Name = "TemplateEditorForm";
 			this.Text = "TemplateEditorForm";
 			this.Load += new System.EventHandler(this.TemplateEditorForm_Load);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TemplateEditorForm_FormClosing);
 			this.ResumeLayout(false);
 
 		}

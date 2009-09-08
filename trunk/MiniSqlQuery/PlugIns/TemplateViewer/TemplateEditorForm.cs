@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using ICSharpCode.TextEditor.Document;
 using Microsoft.VisualBasic;
+using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
 using WeifenLuo.WinFormsUI.Docking;
+using System.Windows.Forms;
 
 namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
@@ -15,9 +17,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 	public partial class TemplateEditorForm : DockContent, IEditor, IFindReplaceProvider, INavigatableDocument, ITemplateEditor
 	{
-		private static int _untitledCounter = 1;
 		private readonly IApplicationServices _services;
-
 
 		private string _fileName;
 		private bool _highlightingProviderLoaded;
@@ -298,8 +298,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			}
 			else
 			{
-				text += _untitledCounter;
-				_untitledCounter++;
+				text += _services.Settings.GetUntitledDocumentCounter();
 			}
 
 			text += dirty;
@@ -310,6 +309,31 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		private void DocumentDocumentChanged(object sender, DocumentEventArgs e)
 		{
 			IsDirty = true;
+		}
+
+		private void TemplateEditorForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (_isDirty)
+			{
+				DialogResult saveFile = _services.HostWindow.DisplayMessageBox(
+					this,
+					"Contents changed, do you want to save the file?\r\n" + TabText, "Save Changes?",
+					MessageBoxButtons.YesNoCancel,
+					MessageBoxIcon.Question,
+					MessageBoxDefaultButton.Button1,
+					0,
+					null,
+					null);
+
+				if (saveFile == DialogResult.Cancel)
+				{
+					e.Cancel = true;
+				}
+				else if (saveFile == DialogResult.Yes)
+				{
+					CommandManager.GetCommandInstance<SaveFileCommand>().Execute();
+				}
+			}
 		}
 	}
 }

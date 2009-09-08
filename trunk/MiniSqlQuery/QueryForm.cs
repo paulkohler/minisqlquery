@@ -16,7 +16,6 @@ namespace MiniSqlQuery
 	public partial class QueryForm : DockContent, IQueryEditor, IPrintableContent
 	{
 		private static object _syncLock = new object();
-		private static int _untitledCounter = 1;
 		private readonly IApplicationServices _services;
 
 		private bool _highlightingProviderLoaded;
@@ -350,8 +349,7 @@ namespace MiniSqlQuery
 			}
 			else
 			{
-				text += _untitledCounter;
-				_untitledCounter++;
+				text += _services.Settings.GetUntitledDocumentCounter();
 			}
 
 			text += dirty;

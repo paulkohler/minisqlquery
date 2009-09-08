@@ -12,6 +12,7 @@ namespace MiniSqlQuery
 		private DbConnection _dbConnection;
 		private DbProviderFactory _dbProviderFactory;
 		private DbConnectionDefinitionList _definitionList;
+		private int _untitledDocumentCounter = 0;
 
 		public ApplicationSettings()
 		{
@@ -83,6 +84,11 @@ namespace MiniSqlQuery
 				Settings.Default.EnableQueryBatching = value;
 				Settings.Default.Save();
 			}
+		}
+
+		public int GetUntitledDocumentCounter()
+		{
+			return ++_untitledDocumentCounter;
 		}
 
 		public DbConnectionDefinitionList GetConnectionDefinitions()

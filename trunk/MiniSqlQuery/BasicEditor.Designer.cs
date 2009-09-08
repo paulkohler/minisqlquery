@@ -72,6 +72,7 @@
 			this.Name = "BasicEditor";
 			this.Text = "DefaultEditor";
 			this.Load += new System.EventHandler(this.BasicEditor_Load);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BasicEditor_FormClosing);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
