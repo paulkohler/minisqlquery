@@ -1,14 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Collections;
+using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Commands;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 {
 	public class ShowDatabaseInspectorCommand : CommandBase
 	{
-		DatabaseInspectorForm _inspectorForm;
-
 		public ShowDatabaseInspectorCommand()
 			: base("Show Database Inspector")
 		{
@@ -16,12 +14,12 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 
 		public override void Execute()
 		{
-			if (_inspectorForm == null)
+			DockContent databaseInspector = Services.Resolve<IDatabaseInspector>() as DockContent;
+			if (databaseInspector != null)
 			{
-				_inspectorForm = new DatabaseInspectorForm(Services);
+				Services.HostWindow.ShowDatabaseInspector(databaseInspector as IDatabaseInspector, DockState.DockLeft);
+				databaseInspector.Activate();
 			}
-			Services.HostWindow.ShowDatabaseInspector(_inspectorForm, WeifenLuo.WinFormsUI.Docking.DockState.DockLeft);
-			_inspectorForm.Activate();
 		}
 	}
 }

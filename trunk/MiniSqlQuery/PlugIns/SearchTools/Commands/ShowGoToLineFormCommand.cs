@@ -15,15 +15,15 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 
 		public override bool Enabled
 		{
-			get { return ApplicationServices.Instance.HostWindow.ActiveChildForm is INavigatableDocument; }
+			get { return Services.HostWindow.ActiveChildForm is INavigatableDocument; }
 		}
 
 		public override void Execute()
 		{
 			if (Enabled)
 			{
-				GoToLineForm frm = new GoToLineForm();
-				frm.ShowDialog(ApplicationServices.Instance.HostWindow as Form);
+				GoToLineForm frm = Services.Resolve<GoToLineForm>();
+				frm.ShowDialog(Services.HostWindow as Form);
 			}
 		}
 	}

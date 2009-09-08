@@ -19,7 +19,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 
 		public override bool Enabled
 		{
-			get { return ApplicationServices.Instance.HostWindow.ActiveChildForm is IFindReplaceProvider; }
+			get { return Services.HostWindow.ActiveChildForm is IFindReplaceProvider; }
 		}
 
 		public override void Execute()

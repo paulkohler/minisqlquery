@@ -18,11 +18,13 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		#endregion
 
 		private readonly IApplicationServices _services;
+		private readonly IDatabaseInspector _databaseInspector;
 		private ITextFormatter _formatter;
 
-		public TemplateModel(IApplicationServices services, ITextFormatter formatter)
+		public TemplateModel(IApplicationServices services, IDatabaseInspector databaseInspector, ITextFormatter formatter)
 		{
 			_services = services;
+			_databaseInspector = databaseInspector;
 			_formatter = formatter;
 		}
 
@@ -70,10 +72,18 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 		public TemplateResult ProcessTemplateFile(string filename, GetValueForParameter getValueForParameter)
 		{
-			string[] lines = File.ReadAllLines(filename);
-			string text;
 			Dictionary<string, object> items = new Dictionary<string, object>();
-			text = PreProcessTemplate(lines, getValueForParameter, items);
+			string[] lines = File.ReadAllLines(filename);
+
+			// file ext check
+			string ext = Path.GetExtension(filename);
+			string templateFilename = Path.GetFileNameWithoutExtension(filename);
+			if (ext.ToLower() == ".mt" && templateFilename.Contains("."))
+			{
+				items["extension"] = Path.GetExtension(templateFilename).Substring(1);
+			}
+
+			string text = PreProcessTemplate(lines, getValueForParameter, items);
 			return ProcessTemplate(text, items);
 		}
 
@@ -96,8 +106,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 					}
 					else if (line.StartsWith("#@set extension ", StringComparison.CurrentCultureIgnoreCase))
 					{
-						string ext = line.Substring("#@set extension ".Length);
-						items.Add("extension", ext);
+						items["extension"] = line.Substring("#@set extension ".Length);
 					}
 				}
 				else
@@ -115,11 +124,11 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		{
 			if (items != null)
 			{
-				if (_services.HostWindow.DatabaseInspector.DbSchema == null)
+				if (_databaseInspector.DbSchema == null)
 				{
-					_services.HostWindow.DatabaseInspector.LoadDatabaseDetails();
+					_databaseInspector.LoadDatabaseDetails();
 				}
-				TemplateHost data = new TemplateHost {Services = _services, Model = _services.HostWindow.DatabaseInspector.DbSchema};
+				TemplateHost data = new TemplateHost {Services = _services, Model = _databaseInspector.DbSchema};
 				items.Add("Host", data);
 				items.Add("Model", data.Model);
 			}

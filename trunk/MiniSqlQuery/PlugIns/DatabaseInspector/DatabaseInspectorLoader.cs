@@ -16,6 +16,8 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 
 		public override void InitializePlugIn() 
 		{
+			Services.RegisterSingletonComponent<IDatabaseInspector, DatabaseInspectorForm>("DatabaseInspector");
+
 			Services.HostWindow.AddPluginCommand<ShowDatabaseInspectorCommand>();
 			CommandManager.GetCommandInstance<ShowDatabaseInspectorCommand>().Execute();
 

@@ -366,7 +366,7 @@ namespace MiniSqlQuery
 
 		protected void UpdateHostStatus()
 		{
-			ApplicationServices.Instance.HostWindow.SetStatus(this, _status);
+			_services.HostWindow.SetStatus(this, _status);
 		}
 
 		public void ExecuteQuery(string sql)

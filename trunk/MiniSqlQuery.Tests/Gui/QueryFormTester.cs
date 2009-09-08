@@ -1,13 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
-using Moq;
 using NUnit.Extensions.Forms;
-using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using Rhino.Mocks;
 
 namespace MiniSqlQuery.Tests.Gui
 {
@@ -17,14 +15,11 @@ namespace MiniSqlQuery.Tests.Gui
 	/// </summary>
 	public class QueryFormTester : NUnitFormTest
 	{
-		protected IApplicationServices appServices;
-		protected IApplicationSettings appSettings;
-		protected IHostWindow hostWindow;
-		protected QueryForm queryForm;
-		protected IQueryEditor queryEditor;
-		protected Mock<IApplicationServices> appServicesMock;
-		protected Mock<IApplicationSettings> appSettingsMock;
-		protected Mock<IHostWindow> hostWindowMock;
+		protected IApplicationServices StubAppServices;
+		protected IApplicationSettings StubAppSettings;
+		protected IHostWindow StubHostWindow;
+		protected IQueryEditor QueryEditor;
+		protected QueryForm QueryForm;
 
 		public QueryFormTester()
 		{
@@ -46,8 +41,7 @@ namespace MiniSqlQuery.Tests.Gui
 		/// </summary>
 		public virtual void SetUpApplicationServicesMock()
 		{
-			appServicesMock = new Mock<IApplicationServices>(MockBehavior.Relaxed);
-			appServices = appServicesMock.Object;
+			StubAppServices = MockRepository.GenerateStub<IApplicationServices>();
 		}
 
 		/// <summary>
@@ -55,8 +49,7 @@ namespace MiniSqlQuery.Tests.Gui
 		/// </summary>
 		public virtual void SetUpApplicationSettingsMock()
 		{
-			appSettingsMock = new Mock<IApplicationSettings>(MockBehavior.Relaxed);
-			appSettings = appSettingsMock.Object;
+			StubAppSettings = MockRepository.GenerateStub<IApplicationSettings>();
 		}
 
 		/// <summary>
@@ -67,13 +60,8 @@ namespace MiniSqlQuery.Tests.Gui
 		/// </remarks>
 		public virtual void SetUpHostWindowMock()
 		{
-			hostWindowMock = new Mock<IHostWindow>(MockBehavior.Relaxed);
-			hostWindowMock.Expect(x => x.SetStatus(It.IsAny<Form>(), It.IsAny<string>()));
-			hostWindow = hostWindowMock.Object;
-
-			appServicesMock.Expect(s => s.HostWindow).Returns(hostWindow);
-
-			//ApplicationServices.Instance.HostWindow = hostWindow;
+			StubHostWindow = MockRepository.GenerateStub<IHostWindow>();
+			StubAppServices.Expect(services => services.HostWindow).Return(StubHostWindow).Repeat.Any();
 		}
 
 		/// <summary>
@@ -81,12 +69,11 @@ namespace MiniSqlQuery.Tests.Gui
 		/// </summary>
 		public virtual void ShowBasicForm()
 		{
-			queryForm = new QueryForm(appServices);
-			queryEditor = queryForm; // for reference by interface 
+			QueryForm = new QueryForm(StubAppServices);
+			QueryEditor = QueryForm; // for reference by interface 
 
-			queryForm.Show();
+			QueryForm.Show();
 			Application.DoEvents(); // ensure fully displayed
 		}
-
 	}
 }

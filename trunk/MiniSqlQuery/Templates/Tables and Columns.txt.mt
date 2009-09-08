@@ -1,5 +1,4 @@
-﻿#@set extension txt
-ConnectionString: "${Model.ConnectionString}"
+﻿ConnectionString: "${Model.ConnectionString}"
 ProviderName: "${Model.ProviderName}"
 
 #foreach ($table in ${Model.Tables})

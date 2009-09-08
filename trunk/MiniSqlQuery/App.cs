@@ -38,22 +38,22 @@ namespace MiniSqlQuery
 
 			ConfigureContainer(services);
 
-			ApplicationServices.Instance.LoadPlugIn(new CoreApplicationPlugIn());
-            ApplicationServices.Instance.LoadPlugIn(new ConnectionStringsManagerLoader());
-            ApplicationServices.Instance.LoadPlugIn(new DatabaseInspectorLoader());
-            ApplicationServices.Instance.LoadPlugIn(new ViewTableLoader());
-            ApplicationServices.Instance.LoadPlugIn(new TemplateViewerLoader());
-            ApplicationServices.Instance.LoadPlugIn(new SearchToolsLoader());
+			services.LoadPlugIn(new CoreApplicationPlugIn());
+			services.LoadPlugIn(new ConnectionStringsManagerLoader());
+			services.LoadPlugIn(new DatabaseInspectorLoader());
+			services.LoadPlugIn(new ViewTableLoader());
+			services.LoadPlugIn(new TemplateViewerLoader());
+			services.LoadPlugIn(new SearchToolsLoader());
 
 			IPlugIn[] plugins = PlugInUtility.GetInstances<IPlugIn>(Environment.CurrentDirectory, Settings.Default.PlugInFileFilter);
 			Array.Sort(plugins, new PlugInComparer());
 			foreach (IPlugIn plugin in plugins)
 			{
-				ApplicationServices.Instance.LoadPlugIn(plugin);
+				services.LoadPlugIn(plugin);
 			}
 
-            ApplicationServices.Instance.HostWindow.SetArguements(args);
-            Application.Run(ApplicationServices.Instance.HostWindow.Instance);
+			services.HostWindow.SetArguements(args);
+			Application.Run(services.HostWindow.Instance);
 		}
 
 		public static void ConfigureContainer(IApplicationServices services)

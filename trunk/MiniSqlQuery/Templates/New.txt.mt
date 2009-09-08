@@ -1,1 +1,1 @@
-﻿#@set extension txt
+﻿

@@ -120,7 +120,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 		protected void UpdateHostStatus()
 		{
-			ApplicationServices.Instance.HostWindow.SetStatus(this, _status);
+			_services.HostWindow.SetStatus(this, _status);
 		}
 
 		private void LoadTableData()
@@ -165,7 +165,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			catch (DbException dbExp)
 			{
 				// todo: improve!
-				ApplicationServices.Instance.HostWindow.DisplaySimpleMessageBox(this, dbExp.Message, "View Table Error");
+				_services.HostWindow.DisplaySimpleMessageBox(this, dbExp.Message, "View Table Error");
 				SetStatus(dbExp.Message);
 			}
 			finally

@@ -7,8 +7,11 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 {
 	public partial class GoToLineForm : Form
 	{
-		public GoToLineForm()
+		private readonly IApplicationServices _services;
+
+		public GoToLineForm(IApplicationServices services)
 		{
+			_services = services;
 			InitializeComponent();
 		}
 
@@ -20,7 +23,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 
 		private void GoToLineForm_Load(object sender, EventArgs e)
 		{
-			INavigatableDocument navDoc = ApplicationServices.Instance.HostWindow.ActiveChildForm as INavigatableDocument;
+			INavigatableDocument navDoc = _services.HostWindow.ActiveChildForm as INavigatableDocument;
 			if (navDoc != null)
 			{
 				LineValue = (navDoc.CursorLine + 1).ToString();
@@ -30,7 +33,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 
 		private void btnOk_Click(object sender, EventArgs e)
 		{
-			INavigatableDocument navDoc = ApplicationServices.Instance.HostWindow.ActiveChildForm as INavigatableDocument;
+			INavigatableDocument navDoc = _services.HostWindow.ActiveChildForm as INavigatableDocument;
 			if (navDoc != null)
 			{
 				int line;

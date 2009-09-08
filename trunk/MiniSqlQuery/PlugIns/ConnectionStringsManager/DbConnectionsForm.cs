@@ -71,9 +71,9 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			return DbConnectionDefinitionList.FromXml(Utility.LoadConnections());
 		}
 
-		private static void SaveConnectionDefinitions(DbConnectionDefinitionList data)
+		private void SaveConnectionDefinitions(DbConnectionDefinitionList data)
 		{
-			ApplicationServices.Instance.Settings.SetConnectionDefinitions(data);
+			Services.Settings.SetConnectionDefinitions(data);
 			Utility.SaveConnections(data);
 		}
 

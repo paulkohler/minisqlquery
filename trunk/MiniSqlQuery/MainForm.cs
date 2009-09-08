@@ -13,7 +13,7 @@ namespace MiniSqlQuery
 		private string[] _arguements;
 		private IDatabaseInspector _dbInspector;
 		private bool _initialized;
-		private IApplicationServices _services;
+		private readonly IApplicationServices _services;
 
 		public MainForm(IApplicationServices services)
 			: this()
@@ -179,7 +179,7 @@ namespace MiniSqlQuery
 			if (_initialized)
 			{
 				DbConnectionDefinition dbConnectionDefinition = (DbConnectionDefinition) toolStripComboBoxConnection.SelectedItem;
-				ApplicationServices.Instance.Settings.ConnectionDefinition = dbConnectionDefinition;
+				_services.Settings.ConnectionDefinition = dbConnectionDefinition;
 				SetWindowTitle(dbConnectionDefinition.Name);
 			}
 		}

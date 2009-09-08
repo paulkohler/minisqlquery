@@ -17,6 +17,8 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 
 		public override void InitializePlugIn()
 		{
+			Services.RegisterComponent<GoToLineForm>("GoToLineForm");
+
 			ToolStripMenuItem editMenu = Services.HostWindow.GetMenuItem("edit");
 
 			// add the find to the plugins menu

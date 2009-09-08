@@ -1,4 +1,3 @@
-#@set extension cs
 #foreach ($table in $Model.Tables)
 public class ${table.Name}
 {
