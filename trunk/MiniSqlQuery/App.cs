@@ -7,6 +7,7 @@ using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.DbModel;
+using MiniSqlQuery.Core.Forms;
 using MiniSqlQuery.Core.Template;
 using MiniSqlQuery.PlugIns;
 using MiniSqlQuery.PlugIns.ConnectionStringsManager;
@@ -70,6 +71,7 @@ namespace MiniSqlQuery
 			services.RegisterComponent<ISqlWriter, SqlWriter>("DefaultSqlWriter");
 			services.RegisterComponent<ITextFormatter, NVelocityWrapper>("TextFormatter");
 			services.RegisterComponent<TemplateModel>("TemplateModel");
+			services.RegisterComponent<BatchQuerySelectForm>("BatchQuerySelectForm");
 		}
 
 		private static void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)

@@ -1,4 +1,4 @@
-﻿namespace MiniSqlQuery.PlugIns.ViewTable
+namespace MiniSqlQuery.PlugIns.ViewTable
 {
 	partial class ViewTableForm
 	{

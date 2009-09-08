@@ -13,6 +13,8 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 		public override void InitializePlugIn()
 		{
+			Services.RegisterComponent<IViewTable, ViewTableForm>("ViewTableForm");
+
 			// the DB inspector may not be present
 			if (Services.HostWindow.DatabaseInspector != null)
 			{

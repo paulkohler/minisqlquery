@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using MiniSqlQuery.Core.Commands;
-using System.Windows.Forms;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.Commands;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.PlugIns.ViewTable.Commands
 {
@@ -21,9 +21,9 @@ namespace MiniSqlQuery.PlugIns.ViewTable.Commands
 			string tableName = Services.HostWindow.DatabaseInspector.RightClickedTableName;
 			if (tableName != null)
 			{
-				ViewTableForm frm = new ViewTableForm(Services, tableName);
-				frm.Text = tableName;
-				Services.HostWindow.DisplayDockedForm(frm);
+				IViewTable frm = Services.Resolve<IViewTable>();
+				frm.TableName = tableName;
+				Services.HostWindow.DisplayDockedForm(frm as DockContent);
 			}
 		}
 	}

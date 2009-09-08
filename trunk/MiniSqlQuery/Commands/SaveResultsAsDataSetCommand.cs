@@ -33,7 +33,7 @@ namespace MiniSqlQuery.Commands
 				{
 					if (batchProvider.Batch.Queries.Count > 1)
 					{
-						BatchQuerySelectForm querySelectForm = new BatchQuerySelectForm();
+						BatchQuerySelectForm querySelectForm = Services.Resolve<BatchQuerySelectForm>();
 						querySelectForm.Fill(batchProvider.Batch);
 						querySelectForm.ShowDialog();
 						if (querySelectForm.DialogResult == DialogResult.OK)

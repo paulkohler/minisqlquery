@@ -9,27 +9,29 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.PlugIns.ViewTable
 {
-	public partial class ViewTableForm : DockContent, IPerformTask, IQueryBatchProvider, INavigatableDocument
+	public partial class ViewTableForm : DockContent, IViewTable
 	{
-		private QueryBatch _batch;
+		private readonly QueryBatch _batch;
+		private readonly IApplicationServices _services;
+		private readonly object _syncLock = new object();
+
 		private DbConnection _dbConnection;
 		private bool _isBusy;
 		private IDatabaseSchemaService _metaDataService;
-		private IApplicationServices _services;
 		private string _status = string.Empty;
-		private object _syncLock = new object();
 
 		public ViewTableForm()
 		{
 			InitializeComponent();
 		}
 
-		public ViewTableForm(IApplicationServices services, string tableName)
+		public ViewTableForm(IApplicationServices services)
 			: this()
 		{
 			_services = services;
 			_batch = new QueryBatch();
-			TableName = tableName;
+			TableName = string.Empty;
+			Text = "View Data";
 
 			_services.Settings.DatabaseConnectionReset += SettingsDatabaseConnectionReset;
 			_services.SystemMessagePosted += ServicesSystemMessagePosted;
@@ -161,12 +163,14 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 				adapter.SelectCommand = cmd;
 				adapter.Fill(query.Result);
 				SetStatus(string.Format("Loaded table '{0}'", TableName));
+				Text = TableName;
 			}
 			catch (DbException dbExp)
 			{
 				// todo: improve!
 				_services.HostWindow.DisplaySimpleMessageBox(this, dbExp.Message, "View Table Error");
 				SetStatus(dbExp.Message);
+				Text = "View Data Error";
 			}
 			finally
 			{
@@ -200,14 +204,10 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 				DbModelInstance model = _metaDataService.GetDbObjectModel(_services.Settings.ConnectionDefinition.ConnectionString);
 				List<string> tableNames = new List<string>();
-				model.Tables.ForEach(t => tableNames.Add(Utility.MakeSqlFriendly(t.FullName)));
+				model.Tables.ForEach(table => tableNames.Add(Utility.MakeSqlFriendly(table.FullName)));
+				model.Views.ForEach(view => tableNames.Add(Utility.MakeSqlFriendly(view.FullName)));
 				cboTableName.Items.AddRange(tableNames.ToArray());
 			}
-		}
-
-		private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			LoadTableData();
 		}
 
 		private void lnkRefresh_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -218,10 +218,6 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 		private void dataGridViewResult_DataError(object sender, DataGridViewDataErrorEventArgs e)
 		{
 			e.ThrowException = false;
-		}
-
-		private void queryToolStripMenuItem_Click(object sender, EventArgs e)
-		{
 		}
 
 		#region Implementation of ISupportCursorOffset

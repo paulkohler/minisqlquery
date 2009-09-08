@@ -138,7 +138,7 @@ namespace MiniSqlQuery.Core
 
 			plugIn.LoadPlugIn(this);
 			_plugins.Add(plugIn.GetType(), plugIn);
-			_container.AddComponent(plugIn.PluginName, typeof (IPlugIn), plugIn.GetType());
+			_container.AddComponent(plugIn.GetType().FullName, typeof(IPlugIn), plugIn.GetType());
 		}
 
 		/// <summary>

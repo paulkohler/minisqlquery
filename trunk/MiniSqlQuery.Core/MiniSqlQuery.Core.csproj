@@ -168,6 +168,7 @@
     <Compile Include="CommandControlBuilder.cs" />
     <Compile Include="ISupportCursorOffset.cs" />
     <Compile Include="ITextFindService.cs" />
+    <Compile Include="IViewTable.cs" />
     <Compile Include="ObjectTypes.cs" />
     <Compile Include="PlugInComparer.cs" />
     <Compile Include="PluginLoaderBase.cs" />
