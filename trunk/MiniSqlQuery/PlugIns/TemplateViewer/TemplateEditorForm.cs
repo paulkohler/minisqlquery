@@ -10,11 +10,6 @@ using System.Windows.Forms;
 
 namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
-	public interface ITemplateEditor : IPerformTask
-	{
-		void RunTemplate();
-	}
-
 	public partial class TemplateEditorForm : DockContent, IEditor, IFindReplaceProvider, INavigatableDocument, ITemplateEditor
 	{
 		private readonly IApplicationServices _services;

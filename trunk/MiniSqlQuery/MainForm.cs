@@ -272,6 +272,8 @@ namespace MiniSqlQuery
 			{
 				plugin.UnloadPlugIn();
 			}
+
+			_services.Container.Dispose();
 		}
 
 		private void MainForm_MdiChildActivate(object sender, EventArgs e)

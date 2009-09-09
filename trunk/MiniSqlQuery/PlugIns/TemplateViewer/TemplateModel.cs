@@ -17,8 +17,8 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 		#endregion
 
-		private readonly IApplicationServices _services;
 		private readonly IDatabaseInspector _databaseInspector;
+		private readonly IApplicationServices _services;
 		private ITextFormatter _formatter;
 
 		public TemplateModel(IApplicationServices services, IDatabaseInspector databaseInspector, ITextFormatter formatter)
@@ -122,25 +122,34 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 		public TemplateResult ProcessTemplate(string text, Dictionary<string, object> items)
 		{
-			if (items != null)
+			if (items == null)
 			{
-				if (_databaseInspector.DbSchema == null)
-				{
-					_databaseInspector.LoadDatabaseDetails();
-				}
-				TemplateHost host = _services.Resolve<TemplateHost>();
-				host.Model = _databaseInspector.DbSchema;
-				items.Add("Host", host);
-				items.Add("Model", host.Model);
-				items.Add("Data", new TemplateData(_services));
+				items = new Dictionary<string, object>();
 			}
 
-			TemplateResult result = new TemplateResult();
-			result.Text = _formatter.Format(text, items);
-			result.Extension = "sql";
-			if (items != null && items.ContainsKey("extension"))
+			if (_databaseInspector.DbSchema == null)
 			{
-				result.Extension = (string) items["extension"];
+				_databaseInspector.LoadDatabaseDetails();
+			}
+
+			TemplateResult result;
+
+			using (TemplateHost host = _services.Resolve<TemplateHost>())
+			{
+				host.Model = _databaseInspector.DbSchema;
+				host.Data = _services.Resolve<TemplateData>();
+
+				items.Add("Host", host);
+				items.Add("Model", host.Model);
+				items.Add("Data", host.Data);
+
+				result = new TemplateResult();
+				result.Text = _formatter.Format(text, items);
+				result.Extension = "sql";
+				if (items.ContainsKey("extension"))
+				{
+					result.Extension = (string) items["extension"];
+				}
 			}
 
 			return result;

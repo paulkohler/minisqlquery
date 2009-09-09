@@ -6,7 +6,7 @@ using MiniSqlQuery.Core;
 
 namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
-	public class TemplateData
+	public class TemplateData : IDisposable
 	{
 		private DbConnection _dbConnection;
 		Dictionary<string, DataTable> _dataTables = new Dictionary<string, DataTable>();
@@ -79,6 +79,13 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			return dt;
 		}
 
-		// to do - helper functions for changing names too code friendly etc
+		public void Dispose()
+		{
+			if (_dbConnection != null)
+			{
+				_dbConnection.Dispose();
+				_dbConnection = null;
+			}
+		}
 	}
 }

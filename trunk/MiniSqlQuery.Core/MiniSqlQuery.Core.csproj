@@ -192,6 +192,7 @@
     <Compile Include="SystemMessage.cs" />
     <Compile Include="SystemMessageEventArgs.cs" />
     <Compile Include="Template\NVelocityWrapper.cs" />
+    <Compile Include="Template\TemplateException.cs" />
     <Compile Include="Template\TextFormatter.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>

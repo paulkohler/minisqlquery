@@ -4,7 +4,7 @@ using MiniSqlQuery.Core.DbModel;
 
 namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
-	public class TemplateHost
+	public class TemplateHost:IDisposable
 	{
 		public TemplateHost(IApplicationServices services)
 		{
@@ -13,6 +13,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 		public IApplicationServices Services { get; private set; }
 		public DbModelInstance Model { get; set; }
+		public TemplateData Data { get; set; }
 
 		public string MachineName
 		{
@@ -30,5 +31,12 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		}
 
 		// to do - helper functions for changing names too code friendly etc
+		public void Dispose()
+		{
+			if (Data != null)
+			{
+				Data.Dispose();
+			}
+		}
 	}
 }
