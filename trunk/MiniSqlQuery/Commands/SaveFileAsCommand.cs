@@ -20,7 +20,7 @@ namespace MiniSqlQuery.Commands
 			{
 				SaveFileDialog saveFileDialog = new SaveFileDialog();
 				saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
-				saveFileDialog.Filter = Services.Settings.DefaultFileFilter;
+				saveFileDialog.Filter = Settings.DefaultFileFilter;
 				if (saveFileDialog.ShowDialog(Services.HostWindow.Instance) == DialogResult.OK)
 				{
 					// what if this filename covers an existing open window?

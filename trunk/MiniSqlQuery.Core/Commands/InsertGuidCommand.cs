@@ -18,5 +18,13 @@ namespace MiniSqlQuery.Core.Commands
 				queryForm.InsertText(Guid.NewGuid().ToString());
 			}
 		}
+
+		public override bool Enabled
+		{
+			get
+			{
+				return ActiveFormAsEditor != null;
+			}
+		}
 	}
 }

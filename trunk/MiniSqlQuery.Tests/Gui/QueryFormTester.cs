@@ -69,7 +69,7 @@ namespace MiniSqlQuery.Tests.Gui
 		/// </summary>
 		public virtual void ShowBasicForm()
 		{
-			QueryForm = new QueryForm(StubAppServices);
+			QueryForm = new QueryForm(StubAppServices, StubAppSettings);
 			QueryEditor = QueryForm; // for reference by interface 
 
 			QueryForm.Show();

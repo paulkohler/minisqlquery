@@ -17,7 +17,7 @@ namespace MiniSqlQuery.Core.Commands
 			try
 			{
 				Services.HostWindow.SetPointerState(Cursors.WaitCursor);
-				Services.Settings.ResetConnection();
+				Settings.ResetConnection();
 				Services.HostWindow.SetStatus(null, "Connection reset");
 			}
 			finally

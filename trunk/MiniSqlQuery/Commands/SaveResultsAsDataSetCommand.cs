@@ -56,7 +56,7 @@ namespace MiniSqlQuery.Commands
 				{
 					saveFileDialog.Title = "Save Results as DataSet XML";
 					saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
-					saveFileDialog.Filter = Settings.Default.XmlFileDialogFilter;
+					saveFileDialog.Filter = Properties.Settings.Default.XmlFileDialogFilter;
 
 					if (saveFileDialog.ShowDialog(Services.HostWindow.Instance) == DialogResult.OK)
 					{

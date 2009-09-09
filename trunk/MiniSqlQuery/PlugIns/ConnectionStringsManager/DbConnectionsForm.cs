@@ -8,6 +8,8 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 {
 	public partial class DbConnectionsForm : Form
 	{
+		private readonly IApplicationSettings _settings;
+		private readonly IApplicationServices _services;
 		private DbConnectionDefinitionList _definitionList;
 
 		public DbConnectionsForm()
@@ -20,13 +22,13 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			Icon = ImageResource.disconnect_icon;
 		}
 
-		public DbConnectionsForm(IApplicationServices services)
+		public DbConnectionsForm(IApplicationServices services, IApplicationSettings settings)
 			: this()
 		{
-			Services = services;
+			_settings = settings;
+			_services = services;
 		}
 
-		public IApplicationServices Services { get; private set; }
 
 		private void DbConnectionsForm_Shown(object sender, EventArgs e)
 		{
@@ -73,7 +75,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 
 		private void SaveConnectionDefinitions(DbConnectionDefinitionList data)
 		{
-			Services.Settings.SetConnectionDefinitions(data);
+			_settings.SetConnectionDefinitions(data);
 			Utility.SaveConnections(data);
 		}
 
@@ -150,12 +152,12 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 
 			if (definition == null)
 			{
-				frm = new ConnectionStringBuilderForm(Services); // new blank form
+				frm = new ConnectionStringBuilderForm(_services); // new blank form
 			}
 			else
 			{
 				oldName = definition.Name;
-				frm = new ConnectionStringBuilderForm(definition, Services);
+				frm = new ConnectionStringBuilderForm(definition, _services);
 			}
 
 			frm.ShowDialog(this);
@@ -212,12 +214,12 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 				if (exp == null)
 				{
 					string msg = string.Format("Connected to '{0}' successfully.", definition.Name);
-					Services.HostWindow.DisplaySimpleMessageBox(this, msg, "Connection Successful");
+					_services.HostWindow.DisplaySimpleMessageBox(this, msg, "Connection Successful");
 				}
 				else
 				{
 					string msg = string.Format("Failed connecting to '{0}'.{1}{2}", definition.Name, Environment.NewLine, exp.Message);
-					Services.HostWindow.DisplaySimpleMessageBox(this, msg, "Connection Failed");
+					_services.HostWindow.DisplaySimpleMessageBox(this, msg, "Connection Failed");
 				}
 			}
 		}

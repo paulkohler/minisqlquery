@@ -12,7 +12,6 @@ namespace MiniSqlQuery.Core.Commands
 	public abstract class CommandBase : ICommand
 	{
 		private string _name;
-		private IApplicationServices _services;
 		private Keys _shortcutKeys;
 		private Image _smallImage;
 
@@ -88,11 +87,13 @@ namespace MiniSqlQuery.Core.Commands
 		/// A reference to the application services to allow access to the other components.
 		/// </summary>
 		/// <value>A reference to the <see cref="IApplicationServices"/> instance.</value>
-		public IApplicationServices Services
-		{
-			get { return _services; }
-			set { _services = value; }
-		}
+		public IApplicationServices Services { get; set; }
+
+		/// <summary>
+		/// Gets a reference to the application settings.
+		/// </summary>
+		/// <value>The application settings.</value>
+		public IApplicationSettings Settings { get; set; }
 
 		/// <summary>
 		/// Executes the command based on the current settings (abstract).

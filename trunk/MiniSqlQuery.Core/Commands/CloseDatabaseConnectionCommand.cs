@@ -16,15 +16,15 @@ namespace MiniSqlQuery.Commands
 
 		public override void Execute()
 		{
-			Services.Settings.CloseConnection();
+			Settings.CloseConnection();
 		}
 
 		public override bool Enabled
 		{
 			get
 			{
-				if (Services.Settings.Connection.State == ConnectionState.Closed && 
-					Services.Settings.Connection.State == ConnectionState.Broken)
+				if (Settings.Connection.State == ConnectionState.Closed && 
+					Settings.Connection.State == ConnectionState.Broken)
 				{
 					return false;
 				}

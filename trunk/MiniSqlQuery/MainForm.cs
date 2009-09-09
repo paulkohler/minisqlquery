@@ -14,11 +14,13 @@ namespace MiniSqlQuery
 		private IDatabaseInspector _dbInspector;
 		private bool _initialized;
 		private readonly IApplicationServices _services;
+		private readonly IApplicationSettings _settings;
 
-		public MainForm(IApplicationServices services)
+		public MainForm(IApplicationServices services, IApplicationSettings settings)
 			: this()
 		{
 			_services = services;
+			_settings = settings;
 		}
 
 		public MainForm()
@@ -179,17 +181,17 @@ namespace MiniSqlQuery
 			if (_initialized)
 			{
 				DbConnectionDefinition dbConnectionDefinition = (DbConnectionDefinition) toolStripComboBoxConnection.SelectedItem;
-				_services.Settings.ConnectionDefinition = dbConnectionDefinition;
+				_settings.ConnectionDefinition = dbConnectionDefinition;
 				SetWindowTitle(dbConnectionDefinition.Name);
 			}
 		}
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			_services.Settings.ConnectionDefinitionsChanged += AppSettingsConnectionDefinitionsChanged;
+			_settings.ConnectionDefinitionsChanged += AppSettingsConnectionDefinitionsChanged;
 
 			Utility.CreateConnectionStringsIfRequired();
-			_services.Settings.SetConnectionDefinitions(Utility.LoadDbConnectionDefinitions());
+			_settings.SetConnectionDefinitions(Utility.LoadDbConnectionDefinitions());
 		}
 
 
@@ -200,7 +202,7 @@ namespace MiniSqlQuery
 
 		private void LoadUpConnections()
 		{
-			DbConnectionDefinitionList definitionList = _services.Settings.GetConnectionDefinitions();
+			DbConnectionDefinitionList definitionList = _settings.GetConnectionDefinitions();
 
 			// TODO - prevent the "reset"
 			toolStripComboBoxConnection.Items.Clear();
@@ -210,7 +212,7 @@ namespace MiniSqlQuery
 				if (connDef.ToString() == Settings.Default.NammedConnection)
 				{
 					toolStripComboBoxConnection.SelectedItem = connDef;
-					_services.Settings.ConnectionDefinition = connDef;
+					_settings.ConnectionDefinition = connDef;
 					SetWindowTitle(connDef.Name);
 				}
 			}
@@ -260,9 +262,9 @@ namespace MiniSqlQuery
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (_services.Settings.ConnectionDefinition != null)
+			if (_settings.ConnectionDefinition != null)
 			{
-				Settings.Default.NammedConnection = _services.Settings.ConnectionDefinition.ToString();
+				Settings.Default.NammedConnection = _settings.ConnectionDefinition.ToString();
 				Settings.Default.Save();
 			}
 

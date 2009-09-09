@@ -12,17 +12,19 @@ namespace MiniSqlQuery
 	public partial class BasicEditor : DockContent, IEditor, IFindReplaceProvider, INavigatableDocument
 	{
 		private readonly IApplicationServices _services;
+		private readonly IApplicationSettings _settings;
 
 		private string _fileName;
 		private bool _highlightingProviderLoaded;
 		private bool _isDirty;
 		private ITextFindService _textFindService;
 
-		public BasicEditor(IApplicationServices services)
+		public BasicEditor(IApplicationServices services, IApplicationSettings settings)
 		{
 			InitializeComponent();
 			txtEdit.Document.DocumentChanged += DocumentDocumentChanged;
 			_services = services;
+			_settings = settings;
 		}
 
 		#region IEditor Members
@@ -251,7 +253,7 @@ namespace MiniSqlQuery
 			}
 			else
 			{
-				text += _services.Settings.GetUntitledDocumentCounter();
+				text += _settings.GetUntitledDocumentCounter();
 			}
 
 			text += dirty;

@@ -5,7 +5,7 @@ namespace MiniSqlQuery
 {
 	public class BasicAspxEditor : BasicEditor
 	{
-		public BasicAspxEditor(IApplicationServices services) : base(services)
+		public BasicAspxEditor(IApplicationServices services, IApplicationSettings settings) : base(services, settings)
 		{
 			SetSyntax("ASP/XHTML");
 		}
@@ -13,7 +13,7 @@ namespace MiniSqlQuery
 
 	public class BasicBatchEditor : BasicEditor
 	{
-		public BasicBatchEditor(IApplicationServices services) : base(services)
+		public BasicBatchEditor(IApplicationServices services, IApplicationSettings settings) : base(services, settings)
 		{
 			SetSyntax("BAT");
 		}
@@ -21,7 +21,7 @@ namespace MiniSqlQuery
 
 	public class BasicBooEditor : BasicEditor
 	{
-		public BasicBooEditor(IApplicationServices services) : base(services)
+		public BasicBooEditor(IApplicationServices services, IApplicationSettings settings) : base(services, settings)
 		{
 			SetSyntax("Boo");
 		}
@@ -29,7 +29,7 @@ namespace MiniSqlQuery
 
 	public class BasicCocoEditor : BasicEditor
 	{
-		public BasicCocoEditor(IApplicationServices services) : base(services)
+		public BasicCocoEditor(IApplicationServices services, IApplicationSettings settings) : base(services, settings)
 		{
 			SetSyntax("Coco");
 		}
@@ -37,7 +37,7 @@ namespace MiniSqlQuery
 
 	public class BasicCPlusPlusEditor : BasicEditor
 	{
-		public BasicCPlusPlusEditor(IApplicationServices services) : base(services)
+		public BasicCPlusPlusEditor(IApplicationServices services, IApplicationSettings settings) : base(services, settings)
 		{
 			SetSyntax("C++.NET");
 		}
@@ -45,7 +45,7 @@ namespace MiniSqlQuery
 
 	public class BasicCSharpEditor : BasicEditor
 	{
-		public BasicCSharpEditor(IApplicationServices services) : base(services)
+		public BasicCSharpEditor(IApplicationServices services, IApplicationSettings settings) : base(services, settings)
 		{
 			SetSyntax("C#");
 		}
@@ -53,7 +53,7 @@ namespace MiniSqlQuery
 
 	public class BasicHtmlEditor : BasicEditor
 	{
-		public BasicHtmlEditor(IApplicationServices services) : base(services)
+		public BasicHtmlEditor(IApplicationServices services, IApplicationSettings settings) : base(services, settings)
 		{
 			SetSyntax("HTML");
 		}
@@ -61,7 +61,7 @@ namespace MiniSqlQuery
 
 	public class BasicJavaEditor : BasicEditor
 	{
-		public BasicJavaEditor(IApplicationServices services) : base(services)
+		public BasicJavaEditor(IApplicationServices services, IApplicationSettings settings) : base(services, settings)
 		{
 			SetSyntax("Java");
 		}
@@ -69,7 +69,7 @@ namespace MiniSqlQuery
 
 	public class BasicJavaScriptEditor : BasicEditor
 	{
-		public BasicJavaScriptEditor(IApplicationServices services) : base(services)
+		public BasicJavaScriptEditor(IApplicationServices services, IApplicationSettings settings) : base(services, settings)
 		{
 			SetSyntax("JavaScript");
 		}
@@ -77,7 +77,7 @@ namespace MiniSqlQuery
 
 	public class BasicPatchEditor : BasicEditor
 	{
-		public BasicPatchEditor(IApplicationServices services) : base(services)
+		public BasicPatchEditor(IApplicationServices services, IApplicationSettings settings) : base(services, settings)
 		{
 			SetSyntax("Patch");
 		}
@@ -85,7 +85,7 @@ namespace MiniSqlQuery
 
 	public class BasicPhpEditor : BasicEditor
 	{
-		public BasicPhpEditor(IApplicationServices services) : base(services)
+		public BasicPhpEditor(IApplicationServices services, IApplicationSettings settings) : base(services, settings)
 		{
 			SetSyntax("PHP");
 		}
@@ -93,7 +93,7 @@ namespace MiniSqlQuery
 
 	public class BasicTexEditor : BasicEditor
 	{
-		public BasicTexEditor(IApplicationServices services) : base(services)
+		public BasicTexEditor(IApplicationServices services, IApplicationSettings settings) : base(services, settings)
 		{
 			SetSyntax("TeX");
 		}
@@ -101,7 +101,7 @@ namespace MiniSqlQuery
 
 	public class BasicVbNetEditor : BasicEditor
 	{
-		public BasicVbNetEditor(IApplicationServices services) : base(services)
+		public BasicVbNetEditor(IApplicationServices services, IApplicationSettings settings) : base(services, settings)
 		{
 			SetSyntax("VBNET");
 		}
@@ -109,7 +109,7 @@ namespace MiniSqlQuery
 
 	public class BasicXmlEditor : BasicEditor
 	{
-		public BasicXmlEditor(IApplicationServices services) : base(services)
+		public BasicXmlEditor(IApplicationServices services, IApplicationSettings settings) : base(services, settings)
 		{
 			SetSyntax("XML");
 		}

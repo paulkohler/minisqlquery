@@ -28,7 +28,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 				try
 				{
 					Services.HostWindow.SetPointerState(Cursors.WaitCursor);
-					dbConnection = Services.Settings.GetOpenConnection();
+					dbConnection = Settings.GetOpenConnection();
 					cmd = dbConnection.CreateCommand();
 					cmd.CommandText = "DELETE FROM " + tableName;
 					cmd.CommandType = CommandType.Text;

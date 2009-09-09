@@ -12,12 +12,12 @@ namespace MiniSqlQuery.Core.Commands
 
 		public override bool Enabled
 		{
-			get { return Services.Settings.EnableQueryBatching == false; }
+			get { return Settings.EnableQueryBatching == false; }
 		}
 
 		public override void Execute()
 		{
-			Services.Settings.EnableQueryBatching = true;
+			Settings.EnableQueryBatching = true;
 		}
 	}
 }

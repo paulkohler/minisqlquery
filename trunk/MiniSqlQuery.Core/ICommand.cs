@@ -53,6 +53,12 @@ namespace MiniSqlQuery.Core
 		IApplicationServices Services { get; set; }
 
 		/// <summary>
+		/// Gets a reference to the application settings.
+		/// </summary>
+		/// <value>The application settings.</value>
+		IApplicationSettings Settings { get; set; }
+
+		/// <summary>
 		/// Gets the shortcut key text to be displayed as help.
 		/// </summary>
 		/// <value>The shortcut keys text.</value>

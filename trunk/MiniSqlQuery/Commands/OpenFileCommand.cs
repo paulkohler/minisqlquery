@@ -23,7 +23,7 @@ namespace MiniSqlQuery.Commands
         {
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
-			openFileDialog.Filter = Services.Settings.DefaultFileFilter;
+			openFileDialog.Filter = Settings.DefaultFileFilter;
 			openFileDialog.CheckFileExists = true;
 			if (openFileDialog.ShowDialog(Services.HostWindow.Instance) == DialogResult.OK)
 			{

@@ -17,6 +17,7 @@ namespace MiniSqlQuery
 	{
 		private static object _syncLock = new object();
 		private readonly IApplicationServices _services;
+		private readonly IApplicationSettings _settings;
 
 		private bool _highlightingProviderLoaded;
 		private bool _isDirty;
@@ -45,10 +46,11 @@ namespace MiniSqlQuery
 			CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(editorContextMenuStrip);
 		}
 
-		public QueryForm(IApplicationServices services)
+		public QueryForm(IApplicationServices services, IApplicationSettings settings)
 			: this()
 		{
 			_services = services;
+			_settings = settings;
 		}
 
 		#region IPrintableContent Members
@@ -349,7 +351,7 @@ namespace MiniSqlQuery
 			}
 			else
 			{
-				text += _services.Settings.GetUntitledDocumentCounter();
+				text += _settings.GetUntitledDocumentCounter();
 			}
 
 			text += dirty;
@@ -369,8 +371,6 @@ namespace MiniSqlQuery
 
 		public void ExecuteQuery(string sql)
 		{
-			IApplicationSettings settings = _services.Settings;
-
 			if (IsBusy)
 			{
 				_services.HostWindow.DisplaySimpleMessageBox(this, "Please wait for the current operation to complete.", "Busy");
@@ -382,7 +382,7 @@ namespace MiniSqlQuery
 				IsBusy = true;
 			}
 
-			_runner = QueryRunner.Create(settings.ProviderFactory, settings.ConnectionDefinition.ConnectionString, settings.EnableQueryBatching);
+			_runner = QueryRunner.Create(_settings.ProviderFactory, _settings.ConnectionDefinition.ConnectionString, _settings.EnableQueryBatching);
 			UseWaitCursor = true;
 			queryBackgroundWorker.RunWorkerAsync(sql);
 		}

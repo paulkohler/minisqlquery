@@ -63,6 +63,7 @@ namespace MiniSqlQuery.Core
 			{
 				cmd = new TCommand();
 				cmd.Services = ApplicationServices.Instance;
+				cmd.Settings = ApplicationServices.Instance.Settings;
 				CommandCache[typeof (TCommand)] = cmd;
 			}
 
