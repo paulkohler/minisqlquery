@@ -161,6 +161,7 @@
     <Compile Include="PlugIns\SearchTools\SearchToolsCommon.cs" />
     <Compile Include="PlugIns\TemplateViewer\Commands\NewQueryByTemplateCommand.cs" />
     <Compile Include="PlugIns\TemplateViewer\Commands\RunTemplateCommand.cs" />
+    <Compile Include="PlugIns\TemplateViewer\TemplateData.cs" />
     <Compile Include="PlugIns\TemplateViewer\TemplateHost.cs" />
     <Compile Include="PlugIns\TemplateViewer\TemplateEditorForm.cs">
       <SubType>Form</SubType>

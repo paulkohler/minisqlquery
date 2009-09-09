@@ -6,7 +6,12 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
 	public class TemplateHost
 	{
-		public IApplicationServices Services { get; set; }
+		public TemplateHost(IApplicationServices services)
+		{
+			Services = services;
+		}
+
+		public IApplicationServices Services { get; private set; }
 		public DbModelInstance Model { get; set; }
 
 		public string MachineName

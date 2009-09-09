@@ -26,8 +26,6 @@ namespace MiniSqlQuery.Tests.Templates
 			_model = new TemplateModel(_services, _databaseInspector, new NVelocityWrapper());
 		}
 
-		// todo ParseErrorException
-		
 		[Test]
 		public void ModelData_parameters_are_precessed()
 		{

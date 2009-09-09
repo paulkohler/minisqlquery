@@ -128,9 +128,11 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				{
 					_databaseInspector.LoadDatabaseDetails();
 				}
-				TemplateHost data = new TemplateHost {Services = _services, Model = _databaseInspector.DbSchema};
-				items.Add("Host", data);
-				items.Add("Model", data.Model);
+				TemplateHost host = _services.Resolve<TemplateHost>();
+				host.Model = _databaseInspector.DbSchema;
+				items.Add("Host", host);
+				items.Add("Model", host.Model);
+				items.Add("Data", new TemplateData(_services));
 			}
 
 			TemplateResult result = new TemplateResult();
