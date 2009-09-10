@@ -15,7 +15,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		{
 			Services.RegisterEditor<TemplateEditorForm>("mt-editor", "mt");
 			Services.RegisterComponent<TemplateHost>("TemplateHost");
-			Services.RegisterComponent<TemplateData>("TemplateData");
+			Services.RegisterSingletonComponent<TemplateData, TemplateData>("TemplateData");
 
 			Services.RegisterComponent<TemplateViewForm>("TemplateViewForm");
 			Services.HostWindow.AddPluginCommand<RunTemplateCommand>();
