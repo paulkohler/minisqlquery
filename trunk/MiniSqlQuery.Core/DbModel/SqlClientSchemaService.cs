@@ -77,8 +77,8 @@ WHERE OBJECT_SCHEMA_NAME(f.parent_object_id) = '{0}' AND OBJECT_NAME(f.parent_ob
 			foreach (DbModelConstraint constraint in dbTable.Constraints)
 			{
 				var column = dbTable.Columns.Find(c => c.Name == constraint.ColumnName);
-				var refTable =
-					dbTable.ParentDb.Tables.Find(t => t.Schema == constraint.UniqueConstraintTableSchema && t.Name == constraint.UniqueConstraintTableName);
+				var refTable =dbTable.ParentDb.FindTable(
+					constraint.UniqueConstraintTableSchema+"."+constraint.UniqueConstraintTableName);
 				var refColumn = refTable.Columns.Find(c => c.Name == constraint.UniqueColumnName);
 				DbModelForiegnKeyReference fk = new DbModelForiegnKeyReference(column, refTable, refColumn);
 				fk.UpdateRule = constraint.UpdateRule;

@@ -26,13 +26,13 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 			}
 		}
 
-		protected DbModelTable GetTableByName(DbModelInstance model, string tableName)
+		protected DbModelTable GetTableOrViewByName(DbModelInstance model, string tableName)
 		{
-			DbModelTable tableOrView = model.Tables.Find(t => Utility.MakeSqlFriendly(t.FullName).Equals(tableName));
+			DbModelTable tableOrView = model.FindTable(tableName);
 			if (tableOrView == null)
 			{
 				// check the views
-				tableOrView = model.Views.Find(t => t.FullName.Equals(tableName));
+				tableOrView = model.FindView(tableName);
 			}
 			return tableOrView;
 		}

@@ -24,7 +24,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 			if (tableName != null && editor != null)
 			{
 				StringWriter sql = new StringWriter();
-				SqlWriter.WriteSelect(sql, GetTableByName(model, tableName));
+				SqlWriter.WriteSelect(sql, GetTableOrViewByName(model, tableName));
 				editor.InsertText(sql.ToString());
 			}
 		}

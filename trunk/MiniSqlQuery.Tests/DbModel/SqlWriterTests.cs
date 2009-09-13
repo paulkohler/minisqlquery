@@ -34,7 +34,7 @@ namespace MiniSqlQuery.Tests.DbModel
 		[Test]
 		public void will_render_sql_with_types_and_nullability()
 		{
-			var table = _model.Tables.First(t => t.Name == "Person");
+			var table = _model.FindTable("Person");
 			// build sql sample...
 			_sqlWriter.WriteCreate(_sqlSW, table.Columns[0]);
 			_sqlSW.WriteLine(",");
@@ -46,7 +46,7 @@ namespace MiniSqlQuery.Tests.DbModel
 		[Test]
 		public void will_render_sql_WriteSummary()
 		{
-			var table = _model.Tables.First(t => t.Name == "Person");
+			var table = _model.FindTable("Person");
 
 			_sqlWriter.WriteSummary(_sqlSW, table.Columns[0]);
 			Assert.That(_sqlSW.ToString(), Is.EqualTo("ID (int not null)"));
@@ -59,7 +59,7 @@ namespace MiniSqlQuery.Tests.DbModel
 		[Test]
 		public void will_render_sql_select_for_Person()
 		{
-			var table = _model.Tables.First(t => t.Name == "Person");
+			var table = _model.FindTable("Person");
 			_sqlWriter.WriteSelect(_sqlSW, table);
 			Assert.That(_sqlSW.ToString(), Is.EqualTo(@"SELECT
 	ID,
@@ -74,7 +74,7 @@ FROM Person
 		[Test]
 		public void will_render_insert_sql_for_StaffUnit()
 		{
-			var table = _model.Tables.First(t => t.Name == "StaffUnit");
+			var table = _model.FindTable("StaffUnit");
 			_sqlWriter.WriteInsert(_sqlSW, table);
 
 			Console.WriteLine(_sqlSW.ToString());
@@ -92,7 +92,7 @@ VALUES
 		[Test]
 		public void will_render_update_sql_for_StaffUnit()
 		{
-			var table = _model.Tables.First(t => t.Name == "StaffUnit");
+			var table = _model.FindTable("StaffUnit");
 			_sqlWriter.WriteUpdate(_sqlSW, table);
 
 			Console.WriteLine(_sqlSW.ToString());
@@ -108,7 +108,7 @@ WHERE
 		[Test]
 		public void will_render_delete_sql_for_StaffUnit()
 		{
-			var table = _model.Tables.First(t => t.Name == "StaffUnit");
+			var table = _model.FindTable("StaffUnit");
 			_sqlSW = new StringWriter();
 			_sqlWriter.WriteDelete(_sqlSW, table);
 			//Console.WriteLine(sql.ToString());

@@ -23,7 +23,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 			if (tableName != null && editor != null)
 			{
 				StringWriter sql = new StringWriter();
-				SqlWriter.WriteDelete(sql, GetTableByName(model, tableName));
+				SqlWriter.WriteDelete(sql, GetTableOrViewByName(model, tableName));
 				editor.InsertText(sql.ToString());
 			}
 		}

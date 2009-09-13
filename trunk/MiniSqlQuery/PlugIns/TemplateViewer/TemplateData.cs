@@ -38,7 +38,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 			try
 			{
-				if (_dbConnection == null)
+				if (_dbConnection == null || _dbConnection.State != ConnectionState.Open)
 				{
 					_dbConnection = Services.Settings.GetOpenConnection();
 				}

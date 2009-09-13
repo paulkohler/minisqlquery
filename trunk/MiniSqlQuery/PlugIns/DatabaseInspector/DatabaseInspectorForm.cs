@@ -175,8 +175,14 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			TreeNode root = CreateRootNodes();
 			root.ToolTipText = connection;
 
-			_model.Tables.ForEach(CreateTreeNodes);
-			_model.Views.ForEach(CreateTreeNodes);
+			foreach (DbModelTable table in _model.Tables)
+			{
+				CreateTreeNodes(table);
+			}
+			foreach (DbModelTable view in _model.Views)
+			{
+				CreateTreeNodes(view);
+			}
 
 			DatabaseTreeView.Nodes.Add(root);
 		}

@@ -1,21 +1,29 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace MiniSqlQuery.Core.DbModel
 {
 	public class DbModelInstance
 	{
+		private List<DbModelTable> _tables;
+		private List<DbModelTable> _views;
+
 		public DbModelInstance()
 		{
-			Tables = new DbModelTableCollection();
-			Views = new DbModelTableCollection();
+			_tables = new List<DbModelTable>();
+			_views = new List<DbModelTable>();
 		}
 
-		//conn info etc
+		public virtual ICollection Tables
+		{
+			get { return _tables; }
+		}
 
-		public virtual DbModelTableCollection Tables { get; internal set; }
-
-		public virtual DbModelTableCollection Views { get; internal set; }
+		public virtual ICollection Views
+		{
+			get { return _views; }
+		}
 
 		public string ProviderName { get; set; }
 
@@ -26,13 +34,23 @@ namespace MiniSqlQuery.Core.DbModel
 		public virtual void Add(DbModelTable table)
 		{
 			table.ParentDb = this;
-			Tables.Add(table);
+			_tables.Add(table);
 		}
 
 		public virtual void Add(DbModelView view)
 		{
 			view.ParentDb = this;
-			Views.Add(view);
+			_views.Add(view);
+		}
+
+		public virtual DbModelTable FindTable(string tableName)
+		{
+			return _tables.Find(table => table.FullName.Equals(tableName, StringComparison.InvariantCultureIgnoreCase));
+		}
+
+		public virtual DbModelTable FindView(string viewName)
+		{
+			return _views.Find(view => view.FullName.Equals(viewName, StringComparison.InvariantCultureIgnoreCase));
 		}
 	}
 }

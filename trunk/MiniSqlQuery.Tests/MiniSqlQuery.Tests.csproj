@@ -94,8 +94,8 @@
   <ItemGroup>
     <Compile Include="ConnectionDefinitionTests.cs" />
     <Compile Include="DbConnectionDefinitionListTests.cs" />
+    <Compile Include="DbModel\DbModelTable_tests.cs" />
     <Compile Include="DbModel\MSAccess_DataType_Tests.cs" />
-    <Compile Include="DbModel\DbObjectModel_creation_tests.cs" />
     <Compile Include="DbModel\DbTypeTests.cs" />
     <Compile Include="DbModel\SqlCeSchemaService_DataType_ToDDL_Tests.cs" />
     <Compile Include="DbModel\SqlCeSchemaService_Tests.cs" />

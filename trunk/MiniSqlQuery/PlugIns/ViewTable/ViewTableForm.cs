@@ -204,8 +204,14 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 				DbModelInstance model = _metaDataService.GetDbObjectModel(_services.Settings.ConnectionDefinition.ConnectionString);
 				List<string> tableNames = new List<string>();
-				model.Tables.ForEach(table => tableNames.Add(Utility.MakeSqlFriendly(table.FullName)));
-				model.Views.ForEach(view => tableNames.Add(Utility.MakeSqlFriendly(view.FullName)));
+				foreach (DbModelTable table in model.Tables)
+				{
+					tableNames.Add(Utility.MakeSqlFriendly(table.FullName));
+				}
+				foreach (DbModelTable view in model.Views)
+				{
+					tableNames.Add(Utility.MakeSqlFriendly(view.FullName));
+				}
 				cboTableName.Items.AddRange(tableNames.ToArray());
 			}
 		}

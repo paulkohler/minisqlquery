@@ -36,17 +36,19 @@ namespace MiniSqlQuery.Core.DbModel
 				model.ProviderName = ProviderName;
 				model.ConnectionString = _connection;
 
+				// build all table info
 				foreach (DbModelTable table in model.Tables)
 				{
 					DataTable schemaTableKeyInfo = GetTableKeyInfo(dbConn, null, table.Name);
 					GetColumnsForTable(table, schemaTableKeyInfo, dbTypes);
 				}
 
-				model.Tables.ForEach(delegate(DbModelTable t)
-				                     	{
-				                     		GetForiegnKeyReferencesForTable(dbConn, t);
-				                     		ProcessForiegnKeyReferencesForTable(dbConn, t);
-				                     	});
+				// build FK relationships
+				foreach (DbModelTable table in model.Tables)
+				{
+					GetForiegnKeyReferencesForTable(dbConn, table);
+					ProcessForiegnKeyReferencesForTable(dbConn, table);
+				}
 
 				return model;
 			}
@@ -139,7 +141,7 @@ ORDER BY
 			foreach (DbModelConstraint constraint in dbTable.Constraints)
 			{
 				var column = dbTable.Columns.Find(c => c.Name == constraint.ColumnName);
-				var refTable = dbTable.ParentDb.Tables.Find(t => t.Name == constraint.UniqueConstraintTableName);
+				var refTable = dbTable.ParentDb.FindTable(constraint.UniqueConstraintTableName);
 				var refColumn = refTable.Columns.Find(c => c.Name == constraint.UniqueColumnName);
 				DbModelForiegnKeyReference fk = new DbModelForiegnKeyReference(column, refTable, refColumn);
 				fk.UpdateRule = constraint.UpdateRule;

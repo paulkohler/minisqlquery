@@ -20,8 +20,10 @@ Table: ${table.Name} (Row count: ${Data.Get($table.FullName).Rows.Count})
 	IsReadOnly:      ${c.IsReadOnly}
 	IsWritable:      ${c.IsWritable}
 	HasFK:           ${c.HasFK}
-	 ForiegnKeyReference  
-	 
+#if($c.HasFK)
+	 ${c.ForiegnKeyReference.ReferenceTable.FullName}.${c.ForiegnKeyReference.ReferenceColumn.Name}
+#end
+
 #end
 
 #end

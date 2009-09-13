@@ -62,16 +62,18 @@ namespace MiniSqlQuery.Core.DbModel
 					GetColumnsForTable(dbTable, schemaTableKeyInfo, dbTypes);
 				}
 
-				model.Tables.ForEach(delegate(DbModelTable t)
-				                     	{
-				                     		GetForiegnKeyReferencesForTable(dbConn, t);
-				                     		ProcessForiegnKeyReferencesForTable(dbConn, t);
-				                     	});
-				model.Views.ForEach(delegate(DbModelTable t)
-				                    	{
-				                    		GetForiegnKeyReferencesForTable(dbConn, t);
-				                    		ProcessForiegnKeyReferencesForTable(dbConn, t);
-				                    	});
+				// build FK relationships 
+				foreach (DbModelTable table in model.Tables)
+				{
+					GetForiegnKeyReferencesForTable(dbConn, table);
+					ProcessForiegnKeyReferencesForTable(dbConn, table);
+				}
+				// build FK relationships
+				foreach (DbModelView view in model.Views)
+				{
+					GetForiegnKeyReferencesForTable(dbConn, view);
+					ProcessForiegnKeyReferencesForTable(dbConn, view);
+				}
 			}
 
 			return model;
