@@ -7,6 +7,7 @@ using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
 using WeifenLuo.WinFormsUI.Docking;
 using System.Windows.Forms;
+using MiniSqlQuery.Core.Template;
 
 namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
@@ -53,7 +54,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			{
 				_fileName = value;
 				Text = FileName;
-				TabText = FileName;
+				SetTabTextByFilename();
 			}
 		}
 
@@ -202,19 +203,32 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		public void RunTemplate()
 		{
 			TemplateModel templateModel = _services.Resolve<TemplateModel>();
+			TemplateResult templateResult = null;
 
-			string[] lines = AllText.Replace("\r", string.Empty).Split('\n');
-			string text;
-			Dictionary<string, object> items = new Dictionary<string, object>();
-			text = templateModel.PreProcessTemplate(lines, GetValue, items);
-			TemplateResult templateResult = templateModel.ProcessTemplate(text, items);
+			try
+			{
+				string[] lines = AllText.Replace("\r", string.Empty).Split('\n');
+				string text;
+				Dictionary<string, object> items = new Dictionary<string, object>();
+				items["extension"] = templateModel.InferExtensionFromFilename(FileName, items);
+				text = templateModel.PreProcessTemplate(lines, GetValue, items);
+				templateResult = templateModel.ProcessTemplate(text, items);
+			}
+			catch (TemplateException exp)
+			{
+				_services.HostWindow.DisplaySimpleMessageBox(this, exp.Message, "Template Error");
+				// todo - try to get the line number and move cursor...
+			}
 
-			// display in new window
-			IFileEditorResolver resolver = _services.Resolve<IFileEditorResolver>();
-			IEditor editor = _services.Resolve<IEditor>(resolver.ResolveEditorNameByExtension(templateResult.Extension));
-			editor.AllText = templateResult.Text;
-			editor.SetSyntax(templateResult.SyntaxName);
-			_services.HostWindow.DisplayDockedForm(editor as DockContent);
+			if (templateResult != null)
+			{
+				// display in new window
+				IFileEditorResolver resolver = _services.Resolve<IFileEditorResolver>();
+				IEditor editor = _services.Resolve<IEditor>(resolver.ResolveEditorNameByExtension(templateResult.Extension));
+				editor.AllText = templateResult.Text;
+				editor.SetSyntax(templateResult.SyntaxName);
+				_services.HostWindow.DisplayDockedForm(editor as DockContent);
+			}
 		}
 
 		public void ExecuteTask()
@@ -281,6 +295,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		{
 			string dirty = string.Empty;
 			string text = "Untitled";
+			string tabtext = "";
 
 			if (_isDirty)
 			{
@@ -290,14 +305,16 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			if (txtEdit.FileName != null)
 			{
 				text = FileName;
+				tabtext = Path.GetFileName(FileName);
 			}
 			else
 			{
 				text += _services.Settings.GetUntitledDocumentCounter();
+				tabtext = text;
 			}
 
 			text += dirty;
-			TabText = text;
+			TabText = tabtext;
 			ToolTipText = text;
 		}
 

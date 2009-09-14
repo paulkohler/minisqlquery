@@ -17,14 +17,14 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 		#endregion
 
-		private readonly IDatabaseInspector _databaseInspector;
+		//private readonly IDatabaseInspector _databaseInspector;
 		private readonly IApplicationServices _services;
 		private ITextFormatter _formatter;
 
-		public TemplateModel(IApplicationServices services, IDatabaseInspector databaseInspector, ITextFormatter formatter)
+		public TemplateModel(IApplicationServices services, ITextFormatter formatter)
 		{
 			_services = services;
-			_databaseInspector = databaseInspector;
+			//_databaseInspector = databaseInspector;
 			_formatter = formatter;
 		}
 
@@ -75,16 +75,23 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			Dictionary<string, object> items = new Dictionary<string, object>();
 			string[] lines = File.ReadAllLines(filename);
 
-			// file ext check
+			items["extension"] = InferExtensionFromFilename(filename, items);
+
+			string text = PreProcessTemplate(lines, getValueForParameter, items);
+			return ProcessTemplate(text, items);
+		}
+
+		public string InferExtensionFromFilename(string filename, Dictionary<string, object> items)
+		{
 			string ext = Path.GetExtension(filename);
 			string templateFilename = Path.GetFileNameWithoutExtension(filename);
 			if (ext.ToLower() == ".mt" && templateFilename.Contains("."))
 			{
-				items["extension"] = Path.GetExtension(templateFilename).Substring(1);
+				return Path.GetExtension(templateFilename).Substring(1);
 			}
 
-			string text = PreProcessTemplate(lines, getValueForParameter, items);
-			return ProcessTemplate(text, items);
+			// default
+			return "sql";
 		}
 
 		public string PreProcessTemplate(
@@ -127,20 +134,19 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				items = new Dictionary<string, object>();
 			}
 
-			if (_databaseInspector.DbSchema == null)
-			{
-				_databaseInspector.LoadDatabaseDetails();
-			}
+			//if (_databaseInspector.DbSchema == null)
+			//{
+			//    _databaseInspector.LoadDatabaseDetails();
+			//}
 
 			TemplateResult result;
 
 			using (TemplateHost host = _services.Resolve<TemplateHost>())
 			{
-				host.Model = _databaseInspector.DbSchema;
+				//host.Model = _databaseInspector.DbSchema;
 				host.Data = _services.Resolve<TemplateData>();
 
 				items.Add("Host", host);
-				items.Add("Model", host.Model);
 				items.Add("Data", host.Data);
 
 				result = new TemplateResult();

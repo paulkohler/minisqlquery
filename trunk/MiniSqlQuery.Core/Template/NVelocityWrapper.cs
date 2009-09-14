@@ -34,7 +34,7 @@ namespace MiniSqlQuery.Core.Template
 			}
 			catch (ParseErrorException parseErrorException)
 			{
-				throw new TemplateException("Template parse error", parseErrorException);
+				throw new TemplateException(parseErrorException.Message, parseErrorException);
 			}
 		}
 	}

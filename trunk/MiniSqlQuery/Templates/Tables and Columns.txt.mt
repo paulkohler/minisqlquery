@@ -1,7 +1,7 @@
-﻿ConnectionString: "${Model.ConnectionString}"
-ProviderName: "${Model.ProviderName}"
+﻿ConnectionString: "${Host.Model.ConnectionString}"
+ProviderName: "${Host.Model.ProviderName}"
 
-#foreach ($table in ${Model.Tables})
+#foreach ($table in ${Host.Model.Tables})
 Table: ${table.Name} (Row count: ${Data.Get($table.FullName).Rows.Count})
 #foreach ($c in ${table.Columns})
   * ${c.Name}

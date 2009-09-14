@@ -1,4 +1,4 @@
-#foreach ($table in $Model.Tables)
+#foreach ($table in $Host.Model.Tables)
 public class ${table.Name}
 {
 #foreach ($c in $table.Columns)
