@@ -210,7 +210,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				string[] lines = AllText.Replace("\r", string.Empty).Split('\n');
 				string text;
 				Dictionary<string, object> items = new Dictionary<string, object>();
-				items["extension"] = templateModel.InferExtensionFromFilename(FileName, items);
+				items[TemplateModel.Extension] = templateModel.InferExtensionFromFilename(FileName, items);
 				text = templateModel.PreProcessTemplate(lines, GetValue, items);
 				templateResult = templateModel.ProcessTemplate(text, items);
 			}

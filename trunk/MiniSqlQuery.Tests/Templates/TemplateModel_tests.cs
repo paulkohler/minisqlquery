@@ -30,7 +30,7 @@ namespace MiniSqlQuery.Tests.Templates
 		[Test]
 		public void ModelData_parameters_are_precessed()
 		{
-			Dictionary<string, object> items = new Dictionary<string, object>();
+			var items = new Dictionary<string, object>();
 			string processedtext = _model.ProcessTemplate("create new ${Host.Date(\"yyyy\")}", items).Text;
 			Assert.That(processedtext, Is.EqualTo("create new " + DateTime.Now.Year));
 		}

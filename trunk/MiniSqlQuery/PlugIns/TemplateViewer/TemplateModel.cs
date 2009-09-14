@@ -11,6 +11,8 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
 	public class TemplateModel
 	{
+		public const string Extension = "extension";
+
 		#region Delegates
 
 		public delegate string GetValueForParameter(string parameter);
@@ -75,7 +77,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			Dictionary<string, object> items = new Dictionary<string, object>();
 			string[] lines = File.ReadAllLines(filename);
 
-			items["extension"] = InferExtensionFromFilename(filename, items);
+			items[Extension] = InferExtensionFromFilename(filename, items);
 
 			string text = PreProcessTemplate(lines, getValueForParameter, items);
 			return ProcessTemplate(text, items);
@@ -113,7 +115,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 					}
 					else if (line.StartsWith("#@set extension ", StringComparison.CurrentCultureIgnoreCase))
 					{
-						items["extension"] = line.Substring("#@set extension ".Length);
+						items[Extension] = line.Substring("#@set extension ".Length);
 					}
 				}
 				else
@@ -134,16 +136,10 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				items = new Dictionary<string, object>();
 			}
 
-			//if (_databaseInspector.DbSchema == null)
-			//{
-			//    _databaseInspector.LoadDatabaseDetails();
-			//}
-
 			TemplateResult result;
 
 			using (TemplateHost host = _services.Resolve<TemplateHost>())
 			{
-				//host.Model = _databaseInspector.DbSchema;
 				host.Data = _services.Resolve<TemplateData>();
 
 				items.Add("Host", host);
@@ -152,9 +148,9 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				result = new TemplateResult();
 				result.Text = _formatter.Format(text, items);
 				result.Extension = "sql";
-				if (items.ContainsKey("extension"))
+				if (items.ContainsKey(Extension))
 				{
-					result.Extension = (string) items["extension"];
+					result.Extension = (string) items[Extension];
 				}
 			}
 
