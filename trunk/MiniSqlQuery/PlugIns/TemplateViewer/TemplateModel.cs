@@ -19,15 +19,15 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 		#endregion
 
-		//private readonly IDatabaseInspector _databaseInspector;
 		private readonly IApplicationServices _services;
-		private ITextFormatter _formatter;
+		private readonly ITextFormatter _formatter;
+		private readonly TemplateData _templateData;
 
-		public TemplateModel(IApplicationServices services, ITextFormatter formatter)
+		public TemplateModel(IApplicationServices services, ITextFormatter formatter, TemplateData templateData)
 		{
 			_services = services;
-			//_databaseInspector = databaseInspector;
 			_formatter = formatter;
+			_templateData = templateData;
 		}
 
 		public string GetTemplatePath()
@@ -140,7 +140,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 			using (TemplateHost host = _services.Resolve<TemplateHost>())
 			{
-				host.Data = _services.Resolve<TemplateData>();
+				host.Data = _templateData;
 
 				items.Add("Host", host);
 				items.Add("Data", host.Data);
