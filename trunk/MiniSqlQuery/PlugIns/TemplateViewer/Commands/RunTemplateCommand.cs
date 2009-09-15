@@ -15,7 +15,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer.Commands
 
 		public override void Execute()
 		{
-			ITemplateEditor templateEditor = Services.HostWindow.ActiveChildForm as ITemplateEditor;
+			ITemplateEditor templateEditor = HostWindow.ActiveChildForm as ITemplateEditor;
 
 			if (templateEditor != null)
 			{
@@ -27,7 +27,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer.Commands
 		{
 			get
 			{
-				return Services.HostWindow.ActiveChildForm is ITemplateEditor;
+				return HostWindow.ActiveChildForm is ITemplateEditor;
 			}
 		}
 	}

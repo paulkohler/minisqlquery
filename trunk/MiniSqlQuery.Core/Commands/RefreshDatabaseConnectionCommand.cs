@@ -16,13 +16,13 @@ namespace MiniSqlQuery.Core.Commands
 		{
 			try
 			{
-				Services.HostWindow.SetPointerState(Cursors.WaitCursor);
+				HostWindow.SetPointerState(Cursors.WaitCursor);
 				Settings.ResetConnection();
-				Services.HostWindow.SetStatus(null, "Connection reset");
+				HostWindow.SetStatus(null, "Connection reset");
 			}
 			finally
 			{
-				Services.HostWindow.SetPointerState(Cursors.Default);
+				HostWindow.SetPointerState(Cursors.Default);
 			}
 		}
 	}

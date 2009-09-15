@@ -14,17 +14,19 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 	public partial class TemplateEditorForm : DockContent, IEditor, IFindReplaceProvider, INavigatableDocument, ITemplateEditor
 	{
 		private readonly IApplicationServices _services;
+		private readonly IHostWindow _hostWindow;
 
 		private string _fileName;
 		private bool _highlightingProviderLoaded;
 		private bool _isDirty;
 		private ITextFindService _textFindService;
 
-		public TemplateEditorForm(IApplicationServices services)
+		public TemplateEditorForm(IApplicationServices services, IHostWindow hostWindow)
 		{
 			InitializeComponent();
 			txtEdit.Document.DocumentChanged += DocumentDocumentChanged;
 			_services = services;
+			_hostWindow = hostWindow;
 		}
 
 		#region IEditor Members
@@ -216,7 +218,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			}
 			catch (TemplateException exp)
 			{
-				_services.HostWindow.DisplaySimpleMessageBox(this, exp.Message, "Template Error");
+				_hostWindow.DisplaySimpleMessageBox(this, exp.Message, "Template Error");
 				// todo - try to get the line number and move cursor...
 			}
 
@@ -227,7 +229,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				IEditor editor = _services.Resolve<IEditor>(resolver.ResolveEditorNameByExtension(templateResult.Extension));
 				editor.AllText = templateResult.Text;
 				editor.SetSyntax(templateResult.SyntaxName);
-				_services.HostWindow.DisplayDockedForm(editor as DockContent);
+				_hostWindow.DisplayDockedForm(editor as DockContent);
 			}
 		}
 
@@ -327,7 +329,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		{
 			if (_isDirty)
 			{
-				DialogResult saveFile = _services.HostWindow.DisplayMessageBox(
+				DialogResult saveFile = _hostWindow.DisplayMessageBox(
 					this,
 					"Contents changed, do you want to save the file?\r\n" + TabText, "Save Changes?",
 					MessageBoxButtons.YesNoCancel,

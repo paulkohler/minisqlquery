@@ -19,7 +19,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 
 		public override bool Enabled
 		{
-			get { return Services.HostWindow.ActiveChildForm is IFindReplaceProvider; }
+			get { return HostWindow.ActiveChildForm is IFindReplaceProvider; }
 		}
 
 		public override void Execute()
@@ -30,7 +30,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 			}
 
 			// if the window is an editor, grab the highlighted text
-			IFindReplaceProvider findReplaceProvider = Services.HostWindow.ActiveChildForm as IFindReplaceProvider;
+			IFindReplaceProvider findReplaceProvider = HostWindow.ActiveChildForm as IFindReplaceProvider;
 
 			if (FindReplaceWindow == null || FindReplaceWindow.IsDisposed)
 			{
@@ -46,7 +46,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 
 			if (!FindReplaceWindow.Visible)
 			{
-				FindReplaceWindow.Show(Services.HostWindow.Instance);
+				FindReplaceWindow.Show(HostWindow.Instance);
 			}
 		}
 	}

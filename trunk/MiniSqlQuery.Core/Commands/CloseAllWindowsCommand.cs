@@ -13,12 +13,12 @@ namespace MiniSqlQuery.Core.Commands
 
 		public override bool Enabled
 		{
-			get { return Services.HostWindow.ActiveChildForm != null; }
+			get { return HostWindow.ActiveChildForm != null; }
 		}
 
 		public override void Execute()
 		{
-			Form[] forms = Services.HostWindow.Instance.MdiChildren;
+			Form[] forms = HostWindow.Instance.MdiChildren;
 			if (forms != null)
 			{
 				foreach (Form frm in forms)

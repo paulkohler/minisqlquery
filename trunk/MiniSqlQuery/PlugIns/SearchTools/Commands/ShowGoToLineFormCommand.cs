@@ -15,7 +15,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 
 		public override bool Enabled
 		{
-			get { return Services.HostWindow.ActiveChildForm is INavigatableDocument; }
+			get { return HostWindow.ActiveChildForm is INavigatableDocument; }
 		}
 
 		public override void Execute()
@@ -23,7 +23,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 			if (Enabled)
 			{
 				GoToLineForm frm = Services.Resolve<GoToLineForm>();
-				frm.ShowDialog(Services.HostWindow as Form);
+				frm.ShowDialog(HostWindow as Form);
 			}
 		}
 	}

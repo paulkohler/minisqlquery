@@ -19,13 +19,13 @@ namespace MiniSqlQuery.PlugIns.ViewTable.Commands
 
 		public override void Execute()
 		{
-			IQueryEditor queryForm = Services.HostWindow.Instance.ActiveMdiChild as IQueryEditor;
+			IQueryEditor queryForm = HostWindow.Instance.ActiveMdiChild as IQueryEditor;
 			if (queryForm != null)
 			{
 				string tableName = queryForm.SelectedText;
 				IViewTable frm = Services.Resolve<IViewTable>();
 				frm.TableName = tableName;
-				Services.HostWindow.DisplayDockedForm(frm as DockContent);
+				HostWindow.DisplayDockedForm(frm as DockContent);
 			}
 		}
 	}

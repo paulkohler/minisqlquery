@@ -19,7 +19,7 @@ namespace MiniSqlQuery.Core.Commands
 
 		public override void Execute()
 		{
-			IQueryEditor queryForm = Services.HostWindow.Instance.ActiveMdiChild as IQueryEditor;
+			IQueryEditor queryForm = HostWindow.Instance.ActiveMdiChild as IQueryEditor;
 			if (queryForm != null)
 			{
 				string newText = string.Concat(LeftText, queryForm.SelectedText, RightText);
@@ -38,7 +38,7 @@ namespace MiniSqlQuery.Core.Commands
 
 		public override void Execute()
 		{
-			IQueryEditor queryForm = Services.HostWindow.Instance.ActiveMdiChild as IQueryEditor;
+			IQueryEditor queryForm = HostWindow.Instance.ActiveMdiChild as IQueryEditor;
 			if (queryForm != null)
 			{
 				PasteAroundSelectionCommand.LeftText = queryForm.SelectedText;
@@ -56,7 +56,7 @@ namespace MiniSqlQuery.Core.Commands
 
 		public override void Execute()
 		{
-			IQueryEditor queryForm = Services.HostWindow.Instance.ActiveMdiChild as IQueryEditor;
+			IQueryEditor queryForm = HostWindow.Instance.ActiveMdiChild as IQueryEditor;
 			if (queryForm != null)
 			{
 				PasteAroundSelectionCommand.RightText = queryForm.SelectedText;

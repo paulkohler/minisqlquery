@@ -138,7 +138,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 				string msg = string.Format(
 					"{0}\r\n\r\nCheck the connection and select 'Reset Database Connection'.",
 					exp.Message);
-				_hostWindow.DisplaySimpleMessageBox(_services.HostWindow.Instance, msg, "DB Connection Error");
+				_hostWindow.DisplaySimpleMessageBox(_hostWindow.Instance, msg, "DB Connection Error");
 				_hostWindow.SetStatus(this, exp.Message);
 			}
 			finally

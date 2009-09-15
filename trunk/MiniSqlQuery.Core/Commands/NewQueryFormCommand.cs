@@ -17,7 +17,7 @@ namespace MiniSqlQuery.Core.Commands
 		{
 			IQueryEditor editor = Services.Container.Resolve<IQueryEditor>();
 			editor.FileName = null;
-			Services.HostWindow.DisplayDockedForm(editor as DockContent);
+			HostWindow.DisplayDockedForm(editor as DockContent);
 		}
 	}
 }

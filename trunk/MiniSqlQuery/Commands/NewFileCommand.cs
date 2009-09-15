@@ -26,7 +26,7 @@ namespace MiniSqlQuery.Commands
 			{
 				var editor = Services.Resolve<IEditor>(newFileForm.FileEditorDescriptor.EditorKeyName);
 				editor.FileName = null;
-				Services.HostWindow.DisplayDockedForm(editor as DockContent);
+				HostWindow.DisplayDockedForm(editor as DockContent);
 			}
 		}
 	}

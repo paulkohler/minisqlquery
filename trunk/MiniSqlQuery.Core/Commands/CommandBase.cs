@@ -13,6 +13,7 @@ namespace MiniSqlQuery.Core.Commands
 	{
 		private string _name;
 		private Image _smallImage;
+		IHostWindow _hostWindow;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CommandBase"/> class.
@@ -32,6 +33,23 @@ namespace MiniSqlQuery.Core.Commands
 		protected IQueryEditor ActiveFormAsEditor
 		{
 			get { return Services.HostWindow.ActiveChildForm as IQueryEditor; }
+		}
+
+		/// <summary>
+		/// Gets a reference to the host window.
+		/// </summary>
+		/// <value>The host window.</value>
+		protected IHostWindow HostWindow
+		{
+			get
+			{
+				// just resolve once
+				if (_hostWindow == null)
+				{
+					_hostWindow = Services.HostWindow;
+				}
+				return _hostWindow;
+			}
 		}
 
 		#region ICommand Members

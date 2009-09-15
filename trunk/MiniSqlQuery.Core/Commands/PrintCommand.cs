@@ -17,7 +17,7 @@ namespace MiniSqlQuery.Core.Commands
 		{
 			get
 			{
-				IPrintableContent printable = Services.HostWindow.ActiveChildForm as IPrintableContent;
+				IPrintableContent printable = HostWindow.ActiveChildForm as IPrintableContent;
 				if (printable != null)
 				{
 					PrintDocument doc = printable.PrintDocument;
@@ -33,7 +33,7 @@ namespace MiniSqlQuery.Core.Commands
 
 		public override void Execute()
 		{
-			IPrintableContent printable = Services.HostWindow.ActiveChildForm as IPrintableContent;
+			IPrintableContent printable = HostWindow.ActiveChildForm as IPrintableContent;
 			if (printable != null)
 			{
 				PrintDocument doc = printable.PrintDocument;
@@ -44,7 +44,7 @@ namespace MiniSqlQuery.Core.Commands
 					{
 						ppd.Document = doc;
 						ppd.AllowSomePages = true;
-						if (ppd.ShowDialog(Services.HostWindow.Instance) == DialogResult.OK)
+						if (ppd.ShowDialog(HostWindow.Instance) == DialogResult.OK)
 						{
 							doc.Print();
 						}

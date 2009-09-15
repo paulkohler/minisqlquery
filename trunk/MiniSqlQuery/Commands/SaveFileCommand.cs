@@ -19,7 +19,7 @@ namespace MiniSqlQuery.Commands
 
         public override void Execute()
         {
-			IEditor editor = Services.HostWindow.Instance.ActiveMdiChild as IEditor;
+			IEditor editor = HostWindow.Instance.ActiveMdiChild as IEditor;
 			if (editor != null)
 			{
 				if (editor.FileName == null)
@@ -37,7 +37,7 @@ namespace MiniSqlQuery.Commands
 		{
 			get
 			{
-				IEditor editor = Services.HostWindow.Instance.ActiveMdiChild as IEditor;
+				IEditor editor = HostWindow.Instance.ActiveMdiChild as IEditor;
 				if (editor != null)
 				{
 					return editor.IsDirty;

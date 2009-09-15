@@ -12,7 +12,7 @@ namespace MiniSqlQuery.Core.Commands
 
 		public override void Execute()
 		{
-			Services.HostWindow.Instance.Close();
+			HostWindow.Instance.Close();
 		}
 	}
 }

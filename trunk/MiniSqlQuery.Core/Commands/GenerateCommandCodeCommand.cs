@@ -39,7 +39,7 @@ namespace MiniSqlQuery.Core.Commands
 			editor.AllText = code;
 			editor.SetSyntax("C#");
 
-			Services.HostWindow.DisplayDockedForm(editor as DockContent);
+			HostWindow.DisplayDockedForm(editor as DockContent);
 		}
 	}
 }

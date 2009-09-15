@@ -16,7 +16,7 @@ namespace MiniSqlQuery.Commands
         public override void Execute()
         {
 			Form frm = (Form)Services.Container.Resolve(typeof(AboutForm));
-			frm.Show(Services.HostWindow.Instance);
+			frm.Show(HostWindow.Instance);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace MiniSqlQuery.Commands
 			openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
 			openFileDialog.Filter = Settings.DefaultFileFilter;
 			openFileDialog.CheckFileExists = true;
-			if (openFileDialog.ShowDialog(Services.HostWindow.Instance) == DialogResult.OK)
+			if (openFileDialog.ShowDialog(HostWindow.Instance) == DialogResult.OK)
 			{
 				//todo: check for file exist file in open windows;
 
@@ -33,7 +33,7 @@ namespace MiniSqlQuery.Commands
 				IEditor editor = resolver.ResolveEditorInstance(openFileDialog.FileName);
 				editor.FileName = openFileDialog.FileName;
 				editor.LoadFile();
-				Services.HostWindow.DisplayDockedForm(editor as DockContent);
+				HostWindow.DisplayDockedForm(editor as DockContent);
 			}
 
         }

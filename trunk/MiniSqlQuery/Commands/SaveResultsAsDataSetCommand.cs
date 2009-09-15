@@ -19,11 +19,11 @@ namespace MiniSqlQuery.Commands
 
 		public override void Execute()
 		{
-			IQueryBatchProvider batchProvider = Services.HostWindow.ActiveChildForm as IQueryBatchProvider;
+			IQueryBatchProvider batchProvider = HostWindow.ActiveChildForm as IQueryBatchProvider;
 
 			if (batchProvider == null)
 			{
-				Services.HostWindow.DisplaySimpleMessageBox(null, "No reults to save as a 'DataSet'.", "Save Results as DataSet XML Error");
+				HostWindow.DisplaySimpleMessageBox(null, "No reults to save as a 'DataSet'.", "Save Results as DataSet XML Error");
 			}
 			else
 			{
@@ -58,11 +58,11 @@ namespace MiniSqlQuery.Commands
 					saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
 					saveFileDialog.Filter = Properties.Settings.Default.XmlFileDialogFilter;
 
-					if (saveFileDialog.ShowDialog(Services.HostWindow.Instance) == DialogResult.OK)
+					if (saveFileDialog.ShowDialog(HostWindow.Instance) == DialogResult.OK)
 					{
 						ds.WriteXml(saveFileDialog.FileName, XmlWriteMode.WriteSchema);
 						string msg = string.Format("Saved reults to file: '{0}'", saveFileDialog.FileName);
-						Services.HostWindow.SetStatus(Services.HostWindow.ActiveChildForm, msg);
+						HostWindow.SetStatus(HostWindow.ActiveChildForm, msg);
 					}
 				}
 			}

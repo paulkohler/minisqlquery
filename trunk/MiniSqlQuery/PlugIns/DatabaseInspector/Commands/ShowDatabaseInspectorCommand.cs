@@ -17,7 +17,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 			DockContent databaseInspector = Services.Resolve<IDatabaseInspector>() as DockContent;
 			if (databaseInspector != null)
 			{
-				Services.HostWindow.ShowDatabaseInspector(databaseInspector as IDatabaseInspector, DockState.DockLeft);
+				HostWindow.ShowDatabaseInspector(databaseInspector as IDatabaseInspector, DockState.DockLeft);
 				databaseInspector.Activate();
 			}
 		}

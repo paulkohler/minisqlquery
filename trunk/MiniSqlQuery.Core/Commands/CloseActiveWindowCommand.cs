@@ -13,12 +13,12 @@ namespace MiniSqlQuery.Core.Commands
 
 		public override bool Enabled
 		{
-			get { return Services.HostWindow.ActiveChildForm != null; }
+			get { return HostWindow.ActiveChildForm != null; }
 		}
 
 		public override void Execute()
 		{
-			Form frm = Services.HostWindow.ActiveChildForm;
+			Form frm = HostWindow.ActiveChildForm;
 			if (frm != null)
 			{
 				frm.Close();

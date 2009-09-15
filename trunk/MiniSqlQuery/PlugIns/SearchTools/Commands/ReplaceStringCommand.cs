@@ -14,7 +14,7 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 
 		public override void Execute()
 		{
-			IFindReplaceProvider editorFindProvider = Services.HostWindow.ActiveChildForm as IFindReplaceProvider;
+			IFindReplaceProvider editorFindProvider = HostWindow.ActiveChildForm as IFindReplaceProvider;
 
 			if (editorFindProvider != null)
 			{

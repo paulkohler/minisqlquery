@@ -16,7 +16,7 @@ namespace MiniSqlQuery.Core.Commands
 		{
 			get
 			{
-				IPerformTask editor = Services.HostWindow.ActiveChildForm as IPerformTask;
+				IPerformTask editor = HostWindow.ActiveChildForm as IPerformTask;
 				if (editor != null)
 				{
 					return editor.IsBusy;
@@ -32,7 +32,7 @@ namespace MiniSqlQuery.Core.Commands
 				return;
 			}
 
-			IPerformTask editor = Services.HostWindow.ActiveChildForm as IPerformTask;
+			IPerformTask editor = HostWindow.ActiveChildForm as IPerformTask;
 			if (editor != null)
 			{
 				editor.CancelTask();

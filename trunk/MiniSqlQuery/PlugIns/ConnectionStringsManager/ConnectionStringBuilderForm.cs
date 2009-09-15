@@ -112,7 +112,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 		{
 			if (_dirty)
 			{
-				DialogResult saveFile = _services.HostWindow.DisplayMessageBox(
+				DialogResult saveFile = _hostWindow.DisplayMessageBox(
 					this,
 					"The connection details have changed, do you want to save?\r\n", "Save Changes?",
 					MessageBoxButtons.YesNoCancel,

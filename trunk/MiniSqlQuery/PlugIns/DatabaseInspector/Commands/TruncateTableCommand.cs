@@ -16,7 +16,8 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 
 		public override void Execute()
 		{
-			string tableName = Services.HostWindow.DatabaseInspector.RightClickedTableName;
+			IHostWindow hostWindow = Services.HostWindow;
+			string tableName = hostWindow.DatabaseInspector.RightClickedTableName;
 
 			if (tableName != null &&
 			    MessageBox.Show("Delete all table data, are you sure?", "Truncate Table Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) ==
@@ -27,7 +28,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 
 				try
 				{
-					Services.HostWindow.SetPointerState(Cursors.WaitCursor);
+					hostWindow.SetPointerState(Cursors.WaitCursor);
 					dbConnection = Settings.GetOpenConnection();
 					cmd = dbConnection.CreateCommand();
 					cmd.CommandText = "DELETE FROM " + tableName;
@@ -37,11 +38,11 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 				}
 				catch (DbException dbExp)
 				{
-					Services.HostWindow.DisplaySimpleMessageBox(null, dbExp.Message, "Error");
+					hostWindow.DisplaySimpleMessageBox(null, dbExp.Message, "Error");
 				}
 				catch (InvalidOperationException invalidExp)
 				{
-					Services.HostWindow.DisplaySimpleMessageBox(null, invalidExp.Message, "Error");
+					hostWindow.DisplaySimpleMessageBox(null, invalidExp.Message, "Error");
 				}
 				finally
 				{
@@ -49,7 +50,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 					{
 						cmd.Dispose();
 					}
-					Services.HostWindow.SetPointerState(Cursors.Default);
+					hostWindow.SetPointerState(Cursors.Default);
 				}
 			}
 		}

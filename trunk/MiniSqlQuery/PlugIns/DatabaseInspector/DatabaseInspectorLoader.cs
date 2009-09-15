@@ -18,19 +18,15 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 		{
 			Services.RegisterSingletonComponent<IDatabaseInspector, DatabaseInspectorForm>("DatabaseInspector");
 
-			Services.HostWindow.AddPluginCommand<ShowDatabaseInspectorCommand>();
+			IHostWindow hostWindow = Services.HostWindow;
+			hostWindow.AddPluginCommand<ShowDatabaseInspectorCommand>();
 			CommandManager.GetCommandInstance<ShowDatabaseInspectorCommand>().Execute();
 
-			Services.HostWindow.DatabaseInspector.TableMenu.Items.Add(
-				CommandControlBuilder.CreateToolStripMenuItem<GenerateSelectStatementCommand>());
-			Services.HostWindow.DatabaseInspector.TableMenu.Items.Add(
-				CommandControlBuilder.CreateToolStripMenuItem<GenerateInsertStatementCommand>());
-			Services.HostWindow.DatabaseInspector.TableMenu.Items.Add(
-				CommandControlBuilder.CreateToolStripMenuItem<GenerateUpdateStatementCommand>());
-			Services.HostWindow.DatabaseInspector.TableMenu.Items.Add(
-				CommandControlBuilder.CreateToolStripMenuItem<GenerateDeleteStatementCommand>());
-			Services.HostWindow.DatabaseInspector.TableMenu.Items.Add(
-				CommandControlBuilder.CreateToolStripMenuItem<TruncateTableCommand>());
+			hostWindow.DatabaseInspector.TableMenu.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<GenerateSelectStatementCommand>());
+			hostWindow.DatabaseInspector.TableMenu.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<GenerateInsertStatementCommand>());
+			hostWindow.DatabaseInspector.TableMenu.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<GenerateUpdateStatementCommand>());
+			hostWindow.DatabaseInspector.TableMenu.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<GenerateDeleteStatementCommand>());
+			hostWindow.DatabaseInspector.TableMenu.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<TruncateTableCommand>());
 		}
 
 	}

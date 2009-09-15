@@ -18,12 +18,12 @@ namespace MiniSqlQuery.PlugIns.ViewTable.Commands
 
 		public override void Execute()
 		{
-			string tableName = Services.HostWindow.DatabaseInspector.RightClickedTableName;
+			string tableName = HostWindow.DatabaseInspector.RightClickedTableName;
 			if (tableName != null)
 			{
 				IViewTable frm = Services.Resolve<IViewTable>();
 				frm.TableName = tableName;
-				Services.HostWindow.DisplayDockedForm(frm as DockContent);
+				HostWindow.DisplayDockedForm(frm as DockContent);
 			}
 		}
 	}

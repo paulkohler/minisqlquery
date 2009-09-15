@@ -17,20 +17,23 @@ namespace MiniSqlQuery.PlugIns
 
         public override void InitializePlugIn()
         {
-			Services.RegisterEditor<BasicEditor>(new FileEditorDescriptor("Default text editor", "default-editor"));
-			Services.RegisterEditor<QueryForm>(new FileEditorDescriptor("SQL Editor", "sql-editor", "sql"));
-			Services.RegisterEditor<BasicCSharpEditor>(new FileEditorDescriptor("C# Editor", "cs-editor", "cs"));
-			Services.RegisterEditor<BasicVbNetEditor>(new FileEditorDescriptor("VB/VB.NET Editor", "vb-editor", "vb"));
-			Services.RegisterEditor<BasicXmlEditor>(new FileEditorDescriptor("XML Editor", "xml-editor", "xml"));
-			Services.RegisterEditor<BasicHtmlEditor>(new FileEditorDescriptor("HTML Editor", "htm-editor", "htm", "html"));
-			Services.RegisterEditor<BasicEditor>(new FileEditorDescriptor("Text Editor", "txt-editor", "txt"));
+        	IApplicationServices services = Services;
+        	IHostWindow hostWindow = services.HostWindow;
 
-			Services.RegisterComponent<NewFileForm>("NewFileForm");
+        	services.RegisterEditor<BasicEditor>(new FileEditorDescriptor("Default text editor", "default-editor"));
+			services.RegisterEditor<QueryForm>(new FileEditorDescriptor("SQL Editor", "sql-editor", "sql"));
+			services.RegisterEditor<BasicCSharpEditor>(new FileEditorDescriptor("C# Editor", "cs-editor", "cs"));
+			services.RegisterEditor<BasicVbNetEditor>(new FileEditorDescriptor("VB/VB.NET Editor", "vb-editor", "vb"));
+			services.RegisterEditor<BasicXmlEditor>(new FileEditorDescriptor("XML Editor", "xml-editor", "xml"));
+			services.RegisterEditor<BasicHtmlEditor>(new FileEditorDescriptor("HTML Editor", "htm-editor", "htm", "html"));
+			services.RegisterEditor<BasicEditor>(new FileEditorDescriptor("Text Editor", "txt-editor", "txt"));
 
-			ToolStripMenuItem fileMenu = Services.HostWindow.GetMenuItem("File");
-			ToolStripMenuItem editMenu = Services.HostWindow.GetMenuItem("edit");
-			ToolStripMenuItem queryMenu = Services.HostWindow.GetMenuItem("query");
-			ToolStripMenuItem helpMenu = Services.HostWindow.GetMenuItem("help");
+			services.RegisterComponent<NewFileForm>("NewFileForm");
+
+        	ToolStripMenuItem fileMenu = hostWindow.GetMenuItem("File");
+			ToolStripMenuItem editMenu = hostWindow.GetMenuItem("edit");
+			ToolStripMenuItem queryMenu = hostWindow.GetMenuItem("query");
+			ToolStripMenuItem helpMenu = hostWindow.GetMenuItem("help");
 
             fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<NewQueryFormCommand>());
 			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<NewFileCommand>());
@@ -72,20 +75,20 @@ namespace MiniSqlQuery.PlugIns
             helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
             helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowAboutCommand>());
 
-            CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(Services.HostWindow.Instance.MainMenuStrip);
+            CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(hostWindow.Instance.MainMenuStrip);
 
             // toolstrip
-            Services.HostWindow.AddToolStripCommand<NewQueryFormCommand>(0);
-            Services.HostWindow.AddToolStripCommand<OpenFileCommand>(1);
-            Services.HostWindow.AddToolStripCommand<SaveFileCommand>(2);
-            Services.HostWindow.AddToolStripSeperator(3);
-            Services.HostWindow.AddToolStripCommand<ExecuteTaskCommand>(4);
-			Services.HostWindow.AddToolStripCommand<CancelTaskCommand>(5);
-            Services.HostWindow.AddToolStripSeperator(6);
-            Services.HostWindow.AddToolStripSeperator(null);
-            Services.HostWindow.AddToolStripCommand<RefreshDatabaseConnectionCommand>(null);
+            hostWindow.AddToolStripCommand<NewQueryFormCommand>(0);
+            hostWindow.AddToolStripCommand<OpenFileCommand>(1);
+            hostWindow.AddToolStripCommand<SaveFileCommand>(2);
+            hostWindow.AddToolStripSeperator(3);
+            hostWindow.AddToolStripCommand<ExecuteTaskCommand>(4);
+			hostWindow.AddToolStripCommand<CancelTaskCommand>(5);
+            hostWindow.AddToolStripSeperator(6);
+            hostWindow.AddToolStripSeperator(null);
+            hostWindow.AddToolStripCommand<RefreshDatabaseConnectionCommand>(null);
 
-			Services.HostWindow.AddPluginCommand<InsertGuidCommand>();
+			hostWindow.AddPluginCommand<InsertGuidCommand>();
 
             // watch tool strip enabled properties
             // by simply iterating each one every second or so we avoid the need to track via events

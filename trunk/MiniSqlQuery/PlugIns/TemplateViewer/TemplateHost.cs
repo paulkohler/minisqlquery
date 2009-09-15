@@ -1,28 +1,37 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.DbModel;
 
 namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
-	public class TemplateHost:IDisposable
+	public class TemplateHost : IDisposable
 	{
-		public TemplateHost(IApplicationServices services)
+		private readonly IDatabaseInspector _databaseInspector;
+
+		public TemplateHost(IApplicationServices applicationServices, IDatabaseInspector databaseInspector)
 		{
-			Services = services;
+			ApplicationServices = applicationServices;
+			_databaseInspector = databaseInspector;
 		}
+
+		public IApplicationServices ApplicationServices { get; set; }
 
 		public IApplicationServices Services { get; private set; }
-		public DbModelInstance Model {
+
+		public DbModelInstance Model
+		{
 			get
 			{
-				if (Services.HostWindow.DatabaseInspector.DbSchema == null)
+				if (_databaseInspector.DbSchema == null)
 				{
-					Services.HostWindow.DatabaseInspector.LoadDatabaseDetails();
+					_databaseInspector.LoadDatabaseDetails();
 				}
-				return Services.HostWindow.DatabaseInspector.DbSchema;
+				return _databaseInspector.DbSchema;
 			}
-
 		}
+
 		public TemplateData Data { get; set; }
 
 		public string MachineName
@@ -35,18 +44,23 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			get { return Environment.UserName; }
 		}
 
-		public string Date(string format)
-		{
-			return DateTime.Now.ToString(format);
-		}
-
 		// to do - helper functions for changing names too code friendly etc
+
+		#region IDisposable Members
+
 		public void Dispose()
 		{
 			if (Data != null)
 			{
 				Data.Dispose();
 			}
+		}
+
+		#endregion
+
+		public string Date(string format)
+		{
+			return DateTime.Now.ToString(format);
 		}
 	}
 }

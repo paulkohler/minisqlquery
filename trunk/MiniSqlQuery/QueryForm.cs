@@ -18,6 +18,7 @@ namespace MiniSqlQuery
 		private static object _syncLock = new object();
 		private readonly IApplicationServices _services;
 		private readonly IApplicationSettings _settings;
+		private readonly IHostWindow _hostWindow;
 
 		private bool _highlightingProviderLoaded;
 		private bool _isDirty;
@@ -46,11 +47,12 @@ namespace MiniSqlQuery
 			CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(editorContextMenuStrip);
 		}
 
-		public QueryForm(IApplicationServices services, IApplicationSettings settings)
+		public QueryForm(IApplicationServices services, IApplicationSettings settings, IHostWindow hostWindow)
 			: this()
 		{
 			_services = services;
 			_settings = settings;
+			_hostWindow = hostWindow;
 		}
 
 		#region IPrintableContent Members
@@ -366,14 +368,14 @@ namespace MiniSqlQuery
 
 		protected void UpdateHostStatus()
 		{
-			_services.HostWindow.SetStatus(this, _status);
+			_hostWindow.SetStatus(this, _status);
 		}
 
 		public void ExecuteQuery(string sql)
 		{
 			if (IsBusy)
 			{
-				_services.HostWindow.DisplaySimpleMessageBox(this, "Please wait for the current operation to complete.", "Busy");
+				_hostWindow.DisplaySimpleMessageBox(this, "Please wait for the current operation to complete.", "Busy");
 				return;
 			}
 
@@ -423,8 +425,6 @@ namespace MiniSqlQuery
 							grid.DataSource = dt;
 							grid.DataError += GridDataError;
 							grid.DefaultCellStyle = cellStyle;
-
-							grid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(grid_KeyPress);
 
 							cellStyle.NullValue = "<NULL>";
 							cellStyle.Font = CreateDefaultFont();
@@ -486,14 +486,14 @@ namespace MiniSqlQuery
 
 		private void QueryForm_Deactivate(object sender, EventArgs e)
 		{
-			_services.HostWindow.SetStatus(this, string.Empty);
+			_hostWindow.SetStatus(this, string.Empty);
 		}
 
 		private void QueryForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			if (_isDirty)
 			{
-				DialogResult saveFile = _services.HostWindow.DisplayMessageBox(
+				DialogResult saveFile = _hostWindow.DisplayMessageBox(
 					this,
 					"Contents changed, do you want to save the file?\r\n" + TabText, "Save Changes?",
 					MessageBoxButtons.YesNoCancel,
@@ -542,18 +542,18 @@ namespace MiniSqlQuery
 				if (e.Error != null)
 				{
 					// todo: improve!
-					_services.HostWindow.DisplaySimpleMessageBox(this, e.Error.Message, "Error");
+					_hostWindow.DisplaySimpleMessageBox(this, e.Error.Message, "Error");
 					SetStatus(e.Error.Message);
 				}
 				else
 				{
-					_services.HostWindow.SetPointerState(Cursors.Default);
+					_hostWindow.SetPointerState(Cursors.Default);
 					string message = CreateQueryCompleteMessage(_runner.Batch.StartTime, _runner.Batch.EndTime);
 					if (_runner.Exception != null)
 					{
 						message = "ERROR - " + message;
 					}
-					_services.HostWindow.SetStatus(this, message);
+					_hostWindow.SetStatus(this, message);
 					AddTables();
 					txtQuery.Focus();
 				}
@@ -656,7 +656,7 @@ namespace MiniSqlQuery
 					Clipboard.Clear();
 					Clipboard.SetText(line);
 
-					_services.HostWindow.SetStatus(this, "Selected data has been copied to your clipboard");
+					_hostWindow.SetStatus(this, "Selected data has been copied to your clipboard");
 				}
 			}
 			finally
@@ -665,14 +665,6 @@ namespace MiniSqlQuery
 				{
 					win.Dispose();
 				}
-			}
-		}
-
-		private void grid_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if (e.KeyChar == 3)
-			{
-				copyToolStripMenuItem_Click(null, null);
 			}
 		}
 	}
