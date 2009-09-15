@@ -20,7 +20,7 @@ namespace MiniSqlQuery.Tests
 
 		#endregion
 
-		private string _conn = @"Server=.\sqlexpress; Database=AdventureWorks; Integrated Security=SSPI";
+		private string _conn = @"Server=.; Database=AdventureWorks; Integrated Security=SSPI";
 		private QueryRunner _runner;
 
 		[Test]
