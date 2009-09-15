@@ -7,6 +7,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 {
 	public partial class ConnectionStringBuilderForm : Form
 	{
+		private readonly IHostWindow _hostWindow;
 		private readonly IApplicationServices _services;
 		public DbConnectionDefinition ConnectionDefinition { get; set; }
 		public const string DefaultProviderName = "System.Data.SqlClient";
@@ -70,15 +71,16 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 		}
 
 
-		public ConnectionStringBuilderForm(IApplicationServices services)
+		public ConnectionStringBuilderForm(IHostWindow hostWindow, IApplicationServices services)
 		{
 			InitializeComponent();
+			_hostWindow = hostWindow;
 			_services = services;
 			Icon = ImageResource.database_edit_icon;
 		}
 
-		public ConnectionStringBuilderForm(DbConnectionDefinition definition, IApplicationServices services)
-			: this(services)
+		public ConnectionStringBuilderForm(IHostWindow hostWindow, DbConnectionDefinition definition, IApplicationServices services)
+			: this(hostWindow, services)
 		{
 			ConnectionDefinition = definition;
 			ConnectionName = ConnectionDefinition.Name;
@@ -244,12 +246,12 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			if (exp == null)
 			{
 				string msg = string.Format("Connected to '{0}' successfully.", ConnectionName);
-				_services.HostWindow.DisplaySimpleMessageBox(this, msg, "Connection Successful");
+				_hostWindow.DisplaySimpleMessageBox(this, msg, "Connection Successful");
 			}
 			else
 			{
 				string msg = string.Format("Failed connecting to '{0}'.{1}{2}", ConnectionName, Environment.NewLine, exp.Message);
-				_services.HostWindow.DisplaySimpleMessageBox(this, msg, "Connection Failed");
+				_hostWindow.DisplaySimpleMessageBox(this, msg, "Connection Failed");
 			}
 		}
 

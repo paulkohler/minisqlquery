@@ -10,6 +10,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 	{
 		private readonly IApplicationSettings _settings;
 		private readonly IApplicationServices _services;
+		private readonly IHostWindow _hostWindow;
 		private DbConnectionDefinitionList _definitionList;
 
 		public DbConnectionsForm()
@@ -22,11 +23,12 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			Icon = ImageResource.disconnect_icon;
 		}
 
-		public DbConnectionsForm(IApplicationServices services, IApplicationSettings settings)
+		public DbConnectionsForm(IApplicationServices services, IHostWindow hostWindow, IApplicationSettings settings)
 			: this()
 		{
-			_settings = settings;
 			_services = services;
+			_hostWindow = hostWindow;
+			_settings = settings;
 		}
 
 
@@ -152,12 +154,12 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 
 			if (definition == null)
 			{
-				frm = new ConnectionStringBuilderForm(_services); // new blank form
+				frm = new ConnectionStringBuilderForm(_hostWindow, _services); // new blank form
 			}
 			else
 			{
 				oldName = definition.Name;
-				frm = new ConnectionStringBuilderForm(definition, _services);
+				frm = new ConnectionStringBuilderForm(_hostWindow, definition, _services);
 			}
 
 			frm.ShowDialog(this);
@@ -214,12 +216,12 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 				if (exp == null)
 				{
 					string msg = string.Format("Connected to '{0}' successfully.", definition.Name);
-					_services.HostWindow.DisplaySimpleMessageBox(this, msg, "Connection Successful");
+					_hostWindow.DisplaySimpleMessageBox(this, msg, "Connection Successful");
 				}
 				else
 				{
 					string msg = string.Format("Failed connecting to '{0}'.{1}{2}", definition.Name, Environment.NewLine, exp.Message);
-					_services.HostWindow.DisplaySimpleMessageBox(this, msg, "Connection Failed");
+					_hostWindow.DisplaySimpleMessageBox(this, msg, "Connection Failed");
 				}
 			}
 		}

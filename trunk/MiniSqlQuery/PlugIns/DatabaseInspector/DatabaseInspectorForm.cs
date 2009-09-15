@@ -23,9 +23,10 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 		private TreeNode _tablesNode;
 		private TreeNode _viewsNode;
 
-		internal IApplicationServices Services;
+		private readonly IApplicationServices _services;
+		private readonly IHostWindow _hostWindow;
 
-		public DatabaseInspectorForm(IApplicationServices services)
+		public DatabaseInspectorForm(IApplicationServices services, IHostWindow hostWindow)
 		{
 			InitializeComponent();
 			BuildImageList();
@@ -35,9 +36,10 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			root.Nodes.Add("Loading problem - check connection details and reset...");
 			DatabaseTreeView.Nodes.Add(root);
 
-			Services = services;
+			_services = services;
+			_hostWindow = hostWindow;
 
-			Services.Settings.DatabaseConnectionReset += Settings_DatabaseConnectionReset;
+			_services.Settings.DatabaseConnectionReset += Settings_DatabaseConnectionReset;
 		}
 
 		/// <summary>
@@ -123,10 +125,10 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 
 			try
 			{
-				Services.HostWindow.SetPointerState(Cursors.WaitCursor);
+				_hostWindow.SetPointerState(Cursors.WaitCursor);
 				if (_metaDataService == null)
 				{
-					_metaDataService = DatabaseMetaDataService.Create(Services.Settings.ConnectionDefinition.ProviderName);
+					_metaDataService = DatabaseMetaDataService.Create(_services.Settings.ConnectionDefinition.ProviderName);
 				}
 				connection = _metaDataService.GetDescription();
 				populate = true;
@@ -136,28 +138,28 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 				string msg = string.Format(
 					"{0}\r\n\r\nCheck the connection and select 'Reset Database Connection'.",
 					exp.Message);
-				Services.HostWindow.DisplaySimpleMessageBox(Services.HostWindow.Instance, msg, "DB Connection Error");
-				Services.HostWindow.SetStatus(this, exp.Message);
+				_hostWindow.DisplaySimpleMessageBox(_services.HostWindow.Instance, msg, "DB Connection Error");
+				_hostWindow.SetStatus(this, exp.Message);
 			}
 			finally
 			{
-				Services.HostWindow.SetPointerState(Cursors.Default);
+				_hostWindow.SetPointerState(Cursors.Default);
 			}
 
 			if (populate)
 			{
 				try
 				{
-					Services.HostWindow.SetPointerState(Cursors.WaitCursor);
-					_model = _metaDataService.GetDbObjectModel(Services.Settings.ConnectionDefinition.ConnectionString);
+					_hostWindow.SetPointerState(Cursors.WaitCursor);
+					_model = _metaDataService.GetDbObjectModel(_services.Settings.ConnectionDefinition.ConnectionString);
 				}
 				finally
 				{
-					Services.HostWindow.SetPointerState(Cursors.Default);
+					_hostWindow.SetPointerState(Cursors.Default);
 				}
 
 				BildTreeFromDbModel(connection);
-				Services.HostWindow.SetStatus(this, string.Empty);
+				_hostWindow.SetStatus(this, string.Empty);
 				success = true;
 			}
 			else
@@ -294,7 +296,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 
 		private void SetText(string text)
 		{
-			IQueryEditor editor = Services.HostWindow.ActiveChildForm as IQueryEditor;
+			IQueryEditor editor = _hostWindow.ActiveChildForm as IQueryEditor;
 
 			if (editor != null)
 			{
@@ -367,7 +369,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			StringWriter stringWriter = new StringWriter();
 			if (_sqlWriter == null)
 			{
-				_sqlWriter = Services.Resolve<ISqlWriter>();
+				_sqlWriter = _services.Resolve<ISqlWriter>();
 			}
 			_sqlWriter.WriteSummary(stringWriter, column);
 			return stringWriter.ToString();

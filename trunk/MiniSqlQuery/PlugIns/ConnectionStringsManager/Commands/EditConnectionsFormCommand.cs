@@ -15,7 +15,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager.Commands
 
 		public override void Execute()
 		{
-			DbConnectionsForm frm = new DbConnectionsForm(Services, Settings);
+			DbConnectionsForm frm = Services.Resolve<DbConnectionsForm>();
 			frm.ShowDialog(Services.HostWindow.Instance);
 		}
 	}

@@ -16,6 +16,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 
 		public override void InitializePlugIn()
 		{
+			Services.RegisterComponent<DbConnectionsForm>("DbConnectionsForm");
 			ToolStripMenuItem editMenu = Services.HostWindow.GetMenuItem("edit");
 			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<EditConnectionsFormCommand>());
 			Services.HostWindow.AddToolStripCommand<EditConnectionsFormCommand>(null);
