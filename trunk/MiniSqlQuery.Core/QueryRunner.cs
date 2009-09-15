@@ -101,7 +101,10 @@ namespace MiniSqlQuery.Core
 			}
 			finally
 			{
-				Batch.EndTime = DateTime.Now;
+				if (Batch != null)
+				{
+					Batch.EndTime = DateTime.Now;
+				}
 				if (adapter != null)
 				{
 					adapter.Dispose();
@@ -113,7 +116,10 @@ namespace MiniSqlQuery.Core
 				IsBusy = false;
 				UnsubscribeFromMessages(dbConnection);
 			}
-			Batch.Messages = Messages;
+			if (Batch != null)
+			{
+				Batch.Messages = Messages;
+			}
 		}
 
 		protected virtual void HandleBatchException(DbException dbException)

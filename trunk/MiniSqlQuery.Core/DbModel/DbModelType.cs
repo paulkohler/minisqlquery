@@ -145,7 +145,7 @@ namespace MiniSqlQuery.Core.DbModel
 				switch (SystemType.Name)
 				{
 					case"String":
-						return "''";
+						return string.Concat(LiteralPrefix, LiteralSuffix);
 					case"DateTime":
 						return "'?'";
 					case"Guid":

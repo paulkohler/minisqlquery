@@ -65,11 +65,11 @@ namespace MiniSqlQuery.Tests.DbModel
 		}
 
 		[Test]
-		public void nou_null_nvarchar_defaults_to_empty_quotes()
+		public void not_null_nvarchar_defaults_to_empty_quotes()
 		{
 			DbModelType notNullNvarchar = _dbTypes["nvarchar"].Copy();
 			notNullNvarchar.Value = null;
-			Assert.That(notNullNvarchar.ToDDLValue(false), Is.EqualTo("''"));
+			Assert.That(notNullNvarchar.ToDDLValue(false), Is.EqualTo("N''"));
 		}
 
 		[Test]

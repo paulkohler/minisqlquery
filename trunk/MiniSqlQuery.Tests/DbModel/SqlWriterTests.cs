@@ -5,6 +5,8 @@ using MiniSqlQuery.Core.DbModel;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
+// ReSharper disable InconsistentNaming
+
 namespace MiniSqlQuery.Tests.DbModel
 {
 	[TestFixture(Description = "Requires SQLCE DB")]
@@ -38,9 +40,9 @@ namespace MiniSqlQuery.Tests.DbModel
 			// build sql sample...
 			_sqlWriter.WriteCreate(_sqlSW, table.Columns[0]);
 			_sqlSW.WriteLine(",");
-			_sqlWriter.WriteCreate(_sqlSW, table.Columns[4]);
+			_sqlWriter.WriteCreate(_sqlSW, table.Columns[2]);
 
-			Assert.That(_sqlSW.ToString(), Is.EqualTo("ID int not null,\r\nNotes nvarchar(4000) null"));
+			Assert.That(_sqlSW.ToString(), Is.EqualTo("ID int not null,\r\nName nvarchar(100) not null"));
 		}
 
 		[Test]
@@ -52,8 +54,8 @@ namespace MiniSqlQuery.Tests.DbModel
 			Assert.That(_sqlSW.ToString(), Is.EqualTo("ID (int not null)"));
 
 			_sqlSW = new StringWriter();
-			_sqlWriter.WriteSummary(_sqlSW, table.Columns[4]);
-			Assert.That(_sqlSW.ToString(), Is.EqualTo("Notes (nvarchar(4000) null)"));
+			_sqlWriter.WriteSummary(_sqlSW, table.Columns[2]);
+			Assert.That(_sqlSW.ToString(), Is.EqualTo("Name (nvarchar(100) not null)"));
 		}
 
 		[Test]
@@ -65,8 +67,7 @@ namespace MiniSqlQuery.Tests.DbModel
 	ID,
 	StaffUnitID,
 	Name,
-	DOB,
-	Notes
+	DOB
 FROM Person
 "));
 		}

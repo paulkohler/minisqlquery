@@ -4,6 +4,8 @@ using MiniSqlQuery.Core.DbModel;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
+// ReSharper disable InconsistentNaming
+
 namespace MiniSqlQuery.Tests.DbModel
 {
 	[TestFixture(Description = "Requires SQLCE DB")]
@@ -29,13 +31,13 @@ namespace MiniSqlQuery.Tests.DbModel
 		[Test]
 		public void Has_Customers_table()
 		{
-			Assert.That(_model.FindTable("Customers"), Is.EqualTo(1));
+			Assert.That(_model.FindTable("Customers"), Is.Not.Null);
 		}
 
 		[Test]
 		public void Has_Categories_table()
 		{
-			Assert.That(_model.FindTable("Categories"), Is.EqualTo(1));
+			Assert.That(_model.FindTable("Categories"), Is.Not.Null);
 		}
 
 		[Test]

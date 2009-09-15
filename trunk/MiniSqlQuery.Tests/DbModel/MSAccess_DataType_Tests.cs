@@ -27,7 +27,7 @@ namespace MiniSqlQuery.Tests.DbModel
 		#endregion
 
 		private OleDbSchemaService _service;
-		private string _connStr = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Projects\CodePlex\MSQ\minisqlquery\trunk\TestDatabases\NorthWindDemo.mdb";
+		private string _connStr = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Projects\CodePlex\minisqlquery\trunk\TestDatabases\NorthWindDemo.mdb";
 		private string _providerName = "System.Data.OleDb";
 		Dictionary<string, DbModelType> _dbTypes;
 
