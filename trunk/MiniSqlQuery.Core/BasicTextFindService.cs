@@ -47,7 +47,7 @@ namespace MiniSqlQuery.Core
 			if (pos > -1)
 			{
 				// the editor will highlight the find
-				request.Position = pos;
+				request.Position = pos + request.SearchValue.Length;
 			}
 			else
 			{
