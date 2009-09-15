@@ -17,15 +17,15 @@ namespace MiniSqlQuery.PlugIns
 
         public override void InitializePlugIn()
         {
-			Services.RegisterEditor<BasicEditor>("default-editor");
-			Services.RegisterEditor<QueryForm>("sql-editor", "sql");
-			Services.RegisterEditor<BasicCSharpEditor>("cs-editor", "cs");
-			Services.RegisterEditor<BasicVbNetEditor>("vb-editor", "vb");
-			Services.RegisterEditor<BasicXmlEditor>("xml-editor", "xml");
-			//Services.RegisterEditor<BasicHtmlEditor>("htm-editor", "htm", "html");
-			Services.RegisterEditor<BasicHtmlEditor>("htm-editor", "htm");
-			Services.RegisterEditor<BasicHtmlEditor>("html-editor", "html");
-			Services.RegisterEditor<BasicEditor>("txt-editor", "txt");
+			Services.RegisterEditor<BasicEditor>(new FileEditorDescriptor("Default text editor", "default-editor"));
+			Services.RegisterEditor<QueryForm>(new FileEditorDescriptor("SQL Editor", "sql-editor", "sql"));
+			Services.RegisterEditor<BasicCSharpEditor>(new FileEditorDescriptor("C# Editor", "cs-editor", "cs"));
+			Services.RegisterEditor<BasicVbNetEditor>(new FileEditorDescriptor("VB/VB.NET Editor", "vb-editor", "vb"));
+			Services.RegisterEditor<BasicXmlEditor>(new FileEditorDescriptor("XML Editor", "xml-editor", "xml"));
+			Services.RegisterEditor<BasicHtmlEditor>(new FileEditorDescriptor("HTML Editor", "htm-editor", "htm", "html"));
+			Services.RegisterEditor<BasicEditor>(new FileEditorDescriptor("Text Editor", "txt-editor", "txt"));
+
+			Services.RegisterComponent<NewFileForm>("NewFileForm");
 
 			ToolStripMenuItem fileMenu = Services.HostWindow.GetMenuItem("File");
 			ToolStripMenuItem editMenu = Services.HostWindow.GetMenuItem("edit");

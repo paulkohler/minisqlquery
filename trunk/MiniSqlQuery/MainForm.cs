@@ -50,6 +50,7 @@ namespace MiniSqlQuery
 			}
 		}
 
+		[System.Diagnostics.DebuggerNonUserCode]
 		public ToolStrip ToolStrip
 		{
 			get { return toolStripConnection; }

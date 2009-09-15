@@ -7,17 +7,19 @@ namespace MiniSqlQuery.Core
 	public class FileEditorResolverService : IFileEditorResolver
 	{
 		private readonly IApplicationServices _services;
-		private readonly List<string> _extentions;
+		private readonly Dictionary<string, FileEditorDescriptor> _extentionMap;
+		private readonly List<FileEditorDescriptor> _fileEditorDescriptors;
 
 		public FileEditorResolverService(IApplicationServices services)
 		{
 			_services = services;
-			_extentions=new List<string>();
+			_extentionMap= new Dictionary<string, FileEditorDescriptor>();
+			_fileEditorDescriptors = new List<FileEditorDescriptor>();
 		}
 
 		public string ResolveEditorNameByExtension(string extention)
 		{
-			string editorName = "default-editor";
+			string editorName = _extentionMap["*"].EditorKeyName;
 
 			if (extention != null)
 			{
@@ -27,18 +29,35 @@ namespace MiniSqlQuery.Core
 				}
 
 				// is there a specific editor for this file type
-				if (_extentions.Contains(extention))
+				if (_extentionMap.ContainsKey(extention))
 				{
-					editorName = extention + "-editor";
+					editorName = _extentionMap[extention].EditorKeyName;
 				}
 			}
 
 			return editorName;
 		}
 
-		public void Register(string extention)
+		public void Register(FileEditorDescriptor fileEditorDescriptor)
 		{
-			_extentions.Add(extention);
+			_fileEditorDescriptors.Add(fileEditorDescriptor);
+			if (fileEditorDescriptor.Extentions == null || fileEditorDescriptor.Extentions.Length == 0)
+			{
+				_extentionMap.Add("*", fileEditorDescriptor);
+			}
+			else
+			{
+				// create a map of all ext to editors
+				foreach (string extention in fileEditorDescriptor.Extentions)
+				{
+					_extentionMap.Add(extention, fileEditorDescriptor);
+				}
+			}
+		}
+
+		public FileEditorDescriptor[] GetFileTypes()
+		{
+			return _fileEditorDescriptors.ToArray();
 		}
 
 

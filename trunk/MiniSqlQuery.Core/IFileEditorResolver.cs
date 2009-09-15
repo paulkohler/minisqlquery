@@ -6,6 +6,7 @@ namespace MiniSqlQuery.Core
 	{
 		IEditor ResolveEditorInstance(string filename);
 		string ResolveEditorNameByExtension(string extension);
-		void Register(string extention);
+		void Register(FileEditorDescriptor fileEditorDescriptor);
+		FileEditorDescriptor[] GetFileTypes();
 	}
 }

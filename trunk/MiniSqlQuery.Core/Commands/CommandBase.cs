@@ -12,7 +12,6 @@ namespace MiniSqlQuery.Core.Commands
 	public abstract class CommandBase : ICommand
 	{
 		private string _name;
-		private Keys _shortcutKeys;
 		private Image _smallImage;
 
 		/// <summary>
@@ -23,7 +22,7 @@ namespace MiniSqlQuery.Core.Commands
 		public CommandBase(string name)
 		{
 			_name = name;
-			_shortcutKeys = Keys.None;
+			ShortcutKeys = Keys.None;
 		}
 
 		/// <summary>
@@ -61,11 +60,7 @@ namespace MiniSqlQuery.Core.Commands
 		/// Gets the menu shortcut keys for this command (e.g. Keys.F5).
 		/// </summary>
 		/// <value>The shortcut keys for this command (the default is Keys.None).</value>
-		public virtual Keys ShortcutKeys
-		{
-			get { return _shortcutKeys; }
-			protected set { _shortcutKeys = value; }
-		}
+		public virtual Keys ShortcutKeys { get; protected set; }
 
 		/// <summary>
 		/// Gets the shortcut key text to be displayed as help.

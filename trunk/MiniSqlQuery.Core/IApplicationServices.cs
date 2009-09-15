@@ -93,11 +93,10 @@ namespace MiniSqlQuery.Core
 		void PostMessage(SystemMessage message, object data);
 
 		/// <summary>
-		/// Registers the editor of type <typeparamref name="TEditor"/> using the <paramref name="editorKeyName"/>.
+		/// Registers the editor of type <typeparamref name="TEditor"/> using the <see cref="FileEditorDescriptor.EditorKeyName"/>.
 		/// </summary>
 		/// <typeparam name="TEditor">The editor type.</typeparam>
-		/// <param name="editorKeyName">Name of the editor key.</param>
-		/// <param name="extension">The extension, "sql", "cs" etc.</param>
-		void RegisterEditor<TEditor>(string editorKeyName, params string[] extension) where TEditor : IEditor;
+		/// <param name="fileEditorDescriptor"></param>
+		void RegisterEditor<TEditor>(FileEditorDescriptor fileEditorDescriptor) where TEditor : IEditor;
 	}
 }

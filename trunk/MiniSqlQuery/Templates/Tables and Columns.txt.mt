@@ -4,7 +4,7 @@ ProviderName: "${Host.Model.ProviderName}"
 #foreach ($table in ${Host.Model.Tables})
 Table: ${table.Name} (Row count: ${Data.Get($table.FullName).Rows.Count})
 #foreach ($c in ${table.Columns})
-  * ${c.Name}
+  * Column.Name:     ${c.Name}
 	DbType.Summary:  ${c.DbType.Summary}
 		Name:        ${c.DbType.Name}
 		Length:      ${c.DbType.Length}
@@ -22,8 +22,8 @@ Table: ${table.Name} (Row count: ${Data.Get($table.FullName).Rows.Count})
 	HasFK:           ${c.HasFK}
 #if($c.HasFK)
 	 ${c.ForiegnKeyReference.ReferenceTable.FullName}.${c.ForiegnKeyReference.ReferenceColumn.Name}
-#end
+#end ## hasFK
 
-#end
+#end ## foreach column
 
-#end
+#end ## foreach table
