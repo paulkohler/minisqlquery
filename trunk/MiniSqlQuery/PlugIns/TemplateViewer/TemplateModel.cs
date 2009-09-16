@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Template;
-using MiniSqlQuery.Properties;
 
 namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
@@ -33,7 +32,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		public string GetTemplatePath()
 		{
 			string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			path = Path.Combine(path, Resources.TemplatesDirectoryName);
+			path = Path.Combine(path, TemplateResources.TemplatesDirectoryName);
 
 			return path;
 		}

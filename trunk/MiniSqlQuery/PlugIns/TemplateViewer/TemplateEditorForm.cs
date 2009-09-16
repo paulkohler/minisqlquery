@@ -206,6 +206,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		{
 			TemplateModel templateModel = _services.Resolve<TemplateModel>();
 			TemplateResult templateResult = null;
+			txtErrors.Clear();
 
 			try
 			{
@@ -219,7 +220,8 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			catch (TemplateException exp)
 			{
 				_hostWindow.DisplaySimpleMessageBox(this, exp.Message, "Template Error");
-				// todo - try to get the line number and move cursor...
+				// todo - try to get the line number and move cursor?...
+				txtErrors.Text = exp.Message;
 			}
 
 			if (templateResult != null)
@@ -273,6 +275,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 		private void TemplateEditorForm_Load(object sender, EventArgs e)
 		{
+			rtfHelp.Rtf = TemplateResources.TemplateHelp;
 		}
 
 		public void HighlightString(int offset, int length)

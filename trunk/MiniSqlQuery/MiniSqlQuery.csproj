@@ -177,6 +177,11 @@
     <Compile Include="PlugIns\TemplateViewer\TemplateEditorForm.Designer.cs">
       <DependentUpon>TemplateEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlugIns\TemplateViewer\TemplateResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TemplateResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="PlugIns\TemplateViewer\TemplateResult.cs" />
     <Compile Include="PlugIns\TemplateViewer\TemplateViewerLoader.cs" />
     <Compile Include="PlugIns\TemplateViewer\TemplateModel.cs" />
@@ -237,6 +242,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PlugIns\TemplateViewer\TemplateEditorForm.resx">
       <DependentUpon>TemplateEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlugIns\TemplateViewer\TemplateResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TemplateResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="PlugIns\TemplateViewer\TemplateViewForm.resx">
       <DependentUpon>TemplateViewForm.cs</DependentUpon>
