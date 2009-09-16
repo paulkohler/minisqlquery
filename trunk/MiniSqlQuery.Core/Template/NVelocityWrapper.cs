@@ -4,6 +4,7 @@ using System.IO;
 using NVelocity;
 using NVelocity.App;
 using NVelocity.Exception;
+using NVelocity.Runtime.Log;
 
 namespace MiniSqlQuery.Core.Template
 {
@@ -29,6 +30,11 @@ namespace MiniSqlQuery.Core.Template
 				velocityEngine.Init();
 
 				Boolean ok = velocityEngine.Evaluate(velocityContext, sw, "ContextTest.CaseInsensitive", text);
+
+				if (!ok)
+				{
+					throw new TemplateException("Template run error (try adding an extra newline at the end of the file)");
+				}
 
 				return sw.ToString();
 			}
