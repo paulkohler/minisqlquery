@@ -326,6 +326,7 @@
     <None Include="MT-Mode.xshd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="PlugIns\TemplateViewer\TemplateHelp.rtf" />
     <None Include="Templates\New.txt.mt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
