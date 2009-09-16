@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<SyntaxDefinition name = "NVelocity" extensions = ".mt;.vm;.nv">
+	
+	<Properties>
+		<Property name="LineComment" value="##"/>
+	</Properties>
+	
+	<Digits name = "Digits" bold = "false" italic = "false" color = "DarkBlue"/>
+	
+	<RuleSets>
+		<RuleSet ignorecase = "false">
+			<Delimiters>~!%^*()-+=|\/{}[]:;"'&lt;&gt; , .?</Delimiters>
+		
+			<Span name = "LineComment" bold = "false" italic = "true" color = "Green" stopateol = "true" escapecharacter="\">
+				<Begin>##</Begin>
+			</Span>
+			
+			<Span name = "BlockComment" bold = "false" italic = "true" color = "Green" stopateol = "false">
+				<Begin>#*</Begin>
+				<End>*#</End>
+			</Span>
+			
+			<Span name = "VelocityVariable" bold = "false" italic = "false" color = "Blue" stopateol = "false" >
+				<Begin>${</Begin>
+				<End>}</End>
+			</Span>
+
+			<MarkFollowing bold = "false" italic = "false" color = "Blue">$</MarkFollowing>
+
+			<KeyWords name = "AccessKeywords" bold="true" italic="false" color="Blue">
+				<Key word = "#foreach" />
+				<Key word = "#set" />
+				<Key word = "#if" />
+				<Key word = "#else" />
+				<Key word = "#elseif" />
+				<Key word = "#end" />
+				<Key word = "#macro" />
+			</KeyWords>
+			
+			<KeyWords name = "NameSpaces" bold="true" italic="false" color="Green">
+				<Key word = "#include" />
+			</KeyWords>
+			
+			<KeyWords name = "Literals" bold="true" italic="false" color="Black">
+				<Key word = "false" />
+				<Key word = "true" />
+			</KeyWords>
+		
+	</RuleSet>
+	</RuleSets>
+</SyntaxDefinition>
+

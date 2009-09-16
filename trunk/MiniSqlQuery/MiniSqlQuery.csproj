@@ -322,6 +322,10 @@
     </Content>
     <Content Include="PlugIns\ViewTable\table.ico" />
     <Content Include="script.ico" />
+    <None Include="Mode.xsd" />
+    <None Include="MT-Mode.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\New.txt.mt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

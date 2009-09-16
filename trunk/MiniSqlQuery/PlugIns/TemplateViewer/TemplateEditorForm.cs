@@ -267,6 +267,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			string dir = Path.GetDirectoryName(GetType().Assembly.Location);
 			FileSyntaxModeProvider fsmProvider = new FileSyntaxModeProvider(dir);
 			HighlightingManager.Manager.AddSyntaxModeFileProvider(fsmProvider); // Attach to the text editor.
+			txtEdit.SetHighlighting("NVelocity");
 			_highlightingProviderLoaded = true;
 		}
 

@@ -1,6 +1,7 @@
 Mini SQL Query Change Log
 =========================
 
+2009-09-16	ENH: Simple syntax highlighting for the template editor.
 2009-09-07	ENH: Updated query form, view table form and edit template form to make use of the IPerformTask interface (enabling use of F5 on those windows to "run" the task).
 2009-09-02	ENH: Updated the DB Inspector to display the PK/FK info for MSSQL and MSSQL Compact Edition databases.
 2009-09-01	ENH: Added Foriegn key ability to the SQL CE providers.
