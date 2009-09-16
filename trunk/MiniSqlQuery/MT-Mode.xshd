@@ -12,10 +12,18 @@
 		<RuleSet ignorecase = "false">
 			<Delimiters>~!%^*()-+=|\/{}[]:;"'&lt;&gt; , .?</Delimiters>
 		
+			<Span name = "LineDirective1" bold = "true" italic = "false" color = "Purple" stopateol = "true">
+				<Begin>#@get</Begin>
+			</Span>
+		
+			<Span name = "LineDirective2" bold = "true" italic = "false" color = "Purple" stopateol = "true">
+				<Begin>#@set</Begin>
+			</Span>
+			
 			<Span name = "LineComment" bold = "false" italic = "true" color = "Green" stopateol = "true" escapecharacter="\">
 				<Begin>##</Begin>
 			</Span>
-			
+		
 			<Span name = "BlockComment" bold = "false" italic = "true" color = "Green" stopateol = "false">
 				<Begin>#*</Begin>
 				<End>*#</End>
@@ -35,10 +43,10 @@
 				<Key word = "#else" />
 				<Key word = "#elseif" />
 				<Key word = "#end" />
-				<Key word = "#macro" />
 			</KeyWords>
 			
 			<KeyWords name = "NameSpaces" bold="true" italic="false" color="Green">
+				<Key word = "#macro" />
 				<Key word = "#include" />
 			</KeyWords>
 			

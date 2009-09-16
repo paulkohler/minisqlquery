@@ -12,11 +12,9 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 		public TemplateHost(IApplicationServices applicationServices, IDatabaseInspector databaseInspector)
 		{
-			ApplicationServices = applicationServices;
+			Services = applicationServices;
 			_databaseInspector = databaseInspector;
 		}
-
-		public IApplicationServices ApplicationServices { get; set; }
 
 		public IApplicationServices Services { get; private set; }
 
