@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -16,9 +18,9 @@ namespace MiniSqlQuery
 	public partial class QueryForm : DockContent, IQueryEditor, IPrintableContent
 	{
 		private static object _syncLock = new object();
+		private readonly IHostWindow _hostWindow;
 		private readonly IApplicationServices _services;
 		private readonly IApplicationSettings _settings;
-		private readonly IHostWindow _hostWindow;
 
 		private bool _highlightingProviderLoaded;
 		private bool _isDirty;
@@ -402,7 +404,7 @@ namespace MiniSqlQuery
 
 		private void AddTables()
 		{
-			_resultsTabControl.TabPages.Clear();
+			ClearGridsAndTabs();
 
 			if (Batch != null)
 			{
@@ -425,9 +427,10 @@ namespace MiniSqlQuery
 							grid.DataSource = dt;
 							grid.DataError += GridDataError;
 							grid.DefaultCellStyle = cellStyle;
-
 							cellStyle.NullValue = "<NULL>";
 							cellStyle.Font = CreateDefaultFont();
+							grid.DataBindingComplete += GridDataBindingComplete;
+							grid.Disposed += GridDisposed;
 
 							TabPage tabPage = new TabPage();
 							tabPage.Controls.Add(grid);
@@ -461,6 +464,68 @@ namespace MiniSqlQuery
 					tabPage.UseVisualStyleBackColor = false;
 
 					_resultsTabControl.TabPages.Add(tabPage);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Iterate backweards through list of tabs disposing grid and removing the tab page.
+		/// </summary>
+		private void ClearGridsAndTabs()
+		{
+			for (int i = _resultsTabControl.TabPages.Count - 1; i >= 0; i--)
+			{
+				TabPage tabPage = _resultsTabControl.TabPages[i];
+				if (tabPage.Controls.Count > 0)
+				{
+					tabPage.Controls[0].Dispose(); // dispose grid
+				}
+				_resultsTabControl.TabPages.Remove(tabPage);
+			}
+		}
+
+		/// <summary>
+		/// Clean up event subscriptions.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void GridDisposed(object sender, EventArgs e)
+		{
+			DataGridView grid = sender as DataGridView;
+			if (grid == null)
+			{
+				return;
+			}
+			grid.DataBindingComplete -= GridDataBindingComplete;
+			grid.Disposed -= GridDisposed;
+		}
+
+		/// <summary>
+		/// Change the format style of date time columns. This has to be done post-bind.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void GridDataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+		{
+			DataGridView grid = sender as DataGridView;
+			if (grid == null)
+			{
+				return;
+			}
+			DataTable dt = grid.DataSource as DataTable;
+			if (dt == null)
+			{
+				return;
+			}
+
+			for (int i = 0; i < dt.Columns.Count; i++)
+			{
+				if (dt.Columns[i].DataType == typeof (DateTime))
+				{
+					DataGridViewCellStyle dateCellStyle = new DataGridViewCellStyle();
+					dateCellStyle.NullValue = "<NULL>";
+					dateCellStyle.Format = "yyyy-MM-dd HH:mm:ss.fffff";
+					grid.Columns[i].DefaultCellStyle = dateCellStyle;
 				}
 			}
 		}
@@ -514,7 +579,7 @@ namespace MiniSqlQuery
 			}
 		}
 
-		private void queryBackgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+		private void queryBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
 			string sql = (string) e.Argument;
 			_runner.BatchProgress += RunnerBatchProgress;
@@ -529,12 +594,12 @@ namespace MiniSqlQuery
 			queryBackgroundWorker.ReportProgress(Convert.ToInt32(i/count*100m));
 		}
 
-		private void queryBackgroundWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+		private void queryBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
 			SetStatus(string.Format("Processing batch {0}%...", e.ProgressPercentage));
 		}
 
-		private void queryBackgroundWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+		private void queryBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			try
 			{
