@@ -191,7 +191,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 
 		private void CreateTreeNodes(DbModelTable table)
 		{
-			TreeNode tableNode = new TreeNode(Utility.MakeSqlFriendly(table.FullName));
+			TreeNode tableNode = new TreeNode(table.FullName);
 			tableNode.Name = table.FullName;
 			tableNode.ImageKey = table.ObjectType;
 			tableNode.SelectedImageKey = table.ObjectType;
