@@ -92,7 +92,8 @@ namespace MiniSqlQuery.Core
 		public static void SaveConnections(DbConnectionDefinitionList definitionList)
 		{
 			string filename = GetConnectionStringFilename();
-			File.WriteAllText(filename, definitionList.ToXml());
+			string newXml = definitionList.ToXml();
+			File.WriteAllText(filename, newXml);
 		}
 
 		/// <summary>

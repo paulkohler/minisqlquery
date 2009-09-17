@@ -195,10 +195,28 @@ namespace MiniSqlQuery
 			_settings.SetConnectionDefinitions(Utility.LoadDbConnectionDefinitions());
 		}
 
-
 		private void AppSettingsConnectionDefinitionsChanged(object sender, EventArgs e)
 		{
-			LoadUpConnections();
+			bool load = true;
+
+			if (_initialized)
+			{
+
+				DialogResult result = MessageBox.Show(this,
+				                                      "The connections have changed, would you loke to refresh the database connection?",
+				                                      "Reload Connection?",
+				                                      MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+				                                      MessageBoxDefaultButton.Button1);
+				if (result != DialogResult.Yes)
+				{
+					load = false;
+				}
+			}
+
+			if (load)
+			{
+				LoadUpConnections();
+			}
 		}
 
 		private void LoadUpConnections()
