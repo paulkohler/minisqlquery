@@ -124,7 +124,28 @@ namespace MiniSqlQuery.Core
 		}
 
 		/// <summary>
-		/// Used when a menu is opening, handles enabling/dusabling of items for display.
+		/// Assigns an event handler (<see cref="TopLevelMenuDropDownOpening"/>) to the opening event
+		/// for menu strip items which in turn hadles enableing and disabling.
+		/// </summary>
+		/// <param name="menuStrip">The menu strip to monitor.</param>
+		public static void MonitorMenuItemsOpeningForEnabling(ToolStrip menuStrip)
+		{
+			if (menuStrip is ContextMenuStrip || menuStrip is MenuStrip)
+			{
+				foreach (ToolStripItem item in menuStrip.Items)
+				{
+					ToolStripMenuItem topLevelMenu = item as ToolStripMenuItem;
+					if (topLevelMenu != null)
+					{
+						topLevelMenu.DropDownOpening += TopLevelMenuDropDownOpening;
+						topLevelMenu.DropDownClosed += TopLevelMenuDropDownClosed;
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Used when a menu is opening, handles enabling/disabling of items for display.
 		/// </summary>
 		/// <param name="sender">The sender.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
@@ -148,20 +169,26 @@ namespace MiniSqlQuery.Core
 		}
 
 		/// <summary>
-		/// Assigns an event handler (<see cref="TopLevelMenuDropDownOpening"/>) to the opening event
-		/// for menu strip items which in turn hadles enableing and disabling.
+		/// We need to re-enable all the menu items so that the shortcut keys are available.
+		/// This is because the model uses a continuous check approach rather than individual events
+		/// for the enabling.
 		/// </summary>
-		/// <param name="menuStrip">The menu strip to monitor.</param>
-		public static void MonitorMenuItemsOpeningForEnabling(ToolStrip menuStrip)
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		[System.Diagnostics.DebuggerNonUserCode]
+		static void TopLevelMenuDropDownClosed(object sender, EventArgs e)
 		{
-			if (menuStrip is ContextMenuStrip || menuStrip is MenuStrip)
+			ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
+
+			if (menuItem != null)
 			{
-				foreach (ToolStripItem item in menuStrip.Items)
+				foreach (ToolStripItem item in menuItem.DropDownItems)
 				{
-					ToolStripMenuItem topLevelMenu = item as ToolStripMenuItem;
-					if (topLevelMenu != null)
+					ICommand cmd = item.Tag as ICommand;
+
+					if (cmd != null)
 					{
-						topLevelMenu.DropDownOpening += TopLevelMenuDropDownOpening;
+						item.Enabled = true;
 					}
 				}
 			}
