@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
@@ -14,6 +15,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		private readonly IApplicationServices _services;
 		private readonly TemplateModel _model;
 		private FileInfo _selectedFile;
+		private FileSystemWatcher _fileSystemWatcher;
 
 		public TemplateViewForm(IApplicationServices services, TemplateModel model)
 		{
@@ -24,6 +26,13 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 		private void TemplateViewForm_Load(object sender, EventArgs e)
 		{
+			PopulateTree();
+			templateFileWatcher.Path = _model.GetTemplatePath();
+		}
+
+		private void PopulateTree()
+		{
+			tvTemplates.Nodes[0].Nodes.Clear();
 			tvTemplates.Nodes[0].Nodes.AddRange(_model.CreateNodes());
 			tvTemplates.Nodes[0].Expand();
 		}
@@ -67,6 +76,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				fi = e.Node.Tag as FileInfo;
 			}
 			_selectedFile = fi;
+			treeMenuStrip.Enabled = _selectedFile != null;
 		}
 
 		private void toolStripMenuItemRun_Click(object sender, EventArgs e)
@@ -88,9 +98,16 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				_services.HostWindow.DisplayDockedForm(editor as DockContent);
 			}
 		}
-		private void tvTemplates_Click(object sender, EventArgs e)
+
+		private void templateFileWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
-			
+			PopulateTree();
+		}
+
+		private void templateFileWatcher_Renamed(object sender, RenamedEventArgs e)
+		{
+			// todo - scan and modify tree
+			PopulateTree();
 		}
 
 	}

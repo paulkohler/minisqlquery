@@ -36,13 +36,16 @@
 			this.toolStripMenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
 			this.imageList = new System.Windows.Forms.ImageList(this.components);
+			this.templateFileWatcher = new System.IO.FileSystemWatcher();
 			this.treeMenuStrip.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.templateFileWatcher)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tvTemplates
 			// 
 			this.tvTemplates.ContextMenuStrip = this.treeMenuStrip;
 			this.tvTemplates.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tvTemplates.HideSelection = false;
 			this.tvTemplates.ImageKey = "folder_page";
 			this.tvTemplates.ImageList = this.imageList;
 			this.tvTemplates.Indent = 15;
@@ -58,7 +61,6 @@
 			this.tvTemplates.TabIndex = 0;
 			this.tvTemplates.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvTemplates_NodeMouseDoubleClick);
 			this.tvTemplates.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvTemplates_NodeMouseClick);
-			this.tvTemplates.Click += new System.EventHandler(this.tvTemplates_Click);
 			// 
 			// treeMenuStrip
 			// 
@@ -66,20 +68,20 @@
             this.toolStripMenuItemRun,
             this.toolStripMenuItemEdit});
 			this.treeMenuStrip.Name = "treeMenuStrip";
-			this.treeMenuStrip.Size = new System.Drawing.Size(153, 70);
+			this.treeMenuStrip.Size = new System.Drawing.Size(148, 48);
 			// 
 			// toolStripMenuItemRun
 			// 
 			this.toolStripMenuItemRun.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
 			this.toolStripMenuItemRun.Name = "toolStripMenuItemRun";
-			this.toolStripMenuItemRun.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItemRun.Size = new System.Drawing.Size(147, 22);
 			this.toolStripMenuItemRun.Text = "Run";
 			this.toolStripMenuItemRun.Click += new System.EventHandler(this.toolStripMenuItemRun_Click);
 			// 
 			// toolStripMenuItemEdit
 			// 
 			this.toolStripMenuItemEdit.Name = "toolStripMenuItemEdit";
-			this.toolStripMenuItemEdit.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItemEdit.Size = new System.Drawing.Size(147, 22);
 			this.toolStripMenuItemEdit.Text = "Edit Template";
 			this.toolStripMenuItemEdit.Click += new System.EventHandler(this.toolStripMenuItemEdit_Click);
 			// 
@@ -90,6 +92,17 @@
 			this.imageList.Images.SetKeyName(0, "folder_page");
 			this.imageList.Images.SetKeyName(1, "script");
 			this.imageList.Images.SetKeyName(2, "script_code");
+			// 
+			// templateFileWatcher
+			// 
+			this.templateFileWatcher.EnableRaisingEvents = true;
+			this.templateFileWatcher.Filter = "*.mt";
+			this.templateFileWatcher.NotifyFilter = ((System.IO.NotifyFilters)((System.IO.NotifyFilters.FileName | System.IO.NotifyFilters.LastWrite)));
+			this.templateFileWatcher.SynchronizingObject = this;
+			this.templateFileWatcher.Renamed += new System.IO.RenamedEventHandler(this.templateFileWatcher_Renamed);
+			this.templateFileWatcher.Deleted += new System.IO.FileSystemEventHandler(this.templateFileWatcher_Changed);
+			this.templateFileWatcher.Created += new System.IO.FileSystemEventHandler(this.templateFileWatcher_Changed);
+			this.templateFileWatcher.Changed += new System.IO.FileSystemEventHandler(this.templateFileWatcher_Changed);
 			// 
 			// TemplateViewForm
 			// 
@@ -104,6 +117,7 @@
 			this.Text = "Templates";
 			this.Load += new System.EventHandler(this.TemplateViewForm_Load);
 			this.treeMenuStrip.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.templateFileWatcher)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -115,5 +129,6 @@
 		private System.Windows.Forms.ContextMenuStrip treeMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRun;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEdit;
+		private System.IO.FileSystemWatcher templateFileWatcher;
 	}
 }
