@@ -95,8 +95,6 @@
     <Compile Include="Commands\ShowHelpCommand.cs" />
     <Compile Include="Commands\ShowUrlCommand.cs" />
     <Compile Include="Commands\ShowWebPageCommand.cs" />
-    <Compile Include="Commands\TurnEnableQueryBatchingOffCommand.cs" />
-    <Compile Include="Commands\TurnEnableQueryBatchingOnCommand.cs" />
     <Compile Include="ConnectionDefinition.cs" />
     <Compile Include="Controls\BatchQuerySelectControl.cs">
       <SubType>UserControl</SubType>
@@ -180,11 +178,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Query.cs" />
     <Compile Include="QueryBatch.cs" />
@@ -308,10 +301,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="MiniSqlQuery.snk" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

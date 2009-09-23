@@ -76,6 +76,24 @@ namespace MiniSqlQuery.Core
 		bool EnableQueryBatching { get; set; }
 
 		/// <summary>
+		/// Gets or sets the plug in file filter for finding the external plugins (e.g. "*.plugin.dll").
+		/// </summary>
+		/// <value>The plug in file filter.</value>
+		string PlugInFileFilter { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to load plugins or not.
+		/// </summary>
+		/// <value><c>true</c> if [load plugins]; otherwise, <c>false</c>. The default is <c>true</c>.</value>
+		bool LoadExternalPlugins { get; set; }
+
+		/// <summary>
+		/// Gets or sets the default connection definition filename. I blank the default is the users profile area.
+		/// </summary>
+		/// <value>The default connection definition filename.</value>
+		string DefaultConnectionDefinitionFilename { get; set; }
+
+		/// <summary>
 		/// Gets, and increments, the "untitled document counter" starting at 1 for the "session".
 		/// </summary>
 		/// <value>The untitled document value.</value>

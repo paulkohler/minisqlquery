@@ -89,6 +89,45 @@ namespace MiniSqlQuery
 			}
 		}
 
+		public string PlugInFileFilter
+		{
+			get { return Settings.Default.PlugInFileFilter; }
+			set
+			{
+				if (Settings.Default.PlugInFileFilter != value)
+				{
+					Settings.Default.PlugInFileFilter = value;
+					Settings.Default.Save();
+				}
+			}
+		}
+
+		public bool LoadExternalPlugins
+		{
+			get { return Settings.Default.LoadExternalPlugins; }
+			set
+			{
+				if (Settings.Default.LoadExternalPlugins != value)
+				{
+					Settings.Default.LoadExternalPlugins = value;
+					Settings.Default.Save();
+				}
+			}
+		}
+
+		public string DefaultConnectionDefinitionFilename
+		{
+			get { return Settings.Default.DefaultConnectionDefinitionFilename; }
+			set
+			{
+				if (Settings.Default.DefaultConnectionDefinitionFilename != value)
+				{
+					Settings.Default.DefaultConnectionDefinitionFilename = value;
+					Settings.Default.Save();
+				}
+			}
+		}
+
 		public int GetUntitledDocumentCounter()
 		{
 			return ++_untitledDocumentCounter;

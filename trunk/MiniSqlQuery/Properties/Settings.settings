@@ -8,7 +8,7 @@
     <Setting Name="FileDialogFilter" Type="System.String" Scope="Application">
       <Value Profile="(Default)">SQL Files (*.sql)|*.sql|All Files (*.*)|*.*</Value>
     </Setting>
-    <Setting Name="PlugInFileFilter" Type="System.String" Scope="Application">
+    <Setting Name="PlugInFileFilter" Type="System.String" Scope="User">
       <Value Profile="(Default)">*.PlugIn.dll</Value>
     </Setting>
     <Setting Name="XmlFileDialogFilter" Type="System.String" Scope="Application">
@@ -19,6 +19,12 @@
     </Setting>
     <Setting Name="EnableQueryBatching" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="LoadExternalPlugins" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DefaultConnectionDefinitionFilename" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

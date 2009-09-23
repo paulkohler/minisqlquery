@@ -105,13 +105,15 @@ namespace MiniSqlQuery.Core
 		/// <returns>A filename.</returns>
 		public static string GetConnectionStringFilename()
 		{
-			string filename = Settings.Default.DefaultConnectionDefinitionFilename;
+			string filename = ApplicationServices.Instance.Settings.DefaultConnectionDefinitionFilename;
 
-			if (string.IsNullOrEmpty(filename))
+			if (!string.IsNullOrEmpty(filename) && File.Exists(filename))
 			{
-				string folder = GetAppFolderPath();
-				filename = Path.Combine(folder, "connections.xml");
+				return filename;
 			}
+
+			string folder = GetAppFolderPath();
+			filename = Path.Combine(folder, "connections.xml");
 
 			return filename;
 		}

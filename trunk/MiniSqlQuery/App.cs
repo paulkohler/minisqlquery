@@ -1,10 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using Castle.MicroKernel;
-using Castle.MicroKernel.Registration;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.DbModel;
 using MiniSqlQuery.Core.Forms;
@@ -32,8 +28,8 @@ namespace MiniSqlQuery
 			Application.ThreadException += ApplicationThreadException;
 #endif
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
 
 			IApplicationServices services = ApplicationServices.Instance;
 
@@ -46,11 +42,14 @@ namespace MiniSqlQuery
 			services.LoadPlugIn(new TemplateViewerLoader());
 			services.LoadPlugIn(new SearchToolsLoader());
 
-			IPlugIn[] plugins = PlugInUtility.GetInstances<IPlugIn>(Environment.CurrentDirectory, Settings.Default.PlugInFileFilter);
-			Array.Sort(plugins, new PlugInComparer());
-			foreach (IPlugIn plugin in plugins)
+			if (services.Settings.LoadExternalPlugins)
 			{
-				services.LoadPlugIn(plugin);
+				IPlugIn[] plugins = PlugInUtility.GetInstances<IPlugIn>(Environment.CurrentDirectory, Settings.Default.PlugInFileFilter);
+				Array.Sort(plugins, new PlugInComparer());
+				foreach (IPlugIn plugin in plugins)
+				{
+					services.LoadPlugIn(plugin);
+				}
 			}
 
 			services.HostWindow.SetArguements(args);

@@ -36,6 +36,9 @@ namespace MiniSqlQuery.PlugIns
 		public void Save()
 		{
 			_settings.EnableQueryBatching = _settingsWrapper.EnableQueryBatching;
+			_settings.PlugInFileFilter = _settingsWrapper.PlugInFileFilter;
+			_settings.LoadExternalPlugins = _settingsWrapper.LoadExternalPlugins;
+			_settings.DefaultConnectionDefinitionFilename = _settingsWrapper.DefaultConnectionDefinitionFilename;
 			IsDirty = false;
 		}
 
@@ -61,14 +64,20 @@ namespace MiniSqlQuery.PlugIns
 		public class CoreMiniSqlQuerySettingsWrapper : NotifyPropertyChangedBase
 		{
 			private readonly IApplicationSettings _settings;
+			private string _defaultConnectionDefinitionFilename;
 
 			private bool _enableQueryBatching;
+			private bool _loadPlugins;
+			private string _plugInFileFilter;
 
 			public CoreMiniSqlQuerySettingsWrapper(IApplicationSettings settings)
 			{
 				_settings = settings;
 
 				EnableQueryBatching = _settings.EnableQueryBatching;
+				PlugInFileFilter = _settings.PlugInFileFilter;
+				LoadExternalPlugins = _settings.LoadExternalPlugins;
+				DefaultConnectionDefinitionFilename = _settings.DefaultConnectionDefinitionFilename;
 			}
 
 			[Category("Query")]
@@ -82,6 +91,52 @@ namespace MiniSqlQuery.PlugIns
 					{
 						_enableQueryBatching = value;
 						OnPropertyChanged("EnableQueryBatching");
+					}
+				}
+			}
+
+			[Category("Query")]
+			[Description("If this value is set to a specific connections XML file it will be loaded in preferences to the default path " +
+			             "(%APPDATA%\\MiniSqlQuery\\Connections.xml). Note that changing this value will require a restart of the application.")]
+			public string DefaultConnectionDefinitionFilename
+			{
+				get { return _defaultConnectionDefinitionFilename; }
+				set
+				{
+					if (_defaultConnectionDefinitionFilename != value)
+					{
+						_defaultConnectionDefinitionFilename = value;
+						OnPropertyChanged("DefaultConnectionDefinitionFilename");
+					}
+				}
+			}
+
+			[Category("Plugins")]
+			[Description("The file filter used for finding plugins (*.PlugIn.dll)")]
+			public string PlugInFileFilter
+			{
+				get { return _plugInFileFilter; }
+				set
+				{
+					if (_plugInFileFilter != value)
+					{
+						_plugInFileFilter = value;
+						OnPropertyChanged("PlugInFileFilter");
+					}
+				}
+			}
+
+			[Category("Plugins")]
+			[Description("If true, external plugin files will be loaded (requires restart).")]
+			public bool LoadExternalPlugins
+			{
+				get { return _loadPlugins; }
+				set
+				{
+					if (_loadPlugins != value)
+					{
+						_loadPlugins = value;
+						OnPropertyChanged("LoadExternalPlugins");
 					}
 				}
 			}

@@ -203,7 +203,7 @@ namespace MiniSqlQuery
 			{
 
 				DialogResult result = MessageBox.Show(this,
-				                                      "The connections have changed, would you loke to refresh the database connection?",
+				                                      "The connections have changed, would you like to refresh the database connection?",
 				                                      "Reload Connection?",
 				                                      MessageBoxButtons.YesNo, MessageBoxIcon.Question,
 				                                      MessageBoxDefaultButton.Button1);
