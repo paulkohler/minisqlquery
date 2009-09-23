@@ -98,5 +98,10 @@ namespace MiniSqlQuery.Core
 		/// <typeparam name="TEditor">The editor type.</typeparam>
 		/// <param name="fileEditorDescriptor"></param>
 		void RegisterEditor<TEditor>(FileEditorDescriptor fileEditorDescriptor) where TEditor : IEditor;
+
+
+		void RegisterConfigurationObject<TConfig>() where TConfig : IConfigurationObject;
+
+		Type[] GetConfigurationObjectTypes();
 	}
 }

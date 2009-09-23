@@ -6,7 +6,7 @@ using MiniSqlQuery.Core.Commands;
 
 namespace MiniSqlQuery.PlugIns
 {
-    public class CoreApplicationPlugIn : PluginLoaderBase
+	public class CoreApplicationPlugIn : PluginLoaderBase
     {
         private Timer _timer;
 
@@ -29,6 +29,8 @@ namespace MiniSqlQuery.PlugIns
 			services.RegisterEditor<BasicEditor>(new FileEditorDescriptor("Text Editor", "txt-editor", "txt"));
 
 			services.RegisterComponent<NewFileForm>("NewFileForm");
+			services.RegisterComponent<OptionsForm>("OptionsForm");
+			services.RegisterConfigurationObject<CoreMiniSqlQueryConfiguration>();
 
         	ToolStripMenuItem fileMenu = hostWindow.GetMenuItem("File");
 			ToolStripMenuItem editMenu = hostWindow.GetMenuItem("edit");
@@ -60,7 +62,6 @@ namespace MiniSqlQuery.PlugIns
 			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SetRightPasteAroundSelectionCommand>());
 			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenConnectionFileCommand>());
 			//editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowOptionsFormCommand>());
-			//editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<GenerateCommandCodeCommand>());
 
 			// get the new item and make in invisible - the shortcut key is still available etc ;-)
 			ToolStripItem item = editMenu.DropDownItems["SetLeftPasteAroundSelectionCommandToolStripMenuItem"];
@@ -133,5 +134,6 @@ namespace MiniSqlQuery.PlugIns
                 _timer.Dispose();
             }
         }
+
     }
 }

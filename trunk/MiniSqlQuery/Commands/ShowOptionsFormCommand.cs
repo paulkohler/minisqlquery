@@ -1,9 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Collections;
-using MiniSqlQuery.Core.Forms;
+using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.Commands;
 
-namespace MiniSqlQuery.Core.Commands
+namespace MiniSqlQuery.Commands
 {
 	public class ShowOptionsFormCommand
 		: CommandBase
@@ -17,7 +16,7 @@ namespace MiniSqlQuery.Core.Commands
 
 		public override void Execute()
 		{
-			using (OptionsForm optionsForm = new OptionsForm(Services))
+			using (OptionsForm optionsForm = Services.Resolve<OptionsForm>())
 			{
 				optionsForm.ShowDialog(HostWindow.Instance);
 			}

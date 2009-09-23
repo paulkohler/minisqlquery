@@ -93,7 +93,6 @@
     <Compile Include="Commands\RefreshDatabaseConnectionCommand.cs" />
     <Compile Include="Commands\ShowDiscussionsWebPageCommand.cs" />
     <Compile Include="Commands\ShowHelpCommand.cs" />
-    <Compile Include="Commands\ShowOptionsFormCommand.cs" />
     <Compile Include="Commands\ShowUrlCommand.cs" />
     <Compile Include="Commands\ShowWebPageCommand.cs" />
     <Compile Include="Commands\TurnEnableQueryBatchingOffCommand.cs" />
@@ -144,12 +143,6 @@
     <Compile Include="Forms\BatchQuerySelectForm.Designer.cs">
       <DependentUpon>BatchQuerySelectForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\OptionsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\OptionsForm.Designer.cs">
-      <DependentUpon>OptionsForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="IApplicationServices.cs" />
     <Compile Include="IDatabaseSchemaService.cs" />
     <Compile Include="IEditor.cs" />
@@ -173,9 +166,11 @@
     <Compile Include="IQueryBatchProvider.cs" />
     <Compile Include="IQueryEditor.cs" />
     <Compile Include="CommandControlBuilder.cs" />
+    <Compile Include="IConfigurationObject.cs" />
     <Compile Include="ISupportCursorOffset.cs" />
     <Compile Include="ITextFindService.cs" />
     <Compile Include="IViewTable.cs" />
+    <Compile Include="NotifyPropertyChangedBase.cs" />
     <Compile Include="ObjectTypes.cs" />
     <Compile Include="PlugInComparer.cs" />
     <Compile Include="PluginLoaderBase.cs" />
@@ -298,9 +293,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\BatchQuerySelectForm.resx">
       <DependentUpon>BatchQuerySelectForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\OptionsForm.resx">
-      <DependentUpon>OptionsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImageResource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

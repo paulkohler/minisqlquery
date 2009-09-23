@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Castle.Core;
@@ -12,6 +11,7 @@ namespace MiniSqlQuery.Core
 	/// </summary>
 	public class ApplicationServices : IApplicationServices
 	{
+		private static readonly List<Type> _configurationObjects = new List<Type>();
 		private static readonly IKernel _container;
 
 		private Dictionary<Type, IPlugIn> _plugins = new Dictionary<Type, IPlugIn>();
@@ -21,7 +21,8 @@ namespace MiniSqlQuery.Core
 			_container = new DefaultKernel();
 
 			// add self
-			_container.AddComponent("ApplicationServices", typeof (IApplicationServices), typeof (ApplicationServices), LifestyleType.Singleton);
+			_container.AddComponent("ApplicationServices", typeof (IApplicationServices), typeof (ApplicationServices),
+			                        LifestyleType.Singleton);
 		}
 
 		/// <summary>
@@ -138,7 +139,7 @@ namespace MiniSqlQuery.Core
 
 			plugIn.LoadPlugIn(this);
 			_plugins.Add(plugIn.GetType(), plugIn);
-			_container.AddComponent(plugIn.GetType().FullName, typeof(IPlugIn), plugIn.GetType());
+			_container.AddComponent(plugIn.GetType().FullName, typeof (IPlugIn), plugIn.GetType());
 		}
 
 		/// <summary>
@@ -203,6 +204,19 @@ namespace MiniSqlQuery.Core
 			// push the ext reg into the resolver....
 			IFileEditorResolver resolver = Resolve<IFileEditorResolver>();
 			resolver.Register(fileEditorDescriptor);
+		}
+
+		public void RegisterConfigurationObject<TConfig>() where TConfig : IConfigurationObject
+		{
+			RegisterComponent<IConfigurationObject, TConfig>(typeof (TConfig).FullName);
+
+			// haven't successfully been able to query this into out of castle container (yet)
+			_configurationObjects.Add(typeof (TConfig));
+		}
+
+		public Type[] GetConfigurationObjectTypes()
+		{
+			return _configurationObjects.ToArray();
 		}
 
 		#endregion
