@@ -1,0 +1,18 @@
+<Configuration>
+  <SharedSolutionTemplateManager>
+    <LiveTemplates>
+      <Template uid="c32292d7-27d5-4bbb-bb96-45d9d25ff58b" shortcut="propnotify" description="A get/set property that observes the notify changed style" text="private $TYPE$ _$cammelName$;&#xD;&#xA;&#xD;&#xA;//[Category(&quot;&quot;)]&#xD;&#xA;//[Description(&quot;&quot;)]&#xD;&#xA;public $TYPE$ $NAME$&#xD;&#xA;{&#xD;&#xA;	get { return _$cammelName$; }&#xD;&#xA;	set&#xD;&#xA;	{&#xD;&#xA;		if (_$cammelName$ != value)&#xD;&#xA;		{&#xD;&#xA;			_$cammelName$ = value;&#xD;&#xA;			OnPropertyChanged(&quot;$NAME$&quot;);&#xD;&#xA;		}&#xD;&#xA;	}&#xD;&#xA;}&#xD;&#xA;" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="TypeMember" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="TYPE" expression="" initialRange="0" />
+          <Variable name="NAME" expression="suggestVariableName()" initialRange="0" />
+          <Variable name="cammelName" expression="decapitalize(NAME)" initialRange="-1" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+    </LiveTemplates>
+  </SharedSolutionTemplateManager>
+</Configuration>
