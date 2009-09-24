@@ -408,6 +408,7 @@ namespace MiniSqlQuery
 
 			if (Batch != null)
 			{
+				string nullText = _settings.NullText;
 				int counter = 1;
 				foreach (Query query in Batch.Queries)
 				{
@@ -427,7 +428,7 @@ namespace MiniSqlQuery
 							grid.DataSource = dt;
 							grid.DataError += GridDataError;
 							grid.DefaultCellStyle = cellStyle;
-							cellStyle.NullValue = "<NULL>";
+							cellStyle.NullValue = nullText;
 							cellStyle.Font = CreateDefaultFont();
 							grid.DataBindingComplete += GridDataBindingComplete;
 							grid.Disposed += GridDisposed;
@@ -518,13 +519,16 @@ namespace MiniSqlQuery
 				return;
 			}
 
+			string nullText = _settings.NullText;
+			string dateTimeFormat = _settings.DateTimeFormat;
+
 			for (int i = 0; i < dt.Columns.Count; i++)
 			{
 				if (dt.Columns[i].DataType == typeof (DateTime))
 				{
 					DataGridViewCellStyle dateCellStyle = new DataGridViewCellStyle();
-					dateCellStyle.NullValue = "<NULL>";
-					dateCellStyle.Format = "yyyy-MM-dd HH:mm:ss.fffff";
+					dateCellStyle.NullValue = nullText;
+					dateCellStyle.Format = dateTimeFormat;
 					grid.Columns[i].DefaultCellStyle = dateCellStyle;
 				}
 			}

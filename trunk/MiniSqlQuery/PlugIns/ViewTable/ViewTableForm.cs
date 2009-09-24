@@ -13,6 +13,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 	{
 		private readonly QueryBatch _batch;
 		private readonly IApplicationServices _services;
+		private readonly IApplicationSettings _settings;
 		private readonly object _syncLock = new object();
 
 		private DbConnection _dbConnection;
@@ -25,17 +26,22 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			InitializeComponent();
 		}
 
-		public ViewTableForm(IApplicationServices services)
+		public ViewTableForm(IApplicationServices services, IApplicationSettings settings)
 			: this()
 		{
 			_services = services;
+			_settings = settings;
 			_batch = new QueryBatch();
 			TableName = string.Empty;
 			Text = "View Data";
 
+			dataGridViewResult.DefaultCellStyle.NullValue = _settings.NullText;
+			dataGridViewResult.DataBindingComplete += DataGridViewResultDataBindingComplete;
 			_services.Settings.DatabaseConnectionReset += SettingsDatabaseConnectionReset;
 			_services.SystemMessagePosted += ServicesSystemMessagePosted;
 		}
+
+		#region IViewTable Members
 
 		public string TableName
 		{
@@ -57,8 +63,6 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 		{
 			get { return chkAutoReload.Checked; }
 		}
-
-		#region IPerformTask Members
 
 		public void ExecuteTask()
 		{
@@ -82,16 +86,34 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			}
 		}
 
-		#endregion
-
-		#region IQueryBatchProvider Members
-
 		public QueryBatch Batch
 		{
 			get { return _batch; }
 		}
 
 		#endregion
+
+		private void DataGridViewResultDataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+		{
+			DataTable dt = dataGridViewResult.DataSource as DataTable;
+			if (dt == null)
+			{
+				return;
+			}
+
+			string nullText = _settings.NullText;
+			string dateTimeFormat = _settings.DateTimeFormat;
+			for (int i = 0; i < dt.Columns.Count; i++)
+			{
+				if (dt.Columns[i].DataType == typeof (DateTime))
+				{
+					DataGridViewCellStyle dateCellStyle = new DataGridViewCellStyle();
+					dateCellStyle.NullValue = nullText;
+					dateCellStyle.Format = dateTimeFormat;
+					dataGridViewResult.Columns[i].DefaultCellStyle = dateCellStyle;
+				}
+			}
+		}
 
 		private void ServicesSystemMessagePosted(object sender, SystemMessageEventArgs e)
 		{
@@ -192,6 +214,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 				Text = "Table: " + TableName;
 			}
 
+			dataGridViewResult.DefaultCellStyle.NullValue = _settings.NullText;
 			dataGridViewResult.DataSource = dt;
 			dataGridViewResult.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
 		}

@@ -9,25 +9,12 @@ namespace MiniSqlQuery.Core
 	public interface IApplicationSettings
 	{
 		/// <summary>
-		/// Fired when the list of connection definitions is modified.
-		/// </summary>
-		/// <seealso cref="SetConnectionDefinitions"/>
-		/// <seealso cref="GetConnectionDefinitions"/>
-		event EventHandler ConnectionDefinitionsChanged;
-
-		/// <summary>
-		/// Fired when the database connection (provider and/or connection string) are modified.
-		/// </summary>
-		/// <seealso cref="ResetConnection"/>
-		event EventHandler DatabaseConnectionReset;
-
-		/// <summary>
 		/// A reference to the current connection definiton class.
 		/// </summary>
 		DbConnectionDefinition ConnectionDefinition { get; set; }
 
 		/// <summary>
-        /// Gets an instance of <see cref="DbProviderFactory"/> depending on the value of <see cref="ConnectionDefinition"/>.
+		/// Gets an instance of <see cref="DbProviderFactory"/> depending on the value of <see cref="ConnectionDefinition"/>.
 		/// </summary>
 		DbProviderFactory ProviderFactory { get; }
 
@@ -35,34 +22,6 @@ namespace MiniSqlQuery.Core
 		/// Gets an instance of <see cref="DbConnection"/> depending on the value of <see cref="ConnectionDefinition"/>.
 		/// </summary>
 		DbConnection Connection { get; }
-
-		/// <summary>
-		/// Gets the current connection definitions for this user.
-		/// </summary>
-		/// <returns>Connection definitions.</returns>
-		DbConnectionDefinitionList GetConnectionDefinitions();
-
-		/// <summary>
-        /// Resets the list of connection definitions that are stored in the user profile.
-		/// </summary>
-        void SetConnectionDefinitions(DbConnectionDefinitionList definitionList);
-
-		/// <summary>
-		/// Resets the connection details firing the <see cref="DatabaseConnectionReset"/> event.
-		/// </summary>
-		/// <seealso cref="DatabaseConnectionReset"/>
-		void ResetConnection();
-
-		/// <summary>
-		/// Helper method to get an open connection.
-		/// </summary>
-		/// <returns>A <see cref="DbConnection"/> object.</returns>
-		DbConnection GetOpenConnection();
-
-		/// <summary>
-		/// Closes the current connection (if any).
-		/// </summary>
-		void CloseConnection();
 
 		/// <summary>
 		/// The default filter string for dialog boxes.
@@ -92,6 +51,59 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		/// <value>The default connection definition filename.</value>
 		string DefaultConnectionDefinitionFilename { get; set; }
+
+		/// <summary>
+		/// Gets or sets the date time format for grid item results (e.g. "yyyy-MM-dd HH:mm:ss.fff").
+		/// </summary>
+		/// <value>The date time format.</value>
+		string DateTimeFormat { get; set; }
+
+		/// <summary>
+		/// Gets or sets the null text of a result (e.g. "&lt;NULL&gt;").
+		/// </summary>
+		/// <value>The null text.</value>
+		string NullText { get; set; }
+
+		/// <summary>
+		/// Fired when the list of connection definitions is modified.
+		/// </summary>
+		/// <seealso cref="SetConnectionDefinitions"/>
+		/// <seealso cref="GetConnectionDefinitions"/>
+		event EventHandler ConnectionDefinitionsChanged;
+
+		/// <summary>
+		/// Fired when the database connection (provider and/or connection string) are modified.
+		/// </summary>
+		/// <seealso cref="ResetConnection"/>
+		event EventHandler DatabaseConnectionReset;
+
+		/// <summary>
+		/// Gets the current connection definitions for this user.
+		/// </summary>
+		/// <returns>Connection definitions.</returns>
+		DbConnectionDefinitionList GetConnectionDefinitions();
+
+		/// <summary>
+		/// Resets the list of connection definitions that are stored in the user profile.
+		/// </summary>
+		void SetConnectionDefinitions(DbConnectionDefinitionList definitionList);
+
+		/// <summary>
+		/// Resets the connection details firing the <see cref="DatabaseConnectionReset"/> event.
+		/// </summary>
+		/// <seealso cref="DatabaseConnectionReset"/>
+		void ResetConnection();
+
+		/// <summary>
+		/// Helper method to get an open connection.
+		/// </summary>
+		/// <returns>A <see cref="DbConnection"/> object.</returns>
+		DbConnection GetOpenConnection();
+
+		/// <summary>
+		/// Closes the current connection (if any).
+		/// </summary>
+		void CloseConnection();
 
 		/// <summary>
 		/// Gets, and increments, the "untitled document counter" starting at 1 for the "session".

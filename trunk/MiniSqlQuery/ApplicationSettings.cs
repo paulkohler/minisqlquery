@@ -21,6 +21,19 @@ namespace MiniSqlQuery
 
 		#region IApplicationSettings Members
 
+		public string NullText
+		{
+			get { return Settings.Default.NullText; }
+			set
+			{
+				if (Settings.Default.NullText != value)
+				{
+					Settings.Default.NullText = value;
+					Settings.Default.Save();
+				}
+			}
+		}
+
 		public event EventHandler ConnectionDefinitionsChanged;
 		public event EventHandler DatabaseConnectionReset;
 
@@ -123,6 +136,19 @@ namespace MiniSqlQuery
 				if (Settings.Default.DefaultConnectionDefinitionFilename != value)
 				{
 					Settings.Default.DefaultConnectionDefinitionFilename = value;
+					Settings.Default.Save();
+				}
+			}
+		}
+
+		public string DateTimeFormat
+		{
+			get { return Settings.Default.DateTimeFormat; }
+			set
+			{
+				if (Settings.Default.DateTimeFormat != value)
+				{
+					Settings.Default.DateTimeFormat = value;
 					Settings.Default.Save();
 				}
 			}

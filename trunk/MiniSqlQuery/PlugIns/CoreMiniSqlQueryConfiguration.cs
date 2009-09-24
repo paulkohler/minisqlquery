@@ -39,6 +39,8 @@ namespace MiniSqlQuery.PlugIns
 			_settings.PlugInFileFilter = _settingsWrapper.PlugInFileFilter;
 			_settings.LoadExternalPlugins = _settingsWrapper.LoadExternalPlugins;
 			_settings.DefaultConnectionDefinitionFilename = _settingsWrapper.DefaultConnectionDefinitionFilename;
+			_settings.DateTimeFormat = _settingsWrapper.DateTimeFormat;
+			_settings.NullText = _settingsWrapper.NullText;
 			IsDirty = false;
 		}
 
@@ -78,6 +80,8 @@ namespace MiniSqlQuery.PlugIns
 				PlugInFileFilter = _settings.PlugInFileFilter;
 				LoadExternalPlugins = _settings.LoadExternalPlugins;
 				DefaultConnectionDefinitionFilename = _settings.DefaultConnectionDefinitionFilename;
+				DateTimeFormat = _settings.DateTimeFormat;
+				NullText = _settings.NullText;
 			}
 
 			[Category("Query")]
@@ -140,6 +144,41 @@ namespace MiniSqlQuery.PlugIns
 					}
 				}
 			}
+
+			private string _dateTimeFormat;
+
+			[Category("Query Results")]
+			[Description("")]
+			public string DateTimeFormat
+			{
+				get { return _dateTimeFormat; }
+				set
+				{
+					if (_dateTimeFormat != value)
+					{
+						_dateTimeFormat = value;
+						OnPropertyChanged("DateTimeFormat");
+					}
+				}
+			}
+
+			private string _nullText;
+
+			[Category("Query Results")]
+			[Description("")]
+			public string NullText
+			{
+				get { return _nullText; }
+				set
+				{
+					if (_nullText != value)
+					{
+						_nullText = value;
+						OnPropertyChanged("NullText");
+					}
+				}
+			}
+
 		}
 
 		#endregion
