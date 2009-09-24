@@ -49,7 +49,6 @@ Global
 		{14805F53-5C87-4E8D-B88C-690C35C4CE8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14805F53-5C87-4E8D-B88C-690C35C4CE8D}.Release - No Tests|Any CPU.ActiveCfg = Release - No Tests|Any CPU
 		{14805F53-5C87-4E8D-B88C-690C35C4CE8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14805F53-5C87-4E8D-B88C-690C35C4CE8D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{14805F53-5C87-4E8D-B88C-690C35C4CE8D}.ReleaseWithTests|Any CPU.ActiveCfg = Release - No Tests|Any CPU
 		{14805F53-5C87-4E8D-B88C-690C35C4CE8D}.ReleaseWithTests|Any CPU.Build.0 = Release - No Tests|Any CPU
 	EndGlobalSection

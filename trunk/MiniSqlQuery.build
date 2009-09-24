@@ -12,12 +12,13 @@ Build file for Mini SQL Query.
   <property name="project.docs" value="false"/>
 
   <!-- The release build is the 'public distribution', its should not incude test DLLs -->
-  <property name="project.release.type" value="Release - No Tests"/>
+  <property name="project.release.type" value="Release"/>
   
   <property name="project.description" value="Mini SQL Query from PK Software is a minimalist SQL query tool for multiple providers (MSSQL, Oracle, OLEDB, MS Access files etc). The goal of the Mini SQL Query tool is to allow a developer or trouble-shooter to quickly diagnose issues or make changes to a database using a tool with a small footprint, that is fast and easy to use." />
   <property name="create.assemblyinfo" value="true" />
 
-  <property name="release-base" value="${project::get-base-directory()}\"/>
+	<property name="dnfx-base" value="C:\WINDOWS\Microsoft.NET\Framework\v3.5\"/>
+	<property name="release-base" value="${project::get-base-directory()}\"/>
   <property name="release-build-dir" value="${release-base}ReleaseBuild\"/>
   <property name="release-distro-dir" value="${release-base}DISTRO\"/>
   <property name="release-sdk-dir" value="${release-base}SDK\"/>
@@ -29,7 +30,7 @@ Build file for Mini SQL Query.
 
   <target name="build" description="compiles the source code for a release distribution.">
     <delete dir="${release-build-dir}" />
-    <exec program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
+    <exec program="msbuild.exe" basedir="${dnfx-base}">
       <arg value="/p:Configuration=${project.release.type}" />
       <arg value="/p:OutDir=${release-build-dir}" />
       <arg value="/p:Platform=&quot;Any CPU&quot;" />
@@ -45,7 +46,7 @@ Build file for Mini SQL Query.
   </target>
 
   <target name="build-contrib-plugins" depends="create-common-assemblyinfo" description="compiles the plugins under the CONTRIB directory source code for a release distribution.">
-    <exec workingdir="${release-contrib-dir}" program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
+    <exec workingdir="${release-contrib-dir}" program="msbuild.exe" basedir="${dnfx-base}">
       <arg value="/p:Configuration=${project.release.type}" />
       <arg value="/p:OutDir=${release-build-dir}" />
       <arg value="/p:Platform=&quot;Any CPU&quot;" />
@@ -54,7 +55,7 @@ Build file for Mini SQL Query.
   </target>
 
   <target name="clean-debug" description="">
-    <exec program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
+    <exec program="msbuild.exe" basedir="${dnfx-base}">
       <arg value="/p:Configuration=Debug" />
       <arg value="/p:Platform=&quot;Any CPU&quot;" />
       <arg value="/t:Clean" />
@@ -62,7 +63,7 @@ Build file for Mini SQL Query.
   </target>
 
   <target name="clean-release" description="">
-    <exec program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
+    <exec program="msbuild.exe" basedir="${dnfx-base}">
       <arg value="/p:Configuration=Release" />
       <arg value="/p:Platform=&quot;Any CPU&quot;" />
       <arg value="/t:Clean" />
@@ -71,7 +72,7 @@ Build file for Mini SQL Query.
 
   <target name="build-api-docs" description="" if="${project.docs}" >
     <delete dir="${release-help-api-dir}" />
-    <exec program="msbuild.exe" basedir="C:\WINDOWS\Microsoft.NET\Framework\v3.5\">
+    <exec program="msbuild.exe" basedir="${dnfx-base}">
       <arg value="&quot;/p:SHFBROOT=C:\Program Files\EWSoftware\Sandcastle Help File Builder&quot;" />
       <arg value="${project.name}.shfbproj" />
     </exec>
