@@ -37,6 +37,7 @@
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanelTanks = new System.Windows.Forms.FlowLayoutPanel();
 			this.label1 = new System.Windows.Forms.Label();
+			this.lnkKent = new System.Windows.Forms.LinkLabel();
 			this.linkLabelIcons = new System.Windows.Forms.LinkLabel();
 			this.linkLabelTextEditor = new System.Windows.Forms.LinkLabel();
 			this.linkLabelDockPanel = new System.Windows.Forms.LinkLabel();
@@ -149,6 +150,7 @@
 			// flowLayoutPanelTanks
 			// 
 			this.flowLayoutPanelTanks.Controls.Add(this.label1);
+			this.flowLayoutPanelTanks.Controls.Add(this.lnkKent);
 			this.flowLayoutPanelTanks.Controls.Add(this.linkLabelIcons);
 			this.flowLayoutPanelTanks.Controls.Add(this.linkLabelTextEditor);
 			this.flowLayoutPanelTanks.Controls.Add(this.linkLabelDockPanel);
@@ -171,11 +173,25 @@
 			this.label1.Text = "Mini SQL Query relies on sever other \'free\' products to pull together a simple bu" +
 				"t useful SQL working environment. In no particular order, thank you...";
 			// 
+			// lnkKent
+			// 
+			this.lnkKent.AutoSize = true;
+			this.lnkKent.LinkArea = new System.Windows.Forms.LinkArea(46, 20);
+			this.lnkKent.Location = new System.Drawing.Point(7, 42);
+			this.lnkKent.Name = "lnkKent";
+			this.lnkKent.Padding = new System.Windows.Forms.Padding(6);
+			this.lnkKent.Size = new System.Drawing.Size(353, 29);
+			this.lnkKent.TabIndex = 0;
+			this.lnkKent.TabStop = true;
+			this.lnkKent.Text = "Thanks to Kent Carlsle for his contributions (kdcarlisle@gmail.com)";
+			this.lnkKent.UseCompatibleTextRendering = true;
+			this.lnkKent.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkKent_LinkClicked);
+			// 
 			// linkLabelIcons
 			// 
 			this.linkLabelIcons.AutoSize = true;
 			this.linkLabelIcons.LinkArea = new System.Windows.Forms.LinkArea(20, 13);
-			this.linkLabelIcons.Location = new System.Drawing.Point(7, 42);
+			this.linkLabelIcons.Location = new System.Drawing.Point(7, 71);
 			this.linkLabelIcons.Name = "linkLabelIcons";
 			this.linkLabelIcons.Padding = new System.Windows.Forms.Padding(6);
 			this.linkLabelIcons.Size = new System.Drawing.Size(271, 29);
@@ -189,11 +205,11 @@
 			// 
 			this.linkLabelTextEditor.AutoSize = true;
 			this.linkLabelTextEditor.LinkArea = new System.Windows.Forms.LinkArea(16, 20);
-			this.linkLabelTextEditor.Location = new System.Drawing.Point(7, 71);
+			this.linkLabelTextEditor.Location = new System.Drawing.Point(7, 100);
 			this.linkLabelTextEditor.Name = "linkLabelTextEditor";
 			this.linkLabelTextEditor.Padding = new System.Windows.Forms.Padding(6);
 			this.linkLabelTextEditor.Size = new System.Drawing.Size(550, 42);
-			this.linkLabelTextEditor.TabIndex = 1;
+			this.linkLabelTextEditor.TabIndex = 2;
 			this.linkLabelTextEditor.TabStop = true;
 			this.linkLabelTextEditor.Text = "ic#code for the SharpDevelop project where I get the ICSharpCode.TextEditor from " +
 				"that removes the need for using an plain old textbox (www.icsharpcode.net)";
@@ -204,11 +220,11 @@
 			// 
 			this.linkLabelDockPanel.AutoSize = true;
 			this.linkLabelDockPanel.LinkArea = new System.Windows.Forms.LinkArea(41, 13);
-			this.linkLabelDockPanel.Location = new System.Drawing.Point(7, 113);
+			this.linkLabelDockPanel.Location = new System.Drawing.Point(7, 142);
 			this.linkLabelDockPanel.Name = "linkLabelDockPanel";
 			this.linkLabelDockPanel.Padding = new System.Windows.Forms.Padding(6);
 			this.linkLabelDockPanel.Size = new System.Drawing.Size(292, 29);
-			this.linkLabelDockPanel.TabIndex = 2;
+			this.linkLabelDockPanel.TabIndex = 3;
 			this.linkLabelDockPanel.TabStop = true;
 			this.linkLabelDockPanel.Text = "Weifen Luo for his extremely easy to use docking suite.";
 			this.linkLabelDockPanel.UseCompatibleTextRendering = true;
@@ -286,5 +302,6 @@
         private System.Windows.Forms.LinkLabel linkLabelTextEditor;
         private System.Windows.Forms.LinkLabel linkLabelDockPanel;
 		private System.Windows.Forms.PictureBox pic;
+		private System.Windows.Forms.LinkLabel lnkKent;
 	}
 }

@@ -135,5 +135,10 @@ namespace MiniSqlQuery
         {
             Utility.ShowUrl("http://sourceforge.net/projects/dockpanelsuite/");
         }
+
+		private void lnkKent_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			Utility.ShowUrl("mailto:kdcarlisle@gmail.com");
+		}
 	}
 }
