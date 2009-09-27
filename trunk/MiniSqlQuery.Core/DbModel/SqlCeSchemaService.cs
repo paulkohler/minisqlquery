@@ -8,6 +8,8 @@ namespace MiniSqlQuery.Core.DbModel
 	/// <summary>
 	/// SQL Compact Edition schema service.
 	/// Made possible with contributions form ExportSQLCE project.
+	/// http://exportsqlce.codeplex.com/
+	/// http://erikej.blogspot.com/
 	/// </summary>
 	public class SqlCeSchemaService : GenericSchemaService
 	{
