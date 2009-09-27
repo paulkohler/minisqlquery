@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniSqlQuery.Core", "..\Min
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniSqlQuery", "..\MiniSqlQuery\MiniSqlQuery.csproj", "{0164E1CD-8EC2-4C9E-8D67-2575221D8707}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniSqlQuery.ExternalTools.Plugin", "MiniSqlQuery.ExternalTools.Plugin\MiniSqlQuery.ExternalTools.Plugin.csproj", "{803B1BA0-361A-47B9-A8EE-B790CD05B827}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,12 @@ Global
 		{0164E1CD-8EC2-4C9E-8D67-2575221D8707}.Release - No Tests|Any CPU.Build.0 = Release - No Tests|Any CPU
 		{0164E1CD-8EC2-4C9E-8D67-2575221D8707}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0164E1CD-8EC2-4C9E-8D67-2575221D8707}.Release|Any CPU.Build.0 = Release|Any CPU
+		{803B1BA0-361A-47B9-A8EE-B790CD05B827}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{803B1BA0-361A-47B9-A8EE-B790CD05B827}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{803B1BA0-361A-47B9-A8EE-B790CD05B827}.Release - No Tests|Any CPU.ActiveCfg = Release|Any CPU
+		{803B1BA0-361A-47B9-A8EE-B790CD05B827}.Release - No Tests|Any CPU.Build.0 = Release|Any CPU
+		{803B1BA0-361A-47B9-A8EE-B790CD05B827}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{803B1BA0-361A-47B9-A8EE-B790CD05B827}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
