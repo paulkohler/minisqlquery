@@ -23,10 +23,10 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		DbConnection Connection { get; }
 
-		///// <summary>
-		///// The default filter string for dialog boxes.
-		///// </summary>
-		//string DefaultFileFilter { get; }
+		/// <summary>
+		/// The default filter string for dialog boxes.
+		/// </summary>
+		string DefaultFileFilter { get; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether to enable query batching using the "GO" keyword.
