@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MiniSqlQuery.ExternalTools.Plugin</RootNamespace>
-    <AssemblyName>MMiniSqlQuery.ExternalTools.Plugin</AssemblyName>
+    <AssemblyName>MiniSqlQuery.ExternalTools.Plugin</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ApplicationIcon>data_out.ico</ApplicationIcon>
