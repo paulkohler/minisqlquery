@@ -84,10 +84,10 @@ namespace MiniSqlQuery
 			}
 		}
 
-		public string DefaultFileFilter
-		{
-			get { return Settings.Default.FileDialogFilter; }
-		}
+		//public string DefaultFileFilter
+		//{
+		//    get { return Settings.Default.FileDialogFilter; }
+		//}
 
 		public bool EnableQueryBatching
 		{

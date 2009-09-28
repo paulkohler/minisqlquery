@@ -96,6 +96,11 @@ namespace MiniSqlQuery
 			}
 		}
 
+		public string FileFilter
+		{
+			get { return "SQL Files (*.sql)|*.sql|All Files (*.*)|*.*"; }
+		}
+
 		public bool IsDirty
 		{
 			get { return _isDirty; }

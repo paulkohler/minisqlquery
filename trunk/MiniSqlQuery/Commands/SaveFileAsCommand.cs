@@ -15,17 +15,17 @@ namespace MiniSqlQuery.Commands
 
         public override void Execute()
         {
-			IEditor queryForm = HostWindow.Instance.ActiveMdiChild as IEditor;
-			if (queryForm != null)
+			IEditor editor = HostWindow.Instance.ActiveMdiChild as IEditor;
+			if (editor != null)
 			{
 				SaveFileDialog saveFileDialog = new SaveFileDialog();
 				saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
-				saveFileDialog.Filter = Settings.DefaultFileFilter;
+				saveFileDialog.Filter = editor.FileFilter;
 				if (saveFileDialog.ShowDialog(HostWindow.Instance) == DialogResult.OK)
 				{
 					// what if this filename covers an existing open window?
-					queryForm.FileName = saveFileDialog.FileName;
-					queryForm.SaveFile();
+					editor.FileName = saveFileDialog.FileName;
+					editor.SaveFile();
 				}
 			}
         }

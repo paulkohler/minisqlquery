@@ -10,6 +10,12 @@ namespace MiniSqlQuery.Core
 		string FileName { get; set; }
 
 		/// <summary>
+		/// Gets the file filter for this editor (e.g. "SQL Files (*.sql)|*.sql|All Files (*.*)|*.*").
+		/// </summary>
+		/// <value>The file filter.</value>
+		string FileFilter { get; }
+
+		/// <summary>
 		/// True if the document has unsaved changes.
 		/// </summary>
 		bool IsDirty { get; }

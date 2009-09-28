@@ -60,6 +60,11 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			}
 		}
 
+		public string FileFilter
+		{
+			get { return "Mini SQL Template Files (*.mt)|*.mt|All Files (*.*)|*.*"; }
+		}
+
 		public bool IsDirty
 		{
 			get { return _isDirty; }

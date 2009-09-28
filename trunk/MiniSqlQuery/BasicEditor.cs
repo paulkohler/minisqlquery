@@ -58,6 +58,11 @@ namespace MiniSqlQuery
 			}
 		}
 
+		public virtual string FileFilter
+		{
+			get { return "Text Files (*.txt)|*.txt|All Files (*.*)|*.*"; }
+		}
+
 		public bool IsDirty
 		{
 			get { return _isDirty; }
