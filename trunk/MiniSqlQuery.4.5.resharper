@@ -14,5 +14,23 @@
         <CustomProperties />
       </Template>
     </LiveTemplates>
+    <FileTemplates>
+      <Template uid="de77ff5d-a3b0-4edc-a18f-f5ffbd29a07c" shortcut="" description="App Command" text="using System;&#xD;&#xA;using System.Windows.Forms;&#xD;&#xA;using MiniSqlQuery.Core;&#xD;&#xA;using MiniSqlQuery.Core.Commands;&#xD;&#xA;//using WeifenLuo.WinFormsUI.Docking;&#xD;&#xA;&#xD;&#xA;namespace $ns$&#xD;&#xA;{&#xD;&#xA;	public class $class_name$&#xD;&#xA;		: CommandBase&#xD;&#xA;	{&#xD;&#xA;		public $class_name$()&#xD;&#xA;			: base(&quot;$name$&quot;)&#xD;&#xA;		{&#xD;&#xA;			//ShortcutKeys = Keys.Control | Keys.Alt | Keys.?;&#xD;&#xA;			//SmallImage = ImageResource.?;&#xD;&#xA;		}&#xD;&#xA;&#xD;&#xA;		public override void Execute()&#xD;&#xA;		{&#xD;&#xA;			// todo - imp command&#xD;&#xA;		}&#xD;&#xA;		&#xD;&#xA;		//public override bool Enabled&#xD;&#xA;		//{&#xD;&#xA;		//	get { return HostWindow.ActiveChildForm != null; }&#xD;&#xA;		//}&#xD;&#xA;	}&#xD;&#xA;}" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <ProjectLanguageContext language="CSharp" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="ns" expression="fileDefaultNamespace()" initialRange="-1" />
+          <Variable name="class_name" expression="getFileNameWithoutExtension()" initialRange="0" />
+          <Variable name="name" expression="" initialRange="0" />
+        </Variables>
+        <CustomProperties>
+          <Property key="FileName" value="AppCommand" />
+          <Property key="Extension" value="cs" />
+          <Property key="ValidateFileName" value="False" />
+        </CustomProperties>
+      </Template>
+    </FileTemplates>
   </SharedSolutionTemplateManager>
 </Configuration>
