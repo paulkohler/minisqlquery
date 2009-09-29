@@ -159,6 +159,7 @@
     </Compile>
     <Compile Include="IDbModelNamedObject.cs" />
     <Compile Include="INavigatableDocument.cs" />
+    <Compile Include="IPerformTask.cs" />
     <Compile Include="IPlugIn.cs" />
     <Compile Include="IPrintableContent.cs" />
     <Compile Include="IQueryBatchProvider.cs" />

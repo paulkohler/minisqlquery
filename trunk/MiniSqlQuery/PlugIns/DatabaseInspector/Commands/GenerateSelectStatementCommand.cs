@@ -17,7 +17,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 
 		public override void Execute()
 		{
-			IQueryEditor editor = ActiveFormAsEditor;
+			IQueryEditor editor = ActiveFormAsSqlQueryEditor;
 			string tableName = HostWindow.DatabaseInspector.RightClickedTableName;
 			DbModelInstance model = HostWindow.DatabaseInspector.DbSchema;
 

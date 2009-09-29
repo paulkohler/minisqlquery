@@ -89,6 +89,34 @@ namespace MiniSqlQuery
 			IsDirty = false;
 		}
 
+		public void InsertText(string text)
+		{
+			if (string.IsNullOrEmpty(text))
+			{
+				return;
+			}
+
+			int offset = txtEdit.ActiveTextAreaControl.Caret.Offset;
+
+			// if some text is selected we want to replace it
+			if (txtEdit.ActiveTextAreaControl.SelectionManager.IsSelected(offset))
+			{
+				offset = txtEdit.ActiveTextAreaControl.SelectionManager.SelectionCollection[0].Offset;
+				txtEdit.ActiveTextAreaControl.SelectionManager.RemoveSelectedText();
+			}
+
+			txtEdit.Document.Insert(offset, text);
+			int newOffset = offset + text.Length; // new offset at end of inserted text
+
+			// now reposition the caret if required to be after the inserted text
+			if (CursorOffset != newOffset)
+			{
+				SetCursorByOffset(newOffset);
+			}
+
+			txtEdit.Focus();
+		}
+
 		#endregion
 
 		#region IFindReplaceProvider Members
@@ -246,6 +274,7 @@ namespace MiniSqlQuery
 		{
 			string dirty = string.Empty;
 			string text = "Untitled";
+			string tabtext;
 
 			if (_isDirty)
 			{
@@ -255,15 +284,16 @@ namespace MiniSqlQuery
 			if (txtEdit.FileName != null)
 			{
 				text = FileName;
+				tabtext = Path.GetFileName(FileName);
 			}
 			else
 			{
 				text += _settings.GetUntitledDocumentCounter();
+				tabtext = text;
 			}
 
-			text += dirty;
-			TabText = text;
-			ToolTipText = text;
+			TabText = tabtext + dirty;
+			ToolTipText = text + dirty;
 		}
 
 		private void DocumentDocumentChanged(object sender, DocumentEventArgs e)

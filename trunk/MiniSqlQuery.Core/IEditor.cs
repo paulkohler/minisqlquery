@@ -41,6 +41,24 @@ namespace MiniSqlQuery.Core
 		string AllText { get; set; }
 
 		/// <summary>
+		/// Inserts <paramref name="text"/> at the current cursor position (selected text is overwritten).
+		/// </summary>
+		/// <param name="text"></param>
+		void InsertText(string text);
+
+		/// <summary>
+		/// Clears the selection (deletes selected text if any).
+		/// </summary>
+		void ClearSelection();
+
+		/// <summary>
+		/// Highlights the string starting at <paramref name="offset"/> for <paramref name="length"/> characters.
+		/// </summary>
+		/// <param name="offset">The offset to start at.</param>
+		/// <param name="length">The length.</param>
+		void HighlightString(int offset, int length);
+
+		/// <summary>
 		/// Sets the syntax mode off the editor.
 		/// </summary>
 		/// <param name="syntaxName">The mode, e.g. "sql", "cs", "txt" etc.</param>

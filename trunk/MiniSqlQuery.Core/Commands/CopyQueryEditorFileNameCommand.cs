@@ -13,7 +13,7 @@ namespace MiniSqlQuery.Core.Commands
 
 		public override void Execute()
 		{
-			IQueryEditor editor = ActiveFormAsEditor;
+			IEditor editor = HostWindow.Instance.ActiveMdiChild as IEditor;
 			if (editor != null && editor.FileName != null)
 			{
 				Clipboard.SetText(editor.FileName);

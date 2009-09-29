@@ -15,8 +15,9 @@ namespace MiniSqlQuery.Commands
 
 		public override void Execute()
 		{
-			IQueryEditor editor = Services.Container.Resolve<IQueryEditor>();
-			editor.FileName = Utility.GetConnectionStringFilename();
+			string xmlFile = Utility.GetConnectionStringFilename();
+			IEditor editor = Services.Resolve<IFileEditorResolver>().ResolveEditorInstance(xmlFile);
+			editor.FileName = xmlFile;
 			editor.LoadFile();
 			HostWindow.DisplayDockedForm(editor as DockContent);
 		}

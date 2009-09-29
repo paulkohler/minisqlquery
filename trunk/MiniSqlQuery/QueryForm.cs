@@ -194,11 +194,25 @@ namespace MiniSqlQuery
 			txtQuery.Focus();
 		}
 
-
 		public void ClearSelection()
 		{
 			txtQuery.ActiveTextAreaControl.SelectionManager.ClearSelection();
 		}
+
+		public void HighlightString(int offset, int length)
+		{
+			if (offset < 0 || length < 1)
+			{
+				return;
+			}
+
+			int endPos = offset + length;
+			txtQuery.ActiveTextAreaControl.SelectionManager.SetSelection(
+				txtQuery.Document.OffsetToPosition(offset),
+				txtQuery.Document.OffsetToPosition(endPos));
+			SetCursorByOffset(endPos);
+		}
+
 
 		public bool SetCursorByOffset(int offset)
 		{
@@ -236,19 +250,6 @@ namespace MiniSqlQuery
 			set { txtQuery.ActiveTextAreaControl.Caret.Column = value; }
 		}
 
-		public void HighlightString(int offset, int length)
-		{
-			if (offset < 0 || length < 1)
-			{
-				return;
-			}
-
-			int endPos = offset + length;
-			txtQuery.ActiveTextAreaControl.SelectionManager.SetSelection(
-				txtQuery.Document.OffsetToPosition(offset),
-				txtQuery.Document.OffsetToPosition(endPos));
-			SetCursorByOffset(endPos);
-		}
 
 		public int TotalLines
 		{
@@ -348,6 +349,7 @@ namespace MiniSqlQuery
 		{
 			string dirty = string.Empty;
 			string text = "Untitled";
+			string tabtext;
 
 			if (_isDirty)
 			{
@@ -357,15 +359,16 @@ namespace MiniSqlQuery
 			if (txtQuery.FileName != null)
 			{
 				text = FileName;
+				tabtext = Path.GetFileName(FileName);
 			}
 			else
 			{
 				text += _settings.GetUntitledDocumentCounter();
+				tabtext = text;
 			}
 
-			text += dirty;
-			TabText = text;
-			ToolTipText = text;
+			TabText = tabtext + dirty;
+			ToolTipText = text + dirty;
 		}
 
 		private void DocumentDocumentChanged(object sender, DocumentEventArgs e)

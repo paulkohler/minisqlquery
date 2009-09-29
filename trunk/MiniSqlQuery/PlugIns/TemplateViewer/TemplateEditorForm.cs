@@ -5,6 +5,7 @@ using ICSharpCode.TextEditor.Document;
 using Microsoft.VisualBasic;
 using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.Commands;
 using WeifenLuo.WinFormsUI.Docking;
 using System.Windows.Forms;
 using MiniSqlQuery.Core.Template;
@@ -27,6 +28,15 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			txtEdit.Document.DocumentChanged += DocumentDocumentChanged;
 			_services = services;
 			_hostWindow = hostWindow;
+
+			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveFileCommand>());
+			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
+			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<CloseActiveWindowCommand>());
+			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<CloseAllWindowsCommand>());
+			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<CopyQueryEditorFileNameCommand>());
+
+			CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(formContextMenuStrip);
+
 		}
 
 		#region IEditor Members
@@ -89,6 +99,34 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		{
 			txtEdit.SaveFile(FileName);
 			IsDirty = false;
+		}
+
+		public void InsertText(string text)
+		{
+			if (string.IsNullOrEmpty(text))
+			{
+				return;
+			}
+
+			int offset = txtEdit.ActiveTextAreaControl.Caret.Offset;
+
+			// if some text is selected we want to replace it
+			if (txtEdit.ActiveTextAreaControl.SelectionManager.IsSelected(offset))
+			{
+				offset = txtEdit.ActiveTextAreaControl.SelectionManager.SelectionCollection[0].Offset;
+				txtEdit.ActiveTextAreaControl.SelectionManager.RemoveSelectedText();
+			}
+
+			txtEdit.Document.Insert(offset, text);
+			int newOffset = offset + text.Length; // new offset at end of inserted text
+
+			// now reposition the caret if required to be after the inserted text
+			if (CursorOffset != newOffset)
+			{
+				SetCursorByOffset(newOffset);
+			}
+
+			txtEdit.Focus();
 		}
 
 		#endregion
@@ -306,7 +344,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		{
 			string dirty = string.Empty;
 			string text = "Untitled";
-			string tabtext = "";
+			string tabtext;
 
 			if (_isDirty)
 			{
@@ -324,9 +362,8 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				tabtext = text;
 			}
 
-			text += dirty;
-			TabText = tabtext;
-			ToolTipText = text;
+			TabText = tabtext + dirty;
+			ToolTipText = text + dirty;
 		}
 
 		private void DocumentDocumentChanged(object sender, DocumentEventArgs e)

@@ -28,6 +28,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.txtEdit = new ICSharpCode.TextEditor.TextEditorControl();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageTemplateSource = new System.Windows.Forms.TabPage();
@@ -35,6 +36,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			this.rtfHelp = new System.Windows.Forms.RichTextBox();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.txtErrors = new System.Windows.Forms.TextBox();
+			this.formContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.tabControl1.SuspendLayout();
 			this.tabPageTemplateSource.SuspendLayout();
 			this.tabPageHelp.SuspendLayout();
@@ -49,7 +51,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			this.txtEdit.IsReadOnly = false;
 			this.txtEdit.Location = new System.Drawing.Point(3, 3);
 			this.txtEdit.Name = "txtEdit";
-			this.txtEdit.Size = new System.Drawing.Size(533, 315);
+			this.txtEdit.Size = new System.Drawing.Size(533, 314);
 			this.txtEdit.TabIndex = 0;
 			// 
 			// tabControl1
@@ -60,7 +62,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(547, 347);
+			this.tabControl1.Size = new System.Drawing.Size(547, 346);
 			this.tabControl1.TabIndex = 1;
 			// 
 			// tabPageTemplateSource
@@ -69,7 +71,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			this.tabPageTemplateSource.Location = new System.Drawing.Point(4, 22);
 			this.tabPageTemplateSource.Name = "tabPageTemplateSource";
 			this.tabPageTemplateSource.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageTemplateSource.Size = new System.Drawing.Size(539, 321);
+			this.tabPageTemplateSource.Size = new System.Drawing.Size(539, 320);
 			this.tabPageTemplateSource.TabIndex = 0;
 			this.tabPageTemplateSource.Text = "Template Source";
 			this.tabPageTemplateSource.UseVisualStyleBackColor = true;
@@ -80,7 +82,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			this.tabPageHelp.Location = new System.Drawing.Point(4, 22);
 			this.tabPageHelp.Name = "tabPageHelp";
 			this.tabPageHelp.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageHelp.Size = new System.Drawing.Size(500, 231);
+			this.tabPageHelp.Size = new System.Drawing.Size(539, 321);
 			this.tabPageHelp.TabIndex = 1;
 			this.tabPageHelp.Text = "Quick Help";
 			this.tabPageHelp.UseVisualStyleBackColor = true;
@@ -92,7 +94,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			this.rtfHelp.Name = "rtfHelp";
 			this.rtfHelp.ReadOnly = true;
 			this.rtfHelp.ShowSelectionMargin = true;
-			this.rtfHelp.Size = new System.Drawing.Size(494, 225);
+			this.rtfHelp.Size = new System.Drawing.Size(533, 315);
 			this.rtfHelp.TabIndex = 0;
 			this.rtfHelp.Text = "";
 			// 
@@ -111,7 +113,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.txtErrors);
 			this.splitContainer1.Size = new System.Drawing.Size(547, 437);
-			this.splitContainer1.SplitterDistance = 347;
+			this.splitContainer1.SplitterDistance = 346;
 			this.splitContainer1.TabIndex = 2;
 			// 
 			// txtErrors
@@ -122,8 +124,13 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			this.txtErrors.Multiline = true;
 			this.txtErrors.Name = "txtErrors";
 			this.txtErrors.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtErrors.Size = new System.Drawing.Size(547, 86);
+			this.txtErrors.Size = new System.Drawing.Size(547, 87);
 			this.txtErrors.TabIndex = 0;
+			// 
+			// formContextMenuStrip
+			// 
+			this.formContextMenuStrip.Name = "formContextMenuStrip";
+			this.formContextMenuStrip.Size = new System.Drawing.Size(153, 26);
 			// 
 			// TemplateEditorForm
 			// 
@@ -134,6 +141,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Name = "TemplateEditorForm";
 			this.Padding = new System.Windows.Forms.Padding(4);
+			this.TabPageContextMenuStrip = this.formContextMenuStrip;
 			this.Text = "TemplateEditorForm";
 			this.Load += new System.EventHandler(this.TemplateEditorForm_Load);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TemplateEditorForm_FormClosing);
@@ -157,5 +165,6 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		private System.Windows.Forms.RichTextBox rtfHelp;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.TextBox txtErrors;
+		private System.Windows.Forms.ContextMenuStrip formContextMenuStrip;
 	}
 }

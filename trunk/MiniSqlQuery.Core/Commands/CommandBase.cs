@@ -30,9 +30,18 @@ namespace MiniSqlQuery.Core.Commands
 		/// Attempts to convert the current host windows active form to <see cref="IQueryEditor"/>.
 		/// </summary>
 		/// <value>A reference to the active query editor window, otherwise null.</value>
-		protected IQueryEditor ActiveFormAsEditor
+		protected IQueryEditor ActiveFormAsSqlQueryEditor
 		{
 			get { return Services.HostWindow.ActiveChildForm as IQueryEditor; }
+		}
+
+		/// <summary>
+		/// Attempts to convert the current host windows active form to <see cref="IEditor"/>.
+		/// </summary>
+		/// <value>A reference to the active base editor window, otherwise null.</value>
+		protected IEditor ActiveFormAsEditor
+		{
+			get { return Services.HostWindow.ActiveChildForm as IEditor; }
 		}
 
 		/// <summary>

@@ -12,10 +12,10 @@ namespace MiniSqlQuery.Core.Commands
 
 		public override void Execute()
 		{
-			IQueryEditor queryForm = ActiveFormAsEditor;
-			if (queryForm != null)
+			IEditor editor = ActiveFormAsEditor;
+			if (editor != null)
 			{
-				queryForm.InsertText(Guid.NewGuid().ToString());
+				editor.InsertText(Guid.NewGuid().ToString());
 			}
 		}
 

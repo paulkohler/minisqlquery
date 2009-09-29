@@ -43,11 +43,11 @@ namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 					else
 					{
 						// none in table, default to curently selected text if its the editor
-						IQueryEditor editor = ActiveFormAsEditor;
+						IEditor editor = ActiveFormAsEditor;
 						if (editor != null && editor.SelectedText.Length > 0)
 						{
 							findTextRequest = new FindTextRequest(editorFindProvider, editor.SelectedText);
-							findTextRequest.Position = editor.CursorOffset;
+							findTextRequest.Position = editorFindProvider.CursorOffset;
 						}
 					}
 				}
