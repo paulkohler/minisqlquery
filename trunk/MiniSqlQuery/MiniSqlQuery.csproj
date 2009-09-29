@@ -82,6 +82,7 @@
     <Compile Include="BasicEditors.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Commands\DuplicateLineCommand.cs" />
     <Compile Include="Commands\NewFileCommand.cs" />
     <Compile Include="Commands\OpenFileCommand.cs" />
     <Compile Include="Commands\SaveFileAsCommand.cs" />
