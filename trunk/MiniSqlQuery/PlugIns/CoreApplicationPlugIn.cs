@@ -57,10 +57,13 @@ namespace MiniSqlQuery.PlugIns
 
 			//editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<DuplicateLineCommand>());
 			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<PasteAroundSelectionCommand>());
+			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ConvertTextToLowerCaseCommand>());
+			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ConvertTextToUpperCaseCommand>());
+			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ConvertTextToTitleCaseCommand>());
 			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SetLeftPasteAroundSelectionCommand>());
 			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SetRightPasteAroundSelectionCommand>());
-			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenConnectionFileCommand>());
 			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowOptionsFormCommand>());
+			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenConnectionFileCommand>());
 
 			// get the new item and make in invisible - the shortcut key is still available etc ;-)
 			ToolStripItem item = editMenu.DropDownItems["SetLeftPasteAroundSelectionCommandToolStripMenuItem"];

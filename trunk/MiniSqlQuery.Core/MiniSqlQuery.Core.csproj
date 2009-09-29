@@ -80,6 +80,9 @@
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="ApplicationServices.cs" />
     <Compile Include="Commands\CloseDatabaseConnectionCommand.cs" />
+    <Compile Include="Commands\ConvertTextToLowerCaseCommand.cs" />
+    <Compile Include="Commands\ConvertTextToTitleCaseCommand.cs" />
+    <Compile Include="Commands\ConvertTextToUpperCaseCommand.cs" />
     <Compile Include="Commands\CopyQueryEditorFileNameCommand.cs" />
     <Compile Include="Commands\EmailAuthorCommand.cs" />
     <Compile Include="Commands\ExecuteTaskCommand.cs" />
