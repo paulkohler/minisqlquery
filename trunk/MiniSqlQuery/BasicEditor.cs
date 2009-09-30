@@ -5,6 +5,7 @@ using ICSharpCode.TextEditor.Document;
 using Microsoft.VisualBasic;
 using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Core.Commands;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery
@@ -19,12 +20,25 @@ namespace MiniSqlQuery
 		private bool _isDirty;
 		private ITextFindService _textFindService;
 
-		public BasicEditor(IApplicationServices services, IApplicationSettings settings)
+		public BasicEditor()
 		{
 			InitializeComponent();
 			txtEdit.Document.DocumentChanged += DocumentDocumentChanged;
+		}
+
+		public BasicEditor(IApplicationServices services, IApplicationSettings settings)
+			: this()
+		{
 			_services = services;
 			_settings = settings;
+
+			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveFileCommand>());
+			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
+			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<CloseActiveWindowCommand>());
+			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<CloseAllWindowsCommand>());
+			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<CopyQueryEditorFileNameCommand>());
+
+			CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(formContextMenuStrip);
 		}
 
 		#region IEditor Members
@@ -115,6 +129,25 @@ namespace MiniSqlQuery
 			}
 
 			txtEdit.Focus();
+		}
+
+		public void HighlightString(int offset, int length)
+		{
+			if (offset < 0 || length < 1)
+			{
+				return;
+			}
+
+			int endPos = offset + length;
+			txtEdit.ActiveTextAreaControl.SelectionManager.SetSelection(
+				txtEdit.Document.OffsetToPosition(offset),
+				txtEdit.Document.OffsetToPosition(endPos));
+			SetCursorByOffset(endPos);
+		}
+
+		public void ClearSelection()
+		{
+			txtEdit.ActiveTextAreaControl.SelectionManager.ClearSelection();
 		}
 
 		#endregion
@@ -249,25 +282,6 @@ namespace MiniSqlQuery
 			FileSyntaxModeProvider fsmProvider = new FileSyntaxModeProvider(dir);
 			HighlightingManager.Manager.AddSyntaxModeFileProvider(fsmProvider); // Attach to the text editor.
 			_highlightingProviderLoaded = true;
-		}
-
-		public void HighlightString(int offset, int length)
-		{
-			if (offset < 0 || length < 1)
-			{
-				return;
-			}
-
-			int endPos = offset + length;
-			txtEdit.ActiveTextAreaControl.SelectionManager.SetSelection(
-				txtEdit.Document.OffsetToPosition(offset),
-				txtEdit.Document.OffsetToPosition(endPos));
-			SetCursorByOffset(endPos);
-		}
-
-		public void ClearSelection()
-		{
-			txtEdit.ActiveTextAreaControl.SelectionManager.ClearSelection();
 		}
 
 		private void SetTabTextByFilename()

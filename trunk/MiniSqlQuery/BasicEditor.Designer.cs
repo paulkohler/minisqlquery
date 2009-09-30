@@ -28,9 +28,11 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.txtEdit = new ICSharpCode.TextEditor.TextEditorControl();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.lblEditorInfo = new System.Windows.Forms.Label();
+			this.formContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -61,6 +63,11 @@
 			this.lblEditorInfo.TabIndex = 0;
 			this.lblEditorInfo.Text = "lblEditorInfo";
 			// 
+			// formContextMenuStrip
+			// 
+			this.formContextMenuStrip.Name = "formContextMenuStrip";
+			this.formContextMenuStrip.Size = new System.Drawing.Size(153, 26);
+			// 
 			// BasicEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -70,6 +77,7 @@
 			this.Controls.Add(this.txtEdit);
 			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Name = "BasicEditor";
+			this.TabPageContextMenuStrip = this.formContextMenuStrip;
 			this.Text = "DefaultEditor";
 			this.Load += new System.EventHandler(this.BasicEditor_Load);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BasicEditor_FormClosing);
@@ -84,5 +92,6 @@
 		private ICSharpCode.TextEditor.TextEditorControl txtEdit;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label lblEditorInfo;
+		private System.Windows.Forms.ContextMenuStrip formContextMenuStrip;
 	}
 }
