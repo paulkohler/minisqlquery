@@ -80,9 +80,14 @@ namespace MiniSqlQuery
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			if (e.Cancel)
+			{
+				return;
+			}
+
 			if (_settings.ConnectionDefinition != null)
 			{
-				Settings.Default.NammedConnection = _settings.ConnectionDefinition.ToString();
+				Settings.Default.NammedConnection = _settings.ConnectionDefinition.Name;
 				Settings.Default.Save();
 			}
 
@@ -282,7 +287,7 @@ namespace MiniSqlQuery
 			foreach (var connDef in definitionList.Definitions)
 			{
 				toolStripComboBoxConnection.Items.Add(connDef);
-				if (connDef.ToString() == Settings.Default.NammedConnection)
+				if (connDef.Name == Settings.Default.NammedConnection)
 				{
 					toolStripComboBoxConnection.SelectedItem = connDef;
 					_settings.ConnectionDefinition = connDef;
