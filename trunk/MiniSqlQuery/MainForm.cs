@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
@@ -162,7 +162,7 @@ namespace MiniSqlQuery
 			}
 		}
 
-		public void SetArguements(string[] args)
+		public void SetArguments(string[] args)
 		{
 			_arguements = args;
 		}
@@ -218,7 +218,7 @@ namespace MiniSqlQuery
 
 		public void AddToolStripSeperator(int? index)
 		{
-			ToolStripSeparator item = CommandControlBuilder.CreateToolStripMenuItemSeperator();
+			ToolStripSeparator item = CommandControlBuilder.CreateToolStripMenuItemSeparator();
 			if (index == null)
 			{
 				toolStripConnection.Items.Add(item);

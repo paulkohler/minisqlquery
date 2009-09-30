@@ -73,7 +73,7 @@ namespace MiniSqlQuery.Core
 		/// A testable way to pass command line arguements to the application.
 		/// </summary>
 		/// <param name="args">An array of command line arguements.</param>
-		void SetArguements(string[] args);
+		void SetArguments(string[] args);
 
 		/// <summary>
 		/// Displays the <paramref name="frm"/> in the host window.

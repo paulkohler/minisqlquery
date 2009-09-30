@@ -33,7 +33,7 @@ namespace MiniSqlQuery
 			_settings = settings;
 
 			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveFileCommand>());
-			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
+			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItemSeparator());
 			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<CloseActiveWindowCommand>());
 			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<CloseAllWindowsCommand>());
 			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<CopyQueryEditorFileNameCommand>());

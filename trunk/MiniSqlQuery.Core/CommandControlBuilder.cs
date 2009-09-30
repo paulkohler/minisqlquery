@@ -96,7 +96,7 @@ namespace MiniSqlQuery.Core
 		/// Creates a tool strip menu item seperator.
 		/// </summary>
 		/// <returns>A tool strip seperator.</returns>
-		public static ToolStripSeparator CreateToolStripMenuItemSeperator()
+		public static ToolStripSeparator CreateToolStripMenuItemSeparator()
 		{
 			return new ToolStripSeparator();
 		}

@@ -41,14 +41,14 @@ namespace MiniSqlQuery.Core
 		public void Register(FileEditorDescriptor fileEditorDescriptor)
 		{
 			_fileEditorDescriptors.Add(fileEditorDescriptor);
-			if (fileEditorDescriptor.Extentions == null || fileEditorDescriptor.Extentions.Length == 0)
+			if (fileEditorDescriptor.Extensions == null || fileEditorDescriptor.Extensions.Length == 0)
 			{
 				_extentionMap.Add("*", fileEditorDescriptor);
 			}
 			else
 			{
 				// create a map of all ext to editors
-				foreach (string extention in fileEditorDescriptor.Extentions)
+				foreach (string extention in fileEditorDescriptor.Extensions)
 				{
 					_extentionMap.Add(extention, fileEditorDescriptor);
 				}
