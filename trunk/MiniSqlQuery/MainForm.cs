@@ -16,27 +16,94 @@ namespace MiniSqlQuery
 		private readonly IApplicationServices _services;
 		private readonly IApplicationSettings _settings;
 
-		public MainForm(IApplicationServices services, IApplicationSettings settings)
-			: this()
-		{
-			_services = services;
-			_settings = settings;
-		}
-
 		public MainForm()
 		{
 			InitializeComponent();
 			SetPointerState(Cursors.AppStarting);
 		}
 
+		public MainForm(IApplicationServices services, IApplicationSettings settings)
+			: this()
+		{
+			_services = services;
+			_settings = settings;
+
+			AllowDrop = true;
+			DragEnter += WindowDragEnter;
+			DragDrop += WindowDragDrop;
+		}
+
+		private void MainForm_Load(object sender, EventArgs e)
+		{
+			_settings.ConnectionDefinitionsChanged += AppSettingsConnectionDefinitionsChanged;
+
+			Utility.CreateConnectionStringsIfRequired();
+			_settings.SetConnectionDefinitions(Utility.LoadDbConnectionDefinitions());
+		}
+
+		private void MainForm_Shown(object sender, EventArgs e)
+		{
+			_services.InitializePlugIns();
+			DockContent dbInspectorForm = _dbInspector as DockContent;
+
+			if (dbInspectorForm != null)
+			{
+				// the activate for "DockContent" is different to that of "Form".
+				dbInspectorForm.Activate();
+			}
+
+			_initialized = true;
+			SetPointerState(Cursors.Default);
+			SetStatus(null, string.Empty);
+
+			// now check for command line args that are "command type names"
+			if (_arguements != null && _arguements.Length > 0)
+			{
+				foreach (string arg in _arguements)
+				{
+					if (arg.StartsWith("/cmd:"))
+					{
+						string cmdName = arg.Substring(5);
+						ICommand cmd = CommandManager.GetCommandInstanceByPartialName(cmdName);
+						if (cmd != null)
+						{
+							cmd.Execute();
+						}
+					}
+				}
+			}
+			else
+			{
+				CommandManager.GetCommandInstance<NewQueryFormCommand>().Execute();
+			}
+		}
+
+		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (_settings.ConnectionDefinition != null)
+			{
+				Settings.Default.NammedConnection = _settings.ConnectionDefinition.ToString();
+				Settings.Default.Save();
+			}
+
+			List<IPlugIn> plugins = new List<IPlugIn>(_services.Plugins.Values);
+			plugins.Reverse();
+			foreach (IPlugIn plugin in plugins)
+			{
+				plugin.UnloadPlugIn();
+			}
+
+			_services.Container.Dispose();
+		}
+
+		private void MainForm_MdiChildActivate(object sender, EventArgs e)
+		{
+			ActiveChildForm = ActiveMdiChild;
+		}
+
 		#region IHostWindow Members
 
 		public Form ActiveChildForm { get; internal set; }
-
-		public Form Instance
-		{
-			get { return this; }
-		}
 
 		public IDatabaseInspector DatabaseInspector
 		{
@@ -54,6 +121,11 @@ namespace MiniSqlQuery
 		public ToolStrip ToolStrip
 		{
 			get { return toolStripConnection; }
+		}
+
+		public Form Instance
+		{
+			get { return this; }
 		}
 
 		public ToolStripMenuItem GetMenuItem(string name)
@@ -177,24 +249,6 @@ namespace MiniSqlQuery
 
 		#endregion
 
-		private void toolStripComboBoxConnection_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (_initialized)
-			{
-				DbConnectionDefinition dbConnectionDefinition = (DbConnectionDefinition) toolStripComboBoxConnection.SelectedItem;
-				_settings.ConnectionDefinition = dbConnectionDefinition;
-				SetWindowTitle(dbConnectionDefinition.Name);
-			}
-		}
-
-		private void MainForm_Load(object sender, EventArgs e)
-		{
-			_settings.ConnectionDefinitionsChanged += AppSettingsConnectionDefinitionsChanged;
-
-			Utility.CreateConnectionStringsIfRequired();
-			_settings.SetConnectionDefinitions(Utility.LoadDbConnectionDefinitions());
-		}
-
 		private void AppSettingsConnectionDefinitionsChanged(object sender, EventArgs e)
 		{
 			bool load = true;
@@ -242,64 +296,14 @@ namespace MiniSqlQuery
 			Text = string.Format("Mini SQL Query [{0}]", connectionName);
 		}
 
-		private void MainForm_Shown(object sender, EventArgs e)
+		private void toolStripComboBoxConnection_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			_services.InitializePlugIns();
-			DockContent dbInspectorForm = _dbInspector as DockContent;
-
-			if (dbInspectorForm != null)
+			if (_initialized)
 			{
-				// the activate for "DockContent" is different to that of "Form".
-				dbInspectorForm.Activate();
+				DbConnectionDefinition dbConnectionDefinition = (DbConnectionDefinition) toolStripComboBoxConnection.SelectedItem;
+				_settings.ConnectionDefinition = dbConnectionDefinition;
+				SetWindowTitle(dbConnectionDefinition.Name);
 			}
-
-			_initialized = true;
-			SetPointerState(Cursors.Default);
-			SetStatus(null, string.Empty);
-
-			// now check for command line args that are "command type names"
-			if (_arguements != null && _arguements.Length > 0)
-			{
-				foreach (string arg in _arguements)
-				{
-					if (arg.StartsWith("/cmd:"))
-					{
-						string cmdName = arg.Substring(5);
-						ICommand cmd = CommandManager.GetCommandInstanceByPartialName(cmdName);
-						if (cmd != null)
-						{
-							cmd.Execute();
-						}
-					}
-				}
-			}
-			else
-			{
-				CommandManager.GetCommandInstance<NewQueryFormCommand>().Execute();
-			}
-		}
-
-		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (_settings.ConnectionDefinition != null)
-			{
-				Settings.Default.NammedConnection = _settings.ConnectionDefinition.ToString();
-				Settings.Default.Save();
-			}
-
-			List<IPlugIn> plugins = new List<IPlugIn>(_services.Plugins.Values);
-			plugins.Reverse();
-			foreach (IPlugIn plugin in plugins)
-			{
-				plugin.UnloadPlugIn();
-			}
-
-			_services.Container.Dispose();
-		}
-
-		private void MainForm_MdiChildActivate(object sender, EventArgs e)
-		{
-			ActiveChildForm = ActiveMdiChild;
 		}
 
 		private void sysIcon_DoubleClick(object sender, EventArgs e)
@@ -330,14 +334,38 @@ namespace MiniSqlQuery
 			}
 		}
 
-		private void optionsToolStripMenuItem1_Click(object sender, EventArgs e)
-		{
-			//todo!
-		}
-
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			CommandManager.GetCommandInstance<ExitApplicationCommand>().Execute();
+		}
+
+		private void WindowDragEnter(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(DataFormats.FileDrop))
+			{
+				e.Effect = DragDropEffects.Copy;
+			}
+			else
+			{
+				e.Effect = DragDropEffects.None;
+			}
+		}
+
+		private void WindowDragDrop(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(DataFormats.FileDrop))
+			{
+				string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
+				IFileEditorResolver resolver = _services.Resolve<IFileEditorResolver>();
+				foreach (string filename in filePaths)
+				{
+					//todo: check for file exist file in open windows;
+					IEditor editor = resolver.ResolveEditorInstance(filename);
+					editor.FileName = filename;
+					editor.LoadFile();
+					DisplayDockedForm(editor as DockContent);
+				}
+			}
 		}
 	}
 }
