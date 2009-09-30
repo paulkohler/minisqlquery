@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0"?>
 <SyntaxDefinition name = "SQL" extensions = ".sql">
+	<Properties>
+		<Property name="LineComment" value="--"/>
+	</Properties>
 	<Digits name = "Digits" bold = "true" italic = "false" color = "Blue"/>
 	<RuleSets>
 		<RuleSet ignorecase = "true">
