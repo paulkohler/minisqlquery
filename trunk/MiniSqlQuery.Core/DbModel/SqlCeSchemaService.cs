@@ -48,8 +48,8 @@ namespace MiniSqlQuery.Core.DbModel
 				// build FK relationships
 				foreach (DbModelTable table in model.Tables)
 				{
-					GetForiegnKeyReferencesForTable(dbConn, table);
-					ProcessForiegnKeyReferencesForTable(dbConn, table);
+					GetForeignKeyReferencesForTable(dbConn, table);
+					ProcessForeignKeyReferencesForTable(dbConn, table);
 				}
 
 				return model;
@@ -80,9 +80,9 @@ namespace MiniSqlQuery.Core.DbModel
 			}
 		}
 
-		protected override void GetForiegnKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
+		protected override void GetForeignKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
 		{
-			ForiegnKeyInformationAvailable = true;
+			ForeignKeyInformationAvailable = true;
 			try
 			{
 				using (var cmd = dbConn.CreateCommand())
@@ -133,11 +133,11 @@ ORDER BY
 			}
 			catch (DbException)
 			{
-				ForiegnKeyInformationAvailable = false;
+				ForeignKeyInformationAvailable = false;
 			}
 		}
 
-		protected override void ProcessForiegnKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
+		protected override void ProcessForeignKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
 		{
 			// todo - check GetGroupForeingKeys
 			foreach (DbModelConstraint constraint in dbTable.Constraints)
@@ -145,10 +145,10 @@ ORDER BY
 				var column = dbTable.Columns.Find(c => c.Name == constraint.ColumnName);
 				var refTable = dbTable.ParentDb.FindTable(constraint.UniqueConstraintTableName);
 				var refColumn = refTable.Columns.Find(c => c.Name == constraint.UniqueColumnName);
-				DbModelForiegnKeyReference fk = new DbModelForiegnKeyReference(column, refTable, refColumn);
+				DbModelForeignKeyReference fk = new DbModelForeignKeyReference(column, refTable, refColumn);
 				fk.UpdateRule = constraint.UpdateRule;
 				fk.DeleteRule = constraint.DeleteRule;
-				column.ForiegnKeyReference = fk;
+				column.ForeignKeyReference = fk;
 			}
 		}
 

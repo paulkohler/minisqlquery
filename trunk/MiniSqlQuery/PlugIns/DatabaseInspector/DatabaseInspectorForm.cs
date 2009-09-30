@@ -238,7 +238,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 				{
 					imageKey += "-PK";
 				}
-				if (column.ForiegnKeyReference != null)
+				if (column.ForeignKeyReference != null)
 				{
 					imageKey += "-FK";
 				}
@@ -258,9 +258,9 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			{
 				toolTip += "; Auto*";
 			}
-			if (column.ForiegnKeyReference != null)
+			if (column.ForeignKeyReference != null)
 			{
-				toolTip += string.Format("; FK -> {0}.{1}", column.ForiegnKeyReference.ReferenceTable.FullName, column.ForiegnKeyReference.ReferenceColumn.Name);
+				toolTip += string.Format("; FK -> {0}.{1}", column.ForeignKeyReference.ReferenceTable.FullName, column.ForeignKeyReference.ReferenceColumn.Name);
 			}
 			if (column.IsReadOnly)
 			{

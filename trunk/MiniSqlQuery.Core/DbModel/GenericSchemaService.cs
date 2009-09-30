@@ -10,7 +10,7 @@ namespace MiniSqlQuery.Core.DbModel
 		private string _connection;
 
 		public string ProviderName { get; set; }
-		public bool ForiegnKeyInformationAvailable { get; set; }
+		public bool ForeignKeyInformationAvailable { get; set; }
 
 		/// <summary>
 		/// Gets a database object model that represents the items defined by the <paramref name="connection"/>.
@@ -65,30 +65,30 @@ namespace MiniSqlQuery.Core.DbModel
 				// build FK relationships 
 				foreach (DbModelTable table in model.Tables)
 				{
-					GetForiegnKeyReferencesForTable(dbConn, table);
-					ProcessForiegnKeyReferencesForTable(dbConn, table);
+					GetForeignKeyReferencesForTable(dbConn, table);
+					ProcessForeignKeyReferencesForTable(dbConn, table);
 				}
 				// build FK relationships
 				foreach (DbModelView view in model.Views)
 				{
-					GetForiegnKeyReferencesForTable(dbConn, view);
-					ProcessForiegnKeyReferencesForTable(dbConn, view);
+					GetForeignKeyReferencesForTable(dbConn, view);
+					ProcessForeignKeyReferencesForTable(dbConn, view);
 				}
 			}
 
 			return model;
 		}
 
-		protected virtual void GetForiegnKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
+		protected virtual void GetForeignKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
 		{
 			//foreach (DbModelColumn column in dbTable.Columns)
 			//{
 			//    // KF info for DB's varies widley, needs to be implemented by derived class
-			//    column.ForiegnKeyReference = DbModelForiegnKeyReference.NullForiegnKeyReference;
+			//    column.ForeignKeyReference = DbModelForeignKeyReference.NullForeignKeyReference;
 			//}
 		}
 
-		protected virtual void ProcessForiegnKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
+		protected virtual void ProcessForeignKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
 		{
 		}
 

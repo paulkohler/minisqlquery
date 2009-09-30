@@ -21,7 +21,7 @@ Table: ${table.Name} (Row count: ${Data.Get($table.FullName).Rows.Count})
 	IsWritable:      ${c.IsWritable}
 	HasFK:           ${c.HasFK}
 #if($c.HasFK)
-	 ${c.ForiegnKeyReference.ReferenceTable.FullName}.${c.ForiegnKeyReference.ReferenceColumn.Name}
+	 ${c.ForeignKeyReference.ReferenceTable.FullName}.${c.ForeignKeyReference.ReferenceColumn.Name}
 #end ## hasFK
 #end ## foreach column
 #end ## foreach table

@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace MiniSqlQuery.Core.DbModel
 {
-	[DebuggerDisplay("DbModelTable: {FullName} (Columns: {Columns.Count}, PKs: {PrimaryKeyColumns.Count}, FKs: {ForiegnKeyColumns.Count})")]
+	[DebuggerDisplay("DbModelTable: {FullName} (Columns: {Columns.Count}, PKs: {PrimaryKeyColumns.Count}, FKs: {ForeignKeyColumns.Count})")]
 	public class DbModelTable : DbModelObjectBase
 	{
 		public DbModelTable()
@@ -22,14 +22,14 @@ namespace MiniSqlQuery.Core.DbModel
 			get { return Columns.FindAll(c => c.IsKey); }
 		}
 
-		public virtual List<DbModelColumn> ForiegnKeyColumns
+		public virtual List<DbModelColumn> ForeignKeyColumns
 		{
-			get { return Columns.FindAll(c => c.ForiegnKeyReference != null); }
+			get { return Columns.FindAll(c => c.ForeignKeyReference != null); }
 		}
 
 		public virtual List<DbModelColumn> NonKeyColumns
 		{
-			get { return Columns.FindAll(c => !c.IsKey && c.ForiegnKeyReference == null); }
+			get { return Columns.FindAll(c => !c.IsKey && c.ForeignKeyReference == null); }
 		}
 
 		public virtual List<DbModelConstraint> Constraints { get; private set; }

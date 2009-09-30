@@ -24,6 +24,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\Build\Debug\MiniSqlQuery.Core.XML</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -120,7 +122,7 @@
     <Compile Include="DatabaseMetaDataService.cs" />
     <Compile Include="DbModel\DbModelColumnCollection.cs" />
     <Compile Include="DbModel\DbModelConstraint.cs" />
-    <Compile Include="DbModel\DbModelForiegnKeyReference.cs" />
+    <Compile Include="DbModel\DbModelForeignKeyReference.cs" />
     <Compile Include="DbModel\DbModelObjectBase.cs" />
     <Compile Include="DbModel\DbModelInstance.cs" />
     <Compile Include="DbModel\DbModelColumn.cs" />

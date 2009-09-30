@@ -2,13 +2,13 @@ using System;
 
 namespace MiniSqlQuery.Core.DbModel
 {
-	public class DbModelForiegnKeyReference
+	public class DbModelForeignKeyReference
 	{
-		public DbModelForiegnKeyReference()
+		public DbModelForeignKeyReference()
 		{
 		}
 
-		public DbModelForiegnKeyReference(DbModelColumn owningColumn, DbModelTable fkTable, DbModelColumn fkColumn)
+		public DbModelForeignKeyReference(DbModelColumn owningColumn, DbModelTable fkTable, DbModelColumn fkColumn)
 		{
 			OwningColumn = owningColumn;
 			ReferenceTable = fkTable;
