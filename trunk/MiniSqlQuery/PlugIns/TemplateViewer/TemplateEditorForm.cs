@@ -36,7 +36,6 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			formContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<CopyQueryEditorFileNameCommand>());
 
 			CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(formContextMenuStrip);
-
 		}
 
 		#region IEditor Members

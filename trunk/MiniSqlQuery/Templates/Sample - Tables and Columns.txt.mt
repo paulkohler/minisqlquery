@@ -23,8 +23,6 @@ Table: ${table.Name} (Row count: ${Data.Get($table.FullName).Rows.Count})
 #if($c.HasFK)
 	 ${c.ForiegnKeyReference.ReferenceTable.FullName}.${c.ForiegnKeyReference.ReferenceColumn.Name}
 #end ## hasFK
-
 #end ## foreach column
-
 #end ## foreach table
 

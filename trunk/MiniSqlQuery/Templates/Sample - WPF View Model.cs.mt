@@ -1,4 +1,9 @@
-﻿#foreach ($table in $Host.Model.Tables)
+﻿## Example WPF "View Model" template
+## Assumes the use of something like http://mvvmfoundation.codeplex.com/ for the base classes etc
+
+## NOTE - "WIP"
+
+#foreach ($table in $Host.Model.Tables)
 #set($classNm = ${table.Name.Replace(" ", "")} )
 ##set($classNm= ${classNm}+"ViewModel" )
 public class ${classNm}ViewModel : ObservableObject

@@ -9,7 +9,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 	public class TemplateData : IDisposable
 	{
 		private DbConnection _dbConnection;
-		Dictionary<string, DataTable> _dataTables = new Dictionary<string, DataTable>();
+		readonly Dictionary<string, DataTable> _dataTables = new Dictionary<string, DataTable>();
 
 		public TemplateData(IApplicationServices services)
 		{
@@ -77,6 +77,11 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			}
 
 			return dt;
+		}
+
+		public object ColumnValue(DataRow row, string columnName)
+		{
+			return row[columnName];
 		}
 
 		public void Dispose()
