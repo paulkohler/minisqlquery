@@ -119,26 +119,8 @@ namespace MiniSqlQuery
 		{
 			List<IPlugIn> plugins = new List<IPlugIn>(_services.Plugins.Values);
 			pluginList.SetDataSource(plugins.ToArray());
-		}
-
-        private void linkLabelIcons_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Utility.ShowUrl("http://www.famfamfam.com/");
-        }
-
-        private void linkLabelTextEditor_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Utility.ShowUrl("http://www.icsharpcode.net/OpenSource/SD/");
-        }
-
-        private void linkLabelDockPanel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Utility.ShowUrl("http://sourceforge.net/projects/dockpanelsuite/");
-        }
-
-		private void lnkKent_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			Utility.ShowUrl("mailto:kdcarlisle@gmail.com");
+			webBrowser1.DocumentText = Properties.Resources.ReadMe;
+			txtLicense.Text = Properties.Resources.LicenseMiniSqlQuery;
 		}
 	}
 }

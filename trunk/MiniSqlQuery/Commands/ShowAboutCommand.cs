@@ -1,4 +1,5 @@
 ﻿using System;
+using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Commands;
 using System.Windows.Forms;
 
@@ -10,7 +11,7 @@ namespace MiniSqlQuery.Commands
 		public ShowAboutCommand()
             : base("&About...")
         {
-			//SmallImage = ImageResource.;
+			SmallImage = ImageResource.ApplicationIcon;
 		}
 
         public override void Execute()

@@ -34,19 +34,16 @@
 			this.labelProductName = new System.Windows.Forms.Label();
 			this.labelCopyright = new System.Windows.Forms.Label();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
-			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.flowLayoutPanelTanks = new System.Windows.Forms.FlowLayoutPanel();
-			this.label1 = new System.Windows.Forms.Label();
-			this.lnkKent = new System.Windows.Forms.LinkLabel();
-			this.linkLabelIcons = new System.Windows.Forms.LinkLabel();
-			this.linkLabelTextEditor = new System.Windows.Forms.LinkLabel();
-			this.linkLabelDockPanel = new System.Windows.Forms.LinkLabel();
-			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.tabPageReadMe = new System.Windows.Forms.TabPage();
+			this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+			this.tabPageLicense = new System.Windows.Forms.TabPage();
+			this.txtLicense = new System.Windows.Forms.TextBox();
+			this.tabPagePlugins = new System.Windows.Forms.TabPage();
 			this.pic = new System.Windows.Forms.PictureBox();
 			this.tabControl1.SuspendLayout();
-			this.tabPage1.SuspendLayout();
-			this.flowLayoutPanelTanks.SuspendLayout();
-			this.tabPage2.SuspendLayout();
+			this.tabPageReadMe.SuspendLayout();
+			this.tabPageLicense.SuspendLayout();
+			this.tabPagePlugins.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pic)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -128,118 +125,67 @@
 			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.tabControl1.Controls.Add(this.tabPage1);
-			this.tabControl1.Controls.Add(this.tabPage2);
+			this.tabControl1.Controls.Add(this.tabPageReadMe);
+			this.tabControl1.Controls.Add(this.tabPageLicense);
+			this.tabControl1.Controls.Add(this.tabPagePlugins);
 			this.tabControl1.Location = new System.Drawing.Point(12, 167);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(582, 235);
 			this.tabControl1.TabIndex = 25;
 			// 
-			// tabPage1
+			// tabPageReadMe
 			// 
-			this.tabPage1.Controls.Add(this.flowLayoutPanelTanks);
-			this.tabPage1.Location = new System.Drawing.Point(4, 22);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(574, 209);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "Thanks";
-			this.tabPage1.UseVisualStyleBackColor = true;
+			this.tabPageReadMe.Controls.Add(this.webBrowser1);
+			this.tabPageReadMe.Location = new System.Drawing.Point(4, 22);
+			this.tabPageReadMe.Name = "tabPageReadMe";
+			this.tabPageReadMe.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageReadMe.Size = new System.Drawing.Size(574, 209);
+			this.tabPageReadMe.TabIndex = 2;
+			this.tabPageReadMe.Text = "Read Me!";
+			this.tabPageReadMe.UseVisualStyleBackColor = true;
 			// 
-			// flowLayoutPanelTanks
+			// webBrowser1
 			// 
-			this.flowLayoutPanelTanks.Controls.Add(this.label1);
-			this.flowLayoutPanelTanks.Controls.Add(this.lnkKent);
-			this.flowLayoutPanelTanks.Controls.Add(this.linkLabelIcons);
-			this.flowLayoutPanelTanks.Controls.Add(this.linkLabelTextEditor);
-			this.flowLayoutPanelTanks.Controls.Add(this.linkLabelDockPanel);
-			this.flowLayoutPanelTanks.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flowLayoutPanelTanks.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			this.flowLayoutPanelTanks.Location = new System.Drawing.Point(3, 3);
-			this.flowLayoutPanelTanks.Name = "flowLayoutPanelTanks";
-			this.flowLayoutPanelTanks.Padding = new System.Windows.Forms.Padding(4);
-			this.flowLayoutPanelTanks.Size = new System.Drawing.Size(568, 203);
-			this.flowLayoutPanelTanks.TabIndex = 0;
+			this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.webBrowser1.Location = new System.Drawing.Point(3, 3);
+			this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+			this.webBrowser1.Name = "webBrowser1";
+			this.webBrowser1.Size = new System.Drawing.Size(568, 203);
+			this.webBrowser1.TabIndex = 0;
 			// 
-			// label1
+			// tabPageLicense
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(7, 4);
-			this.label1.Name = "label1";
-			this.label1.Padding = new System.Windows.Forms.Padding(0, 6, 0, 6);
-			this.label1.Size = new System.Drawing.Size(554, 38);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Mini SQL Query relies on sever other \'free\' products to pull together a simple bu" +
-				"t useful SQL working environment. In no particular order, thank you...";
+			this.tabPageLicense.Controls.Add(this.txtLicense);
+			this.tabPageLicense.Location = new System.Drawing.Point(4, 22);
+			this.tabPageLicense.Name = "tabPageLicense";
+			this.tabPageLicense.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageLicense.Size = new System.Drawing.Size(574, 209);
+			this.tabPageLicense.TabIndex = 3;
+			this.tabPageLicense.Text = "License";
+			this.tabPageLicense.UseVisualStyleBackColor = true;
 			// 
-			// lnkKent
+			// txtLicense
 			// 
-			this.lnkKent.AutoSize = true;
-			this.lnkKent.LinkArea = new System.Windows.Forms.LinkArea(46, 20);
-			this.lnkKent.Location = new System.Drawing.Point(7, 42);
-			this.lnkKent.Name = "lnkKent";
-			this.lnkKent.Padding = new System.Windows.Forms.Padding(6);
-			this.lnkKent.Size = new System.Drawing.Size(353, 29);
-			this.lnkKent.TabIndex = 0;
-			this.lnkKent.TabStop = true;
-			this.lnkKent.Text = "Thanks to Kent Carlsle for his contributions (kdcarlisle@gmail.com)";
-			this.lnkKent.UseCompatibleTextRendering = true;
-			this.lnkKent.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkKent_LinkClicked);
+			this.txtLicense.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.txtLicense.Location = new System.Drawing.Point(3, 3);
+			this.txtLicense.Multiline = true;
+			this.txtLicense.Name = "txtLicense";
+			this.txtLicense.ReadOnly = true;
+			this.txtLicense.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.txtLicense.Size = new System.Drawing.Size(568, 203);
+			this.txtLicense.TabIndex = 0;
 			// 
-			// linkLabelIcons
+			// tabPagePlugins
 			// 
-			this.linkLabelIcons.AutoSize = true;
-			this.linkLabelIcons.LinkArea = new System.Windows.Forms.LinkArea(20, 13);
-			this.linkLabelIcons.Location = new System.Drawing.Point(7, 71);
-			this.linkLabelIcons.Name = "linkLabelIcons";
-			this.linkLabelIcons.Padding = new System.Windows.Forms.Padding(6);
-			this.linkLabelIcons.Size = new System.Drawing.Size(271, 29);
-			this.linkLabelIcons.TabIndex = 1;
-			this.linkLabelIcons.TabStop = true;
-			this.linkLabelIcons.Text = "Mark James, for the Silk icon set (famfamfam.com)";
-			this.linkLabelIcons.UseCompatibleTextRendering = true;
-			this.linkLabelIcons.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelIcons_LinkClicked);
-			// 
-			// linkLabelTextEditor
-			// 
-			this.linkLabelTextEditor.AutoSize = true;
-			this.linkLabelTextEditor.LinkArea = new System.Windows.Forms.LinkArea(16, 20);
-			this.linkLabelTextEditor.Location = new System.Drawing.Point(7, 100);
-			this.linkLabelTextEditor.Name = "linkLabelTextEditor";
-			this.linkLabelTextEditor.Padding = new System.Windows.Forms.Padding(6);
-			this.linkLabelTextEditor.Size = new System.Drawing.Size(550, 42);
-			this.linkLabelTextEditor.TabIndex = 2;
-			this.linkLabelTextEditor.TabStop = true;
-			this.linkLabelTextEditor.Text = "ic#code for the SharpDevelop project where I get the ICSharpCode.TextEditor from " +
-				"that removes the need for using an plain old textbox (www.icsharpcode.net)";
-			this.linkLabelTextEditor.UseCompatibleTextRendering = true;
-			this.linkLabelTextEditor.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelTextEditor_LinkClicked);
-			// 
-			// linkLabelDockPanel
-			// 
-			this.linkLabelDockPanel.AutoSize = true;
-			this.linkLabelDockPanel.LinkArea = new System.Windows.Forms.LinkArea(41, 13);
-			this.linkLabelDockPanel.Location = new System.Drawing.Point(7, 142);
-			this.linkLabelDockPanel.Name = "linkLabelDockPanel";
-			this.linkLabelDockPanel.Padding = new System.Windows.Forms.Padding(6);
-			this.linkLabelDockPanel.Size = new System.Drawing.Size(292, 29);
-			this.linkLabelDockPanel.TabIndex = 3;
-			this.linkLabelDockPanel.TabStop = true;
-			this.linkLabelDockPanel.Text = "Weifen Luo for his extremely easy to use docking suite.";
-			this.linkLabelDockPanel.UseCompatibleTextRendering = true;
-			this.linkLabelDockPanel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelDockPanel_LinkClicked);
-			// 
-			// tabPage2
-			// 
-			this.tabPage2.Controls.Add(this.pluginList);
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
-			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(574, 209);
-			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "Plugins";
-			this.tabPage2.UseVisualStyleBackColor = true;
+			this.tabPagePlugins.Controls.Add(this.pluginList);
+			this.tabPagePlugins.Location = new System.Drawing.Point(4, 22);
+			this.tabPagePlugins.Name = "tabPagePlugins";
+			this.tabPagePlugins.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPagePlugins.Size = new System.Drawing.Size(574, 209);
+			this.tabPagePlugins.TabIndex = 1;
+			this.tabPagePlugins.Text = "Plugins";
+			this.tabPagePlugins.UseVisualStyleBackColor = true;
 			// 
 			// pic
 			// 
@@ -275,10 +221,10 @@
 			this.Text = "About";
 			this.Load += new System.EventHandler(this.AboutForm_Load);
 			this.tabControl1.ResumeLayout(false);
-			this.tabPage1.ResumeLayout(false);
-			this.flowLayoutPanelTanks.ResumeLayout(false);
-			this.flowLayoutPanelTanks.PerformLayout();
-			this.tabPage2.ResumeLayout(false);
+			this.tabPageReadMe.ResumeLayout(false);
+			this.tabPageLicense.ResumeLayout(false);
+			this.tabPageLicense.PerformLayout();
+			this.tabPagePlugins.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pic)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -293,15 +239,12 @@
 		private System.Windows.Forms.Label labelVersion;
 		private System.Windows.Forms.Label labelProductName;
 		private System.Windows.Forms.Label labelCopyright;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelTanks;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.LinkLabel linkLabelIcons;
-        private System.Windows.Forms.LinkLabel linkLabelTextEditor;
-        private System.Windows.Forms.LinkLabel linkLabelDockPanel;
+		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabPage tabPagePlugins;
 		private System.Windows.Forms.PictureBox pic;
-		private System.Windows.Forms.LinkLabel lnkKent;
+		private System.Windows.Forms.TabPage tabPageReadMe;
+		private System.Windows.Forms.WebBrowser webBrowser1;
+		private System.Windows.Forms.TabPage tabPageLicense;
+		private System.Windows.Forms.TextBox txtLicense;
 	}
 }

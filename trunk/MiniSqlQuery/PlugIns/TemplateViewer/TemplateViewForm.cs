@@ -15,7 +15,6 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		private readonly IApplicationServices _services;
 		private readonly TemplateModel _model;
 		private FileInfo _selectedFile;
-		private FileSystemWatcher _fileSystemWatcher;
 
 		public TemplateViewForm(IApplicationServices services, TemplateModel model)
 		{
