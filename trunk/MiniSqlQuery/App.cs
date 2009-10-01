@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
@@ -52,7 +52,7 @@ namespace MiniSqlQuery
 				}
 			}
 
-			services.HostWindow.SetArguements(args);
+			services.HostWindow.SetArguments(args);
 			Application.Run(services.HostWindow.Instance);
 		}
 

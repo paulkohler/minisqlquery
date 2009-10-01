@@ -61,24 +61,24 @@ namespace MiniSqlQuery.Tests.DbModel
 
 			Assert.That(table.Columns.Count, Is.EqualTo(11));
 			Assert.That(table.PrimaryKeyColumns.Count, Is.EqualTo(1));
-			Assert.That(table.ForiegnKeyColumns.Count, Is.EqualTo(2));
+			Assert.That(table.ForeignKeyColumns.Count, Is.EqualTo(2));
 			Assert.That(table.NonKeyColumns.Count, Is.EqualTo(8));
 
-			Assert.That(supplierIdColumn.ForiegnKeyReference, Is.Not.Null);
-			Assert.That(categoryIdColumn.ForiegnKeyReference, Is.Not.Null);
+			Assert.That(supplierIdColumn.ForeignKeyReference, Is.Not.Null);
+			Assert.That(categoryIdColumn.ForeignKeyReference, Is.Not.Null);
 			
-			Assert.That(supplierIdColumn.ForiegnKeyReference.OwningColumn.Name, Is.EqualTo("Supplier ID"));
-			Assert.That(supplierIdColumn.ForiegnKeyReference.ReferenceTable.Name, Is.EqualTo("Suppliers"));
-			Assert.That(supplierIdColumn.ForiegnKeyReference.ReferenceColumn.Name, Is.EqualTo("Supplier ID"));
-			Assert.That(supplierIdColumn.ForiegnKeyReference.UpdateRule, Is.EqualTo("CASCADE"));
-			Assert.That(supplierIdColumn.ForiegnKeyReference.DeleteRule, Is.EqualTo("NO ACTION"));
+			Assert.That(supplierIdColumn.ForeignKeyReference.OwningColumn.Name, Is.EqualTo("Supplier ID"));
+			Assert.That(supplierIdColumn.ForeignKeyReference.ReferenceTable.Name, Is.EqualTo("Suppliers"));
+			Assert.That(supplierIdColumn.ForeignKeyReference.ReferenceColumn.Name, Is.EqualTo("Supplier ID"));
+			Assert.That(supplierIdColumn.ForeignKeyReference.UpdateRule, Is.EqualTo("CASCADE"));
+			Assert.That(supplierIdColumn.ForeignKeyReference.DeleteRule, Is.EqualTo("NO ACTION"));
 			Assert.That(supplierIdColumn.HasFK, Is.True);
 
-			Assert.That(categoryIdColumn.ForiegnKeyReference.OwningColumn.Name, Is.EqualTo("Category ID"));
-			Assert.That(categoryIdColumn.ForiegnKeyReference.ReferenceTable.Name, Is.EqualTo("Categories"));
-			Assert.That(categoryIdColumn.ForiegnKeyReference.ReferenceColumn.Name, Is.EqualTo("Category ID"));
-			Assert.That(categoryIdColumn.ForiegnKeyReference.UpdateRule, Is.EqualTo("CASCADE"));
-			Assert.That(categoryIdColumn.ForiegnKeyReference.DeleteRule, Is.EqualTo("NO ACTION"));
+			Assert.That(categoryIdColumn.ForeignKeyReference.OwningColumn.Name, Is.EqualTo("Category ID"));
+			Assert.That(categoryIdColumn.ForeignKeyReference.ReferenceTable.Name, Is.EqualTo("Categories"));
+			Assert.That(categoryIdColumn.ForeignKeyReference.ReferenceColumn.Name, Is.EqualTo("Category ID"));
+			Assert.That(categoryIdColumn.ForeignKeyReference.UpdateRule, Is.EqualTo("CASCADE"));
+			Assert.That(categoryIdColumn.ForeignKeyReference.DeleteRule, Is.EqualTo("NO ACTION"));
 
 			Assert.That(productNameColumn.HasFK, Is.False);
 			Assert.That(productNameColumn.Name, Is.EqualTo("Product Name"));

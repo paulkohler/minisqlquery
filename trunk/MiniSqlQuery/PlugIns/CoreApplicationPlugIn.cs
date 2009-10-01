@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
@@ -39,14 +39,14 @@ namespace MiniSqlQuery.PlugIns
 
             fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<NewQueryFormCommand>());
 			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<NewFileCommand>());
-            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
+            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeparator());
             fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenFileCommand>());
             fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveFileCommand>());
             fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveFileAsCommand>());
             fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<CloseActiveWindowCommand>());
-            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
+            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeparator());
             fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<PrintCommand>());
-            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
+            fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeparator());
             fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ExitApplicationCommand>());
 
 			queryMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ExecuteTaskCommand>());
@@ -76,7 +76,7 @@ namespace MiniSqlQuery.PlugIns
 			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowWebPageCommand>());
 			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowDiscussionsWebPageCommand>());
 			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<EmailAuthorCommand>());
-            helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeperator());
+            helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeparator());
             helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowAboutCommand>());
 
             CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(hostWindow.Instance.MainMenuStrip);
