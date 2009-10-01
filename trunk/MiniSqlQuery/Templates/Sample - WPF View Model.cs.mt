@@ -4,24 +4,18 @@
 ## NOTE - "WIP"
 
 #foreach ($table in $Host.Model.Tables)
-#set($classNm = ${table.Name.Replace(" ", "")} )
-##set($classNm= ${classNm}+"ViewModel" )
+#set($classNm = ${Host.ToPascalCase($table.Name)} )
 public class ${classNm}ViewModel : ObservableObject
 {
 	private ${classNm}Entity _entity;
-	
-#foreach ($c in $table.Columns)
-#set($nm=$c.Name.Replace(" ", ""))
-	private $c.DbType.SystemType.Name _${nm};
-#end
 	
 	public ${classNm}ViewModel(${classNm}Entity entity)
 	{
 		_entity = entity;
 	}
-	
 #foreach ($c in $table.Columns)
-#set($nm=$c.Name.Replace(" ", ""))
+#set($nm=$Host.ToPascalCase($c.Name))
+
 	public $c.DbType.SystemType.Name ${nm}
 	{
 		get { return _entity.${nm}; }
@@ -35,6 +29,8 @@ public class ${classNm}ViewModel : ObservableObject
 		}
 	}
 #end
+
+	//TODO - sample commands, save etc
 }
 
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.DbModel;
 
@@ -59,6 +60,34 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		public string Date(string format)
 		{
 			return DateTime.Now.ToString(format);
+		}
+
+		public string ToPascalCase(string text)
+		{
+			if (text == null)
+			{
+				return string.Empty;
+			}
+			string result = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text);
+			return result.Replace(" ", string.Empty);
+		}
+
+		public string ToCamelCase(string text)
+		{
+			if (text == null)
+			{
+				return string.Empty;
+			}
+			string result = ToPascalCase(text);
+			if (result.Length > 1)
+			{
+				result = Char.ToLower(result[0]) + result.Substring(1);
+			}
+			else
+			{
+				result = result.ToLowerInvariant();
+			}
+			return result;
 		}
 	}
 }

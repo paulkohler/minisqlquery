@@ -109,6 +109,7 @@
     </Compile>
     <Compile Include="QueryRunnerTests.cs" />
     <Compile Include="Query_wrapper_tests.cs" />
+    <Compile Include="Templates\TemplateHost_tests.cs" />
     <Compile Include="Templates\TemplateModel_tests.cs" />
     <Compile Include="Templates\TextFormater_tests.cs" />
   </ItemGroup>
