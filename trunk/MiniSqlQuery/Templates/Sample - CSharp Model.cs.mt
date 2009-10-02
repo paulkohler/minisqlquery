@@ -2,7 +2,7 @@
 public class ${table.Name}
 {
 #foreach ($c in $table.Columns)
-	public $c.DbType.SystemType $c.Name { get; set; }
+	public ${c.DbType.SystemType} ${Host.ToPascalCase($c.Name)} { get; set; }
 #end
 }
 #end
