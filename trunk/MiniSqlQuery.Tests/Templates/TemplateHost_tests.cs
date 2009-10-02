@@ -34,6 +34,11 @@ namespace MiniSqlQuery.Tests.Templates
 			Assert.That(_host.ToPascalCase(null), Is.EqualTo(""));
 			Assert.That(_host.ToPascalCase("name"), Is.EqualTo("Name"));
 			Assert.That(_host.ToPascalCase("foo baa"), Is.EqualTo("FooBaa"));
+			Assert.That(_host.ToPascalCase("user_id"), Is.EqualTo("UserId"));
+			Assert.That(_host.ToPascalCase("firstName"), Is.EqualTo("FirstName"));
+			Assert.That(_host.ToPascalCase("FirstName"), Is.EqualTo("FirstName"));
+			Assert.That(_host.ToPascalCase("id"), Is.EqualTo("Id"));
+			Assert.That(_host.ToPascalCase("ID"), Is.EqualTo("ID"));
 		}
 
 		[Test]
@@ -43,6 +48,11 @@ namespace MiniSqlQuery.Tests.Templates
 			Assert.That(_host.ToCamelCase("name"), Is.EqualTo("name"));
 			Assert.That(_host.ToCamelCase("Foo"), Is.EqualTo("foo"));
 			Assert.That(_host.ToCamelCase("bat man"), Is.EqualTo("batMan"));
+			Assert.That(_host.ToCamelCase("bat_man"), Is.EqualTo("batMan"));
+			Assert.That(_host.ToCamelCase("XYZCodeThing"), Is.EqualTo("xyzCodeThing"));
+			Assert.That(_host.ToCamelCase("XYZ Code Thing"), Is.EqualTo("xyzCodeThing"));
+			Assert.That(_host.ToCamelCase("user_name"), Is.EqualTo("userName"));
+			Assert.That(_host.ToCamelCase("id"), Is.EqualTo("id"));
 		}
 	}
 }
