@@ -23,22 +23,22 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 		public IApplicationServices Services { get; private set; }
 
-		public DataTable Get(string name)
+		public DataTable Get(string viewOrTableName)
 		{
 			DbDataAdapter adapter = null;
 			DbCommand cmd = null;
 			DataTable dt = null;
 			QueryBatch batch = new QueryBatch();
-			Query query = new Query("SELECT * FROM " + Utility.MakeSqlFriendly(name));
+			Query query = new Query("SELECT * FROM " + Utility.MakeSqlFriendly(viewOrTableName));
 
-			if (string.IsNullOrEmpty(name))
+			if (string.IsNullOrEmpty(viewOrTableName))
 			{
 				return null;
 			}
 
-			if (_dataTables.ContainsKey(name))
+			if (_dataTables.ContainsKey(viewOrTableName))
 			{
-				return _dataTables[name];
+				return _dataTables[viewOrTableName];
 			}
 
 			try
@@ -48,7 +48,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 					_dbConnection = Services.Settings.GetOpenConnection();
 				}
 
-				query.Result = new DataSet(name + " View");
+				query.Result = new DataSet(viewOrTableName + " View");
 				batch.Clear();
 				batch.Add(query);
 
@@ -78,12 +78,80 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			if (query.Result.Tables.Count > 0)
 			{
 				dt = query.Result.Tables[0];
-				_dataTables[name] = dt;
+				_dataTables[viewOrTableName] = dt;
 			}
 
 			return dt;
 		}
 
+		public DataTable Query(string sql)
+		{
+			DbDataAdapter adapter = null;
+			DbCommand cmd = null;
+			DataTable dt = null;
+			QueryBatch batch = new QueryBatch();
+			Query query = new Query(sql);
+
+			if (string.IsNullOrEmpty(sql))
+			{
+				return null;
+			}
+
+			if (_dataTables.ContainsKey(sql))
+			{
+				return _dataTables[sql];
+			}
+
+			try
+			{
+				if (_dbConnection == null || _dbConnection.State != ConnectionState.Open)
+				{
+					_dbConnection = Services.Settings.GetOpenConnection();
+				}
+
+				string dataSetName = sql;
+				query.Result = new DataSet(dataSetName);
+				batch.Clear();
+				batch.Add(query);
+
+				adapter = Services.Settings.ProviderFactory.CreateDataAdapter();
+				cmd = _dbConnection.CreateCommand();
+				cmd.CommandText = query.Sql;
+				cmd.CommandType = CommandType.Text;
+				adapter.SelectCommand = cmd;
+				adapter.Fill(query.Result);
+			}
+			//catch (Exception exp)
+			//{
+			//    throw;
+			//}
+			finally
+			{
+				if (adapter != null)
+				{
+					adapter.Dispose();
+				}
+				if (cmd != null)
+				{
+					cmd.Dispose();
+				}
+			}
+
+			if (query.Result.Tables.Count > 0)
+			{
+				dt = query.Result.Tables[0];
+				_dataTables[sql] = dt;
+			}
+
+			return dt;
+		}
+
+		/// <summary>
+		/// Helper for getting the value of a row - avoids "get_Item()" usage.
+		/// </summary>
+		/// <param name="row">The row.</param>
+		/// <param name="columnName">Name of the column.</param>
+		/// <returns></returns>
 		public object ColumnValue(DataRow row, string columnName)
 		{
 			return row[columnName];
@@ -95,6 +163,10 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			{
 				_dbConnection.Dispose();
 				_dbConnection = null;
+			}
+			foreach (var dataTable in _dataTables)
+			{
+				dataTable.Value.Dispose();
 			}
 		}
 	}

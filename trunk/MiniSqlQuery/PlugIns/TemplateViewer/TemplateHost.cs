@@ -103,7 +103,8 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				}
 				else
 				{
-					if (i > 1) // cater for vars that start with an acronym, e.g. "ABCCode" -> "abcCode"
+					// allows for names that start with an acronym, e.g. "ABCCode" -> "abcCode"
+					if (i > 1) 
 					{
 						i--; // reverse one
 						sb.Remove(i, 1); // drop last lower cased char
