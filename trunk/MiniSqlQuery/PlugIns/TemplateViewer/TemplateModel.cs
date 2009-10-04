@@ -121,6 +121,11 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 					{
 						items[Extension] = line.Substring("#@set extension ".Length);
 					}
+					else if (line.StartsWith("#@import-plugin ", StringComparison.CurrentCultureIgnoreCase))
+					{
+						string pluginKeyName = line.Substring("#@import-plugin ".Length);
+						items[pluginKeyName.Replace(".", "_")] = _services.Resolve<IPlugIn>(pluginKeyName);
+					}
 				}
 				else
 				{
