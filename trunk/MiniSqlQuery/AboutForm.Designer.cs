@@ -58,7 +58,7 @@
 			this.textBoxDescription.Name = "textBoxDescription";
 			this.textBoxDescription.ReadOnly = true;
 			this.textBoxDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textBoxDescription.Size = new System.Drawing.Size(582, 84);
+			this.textBoxDescription.Size = new System.Drawing.Size(615, 54);
 			this.textBoxDescription.TabIndex = 23;
 			this.textBoxDescription.TabStop = false;
 			this.textBoxDescription.Text = "Description";
@@ -67,7 +67,7 @@
 			// 
 			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.okButton.Location = new System.Drawing.Point(519, 408);
+			this.okButton.Location = new System.Drawing.Point(552, 437);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
 			this.okButton.TabIndex = 24;
@@ -89,7 +89,7 @@
 			this.labelVersion.Location = new System.Drawing.Point(81, 35);
 			this.labelVersion.Margin = new System.Windows.Forms.Padding(0);
 			this.labelVersion.Name = "labelVersion";
-			this.labelVersion.Size = new System.Drawing.Size(513, 17);
+			this.labelVersion.Size = new System.Drawing.Size(546, 17);
 			this.labelVersion.TabIndex = 0;
 			this.labelVersion.Text = "Version";
 			this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -103,7 +103,7 @@
 			this.labelProductName.Location = new System.Drawing.Point(81, 9);
 			this.labelProductName.Margin = new System.Windows.Forms.Padding(0);
 			this.labelProductName.Name = "labelProductName";
-			this.labelProductName.Size = new System.Drawing.Size(513, 17);
+			this.labelProductName.Size = new System.Drawing.Size(546, 17);
 			this.labelProductName.TabIndex = 19;
 			this.labelProductName.Text = "Product Name";
 			this.labelProductName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -115,7 +115,7 @@
 			this.labelCopyright.Location = new System.Drawing.Point(81, 52);
 			this.labelCopyright.Margin = new System.Windows.Forms.Padding(0);
 			this.labelCopyright.Name = "labelCopyright";
-			this.labelCopyright.Size = new System.Drawing.Size(513, 17);
+			this.labelCopyright.Size = new System.Drawing.Size(546, 17);
 			this.labelCopyright.TabIndex = 22;
 			this.labelCopyright.Text = "Copyright";
 			this.labelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -128,10 +128,10 @@
 			this.tabControl1.Controls.Add(this.tabPageReadMe);
 			this.tabControl1.Controls.Add(this.tabPageLicense);
 			this.tabControl1.Controls.Add(this.tabPagePlugins);
-			this.tabControl1.Location = new System.Drawing.Point(12, 167);
+			this.tabControl1.Location = new System.Drawing.Point(12, 137);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(582, 235);
+			this.tabControl1.Size = new System.Drawing.Size(615, 294);
 			this.tabControl1.TabIndex = 25;
 			// 
 			// tabPageReadMe
@@ -140,7 +140,7 @@
 			this.tabPageReadMe.Location = new System.Drawing.Point(4, 22);
 			this.tabPageReadMe.Name = "tabPageReadMe";
 			this.tabPageReadMe.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageReadMe.Size = new System.Drawing.Size(574, 209);
+			this.tabPageReadMe.Size = new System.Drawing.Size(607, 268);
 			this.tabPageReadMe.TabIndex = 2;
 			this.tabPageReadMe.Text = "Read Me!";
 			this.tabPageReadMe.UseVisualStyleBackColor = true;
@@ -151,7 +151,7 @@
 			this.webBrowser1.Location = new System.Drawing.Point(3, 3);
 			this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
 			this.webBrowser1.Name = "webBrowser1";
-			this.webBrowser1.Size = new System.Drawing.Size(568, 203);
+			this.webBrowser1.Size = new System.Drawing.Size(601, 262);
 			this.webBrowser1.TabIndex = 0;
 			// 
 			// tabPageLicense
@@ -202,7 +202,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.CancelButton = this.okButton;
-			this.ClientSize = new System.Drawing.Size(606, 443);
+			this.ClientSize = new System.Drawing.Size(639, 472);
 			this.Controls.Add(this.pic);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.okButton);
