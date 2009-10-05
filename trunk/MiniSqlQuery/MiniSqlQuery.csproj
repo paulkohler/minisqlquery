@@ -348,6 +348,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="PlugIns\TemplateViewer\TemplateHelp.rtf" />
+    <None Include="Templates\Sample - Advanced Looping.txt.mt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\Sample - Plugin Access.txt.mt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
