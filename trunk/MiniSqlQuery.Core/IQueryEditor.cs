@@ -5,7 +5,6 @@
 #endregion
 using System;
 using System.Windows.Forms;
-using System.Data;
 
 namespace MiniSqlQuery.Core
 {
@@ -14,12 +13,6 @@ namespace MiniSqlQuery.Core
 	/// </summary>
 	public interface IQueryEditor : IPerformTask, IFindReplaceProvider, INavigatableDocument, IQueryBatchProvider, IEditor
 	{
-		/// <summary>
-		/// Obsolete in favour of <see cref="IQueryBatchProvider.Batch"/>. The current data displayed in the result window.
-		/// </summary>
-		[Obsolete]
-		DataSet DataSet { get; }
-
 		/// <summary>
 		/// Provides access to the actual editor control.
 		/// </summary>

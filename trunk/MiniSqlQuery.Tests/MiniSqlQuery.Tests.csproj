@@ -92,7 +92,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionDefinitionTests.cs" />
     <Compile Include="DbConnectionDefinitionListTests.cs" />
     <Compile Include="DbModel\DbModelTable_tests.cs" />
     <Compile Include="DbModel\MSAccess_DataType_Tests.cs" />

@@ -1,6 +1,7 @@
 Mini SQL Query Change Log
 =========================
 
+2009-10-06	MOD: Removed all obsolete references in prep for a real release ;-O
 2009-09-24	ENH: Finally added drag drop ;-)
 2009-09-24	ENH: Added options.
 2009-09-22	ENH: added a simple file watcher mechanism to monitor the templates directory (*.mt) and update the tree view.

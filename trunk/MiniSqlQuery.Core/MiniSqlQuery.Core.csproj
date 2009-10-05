@@ -55,7 +55,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\Castle.MicroKernel.dll</HintPath>
     </Reference>
-    <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=fc81dc5cbb334820, processorArchitecture=MSIL">
+    <Reference Include="NVelocity, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\NVelocity.dll</HintPath>
     </Reference>
@@ -101,7 +101,6 @@
     <Compile Include="Commands\ShowHelpCommand.cs" />
     <Compile Include="Commands\ShowUrlCommand.cs" />
     <Compile Include="Commands\ShowWebPageCommand.cs" />
-    <Compile Include="ConnectionDefinition.cs" />
     <Compile Include="Controls\BatchQuerySelectControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -121,7 +120,6 @@
       <DependentUpon>PluginListControl.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseMetaDataService.cs" />
-    <Compile Include="DbModel\DbModelColumnCollection.cs" />
     <Compile Include="DbModel\DbModelConstraint.cs" />
     <Compile Include="DbModel\DbModelForeignKeyReference.cs" />
     <Compile Include="DbModel\DbModelObjectBase.cs" />

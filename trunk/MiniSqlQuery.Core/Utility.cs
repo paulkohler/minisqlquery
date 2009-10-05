@@ -124,17 +124,6 @@ namespace MiniSqlQuery.Core
 		}
 
 		/// <summary>
-		/// Gets the old (text) connection string filename.
-		/// </summary>
-		/// <returns></returns>
-		public static string GetOldConnectionStringFilename()
-		{
-			string folder = GetAppFolderPath();
-			string filename = Path.Combine(folder, "connections.txt");
-			return filename;
-		}
-
-		/// <summary>
 		/// Resolves the "(application data path)\MiniSqlQuery" for this user.
 		/// </summary>
 		/// <returns>A folder path.</returns>
@@ -155,34 +144,10 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		public static void CreateConnectionStringsIfRequired()
 		{
-			DbConnectionDefinitionList newDefinitionList = null;
-			string oldFilename = GetOldConnectionStringFilename();
-			if (File.Exists(oldFilename))
-			{
-				// offer migrate
-				string[] oldLines = File.ReadAllLines(oldFilename);
-				ConnectionDefinition[] oldConnectionDefinitions = ConnectionDefinition.Parse(oldLines);
-				newDefinitionList = DbConnectionDefinitionList.Upgrade(oldConnectionDefinitions, null);
-
-				string migratedFilename = oldFilename + ".migrated-to-xml-file";
-				File.Move(oldFilename, migratedFilename);
-			}
-
 			string filename = GetConnectionStringFilename();
 			if (!File.Exists(filename))
 			{
-				if (newDefinitionList != null)
-				{
-					File.WriteAllText(filename, newDefinitionList.ToXml());
-					ApplicationServices.Instance.HostWindow.DisplaySimpleMessageBox(
-						null,
-						string.Format("The file\r\n'{0}'\r\nwas upgraded to XML and saved as\r\n'{1}'", oldFilename, filename),
-						"Migrated TEXT connections file to XML");
-				}
-				else
-				{
-					File.WriteAllText(filename, Resources.DefaultConnectionDefinitionFile);
-				}
+				File.WriteAllText(filename, Resources.DefaultConnectionDefinitionFile);
 			}
 		}
 

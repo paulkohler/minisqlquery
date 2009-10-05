@@ -121,9 +121,6 @@ namespace MiniSqlQuery
 
 		public bool IsBusy { get; private set; }
 
-		[Obsolete]
-		public DataSet DataSet { get; private set; }
-
 		public void SetStatus(string text)
 		{
 			_status = text;
