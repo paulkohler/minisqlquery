@@ -5,10 +5,8 @@
 #endregion
 using System;
 using System.Data;
-using System.Text;
-using MiniSqlQuery.Core.Commands;
 
-namespace MiniSqlQuery.Commands
+namespace MiniSqlQuery.Core.Commands
 {
 	public class CloseDatabaseConnectionCommand
 		: CommandBase
@@ -29,7 +27,7 @@ namespace MiniSqlQuery.Commands
 			get
 			{
 				if (Settings.Connection.State == ConnectionState.Closed && 
-					Settings.Connection.State == ConnectionState.Broken)
+				    Settings.Connection.State == ConnectionState.Broken)
 				{
 					return false;
 				}

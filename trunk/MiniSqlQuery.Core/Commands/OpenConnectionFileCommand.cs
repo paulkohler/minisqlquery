@@ -4,11 +4,9 @@
 // http://minisqlquery.codeplex.com/license
 #endregion
 using System;
-using MiniSqlQuery.Core;
-using MiniSqlQuery.Core.Commands;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace MiniSqlQuery.Commands
+namespace MiniSqlQuery.Core.Commands
 {
 	public class OpenConnectionFileCommand
 		: CommandBase
