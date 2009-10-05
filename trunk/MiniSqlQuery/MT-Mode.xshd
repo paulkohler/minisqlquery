@@ -1,34 +1,34 @@
 <?xml version="1.0"?>
 
 <SyntaxDefinition name = "NVelocity" extensions = ".mt;.vm;.nv">
-	
+
 	<Properties>
 		<Property name="LineComment" value="##"/>
 	</Properties>
-	
+
 	<Digits name = "Digits" bold = "false" italic = "false" color = "DarkBlue"/>
-	
+
 	<RuleSets>
 		<RuleSet ignorecase = "false">
 			<Delimiters>~!%^*()-+=|\/{}[]:;"'&lt;&gt; , .?</Delimiters>
-		
+
 			<Span name = "LineDirective1" bold = "true" italic = "false" color = "Purple" stopateol = "true">
 				<Begin>#@get</Begin>
 			</Span>
-		
+
 			<Span name = "LineDirective2" bold = "true" italic = "false" color = "Purple" stopateol = "true">
 				<Begin>#@set</Begin>
 			</Span>
-			
+
 			<Span name = "LineComment" bold = "false" italic = "true" color = "Green" stopateol = "true" escapecharacter="\">
 				<Begin>##</Begin>
 			</Span>
-		
+
 			<Span name = "BlockComment" bold = "false" italic = "true" color = "Green" stopateol = "false">
 				<Begin>#*</Begin>
 				<End>*#</End>
 			</Span>
-			
+
 			<Span name = "VelocityVariable" bold = "false" italic = "false" color = "Blue" stopateol = "false" >
 				<Begin>${</Begin>
 				<End>}</End>
@@ -36,7 +36,7 @@
 
 			<MarkFollowing bold = "false" italic = "false" color = "Blue">$</MarkFollowing>
 
-			<KeyWords name = "AccessKeywords" bold="true" italic="false" color="Blue">
+			<KeyWords name = "GeneralKeywords" bold="true" italic="false" color="Blue">
 				<Key word = "#foreach" />
 				<Key word = "#set" />
 				<Key word = "#if" />
@@ -44,18 +44,30 @@
 				<Key word = "#elseif" />
 				<Key word = "#end" />
 			</KeyWords>
-			
-			<KeyWords name = "NameSpaces" bold="true" italic="false" color="Green">
+
+			<KeyWords name = "LoopKeywords" bold="false" italic="false" color="DarkSlateBlue">
+				<Key word = "#beforeall" />
+				<Key word = "#before" />
+				<Key word = "#each" />
+				<Key word = "#after" />
+				<Key word = "#between" />
+				<Key word = "#odd" />
+				<Key word = "#even" />
+				<Key word = "#nodata" />
+				<Key word = "#afterall" />
+			</KeyWords>
+
+			<KeyWords name = "FunctionalSpaces" bold="true" italic="false" color="Green">
 				<Key word = "#macro" />
 				<Key word = "#include" />
 			</KeyWords>
-			
+
 			<KeyWords name = "Literals" bold="true" italic="false" color="Black">
 				<Key word = "false" />
 				<Key word = "true" />
 			</KeyWords>
-		
-	</RuleSet>
+
+		</RuleSet>
 	</RuleSets>
 </SyntaxDefinition>
 
