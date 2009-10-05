@@ -29,21 +29,22 @@
     <HelpFileFormat>Help1xAndWebsite</HelpFileFormat>
     <FrameworkVersion>2.0.50727</FrameworkVersion>
     <HelpTitle>Mini SQL Query Extensibility Documentation</HelpTitle>
-    <CopyrightHref>http://www.pksoftware.net/MiniSqlQuery/</CopyrightHref>
+    <CopyrightHref>http://pksoftware.net/MiniSqlQuery/</CopyrightHref>
     <CopyrightText>Paul Kohler</CopyrightText>
     <FeedbackEMailAddress>paul%40pksoftware.net</FeedbackEMailAddress>
     <PresentationStyle>Prototype</PresentationStyle>
     <NamingMethod>MemberName</NamingMethod>
     <ShowFeedbackControl>True</ShowFeedbackControl>
     <DocumentationSources>
-      <DocumentationSource sourceFile="ReleaseBuild\MiniSqlQuery.Core.dll" xmlns="" />
-<DocumentationSource sourceFile="ReleaseBuild\MiniSqlQuery.Core.xml" xmlns="" /></DocumentationSources>
+      <DocumentationSource sourceFile="MiniSqlQuery.Core\bin\Release\MiniSqlQuery.Core.dll" />
+<DocumentationSource sourceFile="MiniSqlQuery.Core\bin\Release\MiniSqlQuery.Core.xml" /></DocumentationSources>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="False" xmlns="" />
-<NamespaceSummaryItem name="MiniSqlQuery.Core" isDocumented="True" xmlns="">Mini SQL Query application interfaces and some basic implementations.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="MiniSqlQuery.Core.Commands" isDocumented="True" xmlns="">Helper classes for application commands.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="MiniSqlQuery.Core.Controls" isDocumented="True" xmlns="">Some simple controls.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="MiniSqlQuery.Core.Properties" isDocumented="False" xmlns="" /></NamespaceSummaries>
+      <NamespaceSummaryItem name="MiniSqlQuery.Core" isDocumented="True" xmlns="">Mini SQL Query application interfaces and some basic implementations.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="MiniSqlQuery.Core.Commands" isDocumented="True" xmlns="">Helper classes for application commands.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="MiniSqlQuery.Core.Controls" isDocumented="True" xmlns="">Some simple controls.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="MiniSqlQuery.Core.Properties" isDocumented="False" xmlns="" />
+    </NamespaceSummaries>
   </PropertyGroup>
   <!-- There are no properties for these two groups but they need to appear in
        order for Visual Studio to perform the build. -->
@@ -55,29 +56,11 @@
     <Reference Include="Castle.Core">
       <HintPath>References\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.DynamicProxy2">
-      <HintPath>References\Castle.DynamicProxy2.dll</HintPath>
-    </Reference>
     <Reference Include="Castle.MicroKernel">
       <HintPath>References\Castle.MicroKernel.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Windsor">
-      <HintPath>References\Castle.Windsor.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.TextEditor">
       <HintPath>References\ICSharpCode.TextEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="Moq">
-      <HintPath>References\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>References\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="NUnitForms">
-      <HintPath>References\NUnitForms.dll</HintPath>
-    </Reference>
-    <Reference Include="NUnitForms.ScreenCapture">
-      <HintPath>References\NUnitForms.ScreenCapture.dll</HintPath>
     </Reference>
     <Reference Include="WeifenLuo.WinFormsUI.Docking">
       <HintPath>References\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
