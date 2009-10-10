@@ -34,6 +34,16 @@ namespace MiniSqlQuery.Core
 			return name;
 		}
 
+		public static string RenderSafeSchemaObjectName(string schema, string objectName)
+		{
+			if (string.IsNullOrEmpty(schema))
+			{
+				return string.Format("[{0}]", objectName);
+			}
+
+			return string.Format("[{0}].[{1}]", schema, objectName);
+		}
+
         /// <summary>
         /// Shows the URL in the defaut browser.
         /// </summary>

@@ -161,8 +161,8 @@ namespace MiniSqlQuery.Core.DbModel
 			DataTable schemaTableKeyInfo;
 			using (DbCommand command = dbConn.CreateCommand())
 			{
-				string tableName = (string.IsNullOrEmpty(schema) ? "" : schema + ".") + name;
-				command.CommandText = "SELECT * FROM " + MakeSqlFriendly(tableName);
+				string tableName = Utility.RenderSafeSchemaObjectName(schema, name);
+				command.CommandText = "SELECT * FROM " + tableName;
 				using (DbDataReader reader = command.ExecuteReader(CommandBehavior.SchemaOnly | CommandBehavior.KeyInfo))
 				{
 					schemaTableKeyInfo = reader.GetSchemaTable();

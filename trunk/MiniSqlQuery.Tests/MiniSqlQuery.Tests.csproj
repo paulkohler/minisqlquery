@@ -111,6 +111,7 @@
     <Compile Include="Templates\TemplateHost_tests.cs" />
     <Compile Include="Templates\TemplateModel_tests.cs" />
     <Compile Include="Templates\TextFormater_tests.cs" />
+    <Compile Include="Utility_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MiniSqlQuery.Core\MiniSqlQuery.Core.csproj">
