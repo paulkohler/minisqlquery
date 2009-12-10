@@ -86,7 +86,7 @@ namespace MiniSqlQuery.Core.DbModel
 			for (int i = 0; i < writableColumns.Count; i++)
 			{
 				var column = writableColumns[i];
-				writer.Write("{0} /*{1}*/", column.DbType.ToDDLValue(column.Nullable), column.DbType.Summary);
+				writer.Write("{0} /*{1},{2}*/", column.DbType.ToDDLValue(column.Nullable), column.Name, column.DbType.Summary);
 				if (i < writableColumns.Count - 1)
 				{
 					writer.WriteLine(",");

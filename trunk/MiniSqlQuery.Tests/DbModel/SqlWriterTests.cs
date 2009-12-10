@@ -88,8 +88,8 @@ FROM Person
 	(Name,
 	Description)
 VALUES
-	(N'' /*nvarchar(100)*/,
-	null /*nvarchar(500)*/)
+	(N'' /*Name,nvarchar(100)*/,
+	null /*Description,nvarchar(500)*/)
 "));
 		}
 
