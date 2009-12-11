@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.IO;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.DbModel;
@@ -298,5 +299,75 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 		}
 
 		#endregion
+
+
+		private void lnkExportScript_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			DataTable dt = dataGridViewResult.DataSource as DataTable;
+
+			if (dt != null)
+			{
+				var stringWriter = new StringWriter();
+				var hostWindow = _services.HostWindow;
+				var dbModelTable = GetTableOrViewByName(hostWindow.DatabaseInspector.DbSchema, TableName);
+				var sqlWriter = _services.Resolve<ISqlWriter>();
+				sqlWriter.IncludeComments = false;
+				sqlWriter.InsertLineBreaksBetweenColumns = false;
+
+				for (int i = 0; i < dt.Rows.Count; i++)
+				{
+					DataRow dataRow = dt.Rows[i];
+
+					foreach (var column in dbModelTable.Columns)
+					{
+						column.DbType.Value = dataRow[dt.Columns[column.Name]];
+					}
+
+					sqlWriter.WriteInsert(stringWriter, dbModelTable);
+					if (_settings.EnableQueryBatching)
+					{
+						stringWriter.WriteLine("GO");
+					}
+					stringWriter.WriteLine();
+
+					if (i % 10 == 0)
+					{
+						UpdateStatus(string.Format("Processing {0} of {1} rows", i + 1, dt.Rows.Count));
+					}
+				}
+				UpdateStatus(string.Format("Processed {0} rows. Opening file...", dt.Rows.Count));
+
+				// HACK - need to clean up the values for now as the model is holding the last rows data  ;-)
+				// TODO - add a "deep clone" method to the table/columns
+				foreach (var column in dbModelTable.Columns)
+				{
+					column.DbType.Value = null;
+				}
+
+				// create a new sql editor and push the sql into it
+				IEditor editor = _services.Resolve<IQueryEditor>();
+				editor.AllText = stringWriter.ToString();
+				hostWindow.DisplayDockedForm(editor as DockContent);
+
+				UpdateStatus(null);
+			}
+		}
+
+		private DbModelTable GetTableOrViewByName(DbModelInstance model, string tableName)
+		{
+			DbModelTable tableOrView = model.FindTable(tableName);
+			if (tableOrView == null)
+			{
+				// check the views
+				tableOrView = model.FindView(tableName);
+			}
+			return tableOrView;
+		}
+
+		private void UpdateStatus(string msg)
+		{
+			_services.HostWindow.SetStatus(this, msg);
+			Application.DoEvents();
+		}
 	}
 }

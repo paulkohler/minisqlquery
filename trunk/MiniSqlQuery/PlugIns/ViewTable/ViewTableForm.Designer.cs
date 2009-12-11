@@ -33,6 +33,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewTableForm));
 			this.dataGridViewResult = new System.Windows.Forms.DataGridView();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.lnkExportScript = new System.Windows.Forms.LinkLabel();
 			this.chkAutoReload = new System.Windows.Forms.CheckBox();
 			this.lnkRefresh = new System.Windows.Forms.LinkLabel();
 			this.cboTableName = new System.Windows.Forms.ComboBox();
@@ -56,25 +57,40 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.dataGridViewResult.DefaultCellStyle = dataGridViewCellStyle1;
 			this.dataGridViewResult.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dataGridViewResult.Location = new System.Drawing.Point(4, 58);
+			this.dataGridViewResult.Location = new System.Drawing.Point(4, 69);
 			this.dataGridViewResult.Name = "dataGridViewResult";
 			this.dataGridViewResult.ReadOnly = true;
-			this.dataGridViewResult.Size = new System.Drawing.Size(562, 305);
+			this.dataGridViewResult.Size = new System.Drawing.Size(562, 294);
 			this.dataGridViewResult.TabIndex = 0;
 			this.dataGridViewResult.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridViewResult_DataError);
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.lnkExportScript);
 			this.groupBox1.Controls.Add(this.chkAutoReload);
 			this.groupBox1.Controls.Add(this.lnkRefresh);
 			this.groupBox1.Controls.Add(this.cboTableName);
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBox1.Location = new System.Drawing.Point(4, 4);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(562, 54);
+			this.groupBox1.Size = new System.Drawing.Size(562, 65);
 			this.groupBox1.TabIndex = 2;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Table Name";
+			// 
+			// lnkExportScript
+			// 
+			this.lnkExportScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.lnkExportScript.AutoSize = true;
+			this.lnkExportScript.Location = new System.Drawing.Point(469, 29);
+			this.lnkExportScript.Name = "lnkExportScript";
+			this.lnkExportScript.Size = new System.Drawing.Size(76, 13);
+			this.lnkExportScript.TabIndex = 4;
+			this.lnkExportScript.TabStop = true;
+			this.lnkExportScript.Text = "Export Script...";
+			this.toolTip1.SetToolTip(this.lnkExportScript, "Takes the current data and creates a script of insert statements in a new window." +
+					"");
+			this.lnkExportScript.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkExportScript_LinkClicked);
 			// 
 			// chkAutoReload
 			// 
@@ -82,7 +98,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			this.chkAutoReload.AutoSize = true;
 			this.chkAutoReload.Checked = true;
 			this.chkAutoReload.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkAutoReload.Location = new System.Drawing.Point(472, 33);
+			this.chkAutoReload.Location = new System.Drawing.Point(471, 45);
 			this.chkAutoReload.Name = "chkAutoReload";
 			this.chkAutoReload.Size = new System.Drawing.Size(85, 17);
 			this.chkAutoReload.TabIndex = 2;
@@ -149,5 +165,6 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 		private System.Windows.Forms.CheckBox chkAutoReload;
 		private System.Windows.Forms.ToolTip toolTip1;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+		private System.Windows.Forms.LinkLabel lnkExportScript;
 	}
 }

@@ -12,6 +12,9 @@ namespace MiniSqlQuery.Core.DbModel
 {
 	public interface ISqlWriter
 	{
+		bool IncludeComments { get; set; }
+		bool InsertLineBreaksBetweenColumns { get; set; }
+
 		void WriteCreate(TextWriter writer, DbModelColumn column);
 		void WriteSummary(TextWriter writer, DbModelColumn column);
 		void WriteSelect(TextWriter writer, DbModelTable tableOrView);

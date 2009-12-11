@@ -140,27 +140,44 @@ namespace MiniSqlQuery.Core.DbModel
 		/// </remarks>
 		public string ToDDLValue(bool nullable)
 		{
-			if (nullable && (Value == null || Value == DBNull.Value))
+			if (Value == null || Value == DBNull.Value)
 			{
-				return "null";
-			}
-			if (!nullable && (Value == null || Value == DBNull.Value))
-			{
-				// not supposed to be nullable but the Value is. render a default
-				switch (SystemType.Name)
+				if (nullable)
 				{
-					case"String":
+					return "null";
+				}
+				
+				// not supposed to be nullable but the Value is. render a default
+				switch (SystemType.FullName)
+				{
+					case "System.String":
 						return string.Concat(LiteralPrefix, LiteralSuffix);
-					case"DateTime":
+					case "System.DateTime":
 						return "'?'";
-					case"Guid":
+					case "System.Guid":
 						return string.Concat("'", Guid.Empty, "'");
 					default:
-						return "0";
+						return "0"; // take a punt
 				}
+			}
+
+			if (SystemType == typeof(string))
+			{
+				return string.Concat(LiteralPrefix, ((string)Value).Replace("'", "''"), LiteralSuffix);
+			}
+			if (SystemType == typeof (DateTime))
+			{
+				return string.Format("{0}{1:yyyy-MM-dd HH:mm:ss}{2}", LiteralPrefix, Value, LiteralSuffix);
+			}
+			if (SystemType == typeof (bool) && Name.Equals("bit", StringComparison.InvariantCultureIgnoreCase))
+			{
+				return ((bool)Value) ? "1" : "0";
+			}
+			if (SystemType == typeof(Byte[]))
+			{
+				return "null /* not supported yet */ ";
 			}
 			return string.Concat(LiteralPrefix, Value, LiteralSuffix);
 		}
-
 	}
 }

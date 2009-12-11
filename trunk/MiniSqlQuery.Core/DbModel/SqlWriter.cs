@@ -12,9 +12,14 @@ namespace MiniSqlQuery.Core.DbModel
 {
 	public class SqlWriter : ISqlWriter
 	{
+		public bool IncludeComments { get; set; }
+		public bool InsertLineBreaksBetweenColumns { get; set; }
+
 		public SqlWriter()
 		{
 			// todo - format options?
+			IncludeComments = true;
+			InsertLineBreaksBetweenColumns = true;
 		}
 
 		public virtual void WriteCreate(TextWriter writer, DbModelColumn column)
@@ -74,8 +79,15 @@ namespace MiniSqlQuery.Core.DbModel
 				writer.Write(MakeSqlFriendly(column.Name));
 				if (i < writableColumns.Count - 1)
 				{
-					writer.WriteLine(",");
-					writer.Write("\t");
+					if (InsertLineBreaksBetweenColumns)
+					{
+						writer.WriteLine(",");
+						writer.Write("\t");
+					}
+					else
+					{
+						writer.Write(", ");
+					}
 				}
 			}
 
@@ -86,11 +98,22 @@ namespace MiniSqlQuery.Core.DbModel
 			for (int i = 0; i < writableColumns.Count; i++)
 			{
 				var column = writableColumns[i];
-				writer.Write("{0} /*{1},{2}*/", column.DbType.ToDDLValue(column.Nullable), column.Name, column.DbType.Summary);
+				writer.Write(column.DbType.ToDDLValue(column.Nullable));
+				if (IncludeComments)
+				{
+					writer.Write(" /*{0},{1}*/", column.Name, column.DbType.Summary);
+				}
 				if (i < writableColumns.Count - 1)
 				{
-					writer.WriteLine(",");
-					writer.Write("\t");
+					if (InsertLineBreaksBetweenColumns)
+					{
+						writer.WriteLine(",");
+						writer.Write("\t");
+					}
+					else
+					{
+						writer.Write(", ");
+					}
 				}
 			}
 			writer.WriteLine(")");
