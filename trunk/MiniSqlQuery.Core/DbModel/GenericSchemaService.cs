@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Diagnostics;
 
 namespace MiniSqlQuery.Core.DbModel
 {
@@ -99,6 +100,10 @@ namespace MiniSqlQuery.Core.DbModel
 
 		protected virtual void GetColumnsForTable(DbModelTable dbTable, DataTable schemaTableKeyInfo, Dictionary<string, DbModelType> dbTypes)
 		{
+            if (schemaTableKeyInfo == null)
+            {
+                return;
+            }
 			foreach (DataRow columnRow in schemaTableKeyInfo.Rows)
 			{
 				if (SafeGetBool(columnRow, "IsHidden"))
@@ -158,15 +163,23 @@ namespace MiniSqlQuery.Core.DbModel
 
 		protected virtual DataTable GetTableKeyInfo(DbConnection dbConn, string schema, string name)
 		{
-			DataTable schemaTableKeyInfo;
-			using (DbCommand command = dbConn.CreateCommand())
+			DataTable schemaTableKeyInfo = null;
+			try
 			{
-				string tableName = Utility.RenderSafeSchemaObjectName(schema, name);
-				command.CommandText = "SELECT * FROM " + tableName;
-				using (DbDataReader reader = command.ExecuteReader(CommandBehavior.SchemaOnly | CommandBehavior.KeyInfo))
+				using (DbCommand command = dbConn.CreateCommand())
 				{
-					schemaTableKeyInfo = reader.GetSchemaTable();
+					string tableName = Utility.RenderSafeSchemaObjectName(schema, name);
+					command.CommandText = "SELECT * FROM " + MakeSqlFriendly(tableName);
+					using (DbDataReader reader = command.ExecuteReader(CommandBehavior.SchemaOnly | CommandBehavior.KeyInfo))
+					{
+						schemaTableKeyInfo = reader.GetSchemaTable();
+					}
 				}
+			}
+			catch (DbException dbExp)
+			{
+				Debug.WriteLine(GetType().FullName +  " ERROR: " + dbExp.Message);
+				// todo - failed... what now?!
 			}
 			return schemaTableKeyInfo;
 		}
