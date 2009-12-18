@@ -67,8 +67,13 @@ namespace MiniSqlQuery.Core.DbModel
 		public virtual void WriteInsert(TextWriter writer, DbModelTable tableOrView)
 		{
 			writer.Write("INSERT INTO ");
-			writer.WriteLine(MakeSqlFriendly(tableOrView.FullName));
-			writer.Write("\t(");
+			writer.Write(MakeSqlFriendly(tableOrView.FullName));
+			if (InsertLineBreaksBetweenColumns)
+			{
+				writer.WriteLine();
+				writer.Write("\t");
+			}
+			writer.Write("(");
 
 			// get all columns that are "writable" including PKs that are not auto generated
 			var writableColumns = tableOrView.Columns.FindAll(c => c.IsWritable);
@@ -92,8 +97,13 @@ namespace MiniSqlQuery.Core.DbModel
 			}
 
 			writer.WriteLine(")");
-			writer.WriteLine("VALUES");
-			writer.Write("\t(");
+			writer.Write("VALUES");
+			if (InsertLineBreaksBetweenColumns)
+			{
+				writer.WriteLine();
+				writer.Write("\t");
+			}
+			writer.Write("(");
 
 			for (int i = 0; i < writableColumns.Count; i++)
 			{
