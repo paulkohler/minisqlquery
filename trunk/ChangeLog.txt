@@ -1,6 +1,9 @@
 Mini SQL Query Change Log
 =========================
 
+2010-01-15	ENH: Added a "SELECT COUNT(*)" option for tables and views
+2009-12-18	ENH: Added a bit of a hack of an 'export data' functionality via the 'view table data' option (see 'Export Script...' link under 'Reload Data')
+2009-12-10	ENH: quick change to include the column name in the comment of the generated insert sql code
 2009-10-06	MOD: Removed all obsolete references in prep for a real release ;-O
 2009-09-24	ENH: Finally added drag drop ;-)
 2009-09-24	ENH: Added options.
