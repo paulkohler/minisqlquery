@@ -64,6 +64,12 @@ namespace MiniSqlQuery.Core.DbModel
 			writer.WriteLine();
 		}
 
+		public virtual void WriteSelectCount(TextWriter writer, DbModelTable tableOrView)
+		{
+			writer.Write("SELECT COUNT(*) FROM {0}", MakeSqlFriendly(tableOrView.FullName));
+			writer.WriteLine();
+		}
+
 		public virtual void WriteInsert(TextWriter writer, DbModelTable tableOrView)
 		{
 			writer.Write("INSERT INTO ");

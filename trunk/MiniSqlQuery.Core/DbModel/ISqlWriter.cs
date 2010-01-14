@@ -21,5 +21,6 @@ namespace MiniSqlQuery.Core.DbModel
 		void WriteInsert(TextWriter writer, DbModelTable tableOrView);
 		void WriteUpdate(TextWriter writer, DbModelTable tableOrView);
 		void WriteDelete(TextWriter writer, DbModelTable tableOrView);
+		void WriteSelectCount(TextWriter writer, DbModelTable tableOrView);
 	}
 }

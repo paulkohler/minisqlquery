@@ -78,6 +78,14 @@ FROM Person
 		}
 
 		[Test]
+		public void will_render_sql_select_COUNT_for_Person()
+		{
+			var table = _model.FindTable("Person");
+			_sqlWriter.WriteSelectCount(_sqlSW, table);
+			Assert.That(_sqlSW.ToString().Replace(Environment.NewLine, ""), Is.EqualTo(@"SELECT COUNT(*) FROM Person"));
+		}
+
+		[Test]
 		public void will_render_insert_sql_for_StaffUnit()
 		{
 			var table = _model.FindTable("StaffUnit");
