@@ -142,6 +142,7 @@
     <Compile Include="PlugIns\ConnectionStringsManager\ConnectionStringsManagerLoader.cs" />
     <Compile Include="PlugIns\CoreApplicationPlugIn.cs" />
     <Compile Include="PlugIns\CoreMiniSqlQueryConfiguration.cs" />
+    <Compile Include="PlugIns\DatabaseInspector\Commands\CopyTableNameCommand.cs" />
     <Compile Include="PlugIns\DatabaseInspector\Commands\GenerateDeleteStatementCommand.cs" />
     <Compile Include="PlugIns\DatabaseInspector\Commands\GenerateInsertStatementCommand.cs" />
     <Compile Include="PlugIns\DatabaseInspector\Commands\GenerateSelectCountStatementCommand.cs" />

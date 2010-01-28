@@ -1,6 +1,7 @@
 Mini SQL Query Change Log
 =========================
 
+2010-01-28	ENH: Added a 'copy table name' menu item on the DB Inspector
 2010-01-28	ENH: Friendlier truncate table message
 2010-01-15	ENH: Added a "SELECT COUNT(*)" option for tables and views
 2009-12-18	ENH: Added a bit of a hack of an 'export data' functionality via the 'view table data' option (see 'Export Script...' link under 'Reload Data')
