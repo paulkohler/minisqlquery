@@ -24,9 +24,9 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 			IHostWindow hostWindow = Services.HostWindow;
 			string tableName = hostWindow.DatabaseInspector.RightClickedTableName;
 
-			if (tableName != null &&
-			    MessageBox.Show("Delete all table data, are you sure?", "Truncate Table Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) ==
-			    DialogResult.Yes)
+			string caption = string.Format("Truncate '{0}' Table Confirmation", tableName);
+			string msg = string.Format("Delete all '{0}' data, are you sure?", tableName);
+			if (tableName != null && MessageBox.Show(msg, caption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
 			{
 				DbConnection dbConnection;
 				DbCommand cmd = null;
