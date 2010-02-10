@@ -4,6 +4,8 @@
 // http://minisqlquery.codeplex.com/license
 #endregion
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using MiniSqlQuery.Core.DbModel;
 using NUnit.Framework;
@@ -87,6 +89,41 @@ namespace MiniSqlQuery.Tests.DbModel
 
 			Assert.That(productNameColumn.HasFK, Is.False);
 			Assert.That(productNameColumn.Name, Is.EqualTo("Product Name"));
+		}
+
+
+		[Test]
+		public void Build_dependency_tree_from_model()
+		{
+			DbModelDependencyWalker dependencyWalker = new DbModelDependencyWalker(_model);
+			var tables = dependencyWalker.SortTablesByForeignKeyReferences();
+
+			DisplayTableDetails(tables);
+			
+			Assert.That(tables[0].Name, Is.EqualTo("Categories"));
+			Assert.That(tables[1].Name, Is.EqualTo("Customers"));
+			Assert.That(tables[2].Name, Is.EqualTo("Employees"));
+			Assert.That(tables[3].Name, Is.EqualTo("Shippers"));
+			Assert.That(tables[4].Name, Is.EqualTo("Suppliers"));
+			Assert.That(tables[5].Name, Is.EqualTo("Orders"), "Order is dependent on Customers, Employees, Shippers");
+			Assert.That(tables[6].Name, Is.EqualTo("Products"), "Products is dependent on Suppliers, Categories");
+			Assert.That(tables[7].Name, Is.EqualTo("Order Details"), "Order Details is dependent on Orders, Products");
+		}
+
+		private void DisplayTableDetails(DbModelTable[] tablesList)
+		{
+			foreach (DbModelTable table in tablesList)
+			{
+				Console.WriteLine(string.Format("{0} (fks:{1})", table.Name, table.ForeignKeyColumns.Count));
+				if (table.ForeignKeyColumns.Count > 0)
+				{
+					foreach (DbModelColumn fk in table.ForeignKeyColumns)
+					{
+						Console.WriteLine("  (FK --> {0}.{1})", fk.ForeignKeyReference.ReferenceTable.Name, fk.ForeignKeyReference.ReferenceColumn.Name);
+				
+					}
+				}
+			}
 		}
 	}
 }

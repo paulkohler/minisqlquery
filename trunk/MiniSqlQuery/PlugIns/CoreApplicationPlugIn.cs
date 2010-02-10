@@ -59,6 +59,7 @@ namespace MiniSqlQuery.PlugIns
 			queryMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveResultsAsDataSetCommand>());
 			queryMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<RefreshDatabaseConnectionCommand>());
 			queryMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<CloseDatabaseConnectionCommand>());
+			queryMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<DisplayDbModelDependenciesCommand>());
 
 			//editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<DuplicateLineCommand>());
 			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<PasteAroundSelectionCommand>());
