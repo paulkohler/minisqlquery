@@ -24,6 +24,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 		private DbModelInstance _model;
 		private bool _populated;
 		private TreeNode _rightClickedNode;
+		private IDbModelNamedObject _rightClickedModelObject;
 		private ISqlWriter _sqlWriter;
 		private TreeNode _tablesNode;
 		private TreeNode _viewsNode;
@@ -79,14 +80,84 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			}
 		}
 
+		public IDbModelNamedObject RightClickedModelObject
+		{
+			get
+			{
+				return _rightClickedModelObject;
+			}
+		}
+
 		public DbModelInstance DbSchema
 		{
 			get { return _model; }
 		}
 
+		public void NavigateTo(IDbModelNamedObject modelObject)
+		{
+			if (modelObject == null)
+			{
+				return;
+			}
+
+			switch (modelObject.ObjectType)
+			{
+				case ObjectTypes.Table:
+					foreach (TreeNode treeNode in _tablesNode.Nodes)
+					{
+						IDbModelNamedObject obj = treeNode.Tag as IDbModelNamedObject;
+						if (obj != null && modelObject == obj)
+						{
+							treeNode.EnsureVisible();
+						}
+					}
+					break;
+				case ObjectTypes.View:
+					foreach (TreeNode treeNode in _viewsNode.Nodes)
+					{
+						IDbModelNamedObject obj = treeNode.Tag as IDbModelNamedObject;
+						if (obj != null && modelObject == obj)
+						{
+							treeNode.EnsureVisible();
+						}
+					}
+					break;
+				case ObjectTypes.Column:
+					DbModelColumn modelColumn = modelObject as DbModelColumn;
+					if (modelColumn!=null)
+					{
+						foreach (TreeNode treeNode in _tablesNode.Nodes)
+						{
+							DbModelTable modelTable = treeNode.Tag as DbModelTable;
+							if (modelTable != null && modelTable == modelColumn.ParentTable)
+							{
+								treeNode.EnsureVisible();
+
+								// now find the column in the child nodes
+								foreach (TreeNode columnNode in treeNode.Nodes)
+								{
+									DbModelColumn modelReferingColumn = columnNode.Tag as DbModelColumn;
+									if (modelReferingColumn != null && modelReferingColumn == modelColumn)
+									{
+										treeNode.EnsureVisible();
+										DatabaseTreeView.SelectedNode = columnNode;
+									}
+								}
+							}
+						}
+					}
+					break;
+			}
+		}
+
 		public ContextMenuStrip TableMenu
 		{
 			get { return TableNodeContextMenuStrip; }
+		}
+
+		public ContextMenuStrip ColumnMenu
+		{
+			get { return ColumnNameContextMenuStrip; }
 		}
 
 		public void LoadDatabaseDetails()
@@ -356,6 +427,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			if (e.Button == MouseButtons.Right)
 			{
 				IDbModelNamedObject namedObject = node.Tag as IDbModelNamedObject;
+				_rightClickedModelObject = namedObject;
 
 				if (namedObject != null && 
 					(namedObject.ObjectType == ObjectTypes.Table || namedObject.ObjectType == ObjectTypes.View))

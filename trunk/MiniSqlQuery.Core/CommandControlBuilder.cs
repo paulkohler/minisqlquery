@@ -4,6 +4,7 @@
 // http://minisqlquery.codeplex.com/license
 #endregion
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -142,6 +143,7 @@ namespace MiniSqlQuery.Core
 					ToolStripMenuItem topLevelMenu = item as ToolStripMenuItem;
 					if (topLevelMenu != null)
 					{
+						//Debug.WriteLine("MonitorMenuItemsOpeningForEnabling :: " + topLevelMenu.Text);
 						topLevelMenu.DropDownOpening += TopLevelMenuDropDownOpening;
 						topLevelMenu.DropDownClosed += TopLevelMenuDropDownClosed;
 					}
@@ -168,6 +170,7 @@ namespace MiniSqlQuery.Core
 					if (cmd != null)
 					{
 						item.Enabled = cmd.Enabled;
+						//Debug.WriteLine(string.Format("TopLevelMenuDropDownOpening :: {0} ({1})", item.Text, item.Enabled));
 					}
 				}
 			}

@@ -21,6 +21,9 @@ namespace MiniSqlQuery.Core
 		/// <value>The table or view name or null if none selected.</value>
 		string RightClickedTableName { get; }
 
+		IDbModelNamedObject RightClickedModelObject { get; }
+
+
 		/// <summary>
 		/// Reloads the meta-data and re-builds the tree.
 		/// </summary>
@@ -36,9 +39,13 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		ContextMenuStrip TableMenu { get; }
 
+		ContextMenuStrip ColumnMenu { get; }
+
 		/// <summary>
 		/// Gets the current database schema info (if any).
 		/// </summary>
 		DbModelInstance DbSchema { get; }
+
+		void NavigateTo(IDbModelNamedObject modelObject);
 	}
 }
