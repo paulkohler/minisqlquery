@@ -57,5 +57,16 @@ namespace MiniSqlQuery.Core.DbModel
 		{
 			return _views.Find(view => view.FullName.Equals(viewName, StringComparison.InvariantCultureIgnoreCase));
 		}
+
+		public virtual DbModelTable FindTableOrView(string name)
+		{
+			var obj = _tables.Find(table => table.FullName.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+			if (obj == null)
+			{
+				obj = _views.Find(view => view.FullName.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+			}
+			return obj;
+		}
+
 	}
 }

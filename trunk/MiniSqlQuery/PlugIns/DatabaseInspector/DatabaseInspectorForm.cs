@@ -108,7 +108,10 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 						IDbModelNamedObject obj = treeNode.Tag as IDbModelNamedObject;
 						if (obj != null && modelObject == obj)
 						{
+							_tablesNode.EnsureVisible();
 							treeNode.EnsureVisible();
+							DatabaseTreeView.SelectedNode = treeNode;
+							treeNode.Expand();
 						}
 					}
 					break;
@@ -118,7 +121,10 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 						IDbModelNamedObject obj = treeNode.Tag as IDbModelNamedObject;
 						if (obj != null && modelObject == obj)
 						{
+							_tablesNode.EnsureVisible();
 							treeNode.EnsureVisible();
+							DatabaseTreeView.SelectedNode = treeNode;
+							treeNode.Expand();
 						}
 					}
 					break;

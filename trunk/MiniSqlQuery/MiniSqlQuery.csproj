@@ -151,6 +151,7 @@
     <Compile Include="PlugIns\DatabaseInspector\Commands\GenerateUpdateStatementCommand.cs" />
     <Compile Include="PlugIns\DatabaseInspector\Commands\LocateFkReferenceColumnCommand.cs" />
     <Compile Include="PlugIns\DatabaseInspector\Commands\ShowDatabaseInspectorCommand.cs" />
+    <Compile Include="PlugIns\DatabaseInspector\Commands\ShowFindObjectFormCommand.cs" />
     <Compile Include="PlugIns\DatabaseInspector\Commands\TruncateTableCommand.cs" />
     <Compile Include="PlugIns\DatabaseInspector\DatabaseInspectorForm.cs">
       <SubType>Form</SubType>
@@ -159,6 +160,12 @@
       <DependentUpon>DatabaseInspectorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\DatabaseInspector\DatabaseInspectorLoader.cs" />
+    <Compile Include="PlugIns\DatabaseInspector\FindObjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlugIns\DatabaseInspector\FindObjectForm.Designer.cs">
+      <DependentUpon>FindObjectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PlugIns\SearchTools\Commands\FindNextStringCommand.cs" />
     <Compile Include="PlugIns\SearchTools\Commands\ReplaceStringCommand.cs" />
     <Compile Include="PlugIns\SearchTools\Commands\ShowFindTextFormCommand.cs" />
@@ -247,6 +254,9 @@
     <EmbeddedResource Include="PlugIns\DatabaseInspector\DatabaseInspectorForm.resx">
       <DependentUpon>DatabaseInspectorForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlugIns\DatabaseInspector\FindObjectForm.resx">
+      <DependentUpon>FindObjectForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PlugIns\SearchTools\FindReplaceForm.resx">
       <DependentUpon>FindReplaceForm.cs</DependentUpon>
