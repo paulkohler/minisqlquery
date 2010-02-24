@@ -17,10 +17,10 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 {
 	public partial class DatabaseInspectorForm : DockContent, IDatabaseInspector
 	{
-		private static object RootTag = new object();
-		private static object TablesTag = new object();
-		private static object ViewsTag = new object();
-		internal IDatabaseSchemaService _metaDataService;
+		private static readonly object RootTag = new object();
+		private static readonly object TablesTag = new object();
+		private static readonly object ViewsTag = new object();
+		private IDatabaseSchemaService _metaDataService;
 		private DbModelInstance _model;
 		private bool _populated;
 		private TreeNode _rightClickedNode;
@@ -108,10 +108,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 						IDbModelNamedObject obj = treeNode.Tag as IDbModelNamedObject;
 						if (obj != null && modelObject == obj)
 						{
-							_tablesNode.EnsureVisible();
-							treeNode.EnsureVisible();
-							DatabaseTreeView.SelectedNode = treeNode;
-							treeNode.Expand();
+							SelectNode(treeNode);
 						}
 					}
 					break;
@@ -121,10 +118,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 						IDbModelNamedObject obj = treeNode.Tag as IDbModelNamedObject;
 						if (obj != null && modelObject == obj)
 						{
-							_tablesNode.EnsureVisible();
-							treeNode.EnsureVisible();
-							DatabaseTreeView.SelectedNode = treeNode;
-							treeNode.Expand();
+							SelectNode(treeNode);
 						}
 					}
 					break;
@@ -132,21 +126,18 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 					DbModelColumn modelColumn = modelObject as DbModelColumn;
 					if (modelColumn!=null)
 					{
-						foreach (TreeNode treeNode in _tablesNode.Nodes)
+						foreach (TreeNode treeNode in _tablesNode.Nodes) // only look in the tables nodw for FK refs
 						{
 							DbModelTable modelTable = treeNode.Tag as DbModelTable;
 							if (modelTable != null && modelTable == modelColumn.ParentTable)
 							{
-								treeNode.EnsureVisible();
-
 								// now find the column in the child nodes
 								foreach (TreeNode columnNode in treeNode.Nodes)
 								{
 									DbModelColumn modelReferingColumn = columnNode.Tag as DbModelColumn;
 									if (modelReferingColumn != null && modelReferingColumn == modelColumn)
 									{
-										treeNode.EnsureVisible();
-										DatabaseTreeView.SelectedNode = columnNode;
+										SelectNode(columnNode);
 									}
 								}
 							}
@@ -154,6 +145,17 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 					}
 					break;
 			}
+		}
+
+		private void SelectNode(TreeNode treeNode)
+		{
+			if (treeNode.Parent != null)
+			{
+				treeNode.Parent.EnsureVisible();
+			}
+			treeNode.EnsureVisible();
+			DatabaseTreeView.SelectedNode = treeNode;
+			treeNode.Expand();
 		}
 
 		public ContextMenuStrip TableMenu
@@ -240,7 +242,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 					_hostWindow.SetPointerState(Cursors.Default);
 				}
 
-				BildTreeFromDbModel(connection);
+				BuildTreeFromDbModel(connection);
 				_hostWindow.SetStatus(this, string.Empty);
 				success = true;
 			}
@@ -253,7 +255,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			return success;
 		}
 
-		private void BildTreeFromDbModel(string connection)
+		private void BuildTreeFromDbModel(string connection)
 		{
 			DatabaseTreeView.Nodes.Clear();
 			TreeNode root = CreateRootNodes();
@@ -263,7 +265,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			{
 				CreateTreeNodes(table);
 			}
-			foreach (DbModelTable view in _model.Views)
+			foreach (DbModelView view in _model.Views)
 			{
 				CreateTreeNodes(view);
 			}
