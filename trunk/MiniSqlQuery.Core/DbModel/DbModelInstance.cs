@@ -11,21 +11,21 @@ namespace MiniSqlQuery.Core.DbModel
 {
 	public class DbModelInstance
 	{
-		private List<DbModelTable> _tables;
-		private List<DbModelTable> _views;
+		private readonly List<DbModelTable> _tables;
+		private readonly List<DbModelView> _views;
 
 		public DbModelInstance()
 		{
 			_tables = new List<DbModelTable>();
-			_views = new List<DbModelTable>();
+			_views = new List<DbModelView>();
 		}
 
-		public virtual ICollection Tables
+		public virtual ICollection<DbModelTable> Tables
 		{
 			get { return _tables; }
 		}
 
-		public virtual ICollection Views
+		public virtual ICollection<DbModelView> Views
 		{
 			get { return _views; }
 		}
