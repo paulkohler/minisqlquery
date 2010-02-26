@@ -34,7 +34,7 @@ namespace MiniSqlQuery.Core.Controls
 		{
 			foreach (IPlugIn plugin in plugins)
 			{
-				ListViewItem item = new ListViewItem(new string[] {
+				ListViewItem item = new ListViewItem(new[] {
 					plugin.PluginName, plugin.PluginDescription, plugin.GetType().Assembly.FullName});
 				listView1.Items.Add(item);
 			}

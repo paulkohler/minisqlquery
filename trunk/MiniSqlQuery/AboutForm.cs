@@ -1,20 +1,24 @@
 ﻿#region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
+
 #endregion
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Properties;
 
 namespace MiniSqlQuery
 {
 	internal partial class AboutForm : Form
 	{
-		private IApplicationServices _services;
+		private readonly IApplicationServices _services;
 
 		public AboutForm(IApplicationServices services) : this()
 		{
@@ -25,11 +29,11 @@ namespace MiniSqlQuery
 		{
 			InitializeComponent();
 			pic.Image = ImageResource.ApplicationIcon;
-			this.Text = String.Format("About {0}", AssemblyTitle);
-			this.labelProductName.Text = AssemblyTitle;
-			this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
-			this.labelCopyright.Text = AssemblyCopyright;
-			this.textBoxDescription.Text = AssemblyDescription;
+			Text = String.Format("About {0}", AssemblyTitle);
+			labelProductName.Text = AssemblyTitle;
+			labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
+			labelCopyright.Text = AssemblyCopyright;
+			textBoxDescription.Text = AssemblyDescription;
 		}
 
 		#region Assembly Attribute Accessors
@@ -124,8 +128,8 @@ namespace MiniSqlQuery
 		{
 			List<IPlugIn> plugins = new List<IPlugIn>(_services.Plugins.Values);
 			pluginList.SetDataSource(plugins.ToArray());
-			webBrowser1.DocumentText = Properties.Resources.ReadMe;
-			txtLicense.Text = Properties.Resources.LicenseMiniSqlQuery;
+			webBrowser1.DocumentText = Resources.ReadMe;
+			txtLicense.Text = Resources.LicenseMiniSqlQuery;
 		}
 	}
 }

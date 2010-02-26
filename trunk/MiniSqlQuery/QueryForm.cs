@@ -16,6 +16,7 @@ using ICSharpCode.TextEditor.Document;
 using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Commands;
+using MiniSqlQuery.Properties;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery
@@ -471,7 +472,7 @@ namespace MiniSqlQuery
 					tabPage.Name = "tabPageResults_Messages";
 					tabPage.Padding = new Padding(3);
 					tabPage.Dock = DockStyle.Fill;
-					tabPage.Text = "Messages";
+					tabPage.Text = Resources.Messages;
 					tabPage.UseVisualStyleBackColor = false;
 
 					_resultsTabControl.TabPages.Add(tabPage);

@@ -89,9 +89,9 @@ namespace MiniSqlQuery.Core
 		/// <summary>
 		/// Displays (and replaces if required) the database inspactor window.
 		/// </summary>
-		/// <param name="DatabaseInspector">The window to display.</param>
+		/// <param name="databaseInspector">The window to display.</param>
 		/// <param name="dockState">The state for the window.</param>
-		void ShowDatabaseInspector(IDatabaseInspector DatabaseInspector, DockState dockState);
+		void ShowDatabaseInspector(IDatabaseInspector databaseInspector, DockState dockState);
 
 		/// <summary>
 		/// Displays a "tool" window, like the database inspector etc.

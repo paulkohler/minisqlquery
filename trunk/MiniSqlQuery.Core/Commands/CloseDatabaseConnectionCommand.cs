@@ -14,7 +14,6 @@ namespace MiniSqlQuery.Core.Commands
 		public CloseDatabaseConnectionCommand()
 			: base("Close Current connection")
 		{
-			//SmallImage = ImageResource.database_?;
 		}
 
 		public override void Execute()

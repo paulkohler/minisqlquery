@@ -267,8 +267,8 @@ namespace MiniSqlQuery
 			{
 
 				DialogResult result = MessageBox.Show(this,
-				                                      "The connections have changed, would you like to refresh the database connection?",
-				                                      "Reload Connection?",
+				                                      Resources.The_connections_have_changed__would_you_like_to_refresh_the_database_connection,
+				                                      Resources.Reload_Connection,
 				                                      MessageBoxButtons.YesNo, MessageBoxIcon.Question,
 				                                      MessageBoxDefaultButton.Button1);
 				if (result != DialogResult.Yes)

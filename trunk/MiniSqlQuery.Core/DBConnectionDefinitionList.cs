@@ -17,7 +17,7 @@ namespace MiniSqlQuery.Core
 	public class DbConnectionDefinitionList
 	{
 		// store internally as a list
-		private List<DbConnectionDefinition> _definitions;
+		private readonly List<DbConnectionDefinition> _definitions;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbConnectionDefinitionList"/> class.

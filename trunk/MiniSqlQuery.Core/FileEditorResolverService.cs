@@ -70,7 +70,7 @@ namespace MiniSqlQuery.Core
 
 		/// <summary>
 		/// Registers the specified file editor descriptor.
-		/// It is recommended to use the <see cref="IApplicationServices.RegisterEditor{TEditor}<>"/> method to
+		/// It is recommended to use the <see cref="IApplicationServices.RegisterEditor{TEditor}"/> method to
 		/// set up the container correctly.
 		/// </summary>
 		/// <param name="fileEditorDescriptor">The file editor descriptor.</param>

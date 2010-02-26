@@ -13,7 +13,6 @@ namespace MiniSqlQuery.Core.Commands
 		public CancelTaskCommand()
 			: base("&Cancel")
 		{
-			//ShortcutKeys = Keys.;
 			SmallImage = ImageResource.stop;
 		}
 
@@ -22,11 +21,7 @@ namespace MiniSqlQuery.Core.Commands
 			get
 			{
 				IPerformTask editor = HostWindow.ActiveChildForm as IPerformTask;
-				if (editor != null)
-				{
-					return editor.IsBusy;
-				}
-				return false;
+				return editor != null && editor.IsBusy;
 			}
 		}
 

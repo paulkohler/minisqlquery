@@ -45,18 +45,5 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		/// <value>The result.</value>
 		public DataSet Result { get; set; }
-
-#if DEBUG
-		/// <summary>
-		/// Returns a <see cref="System.String"/> that represents this instance.
-		/// </summary>
-		/// <returns>
-		/// A <see cref="System.String"/> that represents this instance.
-		/// </returns>
-		public override string ToString()
-		{
-			return "Query: " + Sql;
-		}
-#endif
 	}
 }

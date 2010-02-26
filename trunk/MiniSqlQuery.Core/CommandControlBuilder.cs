@@ -113,7 +113,7 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		/// <param name="sender">The sender.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		[System.Diagnostics.DebuggerNonUserCode]
+		[DebuggerNonUserCode]
 		public static void CommandItemClick(object sender, EventArgs e)
 		{
 			ToolStripItem item = sender as ToolStripItem;
@@ -156,7 +156,7 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		/// <param name="sender">The sender.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		[System.Diagnostics.DebuggerNonUserCode]
+		[DebuggerNonUserCode]
 		public static void TopLevelMenuDropDownOpening(object sender, EventArgs e)
 		{
 			ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
@@ -183,7 +183,7 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		[System.Diagnostics.DebuggerNonUserCode]
+		[DebuggerNonUserCode]
 		static void TopLevelMenuDropDownClosed(object sender, EventArgs e)
 		{
 			ToolStripMenuItem menuItem = sender as ToolStripMenuItem;

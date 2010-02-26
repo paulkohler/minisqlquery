@@ -7,6 +7,7 @@ using System;
 using System.Data.Common;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Properties;
 
 namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 {
@@ -119,7 +120,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			{
 				DialogResult saveFile = _hostWindow.DisplayMessageBox(
 					this,
-					"The connection details have changed, do you want to save?\r\n", "Save Changes?",
+					Resources.The_connection_details_have_changed__do_you_want_to_save, Resources.Save_Changes,
 					MessageBoxButtons.YesNoCancel,
 					MessageBoxIcon.Question,
 					MessageBoxDefaultButton.Button1,
@@ -201,7 +202,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			catch (ArgumentException argExp)
 			{
 				// consume error but notify
-				MessageBox.Show("Could not populate with current connection string - " + argExp.Message);
+				MessageBox.Show(Resources.BindNewConnectionStringBuilder_Could_not_populate_with_current_connection_string___ + argExp.Message);
 			}
 			propertyGridDbConnection.SelectedObject = _connStrBldr;
 		}
@@ -250,13 +251,13 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			Exception exp = QueryRunner.TestDbConnection(ProviderName, ConnectionString);
 			if (exp == null)
 			{
-				string msg = string.Format("Connected to '{0}' successfully.", ConnectionName);
-				_hostWindow.DisplaySimpleMessageBox(this, msg, "Connection Successful");
+				string msg = string.Format(Resources.Connected_to_0_successfully, ConnectionName);
+				_hostWindow.DisplaySimpleMessageBox(this, msg, Resources.Connection_Successful);
 			}
 			else
 			{
-				string msg = string.Format("Failed connecting to '{0}'.{1}{2}", ConnectionName, Environment.NewLine, exp.Message);
-				_hostWindow.DisplaySimpleMessageBox(this, msg, "Connection Failed");
+				string msg = string.Format(Resources.Failed_connecting_to_0_1_2, ConnectionName, Environment.NewLine, exp.Message);
+				_hostWindow.DisplaySimpleMessageBox(this, msg, Resources.Connection_Failed);
 			}
 		}
 

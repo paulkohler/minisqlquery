@@ -11,6 +11,7 @@ using System.IO;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.DbModel;
+using MiniSqlQuery.Properties;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.PlugIns.ViewTable
@@ -39,7 +40,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			_settings = settings;
 			_batch = new QueryBatch();
 			TableName = string.Empty;
-			Text = "View Data";
+			Text = Resources.ViewData;
 
 			dataGridViewResult.DefaultCellStyle.NullValue = _settings.NullText;
 			dataGridViewResult.DataBindingComplete += DataGridViewResultDataBindingComplete;
@@ -164,7 +165,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 			if (string.IsNullOrEmpty(TableName))
 			{
-				Text = "Table: (none)";
+				Text = Resources.Table_none;
 				return;
 			}
 
@@ -198,7 +199,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 				// todo: improve!
 				_services.HostWindow.DisplaySimpleMessageBox(this, dbExp.Message, "View Table Error");
 				SetStatus(dbExp.Message);
-				Text = "View Data Error";
+				Text = Resources.ViewDataError;
 			}
 			finally
 			{
@@ -217,7 +218,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			if (query.Result != null && query.Result.Tables.Count > 0)
 			{
 				dt = query.Result.Tables[0];
-				Text = "Table: " + TableName;
+				Text = Resources.Table_colon + TableName;
 			}
 
 			dataGridViewResult.DefaultCellStyle.NullValue = _settings.NullText;
@@ -237,7 +238,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 				{
 					tableNames.Add(Utility.MakeSqlFriendly(table.FullName));
 				}
-				foreach (DbModelTable view in model.Views)
+				foreach (DbModelView view in model.Views)
 				{
 					tableNames.Add(Utility.MakeSqlFriendly(view.FullName));
 				}
@@ -309,7 +310,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			{
 				var stringWriter = new StringWriter();
 				var hostWindow = _services.HostWindow;
-				var dbModelTable = GetTableOrViewByName(hostWindow.DatabaseInspector.DbSchema, TableName);
+				var dbModelTable = hostWindow.DatabaseInspector.DbSchema.FindTableOrView(TableName);
 				var sqlWriter = _services.Resolve<ISqlWriter>();
 				sqlWriter.IncludeComments = false;
 				sqlWriter.InsertLineBreaksBetweenColumns = false;
@@ -351,17 +352,6 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 				UpdateStatus(null);
 			}
-		}
-
-		private DbModelTable GetTableOrViewByName(DbModelInstance model, string tableName)
-		{
-			DbModelTable tableOrView = model.FindTable(tableName);
-			if (tableOrView == null)
-			{
-				// check the views
-				tableOrView = model.FindView(tableName);
-			}
-			return tableOrView;
 		}
 
 		private void UpdateStatus(string msg)

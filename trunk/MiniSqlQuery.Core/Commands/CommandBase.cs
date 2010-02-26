@@ -17,7 +17,6 @@ namespace MiniSqlQuery.Core.Commands
 	public abstract class CommandBase : ICommand
 	{
 		private string _name;
-		private Image _smallImage;
 		IHostWindow _hostWindow;
 
 		/// <summary>
@@ -25,7 +24,7 @@ namespace MiniSqlQuery.Core.Commands
 		/// The default value for <see cref="Enabled"/> is true, and <see cref="ShortcutKeys"/> is Keys.None.
 		/// </summary>
 		/// <param name="name">The name.</param>
-		public CommandBase(string name)
+		protected CommandBase(string name)
 		{
 			_name = name;
 			ShortcutKeys = Keys.None;
@@ -57,12 +56,7 @@ namespace MiniSqlQuery.Core.Commands
 		{
 			get
 			{
-				// just resolve once
-				if (_hostWindow == null)
-				{
-					_hostWindow = Services.HostWindow;
-				}
-				return _hostWindow;
+				return _hostWindow ?? (_hostWindow = Services.HostWindow);
 			}
 		}
 
@@ -82,11 +76,7 @@ namespace MiniSqlQuery.Core.Commands
 		/// Use null (or Nothing in Visual Basic) if there is no image.
 		/// </summary>
 		/// <value>The small image representing this command (the default is null).</value>
-		public virtual Image SmallImage
-		{
-			get { return _smallImage; }
-			protected set { _smallImage = value; }
-		}
+		public virtual Image SmallImage { get; protected set; }
 
 		/// <summary>
 		/// Gets the menu shortcut keys for this command (e.g. Keys.F5).

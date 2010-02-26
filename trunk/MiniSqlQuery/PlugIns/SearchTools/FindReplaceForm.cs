@@ -99,7 +99,6 @@ namespace MiniSqlQuery.PlugIns.SearchTools
 
 		private void HandleReplaceNext(IFindReplaceProvider provider, string findString, string replaceValue)
 		{
-			//CreateFindRequest(provider, findString);
 			CommandManager.GetCommandInstance<ReplaceStringCommand>().Execute();
 		}
 

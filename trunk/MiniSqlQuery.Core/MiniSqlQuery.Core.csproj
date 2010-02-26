@@ -130,7 +130,6 @@
     <Compile Include="DbConnectionDefinition.cs" />
     <Compile Include="DbConnectionDefinitionList.cs" />
     <Compile Include="DbModel\DbModelTable.cs" />
-    <Compile Include="DbModel\DbModelTableCollection.cs" />
     <Compile Include="DbModel\DbModelType.cs" />
     <Compile Include="DbModel\DbModelView.cs" />
     <Compile Include="DbModel\GenericSchemaService.cs" />

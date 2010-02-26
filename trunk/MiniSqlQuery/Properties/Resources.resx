@@ -130,4 +130,59 @@
   <data name="TemplatesDirectoryName" xml:space="preserve">
     <value>Templates</value>
   </data>
+  <data name="Messages" xml:space="preserve">
+    <value>Messages</value>
+  </data>
+  <data name="ViewData" xml:space="preserve">
+    <value>View Data</value>
+  </data>
+  <data name="Table_none" xml:space="preserve">
+    <value>Table: (none)</value>
+  </data>
+  <data name="ViewDataError" xml:space="preserve">
+    <value>View Data Error</value>
+  </data>
+  <data name="Table_colon" xml:space="preserve">
+    <value>Table: </value>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>Database</value>
+  </data>
+  <data name="Tables" xml:space="preserve">
+    <value>Tables</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Views</value>
+  </data>
+	<data name="BindNewConnectionStringBuilder_Could_not_populate_with_current_connection_string___">
+		<value><![CDATA[Could not populate with current connection string - ]]></value>
+	</data>
+	<data name="Connected_to_0_successfully">
+		<value><![CDATA[Connected to '{0}' successfully.]]></value>
+	</data>
+	<data name="Failed_connecting_to_0_1_2">
+		<value><![CDATA[Failed connecting to '{0}'.{1}{2}]]></value>
+		<comment>
+			0, conn name; 1, nl; 2, exp msg
+		</comment>
+	</data>
+	<data name="The_connection_details_have_changed__do_you_want_to_save">
+		<value><![CDATA[The connection details have changed, do you want to save?
+]]></value>
+	</data>
+	<data name="Save_Changes">
+		<value xml:space="preserve">Save Changes?</value>
+	</data>
+	<data name="Connection_Successful">
+		<value xml:space="preserve">Connection Successful</value>
+	</data>
+	<data name="Connection_Failed">
+		<value xml:space="preserve">Connection Failed</value>
+	</data>
+	<data name="The_connections_have_changed__would_you_like_to_refresh_the_database_connection">
+		<value xml:space="preserve">The connections have changed, would you like to refresh the database connection?</value>
+	</data>
+	<data name="Reload_Connection">
+		<value xml:space="preserve">Reload Connection?</value>
+	</data>
 </root>

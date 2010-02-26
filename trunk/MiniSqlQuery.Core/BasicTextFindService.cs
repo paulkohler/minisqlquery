@@ -37,15 +37,13 @@ namespace MiniSqlQuery.Core
 				throw new ArgumentNullException("request");
 			}
 
-			int pos = -1;
-
 			//if (request.SearchUp)
 			//{
 			//    //todo - I think its the TextProvider's job...?
 			//}
 			//else // search down.
 			//{
-			pos = request.TextProvider.FindString(request.SearchValue, request.Position, request.StringComparison);
+			int pos = request.TextProvider.FindString(request.SearchValue, request.Position, request.StringComparison);
 			//    //pos = request.TextProvider.FindString(request);
 			//}
 

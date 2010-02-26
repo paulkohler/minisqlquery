@@ -19,7 +19,7 @@ namespace MiniSqlQuery.Core
 		private static readonly List<Type> _configurationObjects = new List<Type>();
 		private static readonly IKernel _container;
 
-		private Dictionary<Type, IPlugIn> _plugins = new Dictionary<Type, IPlugIn>();
+		private readonly Dictionary<Type, IPlugIn> _plugins = new Dictionary<Type, IPlugIn>();
 
 		static ApplicationServices()
 		{

@@ -34,7 +34,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			base.GetProperties(_properties);
 			if (!string.IsNullOrEmpty(cnnString))
 			{
-				base.ConnectionString = cnnString;
+				ConnectionString = cnnString;
 			}
 		}
 

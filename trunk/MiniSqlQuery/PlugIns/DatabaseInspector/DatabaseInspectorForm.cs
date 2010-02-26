@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.DbModel;
 using WeifenLuo.WinFormsUI.Docking;
+using MiniSqlQuery.Properties;
 
 namespace MiniSqlQuery.PlugIns.DatabaseInspector
 {
@@ -182,11 +183,6 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			ExecLoadDatabaseDetails();
 		}
 
-
-		private void DatabaseInspectorControl_Load(object sender, EventArgs e)
-		{
-		}
-
 		private void DatabaseInspectorForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			if (e.CloseReason == CloseReason.UserClosing)
@@ -355,18 +351,18 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 
 		private TreeNode CreateRootNodes()
 		{
-			TreeNode root = new TreeNode("Database");
+			TreeNode root = new TreeNode(Resources.Database);
 			root.ImageKey = "Database";
 			root.SelectedImageKey = "Database";
 			root.ContextMenuStrip = InspectorContextMenuStrip;
 			root.Tag = RootTag;
 
-			_tablesNode = new TreeNode("Tables");
+			_tablesNode = new TreeNode(Resources.Tables);
 			_tablesNode.ImageKey = "Tables";
 			_tablesNode.SelectedImageKey = "Tables";
 			_tablesNode.Tag = TablesTag;
 
-			_viewsNode = new TreeNode("Views");
+			_viewsNode = new TreeNode(Resources.Views);
 			_viewsNode.ImageKey = "Views";
 			_viewsNode.SelectedImageKey = "Views";
 			_viewsNode.Tag = ViewsTag;

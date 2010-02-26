@@ -141,7 +141,7 @@ namespace MiniSqlQuery.Core
 		{
 			string folder = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-				Properties.Resources.ShortAppTitle);
+				Resources.ShortAppTitle);
 			if (Directory.Exists(folder) == false)
 			{
 				Directory.CreateDirectory(folder);
