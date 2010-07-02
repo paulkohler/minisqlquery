@@ -23,7 +23,7 @@ namespace MiniSqlQuery.Core.Commands
 			SmallImage = ImageResource.table_link;
 		}
 
-		/// <summary>The execute.</summary>
+		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
 			var editor = Services.Resolve<IEditor>("txt-editor");

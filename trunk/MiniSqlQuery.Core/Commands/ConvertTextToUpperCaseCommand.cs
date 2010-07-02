@@ -31,7 +31,7 @@ namespace MiniSqlQuery.Core.Commands
 			get { return HostWindow.ActiveChildForm as IEditor != null; }
 		}
 
-		/// <summary>The execute.</summary>
+		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
 			IEditor editor = ActiveFormAsEditor;

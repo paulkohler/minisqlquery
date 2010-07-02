@@ -31,7 +31,7 @@ namespace MiniSqlQuery.Core.Commands
 			}
 		}
 
-		/// <summary>The execute.</summary>
+		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
 			if (!Enabled)

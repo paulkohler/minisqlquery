@@ -23,7 +23,7 @@ namespace MiniSqlQuery.Core.Commands
 			SmallImage = ImageResource.page_white;
 		}
 
-		/// <summary>The execute.</summary>
+		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
 			IQueryEditor editor = Services.Container.Resolve<IQueryEditor>();

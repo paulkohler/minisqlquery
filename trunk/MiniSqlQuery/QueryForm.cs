@@ -1,11 +1,12 @@
 #region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -21,20 +22,37 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery
 {
+	/// <summary>The query form.</summary>
 	public partial class QueryForm : DockContent, IQueryEditor, IPrintableContent
 	{
-		private static object _syncLock = new object();
+		/// <summary>The _host window.</summary>
 		private readonly IHostWindow _hostWindow;
+
+		/// <summary>The _services.</summary>
 		private readonly IApplicationServices _services;
+
+		/// <summary>The _settings.</summary>
 		private readonly IApplicationSettings _settings;
 
+		/// <summary>The _sync lock.</summary>
+		private static object _syncLock = new object();
+
+		/// <summary>The _highlighting provider loaded.</summary>
 		private bool _highlightingProviderLoaded;
+
+		/// <summary>The _is dirty.</summary>
 		private bool _isDirty;
+
+		/// <summary>The _runner.</summary>
 		private QueryRunner _runner;
 
+		/// <summary>The _status.</summary>
 		private string _status = string.Empty;
+
+		/// <summary>The _text find service.</summary>
 		private ITextFindService _textFindService;
 
+		/// <summary>Initializes a new instance of the <see cref="QueryForm"/> class.</summary>
 		public QueryForm()
 		{
 			InitializeComponent();
@@ -55,6 +73,10 @@ namespace MiniSqlQuery
 			CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(editorContextMenuStrip);
 		}
 
+		/// <summary>Initializes a new instance of the <see cref="QueryForm"/> class.</summary>
+		/// <param name="services">The services.</param>
+		/// <param name="settings">The settings.</param>
+		/// <param name="hostWindow">The host window.</param>
 		public QueryForm(IApplicationServices services, IApplicationSettings settings, IHostWindow hostWindow)
 			: this()
 		{
@@ -63,34 +85,62 @@ namespace MiniSqlQuery
 			_hostWindow = hostWindow;
 		}
 
-		#region IPrintableContent Members
-
-		public PrintDocument PrintDocument
-		{
-			get { return txtQuery.PrintDocument; }
-		}
-
-		#endregion
-
-		#region IQueryEditor Members
-
-		public string SelectedText
-		{
-			get { return txtQuery.ActiveTextAreaControl.SelectionManager.SelectedText; }
-		}
-
+		/// <summary>Gets or sets AllText.</summary>
 		public string AllText
 		{
 			get { return txtQuery.Text; }
 			set { txtQuery.Text = value; }
 		}
 
+		/// <summary>
+		/// Gets a reference to the batch of queries.
+		/// </summary>
+		/// <value>The query batch.</value>
+		public QueryBatch Batch
+		{
+			get { return _runner == null ? null : _runner.Batch; }
+		}
+
+		/// <summary>Gets a value indicating whether CanReplaceText.</summary>
+		public bool CanReplaceText
+		{
+			get { return true; }
+		}
+
+		/// <summary>Gets or sets CursorColumn.</summary>
+		public int CursorColumn
+		{
+			get { return txtQuery.ActiveTextAreaControl.Caret.Column; }
+			set { txtQuery.ActiveTextAreaControl.Caret.Column = value; }
+		}
+
+		/// <summary>Gets or sets CursorLine.</summary>
+		public int CursorLine
+		{
+			get { return txtQuery.ActiveTextAreaControl.Caret.Line; }
+			set { txtQuery.ActiveTextAreaControl.Caret.Line = value; }
+		}
+
+		/// <summary>Gets CursorOffset.</summary>
+		public int CursorOffset
+		{
+			get { return txtQuery.ActiveTextAreaControl.Caret.Offset; }
+		}
+
+		/// <summary>Gets EditorControl.</summary>
 		public Control EditorControl
 		{
 			get { return txtQuery; }
 		}
 
 
+		/// <summary>Gets FileFilter.</summary>
+		public string FileFilter
+		{
+			get { return "SQL Files (*.sql)|*.sql|All Files (*.*)|*.*"; }
+		}
+
+		/// <summary>Gets or sets FileName.</summary>
 		public string FileName
 		{
 			get { return txtQuery.FileName; }
@@ -102,11 +152,10 @@ namespace MiniSqlQuery
 			}
 		}
 
-		public string FileFilter
-		{
-			get { return "SQL Files (*.sql)|*.sql|All Files (*.*)|*.*"; }
-		}
+		/// <summary>Gets a value indicating whether IsBusy.</summary>
+		public bool IsBusy { get; private set; }
 
+		/// <summary>Gets or sets a value indicating whether IsDirty.</summary>
 		public bool IsDirty
 		{
 			get { return _isDirty; }
@@ -120,55 +169,99 @@ namespace MiniSqlQuery
 			}
 		}
 
-		public bool IsBusy { get; private set; }
-
-		public void SetStatus(string text)
+		/// <summary>Gets PrintDocument.</summary>
+		public PrintDocument PrintDocument
 		{
-			_status = text;
-			UpdateHostStatus();
+			get { return txtQuery.PrintDocument; }
 		}
 
-		public void SetSyntax(string name)
+		/// <summary>Gets SelectedText.</summary>
+		public string SelectedText
 		{
-			LoadHighlightingProvider();
-			txtQuery.SetHighlighting(name);
+			get { return txtQuery.ActiveTextAreaControl.SelectionManager.SelectedText; }
 		}
 
-		public void LoadFile()
+		/// <summary>Gets TextFindService.</summary>
+		public ITextFindService TextFindService
 		{
-			txtQuery.LoadFile(FileName);
-			IsDirty = false;
-		}
-
-		public void SaveFile()
-		{
-			if (FileName == null)
+			get
 			{
-				throw new InvalidOperationException("The 'FileName' cannot be null");
-			}
+				if (_textFindService == null)
+				{
+					_textFindService = _services.Container.Resolve<ITextFindService>();
+				}
 
-			txtQuery.SaveFile(FileName);
-			IsDirty = false;
-		}
-
-
-		public void ExecuteTask()
-		{
-			if (!string.IsNullOrEmpty(SelectedText))
-			{
-				ExecuteQuery(SelectedText);
-			}
-			else
-			{
-				ExecuteQuery(AllText);
+				return _textFindService;
 			}
 		}
 
-		public void CancelTask()
+		/// <summary>Gets TotalLines.</summary>
+		public int TotalLines
 		{
-			//todo
+			get { return txtQuery.Document.TotalNumberOfLines; }
 		}
 
+		/// <summary>The execute query.</summary>
+		/// <param name="sql">The sql.</param>
+		public void ExecuteQuery(string sql)
+		{
+			if (IsBusy)
+			{
+				_hostWindow.DisplaySimpleMessageBox(this, "Please wait for the current operation to complete.", "Busy");
+				return;
+			}
+
+			lock (_syncLock)
+			{
+				IsBusy = true;
+			}
+
+			_runner = QueryRunner.Create(_settings.ProviderFactory, _settings.ConnectionDefinition.ConnectionString, _settings.EnableQueryBatching);
+			UseWaitCursor = true;
+			queryBackgroundWorker.RunWorkerAsync(sql);
+		}
+
+		/// <summary>The load highlighting provider.</summary>
+		public void LoadHighlightingProvider()
+		{
+			if (_highlightingProviderLoaded)
+			{
+				return;
+			}
+
+			// see: http://wiki.sharpdevelop.net/Syntax%20highlighting.ashx
+			string dir = Path.GetDirectoryName(GetType().Assembly.Location);
+			FileSyntaxModeProvider fsmProvider = new FileSyntaxModeProvider(dir);
+			HighlightingManager.Manager.AddSyntaxModeFileProvider(fsmProvider); // Attach to the text editor.
+			txtQuery.SetHighlighting("SQL");
+			_highlightingProviderLoaded = true;
+		}
+
+		/// <summary>The clear selection.</summary>
+		public void ClearSelection()
+		{
+			txtQuery.ActiveTextAreaControl.SelectionManager.ClearSelection();
+		}
+
+		/// <summary>The highlight string.</summary>
+		/// <param name="offset">The offset.</param>
+		/// <param name="length">The length.</param>
+		public void HighlightString(int offset, int length)
+		{
+			if (offset < 0 || length < 1)
+			{
+				return;
+			}
+
+			int endPos = offset + length;
+			txtQuery.ActiveTextAreaControl.SelectionManager.SetSelection(
+				txtQuery.Document.OffsetToPosition(offset), 
+				txtQuery.Document.OffsetToPosition(endPos));
+			SetCursorByOffset(endPos);
+		}
+
+		/// <summary>The insert text.</summary>
+		/// <param name="text">The text.</param>
 		public void InsertText(string text)
 		{
 			if (string.IsNullOrEmpty(text))
@@ -197,96 +290,40 @@ namespace MiniSqlQuery
 			txtQuery.Focus();
 		}
 
-		public void ClearSelection()
+		/// <summary>The load file.</summary>
+		public void LoadFile()
 		{
-			txtQuery.ActiveTextAreaControl.SelectionManager.ClearSelection();
+			txtQuery.LoadFile(FileName);
+			IsDirty = false;
 		}
 
-		public void HighlightString(int offset, int length)
+		/// <summary>The save file.</summary>
+		/// <exception cref="InvalidOperationException"></exception>
+		public void SaveFile()
 		{
-			if (offset < 0 || length < 1)
+			if (FileName == null)
 			{
-				return;
+				throw new InvalidOperationException("The 'FileName' cannot be null");
 			}
 
-			int endPos = offset + length;
-			txtQuery.ActiveTextAreaControl.SelectionManager.SetSelection(
-				txtQuery.Document.OffsetToPosition(offset),
-				txtQuery.Document.OffsetToPosition(endPos));
-			SetCursorByOffset(endPos);
+			txtQuery.SaveFile(FileName);
+			IsDirty = false;
 		}
 
-
-		public bool SetCursorByOffset(int offset)
+		/// <summary>The set syntax.</summary>
+		/// <param name="name">The name.</param>
+		public void SetSyntax(string name)
 		{
-			if (offset >= 0)
-			{
-				txtQuery.ActiveTextAreaControl.Caret.Position = txtQuery.Document.OffsetToPosition(offset);
-				return true;
-			}
-
-			return false;
-		}
-
-		public bool SetCursorByLocation(int line, int column)
-		{
-			if (line > TotalLines)
-			{
-				return false;
-			}
-
-			txtQuery.ActiveTextAreaControl.Caret.Line = line;
-			txtQuery.ActiveTextAreaControl.Caret.Column = column;
-
-			return true;
-		}
-
-		public int CursorLine
-		{
-			get { return txtQuery.ActiveTextAreaControl.Caret.Line; }
-			set { txtQuery.ActiveTextAreaControl.Caret.Line = value; }
-		}
-
-		public int CursorColumn
-		{
-			get { return txtQuery.ActiveTextAreaControl.Caret.Column; }
-			set { txtQuery.ActiveTextAreaControl.Caret.Column = value; }
+			LoadHighlightingProvider();
+			txtQuery.SetHighlighting(name);
 		}
 
 
-		public int TotalLines
-		{
-			get { return txtQuery.Document.TotalNumberOfLines; }
-		}
-
-		public int CursorOffset
-		{
-			get { return txtQuery.ActiveTextAreaControl.Caret.Offset; }
-		}
-
-		public ITextFindService TextFindService
-		{
-			get
-			{
-				if (_textFindService == null)
-				{
-					_textFindService = _services.Container.Resolve<ITextFindService>();
-				}
-				return _textFindService;
-			}
-		}
-
-		public void SetTextFindService(ITextFindService textFindService)
-		{
-			// accept nulls infering a reset
-			_textFindService = textFindService;
-		}
-
-		public bool CanReplaceText
-		{
-			get { return true; }
-		}
-
+		/// <summary>The find string.</summary>
+		/// <param name="value">The value.</param>
+		/// <param name="startIndex">The start index.</param>
+		/// <param name="comparisonType">The comparison type.</param>
+		/// <returns>The find string.</returns>
 		public int FindString(string value, int startIndex, StringComparison comparisonType)
 		{
 			if (string.IsNullOrEmpty(value) || startIndex < 0)
@@ -305,6 +342,11 @@ namespace MiniSqlQuery
 			return pos;
 		}
 
+		/// <summary>The replace string.</summary>
+		/// <param name="value">The value.</param>
+		/// <param name="startIndex">The start index.</param>
+		/// <param name="length">The length.</param>
+		/// <returns>The replace string.</returns>
 		public bool ReplaceString(string value, int startIndex, int length)
 		{
 			if (value == null || startIndex < 0 || length < 0)
@@ -322,97 +364,101 @@ namespace MiniSqlQuery
 			return true;
 		}
 
-		/// <summary>
-		/// Gets a reference to the batch of queries.
-		/// </summary>
-		/// <value>The query batch.</value>
-		public QueryBatch Batch
+		/// <summary>The set text find service.</summary>
+		/// <param name="textFindService">The text find service.</param>
+		public void SetTextFindService(ITextFindService textFindService)
 		{
-			get { return _runner == null ? null : _runner.Batch; }
+			// accept nulls infering a reset
+			_textFindService = textFindService;
 		}
 
-		#endregion
-
-		public void LoadHighlightingProvider()
+		/// <summary>The set cursor by location.</summary>
+		/// <param name="line">The line.</param>
+		/// <param name="column">The column.</param>
+		/// <returns>The set cursor by location.</returns>
+		public bool SetCursorByLocation(int line, int column)
 		{
-			if (_highlightingProviderLoaded)
+			if (line > TotalLines)
 			{
-				return;
+				return false;
 			}
 
-			// see: http://wiki.sharpdevelop.net/Syntax%20highlighting.ashx
-			string dir = Path.GetDirectoryName(GetType().Assembly.Location);
-			FileSyntaxModeProvider fsmProvider = new FileSyntaxModeProvider(dir);
-			HighlightingManager.Manager.AddSyntaxModeFileProvider(fsmProvider); // Attach to the text editor.
-			txtQuery.SetHighlighting("SQL");
-			_highlightingProviderLoaded = true;
+			txtQuery.ActiveTextAreaControl.Caret.Line = line;
+			txtQuery.ActiveTextAreaControl.Caret.Column = column;
+
+			return true;
 		}
 
-		private void SetTabTextByFilename()
+		/// <summary>The set cursor by offset.</summary>
+		/// <param name="offset">The offset.</param>
+		/// <returns>The set cursor by offset.</returns>
+		public bool SetCursorByOffset(int offset)
 		{
-			string dirty = string.Empty;
-			string text = "Untitled";
-			string tabtext;
-
-			if (_isDirty)
+			if (offset >= 0)
 			{
-				dirty = " *";
+				txtQuery.ActiveTextAreaControl.Caret.Position = txtQuery.Document.OffsetToPosition(offset);
+				return true;
 			}
 
-			if (txtQuery.FileName != null)
+			return false;
+		}
+
+		/// <summary>The cancel task.</summary>
+		public void CancelTask()
+		{
+			// todo
+		}
+
+		/// <summary>The execute task.</summary>
+		public void ExecuteTask()
+		{
+			if (!string.IsNullOrEmpty(SelectedText))
 			{
-				text = FileName;
-				tabtext = Path.GetFileName(FileName);
+				ExecuteQuery(SelectedText);
 			}
 			else
 			{
-				text += _settings.GetUntitledDocumentCounter();
-				tabtext = text;
+				ExecuteQuery(AllText);
 			}
-
-			TabText = tabtext + dirty;
-			ToolTipText = text + dirty;
 		}
 
-		private void DocumentDocumentChanged(object sender, DocumentEventArgs e)
+		/// <summary>The set status.</summary>
+		/// <param name="text">The text.</param>
+		public void SetStatus(string text)
 		{
-			IsDirty = true;
+			_status = text;
+			UpdateHostStatus();
 		}
 
+		/// <summary>The create default font.</summary>
+		/// <returns></returns>
+		protected Font CreateDefaultFont()
+		{
+			return new Font("Courier New", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
+		}
+
+		/// <summary>The update host status.</summary>
 		protected void UpdateHostStatus()
 		{
 			_hostWindow.SetStatus(this, _status);
 		}
 
-		public void ExecuteQuery(string sql)
-		{
-			if (IsBusy)
-			{
-				_hostWindow.DisplaySimpleMessageBox(this, "Please wait for the current operation to complete.", "Busy");
-				return;
-			}
-
-			lock (_syncLock)
-			{
-				IsBusy = true;
-			}
-
-			_runner = QueryRunner.Create(_settings.ProviderFactory, _settings.ConnectionDefinition.ConnectionString, _settings.EnableQueryBatching);
-			UseWaitCursor = true;
-			queryBackgroundWorker.RunWorkerAsync(sql);
-		}
-
+		/// <summary>The create query complete message.</summary>
+		/// <param name="start">The start.</param>
+		/// <param name="end">The end.</param>
+		/// <returns>The create query complete message.</returns>
 		private static string CreateQueryCompleteMessage(DateTime start, DateTime end)
 		{
 			TimeSpan ts = end.Subtract(start);
 			string msg = string.Format(
-				"Query complete, {0:00}:{1:00}.{2:000}",
-				ts.Minutes,
-				ts.Seconds,
+				"Query complete, {0:00}:{1:00}.{2:000}", 
+				ts.Minutes, 
+				ts.Seconds, 
 				ts.Milliseconds);
 			return msg;
 		}
 
+		/// <summary>The add tables.</summary>
 		private void AddTables()
 		{
 			ClearGridsAndTabs();
@@ -480,9 +526,7 @@ namespace MiniSqlQuery
 			}
 		}
 
-		/// <summary>
-		/// Iterate backweards through list of tabs disposing grid and removing the tab page.
-		/// </summary>
+		/// <summary>Iterate backweards through list of tabs disposing grid and removing the tab page.</summary>
 		private void ClearGridsAndTabs()
 		{
 			for (int i = _resultsTabControl.TabPages.Count - 1; i >= 0; i--)
@@ -492,29 +536,20 @@ namespace MiniSqlQuery
 				{
 					tabPage.Controls[0].Dispose(); // dispose grid
 				}
+
 				_resultsTabControl.TabPages.Remove(tabPage);
 			}
 		}
 
-		/// <summary>
-		/// Clean up event subscriptions.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void GridDisposed(object sender, EventArgs e)
+		/// <summary>The document document changed.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void DocumentDocumentChanged(object sender, DocumentEventArgs e)
 		{
-			DataGridView grid = sender as DataGridView;
-			if (grid == null)
-			{
-				return;
-			}
-			grid.DataBindingComplete -= GridDataBindingComplete;
-			grid.Disposed -= GridDisposed;
+			IsDirty = true;
 		}
 
-		/// <summary>
-		/// Change the format style of date time columns. This has to be done post-bind.
-		/// </summary>
+		/// <summary>Change the format style of date time columns. This has to be done post-bind.</summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void GridDataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -524,6 +559,7 @@ namespace MiniSqlQuery
 			{
 				return;
 			}
+
 			DataTable dt = grid.DataSource as DataTable;
 			if (dt == null)
 			{
@@ -535,7 +571,7 @@ namespace MiniSqlQuery
 
 			for (int i = 0; i < dt.Columns.Count; i++)
 			{
-				if (dt.Columns[i].DataType == typeof (DateTime))
+				if (dt.Columns[i].DataType == typeof(DateTime))
 				{
 					DataGridViewCellStyle dateCellStyle = new DataGridViewCellStyle();
 					dateCellStyle.NullValue = nullText;
@@ -545,42 +581,60 @@ namespace MiniSqlQuery
 			}
 		}
 
-		protected Font CreateDefaultFont()
-		{
-			return new Font("Courier New", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
-		}
-
+		/// <summary>The grid data error.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void GridDataError(object sender, DataGridViewDataErrorEventArgs e)
 		{
 			e.ThrowException = false;
 		}
 
-		private void QueryForm_Load(object sender, EventArgs e)
+		/// <summary>Clean up event subscriptions.</summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void GridDisposed(object sender, EventArgs e)
 		{
+			DataGridView grid = sender as DataGridView;
+			if (grid == null)
+			{
+				return;
+			}
+
+			grid.DataBindingComplete -= GridDataBindingComplete;
+			grid.Disposed -= GridDisposed;
 		}
 
+		/// <summary>The query form_ activated.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void QueryForm_Activated(object sender, EventArgs e)
 		{
 			UpdateHostStatus();
 		}
 
+		/// <summary>The query form_ deactivate.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void QueryForm_Deactivate(object sender, EventArgs e)
 		{
 			_hostWindow.SetStatus(this, string.Empty);
 		}
 
+		/// <summary>The query form_ form closing.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void QueryForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			if (_isDirty)
 			{
 				DialogResult saveFile = _hostWindow.DisplayMessageBox(
-					this,
-					"Contents changed, do you want to save the file?\r\n" + TabText, "Save Changes?",
-					MessageBoxButtons.YesNoCancel,
-					MessageBoxIcon.Question,
-					MessageBoxDefaultButton.Button1,
-					0,
-					null,
+					this, 
+					"Contents changed, do you want to save the file?\r\n" + TabText, "Save Changes?", 
+					MessageBoxButtons.YesNoCancel, 
+					MessageBoxIcon.Question, 
+					MessageBoxDefaultButton.Button1, 
+					0, 
+					null, 
 					null);
 
 				if (saveFile == DialogResult.Cancel)
@@ -594,13 +648,16 @@ namespace MiniSqlQuery
 			}
 		}
 
-		private void queryBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+		/// <summary>The query form_ load.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void QueryForm_Load(object sender, EventArgs e)
 		{
-			string sql = (string) e.Argument;
-			_runner.BatchProgress += RunnerBatchProgress;
-			_runner.ExecuteQuery(sql);
 		}
 
+		/// <summary>The runner batch progress.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void RunnerBatchProgress(object sender, BatchProgressEventArgs e)
 		{
 			// push the progress % through to the background worker
@@ -609,58 +666,43 @@ namespace MiniSqlQuery
 			queryBackgroundWorker.ReportProgress(Convert.ToInt32(i/count*100m));
 		}
 
-		private void queryBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		/// <summary>The set tab text by filename.</summary>
+		private void SetTabTextByFilename()
 		{
-			SetStatus(string.Format("Processing batch {0}%...", e.ProgressPercentage));
-		}
+			string dirty = string.Empty;
+			string text = "Untitled";
+			string tabtext;
 
-		private void queryBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			try
+			if (_isDirty)
 			{
-				_runner.BatchProgress -= RunnerBatchProgress;
-				if (e.Error != null)
-				{
-					// todo: improve!
-					_hostWindow.DisplaySimpleMessageBox(this, e.Error.Message, "Error");
-					SetStatus(e.Error.Message);
-				}
-				else
-				{
-					_hostWindow.SetPointerState(Cursors.Default);
-					string message = CreateQueryCompleteMessage(_runner.Batch.StartTime, _runner.Batch.EndTime);
-					if (_runner.Exception != null)
-					{
-						message = "ERROR - " + message;
-					}
-					_hostWindow.SetStatus(this, message);
-					AddTables();
-					txtQuery.Focus();
-				}
+				dirty = " *";
 			}
-			finally
+
+			if (txtQuery.FileName != null)
 			{
-				UseWaitCursor = false;
-				lock (_syncLock)
-				{
-					IsBusy = false;
-				}
+				text = FileName;
+				tabtext = Path.GetFileName(FileName);
 			}
+			else
+			{
+				text += _settings.GetUntitledDocumentCounter();
+				tabtext = text;
+			}
+
+			TabText = tabtext + dirty;
+			ToolTipText = text + dirty;
 		}
 
-		private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			DataGridView grid = (DataGridView) _resultsTabControl.SelectedTab.Controls[0];
-			grid.SelectAll();
-		}
-
+		/// <summary>The copy tool strip menu item_ click.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void copyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			CopyForm win = null;
 
 			try
 			{
-				DataGridView grid = (DataGridView) _resultsTabControl.SelectedTab.Controls[0];
+				DataGridView grid = (DataGridView)_resultsTabControl.SelectedTab.Controls[0];
 
 				if (grid.SelectedCells.Count == 0)
 				{
@@ -689,6 +731,7 @@ namespace MiniSqlQuery
 					{
 						headers.Add(col.Index, col.Name);
 					}
+
 					if (!rows.ContainsKey(cell.RowIndex))
 					{
 						rows.Add(cell.RowIndex, cell.RowIndex);
@@ -699,7 +742,7 @@ namespace MiniSqlQuery
 				{
 					for (int i = 0; i < headers.Count; i++)
 					{
-						line += (string) headers.GetByIndex(i);
+						line += (string)headers.GetByIndex(i);
 						if (i != headers.Count)
 						{
 							line += delimiter;
@@ -711,17 +754,18 @@ namespace MiniSqlQuery
 
 				for (int i = 0; i < rows.Count; i++)
 				{
-					DataGridViewRow row = grid.Rows[(int) rows.GetKey(i)];
+					DataGridViewRow row = grid.Rows[(int)rows.GetKey(i)];
 					DataGridViewCellCollection cells = row.Cells;
 
 					for (int j = 0; j < headers.Count; j++)
 					{
-						DataGridViewCell cell = cells[(int) headers.GetKey(j)];
+						DataGridViewCell cell = cells[(int)headers.GetKey(j)];
 
 						if (cell.Selected)
 						{
 							line += cell.Value;
 						}
+
 						if (j != (headers.Count - 1))
 						{
 							line += delimiter;
@@ -746,6 +790,71 @@ namespace MiniSqlQuery
 					win.Dispose();
 				}
 			}
+		}
+
+		/// <summary>The query background worker_ do work.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void queryBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+			string sql = (string)e.Argument;
+			_runner.BatchProgress += RunnerBatchProgress;
+			_runner.ExecuteQuery(sql);
+		}
+
+		/// <summary>The query background worker_ progress changed.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void queryBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			SetStatus(string.Format("Processing batch {0}%...", e.ProgressPercentage));
+		}
+
+		/// <summary>The query background worker_ run worker completed.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void queryBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			try
+			{
+				_runner.BatchProgress -= RunnerBatchProgress;
+				if (e.Error != null)
+				{
+					// todo: improve!
+					_hostWindow.DisplaySimpleMessageBox(this, e.Error.Message, "Error");
+					SetStatus(e.Error.Message);
+				}
+				else
+				{
+					_hostWindow.SetPointerState(Cursors.Default);
+					string message = CreateQueryCompleteMessage(_runner.Batch.StartTime, _runner.Batch.EndTime);
+					if (_runner.Exception != null)
+					{
+						message = "ERROR - " + message;
+					}
+
+					_hostWindow.SetStatus(this, message);
+					AddTables();
+					txtQuery.Focus();
+				}
+			}
+			finally
+			{
+				UseWaitCursor = false;
+				lock (_syncLock)
+				{
+					IsBusy = false;
+				}
+			}
+		}
+
+		/// <summary>The select all tool strip menu item_ click.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			DataGridView grid = (DataGridView)_resultsTabControl.SelectedTab.Controls[0];
+			grid.SelectAll();
 		}
 	}
 }

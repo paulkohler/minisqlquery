@@ -1,0 +1,517 @@
+<Configuration>
+  <SharedSolutionTemplateManager>
+    <LiveTemplates>
+      <Template uid="c32292d7-27d5-4bbb-bb96-45d9d25ff58b" shortcut="propnotify" description="A get/set property that observes the notify changed style" text="private $TYPE$ _$cammelName$;&#xD;&#xA;&#xD;&#xA;//[Category(&quot;&quot;)]&#xD;&#xA;//[Description(&quot;&quot;)]&#xD;&#xA;public $TYPE$ $NAME$&#xD;&#xA;{&#xD;&#xA;	get { return _$cammelName$; }&#xD;&#xA;	set&#xD;&#xA;	{&#xD;&#xA;		if (_$cammelName$ != value)&#xD;&#xA;		{&#xD;&#xA;			_$cammelName$ = value;&#xD;&#xA;			OnPropertyChanged(&quot;$NAME$&quot;);&#xD;&#xA;		}&#xD;&#xA;	}&#xD;&#xA;}&#xD;&#xA;" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="TypeMember" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="TYPE" expression="" initialRange="0" />
+          <Variable name="NAME" expression="suggestVariableName()" initialRange="0" />
+          <Variable name="cammelName" expression="decapitalize(NAME)" initialRange="-1" />
+        </Variables>
+        <CustomProperties />
+      </Template>
+    </LiveTemplates>
+    <FileTemplates>
+      <Template uid="de77ff5d-a3b0-4edc-a18f-f5ffbd29a07c" shortcut="" description="App Command" text="using System;&#xD;&#xA;using System.Windows.Forms;&#xD;&#xA;using MiniSqlQuery.Core;&#xD;&#xA;using MiniSqlQuery.Core.Commands;&#xD;&#xA;//using WeifenLuo.WinFormsUI.Docking;&#xD;&#xA;&#xD;&#xA;namespace $ns$&#xD;&#xA;{&#xD;&#xA;	public class $class_name$&#xD;&#xA;		: CommandBase&#xD;&#xA;	{&#xD;&#xA;		public $class_name$()&#xD;&#xA;			: base(&quot;$name$&quot;)&#xD;&#xA;		{&#xD;&#xA;			//ShortcutKeys = Keys.Control | Keys.Alt | Keys.?;&#xD;&#xA;			//SmallImage = ImageResource.?;&#xD;&#xA;		}&#xD;&#xA;&#xD;&#xA;		public override void Execute()&#xD;&#xA;		{&#xD;&#xA;			// todo - imp command&#xD;&#xA;		}&#xD;&#xA;		&#xD;&#xA;		//public override bool Enabled&#xD;&#xA;		//{&#xD;&#xA;		//	get { return HostWindow.ActiveChildForm != null; }&#xD;&#xA;		//}&#xD;&#xA;	}&#xD;&#xA;}" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <ProjectLanguageContext language="CSharp" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="ns" expression="fileDefaultNamespace()" initialRange="-1" />
+          <Variable name="class_name" expression="getFileNameWithoutExtension()" initialRange="0" />
+          <Variable name="name" expression="" initialRange="0" />
+        </Variables>
+        <CustomProperties>
+          <Property key="FileName" value="AppCommand" />
+          <Property key="Extension" value="cs" />
+          <Property key="ValidateFileName" value="False" />
+        </CustomProperties>
+      </Template>
+    </FileTemplates>
+  </SharedSolutionTemplateManager>
+  <CodeStyleSettings>
+    <ExternalPath IsNull="False">
+    </ExternalPath>
+    <Sharing>SOLUTION</Sharing>
+    <CSharp>
+      <FormatSettings>
+        <MODIFIERS_ORDER IsNull="False">
+          <Item>public</Item>
+          <Item>protected</Item>
+          <Item>internal</Item>
+          <Item>private</Item>
+          <Item>new</Item>
+          <Item>abstract</Item>
+          <Item>virtual</Item>
+          <Item>override</Item>
+          <Item>sealed</Item>
+          <Item>static</Item>
+          <Item>readonly</Item>
+          <Item>extern</Item>
+          <Item>unsafe</Item>
+          <Item>volatile</Item>
+        </MODIFIERS_ORDER>
+        <SPACE_AFTER_TYPECAST_PARENTHESES>False</SPACE_AFTER_TYPECAST_PARENTHESES>
+        <SPACE_BEFORE_SIZEOF_PARENTHESES>False</SPACE_BEFORE_SIZEOF_PARENTHESES>
+        <SPACE_BEFORE_TYPEOF_PARENTHESES>False</SPACE_BEFORE_TYPEOF_PARENTHESES>
+        <WRAP_LIMIT>200</WRAP_LIMIT>
+      </FormatSettings>
+      <UsingsSettings>
+        <KeepImports IsNull="False">
+          <Item>System</Item>
+        </KeepImports>
+        <MandatoryImports IsNull="False">
+          <Item>System</Item>
+        </MandatoryImports>
+      </UsingsSettings>
+      <Naming2>
+        <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+        <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
+        <ExceptionName IsNull="False">
+        </ExceptionName>
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="TypesAndNamespaces" />
+        <PredefinedRule Inspect="True" Prefix="I" Suffix="" Style="AaBb" ElementKind="Interfaces" />
+        <PredefinedRule Inspect="True" Prefix="T" Suffix="" Style="AaBb" ElementKind="TypeParameters" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="MethodPropertyEvent" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Locals" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="LocalConstants" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Parameters" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PublicFields" />
+        <PredefinedRule Inspect="True" Prefix="_" Suffix="" Style="aaBb" ElementKind="PrivateInstanceFields" />
+        <PredefinedRule Inspect="True" Prefix="_" Suffix="" Style="aaBb" ElementKind="PrivateStaticFields" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Constants" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateConstants" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="StaticReadonly" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateStaticReadonly" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="EnumMember" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Other" />
+      </Naming2>
+      <CustomMemberReorderingPatterns><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Patterns xmlns="urn:shemas-jetbrains-com:member-reordering-patterns">
+	<!--
+	I. Overall
+
+	I.1 Each pattern can have <Match>....</Match> element. For the given type declaration, the pattern with the match, evaluated to 'true' with the largest weight, will be used 
+	I.2 Each pattern consists of the sequence of <Entry>...</Entry> elements. Type member declarations are distributed between entries
+	I.3 If pattern has RemoveAllRegions="true" attribute, then all regions will be cleared prior to reordering. Otherwise, only auto-generated regions will be cleared
+	I.4 The contents of each entry is sorted by given keys (First key is primary,  next key is secondary, etc). Then the declarations are grouped and en-regioned by given property
+
+	II. Available match operands
+
+	Each operand may have Weight="..." attribute. This weight will be added to the match weight if the operand is evaluated to 'true'.
+	The default weight is 1
+
+	II.1 Boolean functions:
+	II.1.1 <And>....</And>
+	II.1.2 <Or>....</Or>
+	II.1.3 <Not>....</Not>
+
+	II.2 Operands
+	II.2.1 <Kind Is="..."/>. Kinds are: class, struct, interface, enum, delegate, type, constructor, destructor, property, indexer, method, operator, field, constant, event, member
+	II.2.2 <Name Is="..." [IgnoreCase="true/false"] />. The 'Is' attribute contains regular expression
+	II.2.3 <HasAttribute CLRName="..." [Inherit="true/false"] />. The 'CLRName' attribute contains regular expression
+	II.2.4 <Access Is="..."/>. The 'Is' values are: public, protected, internal, protected internal, private
+	II.2.5 <Static/>
+	II.2.6 <Abstract/>
+	II.2.7 <Virtual/>
+	II.2.8 <Override/>
+	II.2.9 <Sealed/>
+	II.2.10 <Readonly/>
+	II.2.11 <ImplementsInterface CLRName="..."/>. The 'CLRName' attribute contains regular expression
+	II.2.12 <HandlesEvent />
+	-->
+
+
+    <!-- Do not reorder COM interfaces -->
+    <Pattern>
+        <Match>
+            <And Weight="2000">
+                <Kind Is="interface"/>
+                <HasAttribute CLRName="System.Runtime.InteropServices.InterfaceTypeAttribute"
+                              Inherit="true"/>
+            </And>
+        </Match>
+    </Pattern>
+
+    <!-- Do not reorder P/Invoke structs -->
+    <Pattern>
+        <Match>
+            <And Weight="2000">
+                <Or>
+                    <Kind Is="struct"/>
+                    <Kind Is="class"/>
+                </Or>
+                <HasAttribute CLRName="System.Runtime.InteropServices.StructLayoutAttribute"
+                              Inherit="true"/>
+            </And>
+        </Match>
+    </Pattern>
+
+    <!-- Do not reorder P/Invoke classes (called xxxNativeMethods) -->
+    <Pattern>
+        <Match>
+            <And Weight="2000">
+                <Kind Is="class"/>
+                <Name Is=".*NativeMethods" />
+            </And>
+        </Match>
+    </Pattern>
+
+	  <!--Special formatting of NUnit test fixture-->
+	<Pattern RemoveAllRegions="true">
+		<Match>
+		  <And Weight="100">
+			<Kind Is="class"/>
+			<HasAttribute CLRName="NUnit.Framework.TestFixtureAttribute" Inherit="true"/>
+		  </And>
+		</Match>
+
+		<!--Setup/Teardow-->
+		<Entry>
+		  <Match>
+			<And>
+			  <Kind Is="method"/>
+			  <Or>
+				<HasAttribute CLRName="NUnit.Framework.SetUpAttribute" Inherit="true"/>
+				<HasAttribute CLRName="NUnit.Framework.TearDownAttribute" Inherit="true"/>
+				<HasAttribute CLRName="NUnit.Framework.FixtureSetUpAttribute" Inherit="true"/>
+				<HasAttribute CLRName="NUnit.Framework.FixtureTearDownAttribute" Inherit="true"/>
+			  </Or>
+			</And>
+		  </Match>
+		  <!--<Group Region="Setup/Teardown"/>-->
+		</Entry>
+
+		<!--All other members-->
+		<Entry/>
+
+		<!--Test methods-->
+		<Entry>
+		  <Match>
+			<And Weight="100">
+			  <Kind Is="method"/>
+			  <HasAttribute CLRName="NUnit.Framework.TestAttribute" Inherit="false"/>
+			</And>
+		  </Match>
+		  <Sort>
+			<Name/>
+		  </Sort>
+		</Entry>
+	</Pattern>
+
+    <!-- StyleCop pattern -->
+    <Pattern RemoveAllRegions="true">
+        <Match>
+            <Or Weight="1000" >
+                <Kind Is="class" />
+                <Kind Is="struct" />
+                <Kind Is="interface"/>
+            </Or>
+        </Match>
+
+        <!-- constants and fields -->
+        <Entry>
+            <Match>
+                <Or>
+                    <Kind Is="constant"/>
+                    <Kind Is="field"/>
+                </Or>
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private"/>
+                <Kind Order="constant field"/>
+                <Readonly/>
+                <Static/>
+                <Name/>
+            </Sort>
+            <!-- <Group Region="Constants and Fields"/>-->
+        </Entry>
+
+        <!-- constructors -->
+        <Entry>
+            <Match>
+                <Or Weight="200">
+                    <Kind Is="constructor"/>
+                    <Kind Is="destructor"/>
+                </Or>
+            </Match>
+            <Sort>
+                <Static/>
+                <Kind Order="constructor destructor"/>
+                <Access Order="public internal protected-internal protected private"/>
+            </Sort>
+            <!-- <Group Region="Constructors and Destructors"/>-->
+        </Entry>
+
+        <!-- delegates -->
+        <Entry>
+            <Match>
+                <Kind Is="delegate"/>
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private" />
+                <Static />
+                <Name/>
+            </Sort>
+            <!--<Group Region="Delegates"/>-->
+        </Entry>
+
+        <!-- events -->
+        <Entry>
+            <Match>
+                <Kind Is="event"/>
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private" />
+                <Static />
+                <Name/>
+            </Sort>
+            <!--<Group Region="Events"/>-->
+        </Entry>
+
+        <!-- enum -->
+        <Entry>
+            <Match>
+                <Kind Is="enum"/>
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private" />
+                <Name/>
+            </Sort>
+            <!--<Group Region="Enums"/>-->
+        </Entry>
+
+        <!-- interfaces -->
+        <Entry>
+            <Match>
+                <Kind Is="interface" />
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private" />
+                <Name/>
+            </Sort>
+            <!--<Group Region="Interfaces"/>-->
+        </Entry>
+
+        <!-- properties -->
+        <Entry>
+            <Match>
+                <Kind Is="property"/>
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private"/>
+                <Static/>
+                <Name/>
+            </Sort>
+            <!--<Group Region="Properties"/>-->
+        </Entry>
+
+        <!-- indexers -->
+        <Entry>
+            <Match>
+                <Kind Is="indexer"
+                      Weight="300" />
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private" />
+                <Static/>
+                <Name/>
+            </Sort>
+            <!--<Group Region="Indexers"/>-->
+        </Entry>
+
+        <!-- operator -->
+        <Entry>
+            <Match>
+                <Kind Is="operator"/>
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private" />
+                <Static/>
+                <Name/>
+            </Sort>
+            <!--<Group Region="Operators"/>-->
+        </Entry>
+
+        <!-- public methods -->
+        <Entry>
+            <Match>
+                <And>
+                    <Kind Is="method"/>
+                    <Access Is="public"/>
+                </And>
+            </Match>
+            <Sort>
+                <Access Order="public"/>
+                <Static/>
+                <Name/>
+            </Sort>
+            <!--<Group Region="Public Methods"/>-->
+        </Entry>
+
+        <!-- Implemented Interfaces -->
+        <Entry>
+            <Match>
+                <And Weight="500">
+                    <Kind Is="method"/>
+                    <ImplementsInterface CLRName=".*"/>
+                </And>
+            </Match>
+            <Sort>
+                <ImplementsInterface />
+                <Access Order="public internal protected-internal protected private"/>
+                <Static/>
+                <Name/>
+            </Sort>
+            <!--
+            <Group Region="Implemented Interfaces">
+                <ImplementsInterface Region="${ImplementsInterface}" />
+            </Group>
+            -->
+        </Entry>
+
+        <!-- other methods -->
+        <Entry>
+            <Match>
+                <Kind Is="method"/>
+            </Match>
+            <Sort>
+                <Access Order="public internal protected-internal protected private"/>
+                <Static/>
+                <Name/>
+            </Sort>
+            <!--<Group Region="Methods"/>-->
+        </Entry>
+
+        <!-- Nested structs -->
+        <Entry>
+            <Match>
+                <Kind Is="struct"
+                      Weight="600" />
+            </Match>
+            <Sort>
+                <Static />
+                <Access Order="public internal protected-internal protected private" />
+                <Name/>
+            </Sort>
+        </Entry>
+
+        <!-- Nested classes -->
+        <Entry>
+            <Match>
+                <Kind Is="class"
+                      Weight="700" />
+            </Match>
+            <Sort>
+                <Static />
+                <Access Order="public internal protected-internal protected private" />
+                <Name/>
+            </Sort>
+        </Entry>
+
+        <!-- all other members -->
+        <Entry/>
+
+    </Pattern>
+</Patterns>
+]]></CustomMemberReorderingPatterns>
+    </CSharp>
+    <VB>
+      <FormatSettings />
+      <ImportsSettings>
+        <KeepImports IsNull="False">
+          <Item>System</Item>
+        </KeepImports>
+        <MandatoryImports IsNull="False">
+          <Item>System</Item>
+        </MandatoryImports>
+      </ImportsSettings>
+      <Naming2>
+        <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+        <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
+      </Naming2>
+    </VB>
+    <Web>
+      <Naming2>
+        <UserRule Name="ASP_TAG_NAME" Inspect="True" Prefix="" Suffix="" Style="AaBb" />
+        <UserRule Name="ASP_TAG_PREFIX" Inspect="True" Prefix="" Suffix="" Style="AaBb" />
+        <UserRule Name="ASP_FIELD" Inspect="True" Prefix="" Suffix="" Style="AaBb" />
+        <UserRule Name="ASP_HTML_CONTROL" Inspect="True" Prefix="" Suffix="" Style="AaBb" />
+      </Naming2>
+    </Web>
+    <Xaml>
+      <Naming2>
+        <UserRule Name="XAML_FIELD" Inspect="True" Prefix="_" Suffix="" Style="aaBb" />
+        <UserRule Name="NAMESPACE_ALIAS" Inspect="True" Prefix="" Suffix="" Style="AaBb" />
+        <UserRule Name="XAML_RESOURCE" Inspect="True" Prefix="" Suffix="" Style="AaBb" />
+      </Naming2>
+    </Xaml>
+    <XML>
+      <FormatSettings />
+    </XML>
+    <FileHeader Region="License"><![CDATA[
+Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
+This source code is made available under the terms of the Microsoft Public License (Ms-PL)
+http://minisqlquery.codeplex.com/license
+]]></FileHeader>
+    <GenerateMemberBody />
+    <Naming2>
+      <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+      <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
+      <ExceptionName IsNull="False">
+      </ExceptionName>
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="MethodPropertyEvent" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="TypesAndNamespaces" />
+      <PredefinedRule Inspect="True" Prefix="I" Suffix="" Style="AaBb" ElementKind="Interfaces" />
+      <PredefinedRule Inspect="True" Prefix="T" Suffix="" Style="AaBb" ElementKind="TypeParameters" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Locals" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="LocalConstants" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Parameters" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PublicFields" />
+      <PredefinedRule Inspect="True" Prefix="_" Suffix="" Style="aaBb" ElementKind="PrivateInstanceFields" />
+      <PredefinedRule Inspect="True" Prefix="_" Suffix="" Style="aaBb" ElementKind="PrivateStaticFields" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Constants" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateConstants" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="StaticReadonly" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateStaticReadonly" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="EnumMember" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Other" />
+      <Abbreviation Text="BLC" />
+      <Abbreviation Text="DLC" />
+      <Abbreviation Text="CIS" />
+      <Abbreviation Text="SSO" />
+      <Abbreviation Text="DB" />
+      <Abbreviation Text="DDL" />
+      <Abbreviation Text="DTO" />
+      <Abbreviation Text="ID" />
+      <Abbreviation Text="IQ" />
+      <Abbreviation Text="SB" />
+      <Abbreviation Text="DT" />
+      <Abbreviation Text="DET" />
+      <Abbreviation Text="ATSI" />
+      <Abbreviation Text="PD" />
+      <Abbreviation Text="QCT" />
+      <Abbreviation Text="KLA" />
+      <Abbreviation Text="XML" />
+      <Abbreviation Text="DV" />
+      <Abbreviation Text="FK" />
+      <Abbreviation Text="OK" />
+      <Abbreviation Text="GNAF" />
+      <Abbreviation Text="PAF" />
+      <Abbreviation Text="PLI" />
+      <Abbreviation Text="LDAP" />
+      <Abbreviation Text="LOTE" />
+      <Abbreviation Text="SP" />
+      <Abbreviation Text="HR" />
+      <Abbreviation Text="URL" />
+      <Abbreviation Text="ICT" />
+      <Abbreviation Text="FTE" />
+      <Abbreviation Text="RAIS" />
+      <Abbreviation Text="AMP" />
+    </Naming2>
+  </CodeStyleSettings>
+</Configuration>

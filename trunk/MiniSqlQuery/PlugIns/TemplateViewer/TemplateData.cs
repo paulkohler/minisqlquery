@@ -1,8 +1,10 @@
 #region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,18 +13,37 @@ using MiniSqlQuery.Core;
 
 namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
+	/// <summary>The template data.</summary>
 	public class TemplateData : IDisposable
 	{
-		private DbConnection _dbConnection;
-		readonly Dictionary<string, DataTable> _dataTables = new Dictionary<string, DataTable>();
+		/// <summary>The _data tables.</summary>
+		private readonly Dictionary<string, DataTable> _dataTables = new Dictionary<string, DataTable>();
 
+		/// <summary>The _db connection.</summary>
+		private DbConnection _dbConnection;
+
+		/// <summary>Initializes a new instance of the <see cref="TemplateData"/> class.</summary>
+		/// <param name="services">The services.</param>
 		public TemplateData(IApplicationServices services)
 		{
 			Services = services;
 		}
 
+		/// <summary>Gets Services.</summary>
 		public IApplicationServices Services { get; private set; }
 
+		/// <summary>Helper for getting the value of a row - avoids "get_Item()" usage.</summary>
+		/// <param name="row">The row.</param>
+		/// <param name="columnName">Name of the column.</param>
+		/// <returns>The column value.</returns>
+		public object ColumnValue(DataRow row, string columnName)
+		{
+			return row[columnName];
+		}
+
+		/// <summary>The get.</summary>
+		/// <param name="viewOrTableName">The view or table name.</param>
+		/// <returns></returns>
 		public DataTable Get(string viewOrTableName)
 		{
 			DbDataAdapter adapter = null;
@@ -59,16 +80,18 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				adapter.SelectCommand = cmd;
 				adapter.Fill(query.Result);
 			}
-			//catch (Exception exp)
-			//{
-			//    throw;
-			//}
+				
+// catch (Exception exp)
+				// {
+				// throw;
+				// }
 			finally
 			{
 				if (adapter != null)
 				{
 					adapter.Dispose();
 				}
+
 				if (cmd != null)
 				{
 					cmd.Dispose();
@@ -84,6 +107,9 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			return dt;
 		}
 
+		/// <summary>The query.</summary>
+		/// <param name="sql">The sql.</param>
+		/// <returns></returns>
 		public DataTable Query(string sql)
 		{
 			DbDataAdapter adapter = null;
@@ -121,16 +147,18 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				adapter.SelectCommand = cmd;
 				adapter.Fill(query.Result);
 			}
-			//catch (Exception exp)
-			//{
-			//    throw;
-			//}
+				
+// catch (Exception exp)
+				// {
+				// throw;
+				// }
 			finally
 			{
 				if (adapter != null)
 				{
 					adapter.Dispose();
 				}
+
 				if (cmd != null)
 				{
 					cmd.Dispose();
@@ -146,17 +174,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			return dt;
 		}
 
-		/// <summary>
-		/// Helper for getting the value of a row - avoids "get_Item()" usage.
-		/// </summary>
-		/// <param name="row">The row.</param>
-		/// <param name="columnName">Name of the column.</param>
-		/// <returns></returns>
-		public object ColumnValue(DataRow row, string columnName)
-		{
-			return row[columnName];
-		}
-
+		/// <summary>The dispose.</summary>
 		public void Dispose()
 		{
 			if (_dbConnection != null)
@@ -164,6 +182,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 				_dbConnection.Dispose();
 				_dbConnection = null;
 			}
+
 			foreach (var dataTable in _dataTables)
 			{
 				dataTable.Value.Dispose();

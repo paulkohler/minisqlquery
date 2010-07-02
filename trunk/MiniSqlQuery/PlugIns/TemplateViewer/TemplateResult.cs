@@ -1,15 +1,18 @@
 #region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 
 namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
+	/// <summary>The template result.</summary>
 	public class TemplateResult
 	{
-		public string Text { get; set; }
+		/// <summary>Gets or sets Extension.</summary>
 		public string Extension { get; set; }
 
 		/// <summary>
@@ -19,7 +22,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		{
 			get
 			{
-				string ext = Extension ?? "";
+				string ext = Extension ?? string.Empty;
 				switch (ext.ToLower())
 				{
 					case "bat":
@@ -54,9 +57,12 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 						return "C#";
 
 					default:
-						return "";
+						return string.Empty;
 				}
 			}
 		}
+
+		/// <summary>Gets or sets Text.</summary>
+		public string Text { get; set; }
 	}
 }

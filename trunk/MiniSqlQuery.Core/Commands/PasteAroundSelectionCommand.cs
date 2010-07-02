@@ -27,7 +27,7 @@ namespace MiniSqlQuery.Core.Commands
 			SmallImage = ImageResource.around_text;
 		}
 
-		/// <summary>The execute.</summary>
+		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
 			IQueryEditor queryForm = HostWindow.Instance.ActiveMdiChild as IQueryEditor;
@@ -49,7 +49,7 @@ namespace MiniSqlQuery.Core.Commands
 			ShortcutKeys = Keys.Alt | Keys.F1;
 		}
 
-		/// <summary>The execute.</summary>
+		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
 			IQueryEditor queryForm = HostWindow.Instance.ActiveMdiChild as IQueryEditor;
@@ -70,7 +70,7 @@ namespace MiniSqlQuery.Core.Commands
 			ShortcutKeys = Keys.Alt | Keys.F2;
 		}
 
-		/// <summary>The execute.</summary>
+		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
 			IQueryEditor queryForm = HostWindow.Instance.ActiveMdiChild as IQueryEditor;

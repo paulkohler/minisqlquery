@@ -1,25 +1,30 @@
 ﻿#region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
-using MiniSqlQuery.PlugIns.SearchTools.Commands;
-using MiniSqlQuery.Core;
 using System.Windows.Forms;
+using MiniSqlQuery.Core;
+using MiniSqlQuery.PlugIns.SearchTools.Commands;
 
 namespace MiniSqlQuery.PlugIns.SearchTools
 {
+	/// <summary>The search tools loader.</summary>
 	public class SearchToolsLoader : PluginLoaderBase
 	{
+		/// <summary>Initializes a new instance of the <see cref="SearchToolsLoader"/> class.</summary>
 		public SearchToolsLoader()
 			: base(
-				"Mini SQL Query Search Tools",
+				"Mini SQL Query Search Tools", 
 				"Text searching tools - generic find text tool window.", 
 				50)
 		{
 		}
 
+		/// <summary>Iinitialize the plug in.</summary>
 		public override void InitializePlugIn()
 		{
 			Services.RegisterComponent<GoToLineForm>("GoToLineForm");

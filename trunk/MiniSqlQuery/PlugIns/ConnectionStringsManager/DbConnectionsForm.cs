@@ -1,23 +1,32 @@
 ﻿#region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
-using System.Data;
-using System.Data.Common;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 
 namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 {
+	/// <summary>The db connections form.</summary>
 	public partial class DbConnectionsForm : Form
 	{
-		private readonly IApplicationSettings _settings;
-		private readonly IApplicationServices _services;
+		/// <summary>The _host window.</summary>
 		private readonly IHostWindow _hostWindow;
+
+		/// <summary>The _services.</summary>
+		private readonly IApplicationServices _services;
+
+		/// <summary>The _settings.</summary>
+		private readonly IApplicationSettings _settings;
+
+		/// <summary>The _definition list.</summary>
 		private DbConnectionDefinitionList _definitionList;
 
+		/// <summary>Initializes a new instance of the <see cref="DbConnectionsForm"/> class.</summary>
 		public DbConnectionsForm()
 		{
 			InitializeComponent();
@@ -28,6 +37,10 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			Icon = ImageResource.disconnect_icon;
 		}
 
+		/// <summary>Initializes a new instance of the <see cref="DbConnectionsForm"/> class.</summary>
+		/// <param name="services">The services.</param>
+		/// <param name="hostWindow">The host window.</param>
+		/// <param name="settings">The settings.</param>
 		public DbConnectionsForm(IApplicationServices services, IHostWindow hostWindow, IApplicationSettings settings)
 			: this()
 		{
@@ -36,31 +49,16 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			_settings = settings;
 		}
 
-
-		private void DbConnectionsForm_Shown(object sender, EventArgs e)
+		/// <summary>The load connection definitions.</summary>
+		/// <returns></returns>
+		private static DbConnectionDefinitionList LoadConnectionDefinitions()
 		{
-			_definitionList = LoadConnectionDefinitions();
-			UpdateListView();
+			return DbConnectionDefinitionList.FromXml(Utility.LoadConnections());
 		}
 
-		private void UpdateListView()
-		{
-			if (_definitionList.Definitions != null && _definitionList.Definitions.Length > 0)
-			{
-				lstConnections.Items.Clear();
-				lstConnections.Items.AddRange(_definitionList.Definitions);
-				lstConnections.SelectedItem = _definitionList.Definitions[0];
-			}
-		}
 
-		private void RemoveFromList(DbConnectionDefinition definition)
-		{
-			if (lstConnections.Items.Contains(definition))
-			{
-				lstConnections.Items.Remove(definition);
-			}
-		}
-
+		/// <summary>The add to list.</summary>
+		/// <param name="definition">The definition.</param>
 		private void AddToList(DbConnectionDefinition definition)
 		{
 			if (!lstConnections.Items.Contains(definition))
@@ -69,89 +67,25 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			}
 		}
 
+		/// <summary>The db connections form_ form closing.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void DbConnectionsForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			// todo - confirm changes lost
 		}
 
-
-		private static DbConnectionDefinitionList LoadConnectionDefinitions()
+		/// <summary>The db connections form_ shown.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void DbConnectionsForm_Shown(object sender, EventArgs e)
 		{
-			return DbConnectionDefinitionList.FromXml(Utility.LoadConnections());
+			_definitionList = LoadConnectionDefinitions();
+			UpdateListView();
 		}
 
-		private void SaveConnectionDefinitions(DbConnectionDefinitionList data)
-		{
-			_settings.SetConnectionDefinitions(data);
-			Utility.SaveConnections(data);
-		}
-
-		private void toolStripButtonOk_Click(object sender, EventArgs e)
-		{
-			SaveConnectionDefinitions(_definitionList);
-			Close();
-		}
-
-		private void toolStripButtonCancel_Click(object sender, EventArgs e)
-		{
-			Close();
-		}
-
-		private void toolStripButtonAdd_Click(object sender, EventArgs e)
-		{
-			ManageDefinition(null);
-		}
-
-		private void toolStripButtonCopyAsNew_Click(object sender, EventArgs e)
-		{
-			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
-			if (definition != null)
-			{
-				DbConnectionDefinition newDefinition = DbConnectionDefinition.FromXml(definition.ToXml());
-				newDefinition.Name = "Copy of " + newDefinition.Name;
-				ManageDefinition(newDefinition);
-			}
-		}
-
-		private void toolStripButtonEditConnStr_Click(object sender, EventArgs e)
-		{
-			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
-			if (definition != null)
-			{
-				ManageDefinition(definition);
-			}
-		}
-
-		private void toolStripButtonDelete_Click(object sender, EventArgs e)
-		{
-			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
-			if (definition != null)
-			{
-				int newIndex = Math.Max(lstConnections.SelectedIndex - 1, 0);
-				_definitionList.RemoveDefinition(definition);
-				RemoveFromList(definition);
-				if (lstConnections.Items.Count > 0)
-				{
-					lstConnections.SelectedIndex = newIndex;
-				}
-			}
-		}
-
-		private void lstConnections_SelectedValueChanged(object sender, EventArgs e)
-		{
-			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
-			UpdateDetailsPanel(definition);
-		}
-
-		private void lstConnections_DoubleClick(object sender, EventArgs e)
-		{
-			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
-			if (definition != null)
-			{
-				ManageDefinition(definition);
-			}
-		}
-
+		/// <summary>The manage definition.</summary>
+		/// <param name="definition">The definition.</param>
 		private void ManageDefinition(DbConnectionDefinition definition)
 		{
 			ConnectionStringBuilderForm frm;
@@ -193,6 +127,27 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			}
 		}
 
+		/// <summary>The remove from list.</summary>
+		/// <param name="definition">The definition.</param>
+		private void RemoveFromList(DbConnectionDefinition definition)
+		{
+			if (lstConnections.Items.Contains(definition))
+			{
+				lstConnections.Items.Remove(definition);
+			}
+		}
+
+
+		/// <summary>The save connection definitions.</summary>
+		/// <param name="data">The data.</param>
+		private void SaveConnectionDefinitions(DbConnectionDefinitionList data)
+		{
+			_settings.SetConnectionDefinitions(data);
+			Utility.SaveConnections(data);
+		}
+
+		/// <summary>The update details panel.</summary>
+		/// <param name="definition">The definition.</param>
 		private void UpdateDetailsPanel(DbConnectionDefinition definition)
 		{
 			if (definition != null)
@@ -211,6 +166,110 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			}
 		}
 
+		/// <summary>The update list view.</summary>
+		private void UpdateListView()
+		{
+			if (_definitionList.Definitions != null && _definitionList.Definitions.Length > 0)
+			{
+				lstConnections.Items.Clear();
+				lstConnections.Items.AddRange(_definitionList.Definitions);
+				lstConnections.SelectedItem = _definitionList.Definitions[0];
+			}
+		}
+
+		/// <summary>The lst connections_ double click.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void lstConnections_DoubleClick(object sender, EventArgs e)
+		{
+			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
+			if (definition != null)
+			{
+				ManageDefinition(definition);
+			}
+		}
+
+		/// <summary>The lst connections_ selected value changed.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void lstConnections_SelectedValueChanged(object sender, EventArgs e)
+		{
+			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
+			UpdateDetailsPanel(definition);
+		}
+
+		/// <summary>The tool strip button add_ click.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void toolStripButtonAdd_Click(object sender, EventArgs e)
+		{
+			ManageDefinition(null);
+		}
+
+		/// <summary>The tool strip button cancel_ click.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void toolStripButtonCancel_Click(object sender, EventArgs e)
+		{
+			Close();
+		}
+
+		/// <summary>The tool strip button copy as new_ click.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void toolStripButtonCopyAsNew_Click(object sender, EventArgs e)
+		{
+			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
+			if (definition != null)
+			{
+				DbConnectionDefinition newDefinition = DbConnectionDefinition.FromXml(definition.ToXml());
+				newDefinition.Name = "Copy of " + newDefinition.Name;
+				ManageDefinition(newDefinition);
+			}
+		}
+
+		/// <summary>The tool strip button delete_ click.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void toolStripButtonDelete_Click(object sender, EventArgs e)
+		{
+			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
+			if (definition != null)
+			{
+				int newIndex = Math.Max(lstConnections.SelectedIndex - 1, 0);
+				_definitionList.RemoveDefinition(definition);
+				RemoveFromList(definition);
+				if (lstConnections.Items.Count > 0)
+				{
+					lstConnections.SelectedIndex = newIndex;
+				}
+			}
+		}
+
+		/// <summary>The tool strip button edit conn str_ click.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void toolStripButtonEditConnStr_Click(object sender, EventArgs e)
+		{
+			DbConnectionDefinition definition = lstConnections.SelectedItem as DbConnectionDefinition;
+			if (definition != null)
+			{
+				ManageDefinition(definition);
+			}
+		}
+
+		/// <summary>The tool strip button ok_ click.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void toolStripButtonOk_Click(object sender, EventArgs e)
+		{
+			SaveConnectionDefinitions(_definitionList);
+			Close();
+		}
+
+		/// <summary>The tool strip button test_ click.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void toolStripButtonTest_Click(object sender, EventArgs e)
 		{
 			// do a standalone raw connection test

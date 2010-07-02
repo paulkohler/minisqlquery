@@ -14,14 +14,14 @@ namespace MiniSqlQuery.PlugIns
 	/// <summary>The core mini sql query configuration.</summary>
 	public class CoreMiniSqlQueryConfiguration : NotifyPropertyChangedBase, IConfigurationObject
 	{
-		/// <summary>The dirty record.</summary>
-		private static bool _isDirty;
-
-		/// <summary>The _settings.</summary>
+		/// <summary>The application settings.</summary>
 		private readonly IApplicationSettings _settings;
 
-		/// <summary>The _settings wrapper.</summary>
+		/// <summary>The settings wrapper.</summary>
 		private readonly CoreMiniSqlQuerySettingsWrapper _settingsWrapper;
+
+		/// <summary>The dirty record.</summary>
+		private static bool _isDirty;
 
 		/// <summary>Initializes a new instance of the <see cref="CoreMiniSqlQueryConfiguration"/> class.</summary>
 		/// <param name="settings">The settings.</param>
@@ -32,8 +32,6 @@ namespace MiniSqlQuery.PlugIns
 			_settingsWrapper.PropertyChanged += ProxyPropertyChanged;
 			_isDirty = false;
 		}
-
-		#region IConfigurationObject Members
 
 		/// <summary>Gets a value indicating whether IsDirty.</summary>
 		public bool IsDirty
@@ -49,7 +47,19 @@ namespace MiniSqlQuery.PlugIns
 			}
 		}
 
-		/// <summary>The save.</summary>
+		/// <summary>Gets Name.</summary>
+		public string Name
+		{
+			get { return "Mini SQL Query Settings"; }
+		}
+
+		/// <summary>Gets Settings.</summary>
+		public object Settings
+		{
+			get { return _settingsWrapper; }
+		}
+
+		/// <summary>Save the settings back.</summary>
 		public void Save()
 		{
 			_settings.EnableQueryBatching = _settingsWrapper.EnableQueryBatching;
@@ -61,29 +71,13 @@ namespace MiniSqlQuery.PlugIns
 			IsDirty = false;
 		}
 
-		/// <summary>Gets Settings.</summary>
-		public object Settings
-		{
-			get { return _settingsWrapper; }
-		}
-
-		/// <summary>Gets Name.</summary>
-		public string Name
-		{
-			get { return "Mini SQL Query Settings"; }
-		}
-
-		#endregion
-
 		/// <summary>The proxy property changed.</summary>
 		/// <param name="sender">The sender.</param>
-		/// <param name="e">The e.</param>
+		/// <param name="e">The events.</param>
 		private void ProxyPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			IsDirty = true;
 		}
-
-		#region Nested type: CoreMiniSqlQuerySettingsWrapper
 
 		/// <summary>The core mini sql query settings wrapper.</summary>
 		public class CoreMiniSqlQuerySettingsWrapper : NotifyPropertyChangedBase
@@ -123,18 +117,18 @@ namespace MiniSqlQuery.PlugIns
 				NullText = _settings.NullText;
 			}
 
-			/// <summary>Gets or sets a value indicating whether EnableQueryBatching.</summary>
-			[Category("Query")]
-			[Description("Set to true to enable the batching feature, if false the 'GO' statements will be passed straight through.")]
-			public bool EnableQueryBatching
+			/// <summary>Gets or sets DateTimeFormat.</summary>
+			[Category("Query Results")]
+			[Description("")]
+			public string DateTimeFormat
 			{
-				get { return _enableQueryBatching; }
+				get { return _dateTimeFormat; }
 				set
 				{
-					if (_enableQueryBatching != value)
+					if (_dateTimeFormat != value)
 					{
-						_enableQueryBatching = value;
-						OnPropertyChanged("EnableQueryBatching");
+						_dateTimeFormat = value;
+						OnPropertyChanged("DateTimeFormat");
 					}
 				}
 			}
@@ -156,18 +150,18 @@ namespace MiniSqlQuery.PlugIns
 				}
 			}
 
-			/// <summary>Gets or sets PlugInFileFilter.</summary>
-			[Category("Plugins")]
-			[Description("The file filter used for finding plugins (*.PlugIn.dll)")]
-			public string PlugInFileFilter
+			/// <summary>Gets or sets a value indicating whether EnableQueryBatching.</summary>
+			[Category("Query")]
+			[Description("Set to true to enable the batching feature, if false the 'GO' statements will be passed straight through.")]
+			public bool EnableQueryBatching
 			{
-				get { return _plugInFileFilter; }
+				get { return _enableQueryBatching; }
 				set
 				{
-					if (_plugInFileFilter != value)
+					if (_enableQueryBatching != value)
 					{
-						_plugInFileFilter = value;
-						OnPropertyChanged("PlugInFileFilter");
+						_enableQueryBatching = value;
+						OnPropertyChanged("EnableQueryBatching");
 					}
 				}
 			}
@@ -188,22 +182,6 @@ namespace MiniSqlQuery.PlugIns
 				}
 			}
 
-			/// <summary>Gets or sets DateTimeFormat.</summary>
-			[Category("Query Results")]
-			[Description("")]
-			public string DateTimeFormat
-			{
-				get { return _dateTimeFormat; }
-				set
-				{
-					if (_dateTimeFormat != value)
-					{
-						_dateTimeFormat = value;
-						OnPropertyChanged("DateTimeFormat");
-					}
-				}
-			}
-
 			/// <summary>Gets or sets NullText.</summary>
 			[Category("Query Results")]
 			[Description("")]
@@ -219,8 +197,22 @@ namespace MiniSqlQuery.PlugIns
 					}
 				}
 			}
-		}
 
-		#endregion
+			/// <summary>Gets or sets PlugInFileFilter.</summary>
+			[Category("Plugins")]
+			[Description("The file filter used for finding plugins (*.PlugIn.dll)")]
+			public string PlugInFileFilter
+			{
+				get { return _plugInFileFilter; }
+				set
+				{
+					if (_plugInFileFilter != value)
+					{
+						_plugInFileFilter = value;
+						OnPropertyChanged("PlugInFileFilter");
+					}
+				}
+			}
+		}
 	}
 }

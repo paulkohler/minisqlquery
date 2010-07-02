@@ -21,7 +21,7 @@ namespace MiniSqlQuery.Core.Commands
 			SmallImage = ImageResource.cog;
 		}
 
-		/// <summary>The execute.</summary>
+		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
 			string template =

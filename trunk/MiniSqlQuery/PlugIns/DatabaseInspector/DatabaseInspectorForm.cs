@@ -1,38 +1,66 @@
 ﻿#region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Media;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.DbModel;
-using WeifenLuo.WinFormsUI.Docking;
 using MiniSqlQuery.Properties;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.PlugIns.DatabaseInspector
 {
+	/// <summary>The database inspector form.</summary>
 	public partial class DatabaseInspectorForm : DockContent, IDatabaseInspector
 	{
+		/// <summary>The root tag.</summary>
 		private static readonly object RootTag = new object();
-		private static readonly object TablesTag = new object();
-		private static readonly object ViewsTag = new object();
-		private IDatabaseSchemaService _metaDataService;
-		private DbModelInstance _model;
-		private bool _populated;
-		private TreeNode _rightClickedNode;
-		private IDbModelNamedObject _rightClickedModelObject;
-		private ISqlWriter _sqlWriter;
-		private TreeNode _tablesNode;
-		private TreeNode _viewsNode;
 
-		private readonly IApplicationServices _services;
+		/// <summary>The tables tag.</summary>
+		private static readonly object TablesTag = new object();
+
+		/// <summary>The views tag.</summary>
+		private static readonly object ViewsTag = new object();
+
+		/// <summary>The _host window.</summary>
 		private readonly IHostWindow _hostWindow;
 
+		/// <summary>The _services.</summary>
+		private readonly IApplicationServices _services;
+
+		/// <summary>The _meta data service.</summary>
+		private IDatabaseSchemaService _metaDataService;
+
+		/// <summary>The _model.</summary>
+		private DbModelInstance _model;
+
+		/// <summary>The _populated.</summary>
+		private bool _populated;
+
+		/// <summary>The _right clicked model object.</summary>
+		private IDbModelNamedObject _rightClickedModelObject;
+
+		/// <summary>The _right clicked node.</summary>
+		private TreeNode _rightClickedNode;
+
+		/// <summary>The _sql writer.</summary>
+		private ISqlWriter _sqlWriter;
+
+		/// <summary>The _tables node.</summary>
+		private TreeNode _tablesNode;
+
+		/// <summary>The _views node.</summary>
+		private TreeNode _viewsNode;
+
+		/// <summary>Initializes a new instance of the <see cref="DatabaseInspectorForm"/> class.</summary>
+		/// <param name="services">The services.</param>
+		/// <param name="hostWindow">The host window.</param>
 		public DatabaseInspectorForm(IApplicationServices services, IHostWindow hostWindow)
 		{
 			InitializeComponent();
@@ -49,26 +77,25 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			_services.Settings.DatabaseConnectionReset += Settings_DatabaseConnectionReset;
 		}
 
-		/// <summary>
-		/// Builds the image list.
-		/// It's nicer to hadle image lists this way, easier to update etc
-		/// </summary>
-		private void BuildImageList()
+		/// <summary>Gets ColumnMenu.</summary>
+		public ContextMenuStrip ColumnMenu
 		{
-			InspectorImageList.Images.Add("Table", ImageResource.table);
-			InspectorImageList.Images.Add("Database", ImageResource.database);
-			InspectorImageList.Images.Add("Column", ImageResource.column);
-			InspectorImageList.Images.Add("Tables", ImageResource.table_multiple);
-			InspectorImageList.Images.Add("Views", ImageResource.view_multiple);
-			InspectorImageList.Images.Add("View", ImageResource.view);
-			InspectorImageList.Images.Add("Column-PK", ImageResource.key);
-			InspectorImageList.Images.Add("Column-FK", ImageResource.key_go_disabled);
-			InspectorImageList.Images.Add("Column-PK-FK", ImageResource.key_go);
-			InspectorImageList.Images.Add("Column-RowVersion", ImageResource.column_row_version);
+			get { return ColumnNameContextMenuStrip; }
 		}
 
-		#region IDatabaseInspector Members
+		/// <summary>Gets DbSchema.</summary>
+		public DbModelInstance DbSchema
+		{
+			get { return _model; }
+		}
 
+		/// <summary>Gets RightClickedModelObject.</summary>
+		public IDbModelNamedObject RightClickedModelObject
+		{
+			get { return _rightClickedModelObject; }
+		}
+
+		/// <summary>Gets RightClickedTableName.</summary>
 		public string RightClickedTableName
 		{
 			get
@@ -77,23 +104,25 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 				{
 					return null;
 				}
+
 				return _rightClickedNode.Text;
 			}
 		}
 
-		public IDbModelNamedObject RightClickedModelObject
+		/// <summary>Gets TableMenu.</summary>
+		public ContextMenuStrip TableMenu
 		{
-			get
-			{
-				return _rightClickedModelObject;
-			}
+			get { return TableNodeContextMenuStrip; }
 		}
 
-		public DbModelInstance DbSchema
+		/// <summary>The load database details.</summary>
+		public void LoadDatabaseDetails()
 		{
-			get { return _model; }
+			ExecLoadDatabaseDetails();
 		}
 
+		/// <summary>The navigate to.</summary>
+		/// <param name="modelObject">The model object.</param>
 		public void NavigateTo(IDbModelNamedObject modelObject)
 		{
 			if (modelObject == null)
@@ -112,6 +141,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 							SelectNode(treeNode);
 						}
 					}
+
 					break;
 				case ObjectTypes.View:
 					foreach (TreeNode treeNode in _viewsNode.Nodes)
@@ -122,13 +152,15 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 							SelectNode(treeNode);
 						}
 					}
+
 					break;
 				case ObjectTypes.Column:
 					DbModelColumn modelColumn = modelObject as DbModelColumn;
-					if (modelColumn!=null)
+					if (modelColumn != null)
 					{
-						foreach (TreeNode treeNode in _tablesNode.Nodes) // only look in the tables nodw for FK refs
+						foreach (TreeNode treeNode in _tablesNode.Nodes)
 						{
+// only look in the tables nodw for FK refs
 							DbModelTable modelTable = treeNode.Tag as DbModelTable;
 							if (modelTable != null && modelTable == modelColumn.ParentTable)
 							{
@@ -144,113 +176,86 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 							}
 						}
 					}
+
 					break;
 			}
 		}
 
-		private void SelectNode(TreeNode treeNode)
+		/// <summary>The build image key.</summary>
+		/// <param name="column">The column.</param>
+		/// <returns>The build image key.</returns>
+		private string BuildImageKey(DbModelColumn column)
 		{
-			if (treeNode.Parent != null)
+			string imageKey = column.ObjectType;
+			if (column.IsRowVersion)
 			{
-				treeNode.Parent.EnsureVisible();
-			}
-			treeNode.EnsureVisible();
-			DatabaseTreeView.SelectedNode = treeNode;
-			treeNode.Expand();
-		}
-
-		public ContextMenuStrip TableMenu
-		{
-			get { return TableNodeContextMenuStrip; }
-		}
-
-		public ContextMenuStrip ColumnMenu
-		{
-			get { return ColumnNameContextMenuStrip; }
-		}
-
-		public void LoadDatabaseDetails()
-		{
-			ExecLoadDatabaseDetails();
-		}
-
-		#endregion
-
-		private void Settings_DatabaseConnectionReset(object sender, EventArgs e)
-		{
-			_metaDataService = null;
-			_sqlWriter = null;
-			ExecLoadDatabaseDetails();
-		}
-
-		private void DatabaseInspectorForm_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (e.CloseReason == CloseReason.UserClosing)
-			{
-				Hide();
-				e.Cancel = true;
-			}
-		}
-
-		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			LoadDatabaseDetails();
-		}
-
-		private bool ExecLoadDatabaseDetails()
-		{
-			bool populate = false;
-			string connection = string.Empty;
-			bool success = false;
-
-			try
-			{
-				_hostWindow.SetPointerState(Cursors.WaitCursor);
-				if (_metaDataService == null)
-				{
-					_metaDataService = DatabaseMetaDataService.Create(_services.Settings.ConnectionDefinition.ProviderName);
-				}
-				connection = _metaDataService.GetDescription();
-				populate = true;
-			}
-			catch (Exception exp)
-			{
-				string msg = string.Format(
-					"{0}\r\n\r\nCheck the connection and select 'Reset Database Connection'.",
-					exp.Message);
-				_hostWindow.DisplaySimpleMessageBox(_hostWindow.Instance, msg, "DB Connection Error");
-				_hostWindow.SetStatus(this, exp.Message);
-			}
-			finally
-			{
-				_hostWindow.SetPointerState(Cursors.Default);
-			}
-
-			if (populate)
-			{
-				try
-				{
-					_hostWindow.SetPointerState(Cursors.WaitCursor);
-					_model = _metaDataService.GetDbObjectModel(_services.Settings.ConnectionDefinition.ConnectionString);
-				}
-				finally
-				{
-					_hostWindow.SetPointerState(Cursors.Default);
-				}
-
-				BuildTreeFromDbModel(connection);
-				_hostWindow.SetStatus(this, string.Empty);
-				success = true;
+				imageKey += "-RowVersion";
 			}
 			else
 			{
-				_populated = false;
-				DatabaseTreeView.CollapseAll();
+				if (column.IsKey)
+				{
+					imageKey += "-PK";
+				}
+
+				if (column.ForeignKeyReference != null)
+				{
+					imageKey += "-FK";
+				}
 			}
 
-			return success;
+			return imageKey;
 		}
 
+		/// <summary>Builds the image list.
+		/// It's nicer to hadle image lists this way, easier to update etc</summary>
+		private void BuildImageList()
+		{
+			InspectorImageList.Images.Add("Table", ImageResource.table);
+			InspectorImageList.Images.Add("Database", ImageResource.database);
+			InspectorImageList.Images.Add("Column", ImageResource.column);
+			InspectorImageList.Images.Add("Tables", ImageResource.table_multiple);
+			InspectorImageList.Images.Add("Views", ImageResource.view_multiple);
+			InspectorImageList.Images.Add("View", ImageResource.view);
+			InspectorImageList.Images.Add("Column-PK", ImageResource.key);
+			InspectorImageList.Images.Add("Column-FK", ImageResource.key_go_disabled);
+			InspectorImageList.Images.Add("Column-PK-FK", ImageResource.key_go);
+			InspectorImageList.Images.Add("Column-RowVersion", ImageResource.column_row_version);
+		}
+
+		/// <summary>The build tool tip.</summary>
+		/// <param name="table">The table.</param>
+		/// <param name="column">The column.</param>
+		/// <returns>The build tool tip.</returns>
+		private string BuildToolTip(DbModelTable table, DbModelColumn column)
+		{
+			string friendlyColumnName = Utility.MakeSqlFriendly(column.Name);
+			string toolTip = table.FullName + "." + friendlyColumnName;
+			if (column.IsKey)
+			{
+				toolTip += "; Primary Key";
+			}
+
+			if (column.IsAutoIncrement)
+			{
+				toolTip += "; Auto*";
+			}
+
+			if (column.ForeignKeyReference != null)
+			{
+				toolTip += string.Format("; FK -> {0}.{1}", column.ForeignKeyReference.ReferenceTable.FullName, column.ForeignKeyReference.ReferenceColumn.Name);
+			}
+
+			if (column.IsReadOnly)
+			{
+				toolTip += "; Read Only";
+			}
+
+			return toolTip;
+		}
+
+		/// <summary>The build tree from db model.</summary>
+		/// <param name="connection">The connection.</param>
 		private void BuildTreeFromDbModel(string connection)
 		{
 			DatabaseTreeView.Nodes.Clear();
@@ -261,6 +266,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			{
 				CreateTreeNodes(table);
 			}
+
 			foreach (DbModelView view in _model.Views)
 			{
 				CreateTreeNodes(view);
@@ -269,6 +275,34 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			DatabaseTreeView.Nodes.Add(root);
 		}
 
+		/// <summary>The create root nodes.</summary>
+		/// <returns></returns>
+		private TreeNode CreateRootNodes()
+		{
+			TreeNode root = new TreeNode(Resources.Database);
+			root.ImageKey = "Database";
+			root.SelectedImageKey = "Database";
+			root.ContextMenuStrip = InspectorContextMenuStrip;
+			root.Tag = RootTag;
+
+			_tablesNode = new TreeNode(Resources.Tables);
+			_tablesNode.ImageKey = "Tables";
+			_tablesNode.SelectedImageKey = "Tables";
+			_tablesNode.Tag = TablesTag;
+
+			_viewsNode = new TreeNode(Resources.Views);
+			_viewsNode.ImageKey = "Views";
+			_viewsNode.SelectedImageKey = "Views";
+			_viewsNode.Tag = ViewsTag;
+
+			root.Nodes.Add(_tablesNode);
+			root.Nodes.Add(_viewsNode);
+
+			return root;
+		}
+
+		/// <summary>The create tree nodes.</summary>
+		/// <param name="table">The table.</param>
 		private void CreateTreeNodes(DbModelTable table)
 		{
 			TreeNode tableNode = new TreeNode(table.FullName);
@@ -305,102 +339,29 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			}
 		}
 
-		private string BuildImageKey(DbModelColumn column)
+		/// <summary>The database inspector form_ form closing.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void DatabaseInspectorForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			string imageKey = column.ObjectType;
-			if (column.IsRowVersion)
+			if (e.CloseReason == CloseReason.UserClosing)
 			{
-				imageKey += "-RowVersion";
+				Hide();
+				e.Cancel = true;
 			}
-			else
-			{
-				if (column.IsKey)
-				{
-					imageKey += "-PK";
-				}
-				if (column.ForeignKeyReference != null)
-				{
-					imageKey += "-FK";
-				}
-			}
-			return imageKey;
-		}
-
-		private string BuildToolTip(DbModelTable table, DbModelColumn column)
-		{
-			string friendlyColumnName = Utility.MakeSqlFriendly(column.Name);
-			string toolTip = table.FullName + "." + friendlyColumnName;
-			if (column.IsKey)
-			{
-				toolTip += "; Primary Key";
-			}
-			if (column.IsAutoIncrement)
-			{
-				toolTip += "; Auto*";
-			}
-			if (column.ForeignKeyReference != null)
-			{
-				toolTip += string.Format("; FK -> {0}.{1}", column.ForeignKeyReference.ReferenceTable.FullName, column.ForeignKeyReference.ReferenceColumn.Name);
-			}
-			if (column.IsReadOnly)
-			{
-				toolTip += "; Read Only";
-			}
-			return toolTip;
-		}
-
-		private TreeNode CreateRootNodes()
-		{
-			TreeNode root = new TreeNode(Resources.Database);
-			root.ImageKey = "Database";
-			root.SelectedImageKey = "Database";
-			root.ContextMenuStrip = InspectorContextMenuStrip;
-			root.Tag = RootTag;
-
-			_tablesNode = new TreeNode(Resources.Tables);
-			_tablesNode.ImageKey = "Tables";
-			_tablesNode.SelectedImageKey = "Tables";
-			_tablesNode.Tag = TablesTag;
-
-			_viewsNode = new TreeNode(Resources.Views);
-			_viewsNode.ImageKey = "Views";
-			_viewsNode.SelectedImageKey = "Views";
-			_viewsNode.Tag = ViewsTag;
-
-			root.Nodes.Add(_tablesNode);
-			root.Nodes.Add(_viewsNode);
-
-			return root;
 		}
 
 
-		private void SetText(string text)
+		/// <summary>The database inspector form_ load.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void DatabaseInspectorForm_Load(object sender, EventArgs e)
 		{
-			IQueryEditor editor = _hostWindow.ActiveChildForm as IQueryEditor;
-
-			if (editor != null)
-			{
-				editor.InsertText(text);
-			}
-			else
-			{
-				SystemSounds.Beep.Play();
-			}
 		}
 
-		private void DatabaseTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-		{
-			TreeNode node = e.Node;
-			if (e.Button == MouseButtons.Left)
-			{
-				IDbModelNamedObject namedObject = node.Tag as IDbModelNamedObject;
-				if (namedObject != null)
-				{
-					SetText(namedObject.FullName);
-				}
-			}
-		}
-
+		/// <summary>The database tree view_ before expand.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void DatabaseTreeView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
 		{
 			TreeNode node = e.Node;
@@ -421,10 +382,9 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			}
 		}
 
-		private void DatabaseInspectorForm_Load(object sender, EventArgs e)
-		{
-		}
-
+		/// <summary>The database tree view_ node mouse click.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void DatabaseTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
 			TreeNode node = e.Node;
@@ -433,8 +393,8 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 				IDbModelNamedObject namedObject = node.Tag as IDbModelNamedObject;
 				_rightClickedModelObject = namedObject;
 
-				if (namedObject != null && 
-					(namedObject.ObjectType == ObjectTypes.Table || namedObject.ObjectType == ObjectTypes.View))
+				if (namedObject != null &&
+				    (namedObject.ObjectType == ObjectTypes.Table || namedObject.ObjectType == ObjectTypes.View))
 				{
 					_rightClickedNode = node;
 				}
@@ -445,6 +405,82 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			}
 		}
 
+		/// <summary>The database tree view_ node mouse double click.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void DatabaseTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+		{
+			TreeNode node = e.Node;
+			if (e.Button == MouseButtons.Left)
+			{
+				IDbModelNamedObject namedObject = node.Tag as IDbModelNamedObject;
+				if (namedObject != null)
+				{
+					SetText(namedObject.FullName);
+				}
+			}
+		}
+
+		/// <summary>The exec load database details.</summary>
+		/// <returns>The exec load database details.</returns>
+		private bool ExecLoadDatabaseDetails()
+		{
+			bool populate = false;
+			string connection = string.Empty;
+			bool success = false;
+
+			try
+			{
+				_hostWindow.SetPointerState(Cursors.WaitCursor);
+				if (_metaDataService == null)
+				{
+					_metaDataService = DatabaseMetaDataService.Create(_services.Settings.ConnectionDefinition.ProviderName);
+				}
+
+				connection = _metaDataService.GetDescription();
+				populate = true;
+			}
+			catch (Exception exp)
+			{
+				string msg = string.Format(
+					"{0}\r\n\r\nCheck the connection and select 'Reset Database Connection'.", 
+					exp.Message);
+				_hostWindow.DisplaySimpleMessageBox(_hostWindow.Instance, msg, "DB Connection Error");
+				_hostWindow.SetStatus(this, exp.Message);
+			}
+			finally
+			{
+				_hostWindow.SetPointerState(Cursors.Default);
+			}
+
+			if (populate)
+			{
+				try
+				{
+					_hostWindow.SetPointerState(Cursors.WaitCursor);
+					_model = _metaDataService.GetDbObjectModel(_services.Settings.ConnectionDefinition.ConnectionString);
+				}
+				finally
+				{
+					_hostWindow.SetPointerState(Cursors.Default);
+				}
+
+				BuildTreeFromDbModel(connection);
+				_hostWindow.SetStatus(this, string.Empty);
+				success = true;
+			}
+			else
+			{
+				_populated = false;
+				DatabaseTreeView.CollapseAll();
+			}
+
+			return success;
+		}
+
+		/// <summary>The get summary.</summary>
+		/// <param name="column">The column.</param>
+		/// <returns>The get summary.</returns>
 		private string GetSummary(DbModelColumn column)
 		{
 			StringWriter stringWriter = new StringWriter();
@@ -452,8 +488,57 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			{
 				_sqlWriter = _services.Resolve<ISqlWriter>();
 			}
+
 			_sqlWriter.WriteSummary(stringWriter, column);
 			return stringWriter.ToString();
+		}
+
+		/// <summary>The select node.</summary>
+		/// <param name="treeNode">The tree node.</param>
+		private void SelectNode(TreeNode treeNode)
+		{
+			if (treeNode.Parent != null)
+			{
+				treeNode.Parent.EnsureVisible();
+			}
+
+			treeNode.EnsureVisible();
+			DatabaseTreeView.SelectedNode = treeNode;
+			treeNode.Expand();
+		}
+
+		/// <summary>The set text.</summary>
+		/// <param name="text">The text.</param>
+		private void SetText(string text)
+		{
+			IQueryEditor editor = _hostWindow.ActiveChildForm as IQueryEditor;
+
+			if (editor != null)
+			{
+				editor.InsertText(text);
+			}
+			else
+			{
+				SystemSounds.Beep.Play();
+			}
+		}
+
+		/// <summary>The settings_ database connection reset.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void Settings_DatabaseConnectionReset(object sender, EventArgs e)
+		{
+			_metaDataService = null;
+			_sqlWriter = null;
+			ExecLoadDatabaseDetails();
+		}
+
+		/// <summary>The load tool strip menu item_ click.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			LoadDatabaseDetails();
 		}
 	}
 }

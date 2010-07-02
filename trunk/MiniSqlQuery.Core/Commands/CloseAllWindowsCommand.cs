@@ -27,7 +27,7 @@ namespace MiniSqlQuery.Core.Commands
 			get { return HostWindow.ActiveChildForm != null; }
 		}
 
-		/// <summary>The execute.</summary>
+		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
 			Form[] forms = HostWindow.Instance.MdiChildren;

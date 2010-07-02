@@ -1,8 +1,10 @@
 ﻿#region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
@@ -10,17 +12,20 @@ using MiniSqlQuery.PlugIns.DatabaseInspector.Commands;
 
 namespace MiniSqlQuery.PlugIns.DatabaseInspector
 {
+	/// <summary>The database inspector loader.</summary>
 	public class DatabaseInspectorLoader : PluginLoaderBase
 	{
+		/// <summary>Initializes a new instance of the <see cref="DatabaseInspectorLoader"/> class.</summary>
 		public DatabaseInspectorLoader()
 			: base(
-				"Database Inspector",
-				"A Mini SQL Query Plugin for displaying the database schema in a tree view",
+				"Database Inspector", 
+				"A Mini SQL Query Plugin for displaying the database schema in a tree view", 
 				20)
 		{
 		}
 
-		public override void InitializePlugIn() 
+		/// <summary>Iinitialize the plug in.</summary>
+		public override void InitializePlugIn()
 		{
 			Services.RegisterSingletonComponent<IDatabaseInspector, DatabaseInspectorForm>("DatabaseInspector");
 			Services.RegisterComponent<FindObjectForm>("FindObjectForm");
@@ -45,6 +50,5 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			// todo: bug - the opening event is not firing....
 			CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(hostWindow.DatabaseInspector.ColumnMenu);
 		}
-
 	}
 }

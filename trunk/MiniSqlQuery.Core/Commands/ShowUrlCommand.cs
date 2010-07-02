@@ -29,7 +29,7 @@ namespace MiniSqlQuery.Core.Commands
 		/// <value>The url.</value>
 		public string Url { get; protected set; }
 
-		/// <summary>The execute.</summary>
+		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
 			Utility.ShowUrl(Url);

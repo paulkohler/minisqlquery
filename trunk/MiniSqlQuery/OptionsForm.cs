@@ -1,8 +1,10 @@
 ﻿#region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,13 +13,24 @@ using MiniSqlQuery.Core;
 
 namespace MiniSqlQuery
 {
+	/// <summary>The options form.</summary>
 	public partial class OptionsForm : Form
 	{
+		/// <summary>The _configuration objects.</summary>
 		private readonly List<IConfigurationObject> _configurationObjects = new List<IConfigurationObject>();
+
+		/// <summary>The _host.</summary>
 		private readonly IHostWindow _host;
+
+		/// <summary>The _property grid.</summary>
 		private readonly PropertyGrid _propertyGrid;
+
+		/// <summary>The _services.</summary>
 		private readonly IApplicationServices _services;
 
+		/// <summary>Initializes a new instance of the <see cref="OptionsForm"/> class.</summary>
+		/// <param name="applicationServices">The application services.</param>
+		/// <param name="hostWindow">The host window.</param>
 		public OptionsForm(IApplicationServices applicationServices, IHostWindow hostWindow)
 		{
 			InitializeComponent();
@@ -31,6 +44,7 @@ namespace MiniSqlQuery
 			_host = hostWindow;
 		}
 
+		/// <summary>Gets ConfigurationObject.</summary>
 		private IConfigurationObject ConfigurationObject
 		{
 			get
@@ -39,10 +53,62 @@ namespace MiniSqlQuery
 				{
 					return _configurationObjects[lstSettingsProviders.SelectedIndex];
 				}
+
 				return null;
 			}
 		}
 
+		/// <summary>The ask to save changes.</summary>
+		/// <returns></returns>
+		private DialogResult AskToSaveChanges()
+		{
+			return _host.DisplayMessageBox(null, "Configuration changes made, would you like to save them?", "Save Changes?", MessageBoxButtons.YesNo, 
+			                               MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, 
+			                               MessageBoxOptions.ServiceNotification, null, null);
+		}
+
+		/// <summary>The config object property changed.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void ConfigObjectPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "IsDirty")
+			{
+				string title = "Options";
+				if (((IConfigurationObject)sender).IsDirty)
+				{
+					title += "*";
+				}
+
+				Text = title;
+			}
+		}
+
+		/// <summary>The options form_ form closing.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void OptionsForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (ConfigurationObject != null)
+			{
+				if (ConfigurationObject.IsDirty)
+				{
+					DialogResult result = AskToSaveChanges();
+					if (result == DialogResult.Yes)
+					{
+						ConfigurationObject.Save();
+					}
+					else if (result == DialogResult.Cancel)
+					{
+						e.Cancel = true;
+					}
+				}
+			}
+		}
+
+		/// <summary>The options form_ load.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void OptionsForm_Load(object sender, EventArgs e)
 		{
 			var cofigTypes = _services.GetConfigurationObjectTypes();
@@ -67,15 +133,22 @@ namespace MiniSqlQuery
 			}
 		}
 
+		/// <summary>The btn o k_ click.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void btnOK_Click(object sender, EventArgs e)
 		{
 			if (ConfigurationObject != null)
 			{
 				ConfigurationObject.Save();
 			}
+
 			Close();
 		}
 
+		/// <summary>The list box 1_ selected value changed.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void listBox1_SelectedValueChanged(object sender, EventArgs e)
 		{
 			if (ConfigurationObject != null)
@@ -100,45 +173,5 @@ namespace MiniSqlQuery
 				}
 			}
 		}
-
-		private void ConfigObjectPropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "IsDirty")
-			{
-				string title = "Options";
-				if (((IConfigurationObject) sender).IsDirty)
-				{
-					title += "*";
-				}
-				Text = title;
-			}
-		}
-
-		private void OptionsForm_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (ConfigurationObject != null)
-			{
-				if (ConfigurationObject.IsDirty)
-				{
-					DialogResult result = AskToSaveChanges();
-					if (result == DialogResult.Yes)
-					{
-						ConfigurationObject.Save();
-					}
-					else if (result == DialogResult.Cancel)
-					{
-						e.Cancel = true;
-					}
-				}
-			}
-		}
-
-		private DialogResult AskToSaveChanges()
-		{
-			return _host.DisplayMessageBox(null, "Configuration changes made, would you like to save them?", "Save Changes?", MessageBoxButtons.YesNo,
-			                               MessageBoxIcon.Question, MessageBoxDefaultButton.Button1,
-			                               MessageBoxOptions.ServiceNotification, null, null);
-		}
-
 	}
 }

@@ -1,8 +1,10 @@
 ﻿#region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
@@ -10,19 +12,19 @@ using MiniSqlQuery.Core.Commands;
 
 namespace MiniSqlQuery.PlugIns.SearchTools.Commands
 {
+	/// <summary>The find next string command.</summary>
 	public class FindNextStringCommand : CommandBase
 	{
+		/// <summary>Initializes a new instance of the <see cref="FindNextStringCommand"/> class.</summary>
 		public FindNextStringCommand() : base("Find Next String")
 		{
 			SmallImage = ImageResource.find;
 			ShortcutKeys = Keys.F3;
 		}
 
-		/// <summary>
-		/// Two execution methods - through the "Find Text" window or by hitting F3.
+		/// <summary>Two execution methods - through the "Find Text" window or by hitting F3.
 		/// If simply hitting F3, we are executing the current search from current cursor position for this window.
-		/// Different windows can also have different search text.
-		/// </summary>
+		/// Different windows can also have different search text.</summary>
 		public override void Execute()
 		{
 			IFindReplaceProvider editorFindProvider = HostWindow.ActiveChildForm as IFindReplaceProvider;

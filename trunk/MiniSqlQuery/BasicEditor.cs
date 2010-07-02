@@ -1,8 +1,10 @@
 ﻿#region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -15,22 +17,37 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery
 {
+	/// <summary>The basic editor.</summary>
 	public partial class BasicEditor : DockContent, IEditor, IFindReplaceProvider, INavigatableDocument
 	{
+		/// <summary>The _services.</summary>
 		private readonly IApplicationServices _services;
+
+		/// <summary>The _settings.</summary>
 		private readonly IApplicationSettings _settings;
 
+		/// <summary>The _file name.</summary>
 		private string _fileName;
+
+		/// <summary>The _highlighting provider loaded.</summary>
 		private bool _highlightingProviderLoaded;
+
+		/// <summary>The _is dirty.</summary>
 		private bool _isDirty;
+
+		/// <summary>The _text find service.</summary>
 		private ITextFindService _textFindService;
 
+		/// <summary>Initializes a new instance of the <see cref="BasicEditor"/> class.</summary>
 		public BasicEditor()
 		{
 			InitializeComponent();
 			txtEdit.Document.DocumentChanged += DocumentDocumentChanged;
 		}
 
+		/// <summary>Initializes a new instance of the <see cref="BasicEditor"/> class.</summary>
+		/// <param name="services">The services.</param>
+		/// <param name="settings">The settings.</param>
 		public BasicEditor(IApplicationServices services, IApplicationSettings settings)
 			: this()
 		{
@@ -46,26 +63,46 @@ namespace MiniSqlQuery
 			CommandControlBuilder.MonitorMenuItemsOpeningForEnabling(formContextMenuStrip);
 		}
 
-		#region IEditor Members
-
-		public string SelectedText
-		{
-			get { return txtEdit.ActiveTextAreaControl.SelectionManager.SelectedText; }
-		}
-
+		/// <summary>Gets or sets AllText.</summary>
 		public string AllText
 		{
 			get { return txtEdit.Text; }
 			set { txtEdit.Text = value; }
 		}
 
-		public void SetSyntax(string name)
+		/// <summary>Gets a value indicating whether CanReplaceText.</summary>
+		public bool CanReplaceText
 		{
-			LoadHighlightingProvider();
-			txtEdit.SetHighlighting(name);
+			get { return true; }
 		}
 
+		/// <summary>Gets or sets CursorColumn.</summary>
+		public int CursorColumn
+		{
+			get { return txtEdit.ActiveTextAreaControl.Caret.Column; }
+			set { txtEdit.ActiveTextAreaControl.Caret.Column = value; }
+		}
 
+		/// <summary>Gets or sets CursorLine.</summary>
+		public int CursorLine
+		{
+			get { return txtEdit.ActiveTextAreaControl.Caret.Line; }
+			set { txtEdit.ActiveTextAreaControl.Caret.Line = value; }
+		}
+
+		/// <summary>Gets CursorOffset.</summary>
+		public int CursorOffset
+		{
+			get { return txtEdit.ActiveTextAreaControl.Caret.Offset; }
+		}
+
+		/// <summary>Gets FileFilter.</summary>
+		public virtual string FileFilter
+		{
+			get { return "Text Files (*.txt)|*.txt|All Files (*.*)|*.*"; }
+		}
+
+		/// <summary>Gets or sets FileName.</summary>
 		public string FileName
 		{
 			get { return _fileName; }
@@ -77,11 +114,7 @@ namespace MiniSqlQuery
 			}
 		}
 
-		public virtual string FileFilter
-		{
-			get { return "Text Files (*.txt)|*.txt|All Files (*.*)|*.*"; }
-		}
-
+		/// <summary>Gets or sets a value indicating whether IsDirty.</summary>
 		public bool IsDirty
 		{
 			get { return _isDirty; }
@@ -95,19 +128,72 @@ namespace MiniSqlQuery
 			}
 		}
 
-
-		public void LoadFile()
+		/// <summary>Gets SelectedText.</summary>
+		public string SelectedText
 		{
-			txtEdit.LoadFile(FileName);
-			IsDirty = false;
+			get { return txtEdit.ActiveTextAreaControl.SelectionManager.SelectedText; }
 		}
 
-		public void SaveFile()
+		/// <summary>Gets TextFindService.</summary>
+		public ITextFindService TextFindService
 		{
-			txtEdit.SaveFile(FileName);
-			IsDirty = false;
+			get
+			{
+				if (_textFindService == null)
+				{
+					_textFindService = _services.Container.Resolve<ITextFindService>();
+				}
+
+				return _textFindService;
+			}
 		}
 
+		/// <summary>Gets TotalLines.</summary>
+		public int TotalLines
+		{
+			get { return txtEdit.Document.TotalNumberOfLines; }
+		}
+
+		/// <summary>The load highlighting provider.</summary>
+		public void LoadHighlightingProvider()
+		{
+			if (_highlightingProviderLoaded)
+			{
+				return;
+			}
+
+			// see: http://wiki.sharpdevelop.net/Syntax%20highlighting.ashx
+			string dir = Path.GetDirectoryName(GetType().Assembly.Location);
+			FileSyntaxModeProvider fsmProvider = new FileSyntaxModeProvider(dir);
+			HighlightingManager.Manager.AddSyntaxModeFileProvider(fsmProvider); // Attach to the text editor.
+			_highlightingProviderLoaded = true;
+		}
+
+		/// <summary>The clear selection.</summary>
+		public void ClearSelection()
+		{
+			txtEdit.ActiveTextAreaControl.SelectionManager.ClearSelection();
+		}
+
+		/// <summary>The highlight string.</summary>
+		/// <param name="offset">The offset.</param>
+		/// <param name="length">The length.</param>
+		public void HighlightString(int offset, int length)
+		{
+			if (offset < 0 || length < 1)
+			{
+				return;
+			}
+
+			int endPos = offset + length;
+			txtEdit.ActiveTextAreaControl.SelectionManager.SetSelection(
+				txtEdit.Document.OffsetToPosition(offset), 
+				txtEdit.Document.OffsetToPosition(endPos));
+			SetCursorByOffset(endPos);
+		}
+
+		/// <summary>The insert text.</summary>
+		/// <param name="text">The text.</param>
 		public void InsertText(string text)
 		{
 			if (string.IsNullOrEmpty(text))
@@ -136,57 +222,34 @@ namespace MiniSqlQuery
 			txtEdit.Focus();
 		}
 
-		public void HighlightString(int offset, int length)
-		{
-			if (offset < 0 || length < 1)
-			{
-				return;
-			}
 
-			int endPos = offset + length;
-			txtEdit.ActiveTextAreaControl.SelectionManager.SetSelection(
-				txtEdit.Document.OffsetToPosition(offset),
-				txtEdit.Document.OffsetToPosition(endPos));
-			SetCursorByOffset(endPos);
+		/// <summary>The load file.</summary>
+		public void LoadFile()
+		{
+			txtEdit.LoadFile(FileName);
+			IsDirty = false;
 		}
 
-		public void ClearSelection()
+		/// <summary>The save file.</summary>
+		public void SaveFile()
 		{
-			txtEdit.ActiveTextAreaControl.SelectionManager.ClearSelection();
+			txtEdit.SaveFile(FileName);
+			IsDirty = false;
 		}
 
-		#endregion
-
-		#region IFindReplaceProvider Members
-
-		public int CursorOffset
+		/// <summary>The set syntax.</summary>
+		/// <param name="name">The name.</param>
+		public void SetSyntax(string name)
 		{
-			get { return txtEdit.ActiveTextAreaControl.Caret.Offset; }
+			LoadHighlightingProvider();
+			txtEdit.SetHighlighting(name);
 		}
 
-		public ITextFindService TextFindService
-		{
-			get
-			{
-				if (_textFindService == null)
-				{
-					_textFindService = _services.Container.Resolve<ITextFindService>();
-				}
-				return _textFindService;
-			}
-		}
-
-		public void SetTextFindService(ITextFindService textFindService)
-		{
-			// accept nulls infering a reset
-			_textFindService = textFindService;
-		}
-
-		public bool CanReplaceText
-		{
-			get { return true; }
-		}
-
+		/// <summary>The find string.</summary>
+		/// <param name="value">The value.</param>
+		/// <param name="startIndex">The start index.</param>
+		/// <param name="comparisonType">The comparison type.</param>
+		/// <returns>The find string.</returns>
 		public int FindString(string value, int startIndex, StringComparison comparisonType)
 		{
 			if (string.IsNullOrEmpty(value) || startIndex < 0)
@@ -205,6 +268,11 @@ namespace MiniSqlQuery
 			return pos;
 		}
 
+		/// <summary>The replace string.</summary>
+		/// <param name="value">The value.</param>
+		/// <param name="startIndex">The start index.</param>
+		/// <param name="length">The length.</param>
+		/// <returns>The replace string.</returns>
 		public bool ReplaceString(string value, int startIndex, int length)
 		{
 			if (value == null || startIndex < 0 || length < 0)
@@ -222,21 +290,18 @@ namespace MiniSqlQuery
 			return true;
 		}
 
-		#endregion
-
-		#region INavigatableDocument Members
-
-		public bool SetCursorByOffset(int offset)
+		/// <summary>The set text find service.</summary>
+		/// <param name="textFindService">The text find service.</param>
+		public void SetTextFindService(ITextFindService textFindService)
 		{
-			if (offset >= 0)
-			{
-				txtEdit.ActiveTextAreaControl.Caret.Position = txtEdit.Document.OffsetToPosition(offset);
-				return true;
-			}
-
-			return false;
+			// accept nulls infering a reset
+			_textFindService = textFindService;
 		}
 
+		/// <summary>The set cursor by location.</summary>
+		/// <param name="line">The line.</param>
+		/// <param name="column">The column.</param>
+		/// <returns>The set cursor by location.</returns>
 		public bool SetCursorByLocation(int line, int column)
 		{
 			if (line > TotalLines)
@@ -250,45 +315,78 @@ namespace MiniSqlQuery
 			return true;
 		}
 
-		public int CursorLine
+		/// <summary>The set cursor by offset.</summary>
+		/// <param name="offset">The offset.</param>
+		/// <returns>The set cursor by offset.</returns>
+		public bool SetCursorByOffset(int offset)
 		{
-			get { return txtEdit.ActiveTextAreaControl.Caret.Line; }
-			set { txtEdit.ActiveTextAreaControl.Caret.Line = value; }
+			if (offset >= 0)
+			{
+				txtEdit.ActiveTextAreaControl.Caret.Position = txtEdit.Document.OffsetToPosition(offset);
+				return true;
+			}
+
+			return false;
 		}
 
-		public int CursorColumn
+		/// <summary>The basic editor_ form closing.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void BasicEditor_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			get { return txtEdit.ActiveTextAreaControl.Caret.Column; }
-			set { txtEdit.ActiveTextAreaControl.Caret.Column = value; }
+			if (_isDirty)
+			{
+				DialogResult saveFile = _services.HostWindow.DisplayMessageBox(
+					this, 
+					"Contents changed, do you want to save the file?\r\n" + TabText, "Save Changes?", 
+					MessageBoxButtons.YesNoCancel, 
+					MessageBoxIcon.Question, 
+					MessageBoxDefaultButton.Button1, 
+					0, 
+					null, 
+					null);
+
+				if (saveFile == DialogResult.Cancel)
+				{
+					e.Cancel = true;
+				}
+				else if (saveFile == DialogResult.Yes)
+				{
+					CommandManager.GetCommandInstance<SaveFileCommand>().Execute();
+				}
+			}
 		}
 
-		public int TotalLines
+		/// <summary>The basic editor_ load.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void BasicEditor_Load(object sender, EventArgs e)
 		{
-			get { return txtEdit.Document.TotalNumberOfLines; }
+#if DEBUG
+			lblEditorInfo.Text = GetType().FullName;
+#else
+			panel1.Visible = false;
+#endif
 		}
 
-		#endregion
+		/// <summary>The document document changed.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void DocumentDocumentChanged(object sender, DocumentEventArgs e)
+		{
+			IsDirty = true;
+		}
 
+		/// <summary>The get value.</summary>
+		/// <param name="name">The name.</param>
+		/// <returns>The get value.</returns>
 		private string GetValue(string name)
 		{
 			string val = Interaction.InputBox(string.Format("Value for '{0}'", name), "Supply a Value", name, -1, -1);
 			return val;
 		}
 
-		public void LoadHighlightingProvider()
-		{
-			if (_highlightingProviderLoaded)
-			{
-				return;
-			}
-
-			// see: http://wiki.sharpdevelop.net/Syntax%20highlighting.ashx
-			string dir = Path.GetDirectoryName(GetType().Assembly.Location);
-			FileSyntaxModeProvider fsmProvider = new FileSyntaxModeProvider(dir);
-			HighlightingManager.Manager.AddSyntaxModeFileProvider(fsmProvider); // Attach to the text editor.
-			_highlightingProviderLoaded = true;
-		}
-
+		/// <summary>The set tab text by filename.</summary>
 		private void SetTabTextByFilename()
 		{
 			string dirty = string.Empty;
@@ -313,45 +411,6 @@ namespace MiniSqlQuery
 
 			TabText = tabtext + dirty;
 			ToolTipText = text + dirty;
-		}
-
-		private void DocumentDocumentChanged(object sender, DocumentEventArgs e)
-		{
-			IsDirty = true;
-		}
-
-		private void BasicEditor_Load(object sender, EventArgs e)
-		{
-#if DEBUG
-			lblEditorInfo.Text = GetType().FullName;
-#else
-			panel1.Visible = false;
-#endif
-		}
-
-		private void BasicEditor_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (_isDirty)
-			{
-				DialogResult saveFile = _services.HostWindow.DisplayMessageBox(
-					this,
-					"Contents changed, do you want to save the file?\r\n" + TabText, "Save Changes?",
-					MessageBoxButtons.YesNoCancel,
-					MessageBoxIcon.Question,
-					MessageBoxDefaultButton.Button1,
-					0,
-					null,
-					null);
-
-				if (saveFile == DialogResult.Cancel)
-				{
-					e.Cancel = true;
-				}
-				else if (saveFile == DialogResult.Yes)
-				{
-					CommandManager.GetCommandInstance<SaveFileCommand>().Execute();
-				}
-			}
 		}
 	}
 }

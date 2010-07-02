@@ -1,27 +1,31 @@
 ﻿#region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.Data;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Commands;
 using MiniSqlQuery.Core.Forms;
-using MiniSqlQuery.Properties;
 
 namespace MiniSqlQuery.Commands
 {
+	/// <summary>The save results as data set command.</summary>
 	public class SaveResultsAsDataSetCommand
 		: CommandBase
 	{
+		/// <summary>Initializes a new instance of the <see cref="SaveResultsAsDataSetCommand"/> class.</summary>
 		public SaveResultsAsDataSetCommand()
 			: base("Save Results as DataSet XML...")
 		{
 			SmallImage = ImageResource.table_save;
 		}
 
+		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
 			IQueryBatchProvider batchProvider = HostWindow.ActiveChildForm as IQueryBatchProvider;
@@ -56,7 +60,7 @@ namespace MiniSqlQuery.Commands
 				{
 					return;
 				}
-				
+
 				using (SaveFileDialog saveFileDialog = new SaveFileDialog())
 				{
 					saveFileDialog.Title = "Save Results as DataSet XML";

@@ -1,8 +1,10 @@
 ﻿#region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,23 +18,42 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.PlugIns.ViewTable
 {
+	/// <summary>The view table form.</summary>
 	public partial class ViewTableForm : DockContent, IViewTable
 	{
+		/// <summary>The _batch.</summary>
 		private readonly QueryBatch _batch;
+
+		/// <summary>The _services.</summary>
 		private readonly IApplicationServices _services;
+
+		/// <summary>The _settings.</summary>
 		private readonly IApplicationSettings _settings;
+
+		/// <summary>The _sync lock.</summary>
 		private readonly object _syncLock = new object();
 
+		/// <summary>The _db connection.</summary>
 		private DbConnection _dbConnection;
+
+		/// <summary>The _is busy.</summary>
 		private bool _isBusy;
+
+		/// <summary>The _meta data service.</summary>
 		private IDatabaseSchemaService _metaDataService;
+
+		/// <summary>The _status.</summary>
 		private string _status = string.Empty;
 
+		/// <summary>Initializes a new instance of the <see cref="ViewTableForm"/> class.</summary>
 		public ViewTableForm()
 		{
 			InitializeComponent();
 		}
 
+		/// <summary>Initializes a new instance of the <see cref="ViewTableForm"/> class.</summary>
+		/// <param name="services">The services.</param>
+		/// <param name="settings">The settings.</param>
 		public ViewTableForm(IApplicationServices services, IApplicationSettings settings)
 			: this()
 		{
@@ -48,39 +69,37 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			_services.SystemMessagePosted += ServicesSystemMessagePosted;
 		}
 
-		#region IViewTable Members
-
-		public string TableName
-		{
-			get { return cboTableName.Text; }
-			set { cboTableName.Text = value; }
-		}
-
-		public override string Text
-		{
-			get { return base.Text; }
-			set
-			{
-				base.Text = value;
-				TabText = Text;
-			}
-		}
-
+		/// <summary>Gets a value indicating whether AutoReload.</summary>
 		public bool AutoReload
 		{
 			get { return chkAutoReload.Checked; }
 		}
 
-		public void ExecuteTask()
+		/// <summary>Gets Batch.</summary>
+		public QueryBatch Batch
 		{
-			LoadTableData();
+			get { return _batch; }
 		}
 
-		public void CancelTask()
+		/// <summary>Gets CursorColumn.</summary>
+		public int CursorColumn
 		{
-			// not supported (yet?)
+			get { return dataGridViewResult.SelectedCells.Count > 0 ? dataGridViewResult.SelectedCells[0].ColumnIndex : 0; }
 		}
 
+		/// <summary>Gets CursorLine.</summary>
+		public int CursorLine
+		{
+			get { return (dataGridViewResult.CurrentRow != null) ? dataGridViewResult.CurrentRow.Index : 0; }
+		}
+
+		/// <summary>Gets CursorOffset.</summary>
+		public int CursorOffset
+		{
+			get { return CursorLine; }
+		}
+
+		/// <summary>Gets or sets a value indicating whether IsBusy.</summary>
 		public bool IsBusy
 		{
 			get { return _isBusy; }
@@ -93,13 +112,84 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			}
 		}
 
-		public QueryBatch Batch
+		/// <summary>Gets or sets TableName.</summary>
+		public string TableName
 		{
-			get { return _batch; }
+			get { return cboTableName.Text; }
+			set { cboTableName.Text = value; }
 		}
 
-		#endregion
+		/// <summary>Gets or sets Text.</summary>
+		public override string Text
+		{
+			get { return base.Text; }
+			set
+			{
+				base.Text = value;
+				TabText = Text;
+			}
+		}
 
+		/// <summary>Gets TotalLines.</summary>
+		public int TotalLines
+		{
+			get { return (dataGridViewResult.DataSource != null) ? dataGridViewResult.Rows.Count : 0; }
+		}
+
+		/// <summary>The set status.</summary>
+		/// <param name="text">The text.</param>
+		public void SetStatus(string text)
+		{
+			_status = text;
+			UpdateHostStatus();
+		}
+
+		/// <summary>The set cursor by location.</summary>
+		/// <param name="line">The line.</param>
+		/// <param name="column">The column.</param>
+		/// <returns>The set cursor by location.</returns>
+		public bool SetCursorByLocation(int line, int column)
+		{
+			if (line > 0 && line <= TotalLines)
+			{
+				dataGridViewResult.FirstDisplayedScrollingRowIndex = line;
+				dataGridViewResult.Refresh();
+				dataGridViewResult.Rows[line].Selected = true;
+				return true;
+			}
+
+			return false;
+		}
+
+		/// <summary>The set cursor by offset.</summary>
+		/// <param name="offset">The offset.</param>
+		/// <returns>The set cursor by offset.</returns>
+		public bool SetCursorByOffset(int offset)
+		{
+			return SetCursorByLocation(offset, 0);
+		}
+
+		/// <summary>The cancel task.</summary>
+		public void CancelTask()
+		{
+			// not supported (yet?)
+		}
+
+		/// <summary>The execute task.</summary>
+		public void ExecuteTask()
+		{
+			LoadTableData();
+		}
+
+		/// <summary>The update host status.</summary>
+		protected void UpdateHostStatus()
+		{
+			_services.HostWindow.SetStatus(this, _status);
+		}
+
+		/// <summary>The data grid view result data binding complete.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void DataGridViewResultDataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
 		{
 			DataTable dt = dataGridViewResult.DataSource as DataTable;
@@ -112,7 +202,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			string dateTimeFormat = _settings.DateTimeFormat;
 			for (int i = 0; i < dt.Columns.Count; i++)
 			{
-				if (dt.Columns[i].DataType == typeof (DateTime))
+				if (dt.Columns[i].DataType == typeof(DateTime))
 				{
 					DataGridViewCellStyle dateCellStyle = new DataGridViewCellStyle();
 					dateCellStyle.NullValue = nullText;
@@ -122,38 +212,30 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			}
 		}
 
-		private void ServicesSystemMessagePosted(object sender, SystemMessageEventArgs e)
+		/// <summary>The get tables and views.</summary>
+		private void GetTablesAndViews()
 		{
-			if (e.Message == SystemMessage.TableTruncated)
+			if (_metaDataService == null)
 			{
-				if (AutoReload && TableName.Equals(e.Data))
+				_metaDataService = DatabaseMetaDataService.Create(_services.Settings.ConnectionDefinition.ProviderName);
+
+				DbModelInstance model = _metaDataService.GetDbObjectModel(_services.Settings.ConnectionDefinition.ConnectionString);
+				List<string> tableNames = new List<string>();
+				foreach (DbModelTable table in model.Tables)
 				{
-					LoadTableData();
+					tableNames.Add(Utility.MakeSqlFriendly(table.FullName));
 				}
+
+				foreach (DbModelView view in model.Views)
+				{
+					tableNames.Add(Utility.MakeSqlFriendly(view.FullName));
+				}
+
+				cboTableName.Items.AddRange(tableNames.ToArray());
 			}
 		}
 
-		private void SettingsDatabaseConnectionReset(object sender, EventArgs e)
-		{
-			_dbConnection = null;
-		}
-
-		private void ViewTableForm_Shown(object sender, EventArgs e)
-		{
-			LoadTableData();
-		}
-
-		public void SetStatus(string text)
-		{
-			_status = text;
-			UpdateHostStatus();
-		}
-
-		protected void UpdateHostStatus()
-		{
-			_services.HostWindow.SetStatus(this, _status);
-		}
-
+		/// <summary>The load table data.</summary>
 		private void LoadTableData()
 		{
 			GetTablesAndViews();
@@ -207,10 +289,12 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 				{
 					adapter.Dispose();
 				}
+
 				if (cmd != null)
 				{
 					cmd.Dispose();
 				}
+
 				UseWaitCursor = false;
 				IsBusy = false;
 			}
@@ -226,82 +310,55 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			dataGridViewResult.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
 		}
 
-		private void GetTablesAndViews()
+		/// <summary>The services system message posted.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void ServicesSystemMessagePosted(object sender, SystemMessageEventArgs e)
 		{
-			if (_metaDataService == null)
+			if (e.Message == SystemMessage.TableTruncated)
 			{
-				_metaDataService = DatabaseMetaDataService.Create(_services.Settings.ConnectionDefinition.ProviderName);
-
-				DbModelInstance model = _metaDataService.GetDbObjectModel(_services.Settings.ConnectionDefinition.ConnectionString);
-				List<string> tableNames = new List<string>();
-				foreach (DbModelTable table in model.Tables)
+				if (AutoReload && TableName.Equals(e.Data))
 				{
-					tableNames.Add(Utility.MakeSqlFriendly(table.FullName));
+					LoadTableData();
 				}
-				foreach (DbModelView view in model.Views)
-				{
-					tableNames.Add(Utility.MakeSqlFriendly(view.FullName));
-				}
-				cboTableName.Items.AddRange(tableNames.ToArray());
 			}
 		}
 
-		private void lnkRefresh_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		/// <summary>The settings database connection reset.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void SettingsDatabaseConnectionReset(object sender, EventArgs e)
+		{
+			_dbConnection = null;
+		}
+
+		/// <summary>The update status.</summary>
+		/// <param name="msg">The msg.</param>
+		private void UpdateStatus(string msg)
+		{
+			_services.HostWindow.SetStatus(this, msg);
+			Application.DoEvents();
+		}
+
+		/// <summary>The view table form_ shown.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void ViewTableForm_Shown(object sender, EventArgs e)
 		{
 			LoadTableData();
 		}
 
+		/// <summary>The data grid view result_ data error.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void dataGridViewResult_DataError(object sender, DataGridViewDataErrorEventArgs e)
 		{
 			e.ThrowException = false;
 		}
 
-		#region Implementation of ISupportCursorOffset
-
-		public int CursorOffset
-		{
-			get { return CursorLine; }
-		}
-
-		#endregion
-
-		#region Implementation of INavigatableDocument
-
-		public bool SetCursorByOffset(int offset)
-		{
-			return SetCursorByLocation(offset, 0);
-		}
-
-		public bool SetCursorByLocation(int line, int column)
-		{
-			if (line > 0 && line <= TotalLines)
-			{
-				dataGridViewResult.FirstDisplayedScrollingRowIndex = line;
-				dataGridViewResult.Refresh();
-				dataGridViewResult.Rows[line].Selected = true;
-				return true;
-			}
-			return false;
-		}
-
-		public int CursorLine
-		{
-			get { return (dataGridViewResult.CurrentRow != null) ? dataGridViewResult.CurrentRow.Index : 0; }
-		}
-
-		public int CursorColumn
-		{
-			get { return dataGridViewResult.SelectedCells.Count > 0 ? dataGridViewResult.SelectedCells[0].ColumnIndex : 0; }
-		}
-
-		public int TotalLines
-		{
-			get { return (dataGridViewResult.DataSource != null) ? dataGridViewResult.Rows.Count : 0; }
-		}
-
-		#endregion
-
-
+		/// <summary>The lnk export script_ link clicked.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void lnkExportScript_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			DataTable dt = dataGridViewResult.DataSource as DataTable;
@@ -329,13 +386,15 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 					{
 						stringWriter.WriteLine("GO");
 					}
+
 					stringWriter.WriteLine();
 
-					if (i % 10 == 0)
+					if (i%10 == 0)
 					{
 						UpdateStatus(string.Format("Processing {0} of {1} rows", i + 1, dt.Rows.Count));
 					}
 				}
+
 				UpdateStatus(string.Format("Processed {0} rows. Opening file...", dt.Rows.Count));
 
 				// HACK - need to clean up the values for now as the model is holding the last rows data  ;-)
@@ -354,10 +413,12 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			}
 		}
 
-		private void UpdateStatus(string msg)
+		/// <summary>The lnk refresh_ link clicked.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void lnkRefresh_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			_services.HostWindow.SetStatus(this, msg);
-			Application.DoEvents();
+			LoadTableData();
 		}
 	}
 }

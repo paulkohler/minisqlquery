@@ -21,7 +21,7 @@ namespace MiniSqlQuery.Core.Commands
 			SmallImage = ImageResource.database_refresh;
 		}
 
-		/// <summary>The execute.</summary>
+		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
 			try

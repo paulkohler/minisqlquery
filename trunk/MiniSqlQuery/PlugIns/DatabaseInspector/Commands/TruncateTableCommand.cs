@@ -1,8 +1,10 @@
 #region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.Data;
 using System.Data.Common;
@@ -11,14 +13,17 @@ using MiniSqlQuery.Core;
 
 namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 {
+	/// <summary>The truncate table command.</summary>
 	public class TruncateTableCommand : GenerateStatementCommandBase
 	{
+		/// <summary>Initializes a new instance of the <see cref="TruncateTableCommand"/> class.</summary>
 		public TruncateTableCommand()
 			: base("Truncate Table")
 		{
 			SmallImage = ImageResource.table_delete;
 		}
 
+		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
 			IHostWindow hostWindow = Services.HostWindow;
@@ -55,6 +60,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 					{
 						cmd.Dispose();
 					}
+
 					hostWindow.SetPointerState(Cursors.Default);
 				}
 			}
