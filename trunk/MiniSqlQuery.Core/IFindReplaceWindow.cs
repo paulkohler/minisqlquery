@@ -1,16 +1,16 @@
 #region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.Windows.Forms;
 
 namespace MiniSqlQuery.Core
 {
-	/// <summary>
-	/// An interface for the form that provides the find replace functionality
-	/// </summary>
+	/// <summary>An interface for the form that provides the find replace functionality</summary>
 	public interface IFindReplaceWindow
 	{
 		/// <summary>
@@ -18,6 +18,14 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		/// <value>The find string.</value>
 		string FindString { get; set; }
+
+		/// <summary>
+		/// Gets a value indicating whether this instance is disposed.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if this instance is disposed; otherwise, <c>false</c>.
+		/// </value>
+		bool IsDisposed { get; }
 
 		/// <summary>
 		/// Gets or sets the "replace string".
@@ -37,17 +45,7 @@ namespace MiniSqlQuery.Core
 		/// <value><c>true</c> if visible; otherwise, <c>false</c>.</value>
 		bool Visible { get; set; }
 
-		/// <summary>
-		/// Gets a value indicating whether this instance is disposed.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if this instance is disposed; otherwise, <c>false</c>.
-		/// </value>
-		bool IsDisposed { get; }
-
-		/// <summary>
-		/// Shows the window.
-		/// </summary>
+		/// <summary>Shows the window.</summary>
 		/// <param name="owner">The owner form.</param>
 		void Show(IWin32Window owner);
 	}

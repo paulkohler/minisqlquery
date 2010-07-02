@@ -1,21 +1,16 @@
 ﻿#region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MiniSqlQuery.Core.Controls
 {
-	/// <summary>
-	/// A basic control for displaying an unhandled exception.
-	/// </summary>
+	/// <summary>A basic control for displaying an unhandled exception.</summary>
 	public partial class ExceptionControl : UserControl
 	{
 		/// <summary>
@@ -26,14 +21,7 @@ namespace MiniSqlQuery.Core.Controls
 			InitializeComponent();
 		}
 
-		private void ExceptionControl_Load(object sender, EventArgs e)
-		{
-
-		}
-
-		/// <summary>
-		/// Sets the exception to display.
-		/// </summary>
+		/// <summary>Sets the exception to display.</summary>
 		/// <param name="exp">The exception object.</param>
 		public void SetException(Exception exp)
 		{
@@ -45,6 +33,16 @@ namespace MiniSqlQuery.Core.Controls
 			}
 		}
 
+		/// <summary>The exception control_ load.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		private void ExceptionControl_Load(object sender, EventArgs e)
+		{
+		}
+
+		/// <summary>The lnk copy_ link clicked.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void lnkCopy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			Clipboard.SetText(txtDetails.Text);

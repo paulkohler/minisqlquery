@@ -1,17 +1,15 @@
 ﻿#region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MiniSqlQuery.Core
 {
-	/// <summary>
-	/// A "document" that supports reporting the position of it's cursor
-	/// </summary>
+	/// <summary>A "document" that supports reporting the position of it's cursor</summary>
 	public interface ISupportCursorOffset
 	{
 		/// <summary>

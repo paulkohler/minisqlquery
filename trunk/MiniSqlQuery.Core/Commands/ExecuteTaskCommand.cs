@@ -1,16 +1,20 @@
 ﻿#region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.Windows.Forms;
 
 namespace MiniSqlQuery.Core.Commands
 {
+	/// <summary>The execute task command.</summary>
 	public class ExecuteTaskCommand
 		: CommandBase
 	{
+		/// <summary>Initializes a new instance of the <see cref="ExecuteTaskCommand"/> class.</summary>
 		public ExecuteTaskCommand()
 			: base("&Execute")
 		{
@@ -19,6 +23,8 @@ namespace MiniSqlQuery.Core.Commands
 			SmallImage = ImageResource.lightning;
 		}
 
+		/// <summary>Gets a value indicating whether Enabled.</summary>
+		/// <value>The enabled.</value>
 		public override bool Enabled
 		{
 			get
@@ -28,10 +34,12 @@ namespace MiniSqlQuery.Core.Commands
 				{
 					return !editor.IsBusy;
 				}
+
 				return false;
 			}
 		}
 
+		/// <summary>The execute.</summary>
 		public override void Execute()
 		{
 			if (!Enabled)

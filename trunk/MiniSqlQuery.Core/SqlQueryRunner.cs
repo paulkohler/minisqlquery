@@ -1,21 +1,30 @@
 #region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace MiniSqlQuery.Core
 {
+	/// <summary>The sql query runner.</summary>
 	public class SqlQueryRunner : QueryRunner
 	{
+		/// <summary>Initializes a new instance of the <see cref="SqlQueryRunner"/> class.</summary>
+		/// <param name="factory">The factory.</param>
+		/// <param name="connectionString">The connection string.</param>
+		/// <param name="enableQueryBatching">The enable query batching.</param>
 		public SqlQueryRunner(DbProviderFactory factory, string connectionString, bool enableQueryBatching)
 			: base(factory, connectionString, enableQueryBatching)
 		{
 		}
 
+		/// <summary>The handle batch exception.</summary>
+		/// <param name="dbException">The db exception.</param>
 		protected override void HandleBatchException(DbException dbException)
 		{
 			Exception = dbException;
@@ -29,15 +38,19 @@ namespace MiniSqlQuery.Core
 			}
 		}
 
+		/// <summary>The subscribe to messages.</summary>
+		/// <param name="connection">The connection.</param>
 		protected override void SubscribeToMessages(DbConnection connection)
 		{
 			SqlConnection conn = connection as SqlConnection;
-			if (conn!=null)
+			if (conn != null)
 			{
 				conn.InfoMessage += ConnectionInfoMessage;
 			}
 		}
 
+		/// <summary>The unsubscribe from messages.</summary>
+		/// <param name="connection">The connection.</param>
 		protected override void UnsubscribeFromMessages(DbConnection connection)
 		{
 			SqlConnection conn = connection as SqlConnection;
@@ -47,7 +60,10 @@ namespace MiniSqlQuery.Core
 			}
 		}
 
-		void ConnectionInfoMessage(object sender, SqlInfoMessageEventArgs e)
+		/// <summary>The connection info message.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The events for the message.</param>
+		private void ConnectionInfoMessage(object sender, SqlInfoMessageEventArgs e)
 		{
 			Messages += e.Message + Environment.NewLine;
 		}

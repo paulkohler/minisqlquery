@@ -1,21 +1,27 @@
 #region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
-using System.Collections.Generic;
-using System.Collections;
 
 namespace MiniSqlQuery.Core
 {
-	/// <summary>
-	/// Interface for viewing table and view data.
-	/// </summary>
+	/// <summary>Interface for viewing table and view data.</summary>
 	public interface IViewTable : IPerformTask, IQueryBatchProvider, INavigatableDocument
 	{
-		string TableName { get; set; }
-		string Text { get; set; }
+		/// <summary>Gets a value indicating whether AutoReload.</summary>
+		/// <value>The auto reload.</value>
 		bool AutoReload { get; }
+
+		/// <summary>Gets or sets TableName.</summary>
+		/// <value>The table name.</value>
+		string TableName { get; set; }
+
+		/// <summary>Gets or sets Text.</summary>
+		/// <value>The text.</value>
+		string Text { get; set; }
 	}
 }

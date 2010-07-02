@@ -1,20 +1,19 @@
 #region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace MiniSqlQuery.Core.DbModel
 {
+	/// <summary>The sql writer.</summary>
 	public class SqlWriter : ISqlWriter
 	{
-		public bool IncludeComments { get; set; }
-		public bool InsertLineBreaksBetweenColumns { get; set; }
-
+		/// <summary>Initializes a new instance of the <see cref="SqlWriter"/> class.</summary>
 		public SqlWriter()
 		{
 			// todo - format options?
@@ -22,6 +21,17 @@ namespace MiniSqlQuery.Core.DbModel
 			InsertLineBreaksBetweenColumns = true;
 		}
 
+		/// <summary>Gets or sets a value indicating whether IncludeComments.</summary>
+		/// <value>The include comments.</value>
+		public bool IncludeComments { get; set; }
+
+		/// <summary>Gets or sets a value indicating whether InsertLineBreaksBetweenColumns.</summary>
+		/// <value>The insert line breaks between columns.</value>
+		public bool InsertLineBreaksBetweenColumns { get; set; }
+
+		/// <summary>The write create.</summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="column">The column.</param>
 		public virtual void WriteCreate(TextWriter writer, DbModelColumn column)
 		{
 			writer.Write("{0} {1} ", MakeSqlFriendly(column.Name), column.DbType.Summary);
@@ -30,46 +40,41 @@ namespace MiniSqlQuery.Core.DbModel
 			{
 				writer.Write("not ");
 			}
+
 			writer.Write("null");
 		}
 
-		public void WriteSummary(TextWriter writer, DbModelColumn column)
+		/// <summary>The write delete.</summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="tableOrView">The table or view.</param>
+		public virtual void WriteDelete(TextWriter writer, DbModelTable tableOrView)
 		{
-			writer.Write("{0} ({1} ", MakeSqlFriendly(column.Name), column.DbType.Summary);
+			writer.WriteLine("DELETE FROM");
+			writer.Write("\t");
+			writer.WriteLine(MakeSqlFriendly(tableOrView.FullName));
+			writer.WriteLine("WHERE");
 
-			if (!column.Nullable)
+			for (int i = 0; i < tableOrView.PrimaryKeyColumns.Count; i++)
 			{
-				writer.Write("not ");
-			}
-			writer.Write("null)");
-		}
-
-		public virtual void WriteSelect(TextWriter writer, DbModelTable tableOrView)
-		{
-			writer.Write("SELECT");
-			writer.WriteLine();
-			for (int i = 0; i < tableOrView.Columns.Count; i++)
-			{
-				writer.Write("\t");
-				writer.Write(MakeSqlFriendly(tableOrView.Columns[i].Name));
-				if (i < tableOrView.Columns.Count - 1)
+				var column = tableOrView.PrimaryKeyColumns[i];
+				writer.Write("\t{0} = ", MakeSqlFriendly(column.Name));
+				if (i < tableOrView.PrimaryKeyColumns.Count - 1)
 				{
-					writer.Write(",");
+					writer.Write(" /*value:{0}*/ AND", column.Name);
 					writer.WriteLine();
+				}
+				else
+				{
+					writer.Write("/*value:{0}*/", column.Name);
 				}
 			}
 
 			writer.WriteLine();
-			writer.Write("FROM {0}", MakeSqlFriendly(tableOrView.FullName));
-			writer.WriteLine();
 		}
 
-		public virtual void WriteSelectCount(TextWriter writer, DbModelTable tableOrView)
-		{
-			writer.Write("SELECT COUNT(*) FROM {0}", MakeSqlFriendly(tableOrView.FullName));
-			writer.WriteLine();
-		}
-
+		/// <summary>The write insert.</summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="tableOrView">The table or view.</param>
 		public virtual void WriteInsert(TextWriter writer, DbModelTable tableOrView)
 		{
 			writer.Write("INSERT INTO ");
@@ -79,6 +84,7 @@ namespace MiniSqlQuery.Core.DbModel
 				writer.WriteLine();
 				writer.Write("\t");
 			}
+
 			writer.Write("(");
 
 			// get all columns that are "writable" including PKs that are not auto generated
@@ -109,6 +115,7 @@ namespace MiniSqlQuery.Core.DbModel
 				writer.WriteLine();
 				writer.Write("\t");
 			}
+
 			writer.Write("(");
 
 			for (int i = 0; i < writableColumns.Count; i++)
@@ -119,6 +126,7 @@ namespace MiniSqlQuery.Core.DbModel
 				{
 					writer.Write(" /*{0},{1}*/", column.Name, column.DbType.Summary);
 				}
+
 				if (i < writableColumns.Count - 1)
 				{
 					if (InsertLineBreaksBetweenColumns)
@@ -132,9 +140,60 @@ namespace MiniSqlQuery.Core.DbModel
 					}
 				}
 			}
+
 			writer.WriteLine(")");
 		}
 
+		/// <summary>The write select.</summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="tableOrView">The table or view.</param>
+		public virtual void WriteSelect(TextWriter writer, DbModelTable tableOrView)
+		{
+			writer.Write("SELECT");
+			writer.WriteLine();
+			for (int i = 0; i < tableOrView.Columns.Count; i++)
+			{
+				writer.Write("\t");
+				writer.Write(MakeSqlFriendly(tableOrView.Columns[i].Name));
+				if (i < tableOrView.Columns.Count - 1)
+				{
+					writer.Write(",");
+					writer.WriteLine();
+				}
+			}
+
+			writer.WriteLine();
+			writer.Write("FROM {0}", MakeSqlFriendly(tableOrView.FullName));
+			writer.WriteLine();
+		}
+
+		/// <summary>The write select count.</summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="tableOrView">The table or view.</param>
+		public virtual void WriteSelectCount(TextWriter writer, DbModelTable tableOrView)
+		{
+			writer.Write("SELECT COUNT(*) FROM {0}", MakeSqlFriendly(tableOrView.FullName));
+			writer.WriteLine();
+		}
+
+		/// <summary>The write summary.</summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="column">The column.</param>
+		public void WriteSummary(TextWriter writer, DbModelColumn column)
+		{
+			writer.Write("{0} ({1} ", MakeSqlFriendly(column.Name), column.DbType.Summary);
+
+			if (!column.Nullable)
+			{
+				writer.Write("not ");
+			}
+
+			writer.Write("null)");
+		}
+
+		/// <summary>The write update.</summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="tableOrView">The table or view.</param>
 		public virtual void WriteUpdate(TextWriter writer, DbModelTable tableOrView)
 		{
 			writer.Write("UPDATE ");
@@ -171,34 +230,13 @@ namespace MiniSqlQuery.Core.DbModel
 					writer.Write("/*value:{0},{1}*/", column.Name, column.DbType.Summary);
 				}
 			}
-			writer.WriteLine();
-		}
-
-		public virtual void WriteDelete(TextWriter writer, DbModelTable tableOrView)
-		{
-			writer.WriteLine("DELETE FROM");
-			writer.Write("\t");
-			writer.WriteLine(MakeSqlFriendly(tableOrView.FullName));
-			writer.WriteLine("WHERE");
-
-			for (int i = 0; i < tableOrView.PrimaryKeyColumns.Count; i++)
-			{
-				var column = tableOrView.PrimaryKeyColumns[i];
-				writer.Write("\t{0} = ", MakeSqlFriendly(column.Name));
-				if (i < tableOrView.PrimaryKeyColumns.Count - 1)
-				{
-					writer.Write(" /*value:{0}*/ AND", column.Name);
-					writer.WriteLine();
-				}
-				else
-				{
-					writer.Write("/*value:{0}*/", column.Name);
-				}
-			}
 
 			writer.WriteLine();
 		}
 
+		/// <summary>The make sql friendly.</summary>
+		/// <param name="name">The name.</param>
+		/// <returns>The make sql friendly.</returns>
 		protected string MakeSqlFriendly(string name)
 		{
 			return Utility.MakeSqlFriendly(name);

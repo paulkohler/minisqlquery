@@ -1,8 +1,10 @@
 #region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,21 +12,30 @@ using System.Data.Common;
 
 namespace MiniSqlQuery.Core.DbModel
 {
-	/// <summary>
-	/// SQL Compact Edition schema service.
+	/// <summary>SQL Compact Edition schema service.
 	/// Made possible with contributions form ExportSQLCE project.
 	/// http://exportsqlce.codeplex.com/
-	/// http://erikej.blogspot.com/
-	/// </summary>
+	/// http://erikej.blogspot.com/</summary>
 	public class SqlCeSchemaService : GenericSchemaService
 	{
+		/// <summary>The ma x_ binar y_ colum n_ size.</summary>
 		internal static readonly int MAX_BINARY_COLUMN_SIZE = 8000;
+
+		/// <summary>The ma x_ imag e_ colum n_ size.</summary>
 		internal static readonly int MAX_IMAGE_COLUMN_SIZE = 1073741823;
+
+		/// <summary>The ma x_ ncha r_ colum n_ size.</summary>
 		internal static readonly int MAX_NCHAR_COLUMN_SIZE = 4000;
+
+		/// <summary>The ma x_ ntex t_ colum n_ size.</summary>
 		internal static readonly int MAX_NTEXT_COLUMN_SIZE = 536870911;
 
+		/// <summary>The _connection.</summary>
 		private string _connection;
 
+		/// <summary>The get db object model.</summary>
+		/// <param name="connection">The connection.</param>
+		/// <returns></returns>
 		public override DbModelInstance GetDbObjectModel(string connection)
 		{
 			_connection = connection;
@@ -61,30 +72,55 @@ namespace MiniSqlQuery.Core.DbModel
 			}
 		}
 
-		protected override string GetDataTypeNameForColumn(DbModelTable dbTable, DataTable schemaTableKeyInfo, DataRow columnRow)
+		/// <summary>Gets the db types for the SQL CE provider.</summary>
+		/// <param name="connection">The connection (not required).</param>
+		/// <returns></returns>
+		public override Dictionary<string, DbModelType> GetDbTypes(DbConnection connection)
 		{
-			return SafeGetString(columnRow, "ProviderType");
-		}
-
-		private void QueryTableNames(DbConnection dbConn, DbModelInstance model)
-		{
-			using (var cmd = dbConn.CreateCommand())
+			Dictionary<string, DbModelType> dbTypes = new Dictionary<string, DbModelType>();
+			string dataTypesSql = "SELECT * FROM information_schema.provider_types";
+			using (var cmd = connection.CreateCommand())
 			{
-				cmd.CommandText = "SELECT table_name FROM information_schema.tables WHERE TABLE_TYPE = N'TABLE'";
+				cmd.CommandText = dataTypesSql;
 				cmd.CommandType = CommandType.Text;
 				using (var reader = cmd.ExecuteReader())
 				{
 					while (reader.Read())
 					{
-						DbModelTable table = new DbModelTable();
-						//table.Name = MakeSqlFriendly((string)reader["table_name"]);
-						table.Name = (string) reader["table_name"];
-						model.Add(table);
+						string typeName = (string)reader["TYPE_NAME"];
+						int columnSize = Convert.ToInt32(reader["COLUMN_SIZE"]);
+						DbModelType dbType = new DbModelType(typeName, columnSize);
+
+						dbType.CreateParameters = Convert.ToString(reader["CREATE_PARAMS"]);
+						dbType.LiteralPrefix = Convert.ToString(reader["LITERAL_PREFIX"]);
+						dbType.LiteralSuffix = Convert.ToString(reader["LITERAL_SUFFIX"]);
+						dbType.ProviderDbType = Convert.ToString(reader["DATA_TYPE"]);
+
+						FixCreateFormat(dbType);
+						FixMaxLengths(dbType);
+						AssignSystemTypes(dbType);
+
+						dbTypes.Add(typeName, dbType);
 					}
 				}
 			}
+
+			return dbTypes;
 		}
 
+		/// <summary>The get data type name for column.</summary>
+		/// <param name="dbTable">The db table.</param>
+		/// <param name="schemaTableKeyInfo">The schema table key info.</param>
+		/// <param name="columnRow">The column row.</param>
+		/// <returns>The get data type name for column.</returns>
+		protected override string GetDataTypeNameForColumn(DbModelTable dbTable, DataTable schemaTableKeyInfo, DataRow columnRow)
+		{
+			return SafeGetString(columnRow, "ProviderType");
+		}
+
+		/// <summary>The get foreign key references for table.</summary>
+		/// <param name="dbConn">The db conn.</param>
+		/// <param name="dbTable">The db table.</param>
 		protected override void GetForeignKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
 		{
 			ForeignKeyInformationAvailable = true;
@@ -114,7 +150,7 @@ ORDER BY
 	FK_TABLE_NAME, 
 	FK_CONSTRAINT_NAME, 
 	FK_ORDINAL_POSITION
-",
+", 
 							dbTable.Name);
 					cmd.CommandType = CommandType.Text;
 					using (var dr = cmd.ExecuteReader())
@@ -122,16 +158,16 @@ ORDER BY
 						while (dr.Read())
 						{
 							dbTable.Constraints.Add(new DbModelConstraint
-							                        {
-							                        	ConstraintTableName = dr.GetString(0),
-							                        	ConstraintName = dr.GetString(1),
-							                        	ColumnName = dr.GetString(2),
-							                        	UniqueConstraintTableName = dr.GetString(3),
-							                        	UniqueConstraintName = dr.GetString(4),
-							                        	UniqueColumnName = dr.GetString(5),
-							                        	UpdateRule = dr.GetString(6),
-							                        	DeleteRule = dr.GetString(7)
-							                        });
+							                        	{
+							                        		ConstraintTableName = dr.GetString(0), 
+							                        		ConstraintName = dr.GetString(1), 
+							                        		ColumnName = dr.GetString(2), 
+							                        		UniqueConstraintTableName = dr.GetString(3), 
+							                        		UniqueConstraintName = dr.GetString(4), 
+							                        		UniqueColumnName = dr.GetString(5), 
+							                        		UpdateRule = dr.GetString(6), 
+							                        		DeleteRule = dr.GetString(7)
+							                        	});
 						}
 					}
 				}
@@ -142,6 +178,9 @@ ORDER BY
 			}
 		}
 
+		/// <summary>The process foreign key references for table.</summary>
+		/// <param name="dbConn">The db conn.</param>
+		/// <param name="dbTable">The db table.</param>
 		protected override void ProcessForeignKeyReferencesForTable(DbConnection dbConn, DbModelTable dbTable)
 		{
 			// todo - check GetGroupForeingKeys
@@ -157,82 +196,8 @@ ORDER BY
 			}
 		}
 
-		/// <summary>
-		/// Gets the db types for the SQL CE provider.
-		/// </summary>
-		/// <param name="connection">The connection (not required).</param>
-		/// <returns></returns>
-		public override Dictionary<string, DbModelType> GetDbTypes(DbConnection connection)
-		{
-			Dictionary<string, DbModelType> dbTypes = new Dictionary<string, DbModelType>();
-			string dataTypesSql = "SELECT * FROM information_schema.provider_types";
-			using (var cmd = connection.CreateCommand())
-			{
-				cmd.CommandText = dataTypesSql;
-				cmd.CommandType = CommandType.Text;
-				using (var reader = cmd.ExecuteReader())
-				{
-					while (reader.Read())
-					{
-						string typeName = (string) reader["TYPE_NAME"];
-						int columnSize = Convert.ToInt32(reader["COLUMN_SIZE"]);
-						DbModelType dbType = new DbModelType(typeName, columnSize);
-
-						dbType.CreateParameters = Convert.ToString(reader["CREATE_PARAMS"]);
-						dbType.LiteralPrefix = Convert.ToString(reader["LITERAL_PREFIX"]);
-						dbType.LiteralSuffix = Convert.ToString(reader["LITERAL_SUFFIX"]);
-						dbType.ProviderDbType = Convert.ToString(reader["DATA_TYPE"]);
-
-						FixCreateFormat(dbType);
-						FixMaxLengths(dbType);
-						AssignSystemTypes(dbType);
-
-						dbTypes.Add(typeName, dbType);
-					}
-				}
-			}
-			return dbTypes;
-		}
-
-		private void FixMaxLengths(DbModelType dbType)
-		{
-			switch (dbType.Name.ToLower())
-			{
-				case "nchar":
-				case "nvarchar":
-					dbType.Length = MAX_NCHAR_COLUMN_SIZE;
-					break;
-				case "ntext":
-					dbType.Length = MAX_NTEXT_COLUMN_SIZE;
-					break;
-				case "binary":
-				case "varbinary":
-					dbType.Length = MAX_BINARY_COLUMN_SIZE;
-					break;
-				case "image":
-					dbType.Length = MAX_IMAGE_COLUMN_SIZE;
-					break;
-			}
-		}
-
-		private void FixCreateFormat(DbModelType dbType)
-		{
-			switch (dbType.Name.ToLower())
-			{
-				case "nchar":
-				case "nvarchar":
-				case "binary":
-				case "varbinary":
-					dbType.CreateFormat = dbType.Name.ToLower() + "({0})";
-					break;
-
-				case "decimal":
-				case "numeric":
-					dbType.CreateFormat = dbType.Name.ToLower() + "({0}, {1})";
-					break;
-			}
-		}
-
+		/// <summary>The assign system types.</summary>
+		/// <param name="dbType">The db type.</param>
 		private void AssignSystemTypes(DbModelType dbType)
 		{
 			switch (dbType.Name.ToLower())
@@ -287,6 +252,73 @@ ORDER BY
 				case "rowversion":
 					dbType.SystemType = typeof(byte[]);
 					break;
+			}
+		}
+
+		/// <summary>The fix create format.</summary>
+		/// <param name="dbType">The db type.</param>
+		private void FixCreateFormat(DbModelType dbType)
+		{
+			switch (dbType.Name.ToLower())
+			{
+				case "nchar":
+				case "nvarchar":
+				case "binary":
+				case "varbinary":
+					dbType.CreateFormat = dbType.Name.ToLower() + "({0})";
+					break;
+
+				case "decimal":
+				case "numeric":
+					dbType.CreateFormat = dbType.Name.ToLower() + "({0}, {1})";
+					break;
+			}
+		}
+
+		/// <summary>The fix max lengths.</summary>
+		/// <param name="dbType">The db type.</param>
+		private void FixMaxLengths(DbModelType dbType)
+		{
+			switch (dbType.Name.ToLower())
+			{
+				case "nchar":
+				case "nvarchar":
+					dbType.Length = MAX_NCHAR_COLUMN_SIZE;
+					break;
+				case "ntext":
+					dbType.Length = MAX_NTEXT_COLUMN_SIZE;
+					break;
+				case "binary":
+				case "varbinary":
+					dbType.Length = MAX_BINARY_COLUMN_SIZE;
+					break;
+				case "image":
+					dbType.Length = MAX_IMAGE_COLUMN_SIZE;
+					break;
+			}
+		}
+
+		/// <summary>The query table names.</summary>
+		/// <param name="dbConn">The db conn.</param>
+		/// <param name="model">The model.</param>
+		private void QueryTableNames(DbConnection dbConn, DbModelInstance model)
+		{
+			using (var cmd = dbConn.CreateCommand())
+			{
+				cmd.CommandText = "SELECT table_name FROM information_schema.tables WHERE TABLE_TYPE = N'TABLE'";
+				cmd.CommandType = CommandType.Text;
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						DbModelTable table = new DbModelTable();
+
+
+// table.Name = MakeSqlFriendly((string)reader["table_name"]);
+						table.Name = (string)reader["table_name"];
+						model.Add(table);
+					}
+				}
 			}
 		}
 	}

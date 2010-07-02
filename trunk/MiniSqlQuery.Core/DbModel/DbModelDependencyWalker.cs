@@ -3,25 +3,20 @@
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
-
 #endregion
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace MiniSqlQuery.Core.DbModel
 {
-	/// <summary>
-	/// Examins a <see cref="DbModelInstance"/> providing sort methods.
-	/// </summary>
+	/// <summary>Examins a <see cref="DbModelInstance"/> providing sort methods.</summary>
 	public class DbModelDependencyWalker
 	{
+		/// <summary>The _model.</summary>
 		private readonly DbModelInstance _model;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DbModelDependencyWalker"/> class.
-		/// </summary>
+		/// <summary>Initializes a new instance of the <see cref="DbModelDependencyWalker"/> class.</summary>
 		/// <param name="model">The database model instance.</param>
 		public DbModelDependencyWalker(DbModelInstance model)
 		{
@@ -29,9 +24,7 @@ namespace MiniSqlQuery.Core.DbModel
 			_model = model;
 		}
 
-		/// <summary>
-		/// Sorts the tables by checking the foreign key references recursivly building a list of tables in order.
-		/// </summary>
+		/// <summary>Sorts the tables by checking the foreign key references recursivly building a list of tables in order.</summary>
 		/// <returns></returns>
 		public DbModelTable[] SortTablesByForeignKeyReferences()
 		{
@@ -54,6 +47,11 @@ namespace MiniSqlQuery.Core.DbModel
 			return tables.ToArray();
 		}
 
+		/// <summary>The process foreign key references.</summary>
+		/// <param name="level">The level.</param>
+		/// <param name="tablesList">The tables list.</param>
+		/// <param name="table">The table.</param>
+		/// <exception cref="InvalidOperationException"></exception>
 		private void ProcessForeignKeyReferences(int level, List<DbModelTable> tablesList, DbModelTable table)
 		{
 			if (tablesList.Contains(table))

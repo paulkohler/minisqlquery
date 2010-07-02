@@ -1,20 +1,30 @@
 #region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.ComponentModel;
 using MiniSqlQuery.Core;
 
 namespace MiniSqlQuery.PlugIns
 {
+	/// <summary>The core mini sql query configuration.</summary>
 	public class CoreMiniSqlQueryConfiguration : NotifyPropertyChangedBase, IConfigurationObject
 	{
+		/// <summary>The dirty record.</summary>
 		private static bool _isDirty;
+
+		/// <summary>The _settings.</summary>
 		private readonly IApplicationSettings _settings;
+
+		/// <summary>The _settings wrapper.</summary>
 		private readonly CoreMiniSqlQuerySettingsWrapper _settingsWrapper;
 
+		/// <summary>Initializes a new instance of the <see cref="CoreMiniSqlQueryConfiguration"/> class.</summary>
+		/// <param name="settings">The settings.</param>
 		public CoreMiniSqlQueryConfiguration(IApplicationSettings settings)
 		{
 			_settings = settings;
@@ -25,6 +35,7 @@ namespace MiniSqlQuery.PlugIns
 
 		#region IConfigurationObject Members
 
+		/// <summary>Gets a value indicating whether IsDirty.</summary>
 		public bool IsDirty
 		{
 			get { return _isDirty; }
@@ -38,6 +49,7 @@ namespace MiniSqlQuery.PlugIns
 			}
 		}
 
+		/// <summary>The save.</summary>
 		public void Save()
 		{
 			_settings.EnableQueryBatching = _settingsWrapper.EnableQueryBatching;
@@ -49,11 +61,13 @@ namespace MiniSqlQuery.PlugIns
 			IsDirty = false;
 		}
 
+		/// <summary>Gets Settings.</summary>
 		public object Settings
 		{
 			get { return _settingsWrapper; }
 		}
 
+		/// <summary>Gets Name.</summary>
 		public string Name
 		{
 			get { return "Mini SQL Query Settings"; }
@@ -61,6 +75,9 @@ namespace MiniSqlQuery.PlugIns
 
 		#endregion
 
+		/// <summary>The proxy property changed.</summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
 		private void ProxyPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			IsDirty = true;
@@ -68,15 +85,32 @@ namespace MiniSqlQuery.PlugIns
 
 		#region Nested type: CoreMiniSqlQuerySettingsWrapper
 
+		/// <summary>The core mini sql query settings wrapper.</summary>
 		public class CoreMiniSqlQuerySettingsWrapper : NotifyPropertyChangedBase
 		{
+			/// <summary>The _settings.</summary>
 			private readonly IApplicationSettings _settings;
+
+			/// <summary>The _date time format.</summary>
+			private string _dateTimeFormat;
+
+			/// <summary>The _default connection definition filename.</summary>
 			private string _defaultConnectionDefinitionFilename;
 
+			/// <summary>The _enable query batching.</summary>
 			private bool _enableQueryBatching;
+
+			/// <summary>The _load plugins.</summary>
 			private bool _loadPlugins;
+
+			/// <summary>The _null text.</summary>
+			private string _nullText;
+
+			/// <summary>The _plug in file filter.</summary>
 			private string _plugInFileFilter;
 
+			/// <summary>Initializes a new instance of the <see cref="CoreMiniSqlQuerySettingsWrapper"/> class.</summary>
+			/// <param name="settings">The settings.</param>
 			public CoreMiniSqlQuerySettingsWrapper(IApplicationSettings settings)
 			{
 				_settings = settings;
@@ -89,6 +123,7 @@ namespace MiniSqlQuery.PlugIns
 				NullText = _settings.NullText;
 			}
 
+			/// <summary>Gets or sets a value indicating whether EnableQueryBatching.</summary>
 			[Category("Query")]
 			[Description("Set to true to enable the batching feature, if false the 'GO' statements will be passed straight through.")]
 			public bool EnableQueryBatching
@@ -104,6 +139,7 @@ namespace MiniSqlQuery.PlugIns
 				}
 			}
 
+			/// <summary>Gets or sets DefaultConnectionDefinitionFilename.</summary>
 			[Category("Query")]
 			[Description("If this value is set to a specific connections XML file it will be loaded in preferences to the default path " +
 			             "(%APPDATA%\\MiniSqlQuery\\Connections.xml). Note that changing this value will require a restart of the application.")]
@@ -120,6 +156,7 @@ namespace MiniSqlQuery.PlugIns
 				}
 			}
 
+			/// <summary>Gets or sets PlugInFileFilter.</summary>
 			[Category("Plugins")]
 			[Description("The file filter used for finding plugins (*.PlugIn.dll)")]
 			public string PlugInFileFilter
@@ -135,6 +172,7 @@ namespace MiniSqlQuery.PlugIns
 				}
 			}
 
+			/// <summary>Gets or sets a value indicating whether LoadExternalPlugins.</summary>
 			[Category("Plugins")]
 			[Description("If true, external plugin files will be loaded (requires restart).")]
 			public bool LoadExternalPlugins
@@ -150,8 +188,7 @@ namespace MiniSqlQuery.PlugIns
 				}
 			}
 
-			private string _dateTimeFormat;
-
+			/// <summary>Gets or sets DateTimeFormat.</summary>
 			[Category("Query Results")]
 			[Description("")]
 			public string DateTimeFormat
@@ -167,8 +204,7 @@ namespace MiniSqlQuery.PlugIns
 				}
 			}
 
-			private string _nullText;
-
+			/// <summary>Gets or sets NullText.</summary>
 			[Category("Query Results")]
 			[Description("")]
 			public string NullText
@@ -183,7 +219,6 @@ namespace MiniSqlQuery.PlugIns
 					}
 				}
 			}
-
 		}
 
 		#endregion

@@ -1,26 +1,59 @@
 #region License
+
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 #endregion
+
 using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Collections;
 
 namespace MiniSqlQuery.Core.DbModel
 {
+	/// <summary>The i sql writer.</summary>
 	public interface ISqlWriter
 	{
+		/// <summary>Gets or sets a value indicating whether IncludeComments.</summary>
+		/// <value>The include comments.</value>
 		bool IncludeComments { get; set; }
+
+		/// <summary>Gets or sets a value indicating whether InsertLineBreaksBetweenColumns.</summary>
+		/// <value>The insert line breaks between columns.</value>
 		bool InsertLineBreaksBetweenColumns { get; set; }
 
+		/// <summary>The write create.</summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="column">The column.</param>
 		void WriteCreate(TextWriter writer, DbModelColumn column);
-		void WriteSummary(TextWriter writer, DbModelColumn column);
-		void WriteSelect(TextWriter writer, DbModelTable tableOrView);
-		void WriteInsert(TextWriter writer, DbModelTable tableOrView);
-		void WriteUpdate(TextWriter writer, DbModelTable tableOrView);
+
+		/// <summary>The write delete.</summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="tableOrView">The table or view.</param>
 		void WriteDelete(TextWriter writer, DbModelTable tableOrView);
+
+		/// <summary>The write insert.</summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="tableOrView">The table or view.</param>
+		void WriteInsert(TextWriter writer, DbModelTable tableOrView);
+
+		/// <summary>The write select.</summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="tableOrView">The table or view.</param>
+		void WriteSelect(TextWriter writer, DbModelTable tableOrView);
+
+		/// <summary>The write select count.</summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="tableOrView">The table or view.</param>
 		void WriteSelectCount(TextWriter writer, DbModelTable tableOrView);
+
+		/// <summary>The write summary.</summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="column">The column.</param>
+		void WriteSummary(TextWriter writer, DbModelColumn column);
+
+		/// <summary>The write update.</summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="tableOrView">The table or view.</param>
+		void WriteUpdate(TextWriter writer, DbModelTable tableOrView);
 	}
 }
