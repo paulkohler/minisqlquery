@@ -74,6 +74,8 @@ namespace MiniSqlQuery.Core
 		/// <value>The plug in file filter.</value>
 		string PlugInFileFilter { get; set; }
 
+		bool IncludeReadOnlyColumnsInExport { get; set; }
+		
 		/// <summary>Gets an instance of <see cref="DbProviderFactory"/> depending on the value of <see cref="ConnectionDefinition"/>.</summary>
 		/// <value>The provider factory.</value>
 		DbProviderFactory ProviderFactory { get; }

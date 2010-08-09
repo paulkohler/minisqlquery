@@ -371,6 +371,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 				var sqlWriter = _services.Resolve<ISqlWriter>();
 				sqlWriter.IncludeComments = false;
 				sqlWriter.InsertLineBreaksBetweenColumns = false;
+				sqlWriter.IncludeReadOnlyColumnsInExport = _settings.IncludeReadOnlyColumnsInExport;
 
 				for (int i = 0; i < dt.Rows.Count; i++)
 				{

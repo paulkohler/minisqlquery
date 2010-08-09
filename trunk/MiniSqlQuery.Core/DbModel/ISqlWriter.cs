@@ -20,6 +20,8 @@ namespace MiniSqlQuery.Core.DbModel
 		/// <summary>Gets or sets a value indicating whether InsertLineBreaksBetweenColumns.</summary>
 		/// <value>The insert line breaks between columns.</value>
 		bool InsertLineBreaksBetweenColumns { get; set; }
+		
+		bool IncludeReadOnlyColumnsInExport { get; set; }
 
 		/// <summary>The write create.</summary>
 		/// <param name="writer">The writer.</param>

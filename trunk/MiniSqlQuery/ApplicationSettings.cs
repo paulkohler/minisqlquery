@@ -162,6 +162,19 @@ namespace MiniSqlQuery
 			}
 		}
 
+		public bool IncludeReadOnlyColumnsInExport
+		{
+			get { return Settings.Default.IncludeReadOnlyColumnsInExport; }
+			set
+			{
+				if (Settings.Default.IncludeReadOnlyColumnsInExport != value)
+				{
+					Settings.Default.IncludeReadOnlyColumnsInExport = value;
+					Settings.Default.Save();
+				}
+			}
+		}
+
 		/// <summary>Gets ProviderFactory.</summary>
 		public DbProviderFactory ProviderFactory
 		{

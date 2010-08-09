@@ -68,6 +68,7 @@ namespace MiniSqlQuery.PlugIns
 			_settings.DefaultConnectionDefinitionFilename = _settingsWrapper.DefaultConnectionDefinitionFilename;
 			_settings.DateTimeFormat = _settingsWrapper.DateTimeFormat;
 			_settings.NullText = _settingsWrapper.NullText;
+			_settings.IncludeReadOnlyColumnsInExport = _settingsWrapper.IncludeReadOnlyColumnsInExport;
 			IsDirty = false;
 		}
 
@@ -103,6 +104,9 @@ namespace MiniSqlQuery.PlugIns
 			/// <summary>The _plug in file filter.</summary>
 			private string _plugInFileFilter;
 
+			/// <summary>The include ReadOnly Columns in Export value.</summary>
+			private bool _includeReadOnlyColumnsInExport;
+			
 			/// <summary>Initializes a new instance of the <see cref="CoreMiniSqlQuerySettingsWrapper"/> class.</summary>
 			/// <param name="settings">The settings.</param>
 			public CoreMiniSqlQuerySettingsWrapper(IApplicationSettings settings)
@@ -115,6 +119,7 @@ namespace MiniSqlQuery.PlugIns
 				DefaultConnectionDefinitionFilename = _settings.DefaultConnectionDefinitionFilename;
 				DateTimeFormat = _settings.DateTimeFormat;
 				NullText = _settings.NullText;
+				IncludeReadOnlyColumnsInExport = _settings.IncludeReadOnlyColumnsInExport;
 			}
 
 			/// <summary>Gets or sets DateTimeFormat.</summary>
@@ -209,6 +214,22 @@ namespace MiniSqlQuery.PlugIns
 					if (_plugInFileFilter != value)
 					{
 						_plugInFileFilter = value;
+						OnPropertyChanged("PlugInFileFilter");
+					}
+				}
+			}
+
+			/// <summary>Gets or sets PlugInFileFilter.</summary>
+			[Category("Export Scripts")]
+			[Description("If true, the readonly columns (e.g. identity) will be exported in the script.")]
+			public bool IncludeReadOnlyColumnsInExport
+			{
+				get { return _includeReadOnlyColumnsInExport; }
+				set
+				{
+					if (_includeReadOnlyColumnsInExport != value)
+					{
+						_includeReadOnlyColumnsInExport = value;
 						OnPropertyChanged("PlugInFileFilter");
 					}
 				}

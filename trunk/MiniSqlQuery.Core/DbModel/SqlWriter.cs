@@ -6,6 +6,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace MiniSqlQuery.Core.DbModel
@@ -29,6 +30,8 @@ namespace MiniSqlQuery.Core.DbModel
 		/// <value>The insert line breaks between columns.</value>
 		public bool InsertLineBreaksBetweenColumns { get; set; }
 
+		public bool IncludeReadOnlyColumnsInExport { get; set; }
+		
 		/// <summary>The write create.</summary>
 		/// <param name="writer">The writer.</param>
 		/// <param name="column">The column.</param>
@@ -87,9 +90,17 @@ namespace MiniSqlQuery.Core.DbModel
 
 			writer.Write("(");
 
-			// get all columns that are "writable" including PKs that are not auto generated
-			var writableColumns = tableOrView.Columns.FindAll(c => c.IsWritable);
-
+			// get all columns that are "writable" including PKs that are not auto generated (unless specified)
+			List<DbModelColumn> writableColumns = null;
+			if (IncludeReadOnlyColumnsInExport)
+			{
+				writableColumns = tableOrView.Columns;
+			}
+			else
+			{
+				writableColumns = tableOrView.Columns.FindAll(c => c.IsWritable);
+			}
+			
 			for (int i = 0; i < writableColumns.Count; i++)
 			{
 				var column = writableColumns[i];

@@ -102,6 +102,26 @@ VALUES
 		}
 
 
+		[Test]
+		public void will_render_insert_sql_for_StaffUnit_including_PK()
+		{
+			_sqlWriter.IncludeReadOnlyColumnsInExport = true;
+			
+			var table = _model.FindTable("StaffUnit");
+			_sqlWriter.WriteInsert(_sqlSW, table);
+
+			Console.WriteLine(_sqlSW.ToString());
+			Assert.That(_sqlSW.ToString(), Is.EqualTo(@"INSERT INTO StaffUnit
+	(ID,
+	Name,
+	Description)
+VALUES
+	(0 /*ID,int*/,
+	N'' /*Name,nvarchar(100)*/,
+	null /*Description,nvarchar(500)*/)
+"));
+		}
+
 
 		[Test]
 		public void will_render_update_sql_for_StaffUnit()
