@@ -279,11 +279,40 @@ namespace MiniSqlQuery
 		{
 			DbConnectionDefinitionList definitionList = _settings.GetConnectionDefinitions();
 
-			// TODO - prevent the "reset"
-			toolStripComboBoxConnection.Items.Clear();
+			if (_initialized) // if initialized, just sync the lists
+			{
+				// add missing
+				foreach (var connDef in definitionList.Definitions)
+				{
+					if (!toolStripComboBoxConnection.Items.Contains(connDef))
+					{
+						toolStripComboBoxConnection.Items.Add(connDef);
+					}
+				}
+				
+				// remove if missing
+				var defList = new List<DbConnectionDefinition>(definitionList.Definitions);
+				for (int i = toolStripComboBoxConnection.Items.Count - 1; i >= 0; i--)
+				{
+					var connDef = (DbConnectionDefinition)toolStripComboBoxConnection.Items[i];
+					if(!defList.Contains(connDef))
+					{
+						toolStripComboBoxConnection.Items.RemoveAt(i);
+					}
+				}
+			}
+			else
+			{
+				// first populate
+				toolStripComboBoxConnection.Items.Clear();
+				foreach (var connDef in definitionList.Definitions)
+				{
+					toolStripComboBoxConnection.Items.Add(connDef);
+				}
+			}
+			
 			foreach (var connDef in definitionList.Definitions)
 			{
-				toolStripComboBoxConnection.Items.Add(connDef);
 				if (connDef.Name == Settings.Default.NammedConnection)
 				{
 					toolStripComboBoxConnection.SelectedItem = connDef;
