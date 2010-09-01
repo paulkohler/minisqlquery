@@ -3,38 +3,20 @@
 <DbConnectionDefinitionList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<Definitions>
 		<DbConnectionDefinition>
-			<Name>
-				Default - MSSQL Master@localhost
-			</Name>
-			<ProviderName>
-				System.Data.SqlClient
-			</ProviderName>
-			<ConnectionString>
-				Server=.; Database=master; Integrated Security=SSPI
-			</ConnectionString>
+			<Name>Default - MSSQL Master@localhost</Name>
+			<ProviderName>System.Data.SqlClient</ProviderName>
+			<ConnectionString>Server=.; Database=master; Integrated Security=SSPI</ConnectionString>
 		</DbConnectionDefinition>
 		<DbConnectionDefinition>
-			<Name>
-				Sample MSSQL Northwind SQL Express
-			</Name>
-			<ProviderName>
-				System.Data.SqlClient
-			</ProviderName>
-			<ConnectionString>
-				Server=.\sqlexpress; Database=Northwind; Integrated Security=SSPI
-			</ConnectionString>
+			<Name>Sample MSSQL Northwind SQL Express</Name>
+			<ProviderName>System.Data.SqlClient</ProviderName>
+			<ConnectionString>Server=.\sqlexpress; Database=Northwind; Integrated Security=SSPI</ConnectionString>
 		</DbConnectionDefinition>
 		<DbConnectionDefinition>
-			<Name>
-				Sample Access DB Connection
-			</Name>
+			<Name>Sample Access DB Connection</Name>
 			<ProviderName>System.Data.OleDb</ProviderName>
-			<ConnectionString>
-				Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\SomeDirectory\access.mdb
-			</ConnectionString>
+			<ConnectionString>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\SomeDirectory\access.mdb</ConnectionString>
 		</DbConnectionDefinition>
 	</Definitions>
-	<DefaultName>
-		Default - MSSQL Master@localhost
-	</DefaultName>
+	<DefaultName>Default - MSSQL Master@localhost</DefaultName>
 </DbConnectionDefinitionList>
