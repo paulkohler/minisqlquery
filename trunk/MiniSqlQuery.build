@@ -12,7 +12,7 @@ Build file for Mini SQL Query.
   <property name="project.docs" value="false"/>
 
   <!-- The release build is the 'public distribution', its should not incude test DLLs -->
-  <property name="project.release.type" value="Release"/>
+  <property name="project.release.type" value="Release - No Tests"/>
   
   <property name="project.description" value="Mini SQL Query from PK Software is a minimalist SQL query tool for multiple providers (MSSQL, Oracle, OLEDB, MS Access files etc). The goal of the Mini SQL Query tool is to allow a developer or trouble-shooter to quickly diagnose issues or make changes to a database using a tool with a small footprint, that is fast and easy to use." />
   <property name="create.assemblyinfo" value="true" />
@@ -41,6 +41,7 @@ Build file for Mini SQL Query.
       <!--clean up some extras-->
       <fileset>
         <include name="${release-build-dir}*.pdb"/>
+        <include name="${release-build-dir}NVelocity.xml"/>
       </fileset>
     </delete>
   </target>
