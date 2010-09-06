@@ -17,7 +17,7 @@ Build file for Mini SQL Query.
   <property name="project.description" value="Mini SQL Query from PK Software is a minimalist SQL query tool for multiple providers (MSSQL, Oracle, OLEDB, MS Access files etc). The goal of the Mini SQL Query tool is to allow a developer or trouble-shooter to quickly diagnose issues or make changes to a database using a tool with a small footprint, that is fast and easy to use." />
   <property name="create.assemblyinfo" value="true" />
 
-	<property name="dnfx-base" value="C:\WINDOWS\Microsoft.NET\Framework\v3.5\"/>
+	<property name="dnfx-base" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\"/>
 	<property name="release-base" value="${project::get-base-directory()}\"/>
   <property name="release-build-dir" value="${release-base}ReleaseBuild\"/>
   <property name="release-distro-dir" value="${release-base}DISTRO\"/>
@@ -85,13 +85,14 @@ Build file for Mini SQL Query.
     <copy file="Help\MiniSqlQueryExtensibilityDocumentation.chm" todir="${release-sdk-dir}" if="${project.docs}" />
     <copy file="ChangeLog.txt" todir="${release-build-dir}" />
     <copy file="ReadMe.htm" todir="${release-build-dir}" />
+    <!--<copy file="MiniSqlQueryQuickStart.docx" todir="${release-build-dir}" />-->
     <zip zipfile="${release-distro-dir}${project.name}.zip" ziplevel="9">
       <fileset basedir="${release-build-dir}" >
         <include name="*" />
         <include name="Templates\*" />
       </fileset>
     </zip>
-    <zip zipfile="${release-sdk-dir}${project.name}.PlugIn.ProjectTemplate.zip" ziplevel="9">
+    <zip zipfile="${release-sdk-dir}${project.name}.PlugIn.ProjectTemp late.zip" ziplevel="9">
       <fileset basedir="${release-sdk-dir}PlugInProjectTemplate" >
         <include name="*" />
       </fileset>

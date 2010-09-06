@@ -9,6 +9,8 @@ using MiniSqlQuery.Core;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
+// ReSharper disable InconsistentNaming
+
 namespace MiniSqlQuery.Tests
 {
 	[TestFixture(Description = "Requires AdventureWorks DB")]
