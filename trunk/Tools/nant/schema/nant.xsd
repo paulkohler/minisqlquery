@@ -1,11 +1,19 @@
 <?xml version="1.0"?>
-<xs:schema xmlns:nant="http://nant.sf.net/release/0.86-beta1/nant.xsd" elementFormDefault="qualified" targetNamespace="http://nant.sf.net/release/0.86-beta1/nant.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:nant="http://nant.sf.net/release/0.90/nant.xsd" elementFormDefault="qualified" targetNamespace="http://nant.sf.net/release/0.90/nant.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
-    <xs:documentation>NAnt schema generated at 12/08/2007 13:32:12</xs:documentation>
+    <xs:documentation>NAnt schema generated at 05/08/2010 14:19:04</xs:documentation>
   </xs:annotation>
   <xs:complexType name="NAnt.Core.TaskContainer">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="gunzip" type="nant:NAnt.Compression.Tasks.GUnzip" />
+        <xs:element name="tar" type="nant:NAnt.Compression.Tasks.TarTask" />
+        <xs:element name="untar" type="nant:NAnt.Compression.Tasks.UnTarTask" />
+        <xs:element name="unzip" type="nant:NAnt.Compression.Tasks.UnZipTask" />
+        <xs:element name="zip" type="nant:NAnt.Compression.Tasks.ZipTask" />
+        <xs:element name="testtask" type="nant:Tests.NAnt.Core.Util.XmlLoggerTest-TestTask" />
+        <xs:element name="elementTest1" type="nant:Tests.NAnt.Core.ElementTest1Task" />
+        <xs:element name="test" type="nant:Tests.NAnt.Core.TestTask" />
         <xs:element name="asminfo" type="nant:NAnt.DotNet.Tasks.AssemblyInfoTask" />
         <xs:element name="al" type="nant:NAnt.DotNet.Tasks.AssemblyLinkerTask" />
         <xs:element name="csc" type="nant:NAnt.DotNet.Tasks.CscTask" />
@@ -19,10 +27,6 @@
         <xs:element name="script" type="nant:NAnt.DotNet.Tasks.ScriptTask" />
         <xs:element name="vbc" type="nant:NAnt.DotNet.Tasks.VbcTask" />
         <xs:element name="vjc" type="nant:NAnt.DotNet.Tasks.VjcTask" />
-        <xs:element name="gunzip" type="nant:NAnt.Compression.Tasks.GUnzip" />
-        <xs:element name="tar" type="nant:NAnt.Compression.Tasks.TarTask" />
-        <xs:element name="unzip" type="nant:NAnt.Compression.Tasks.UnZipTask" />
-        <xs:element name="zip" type="nant:NAnt.Compression.Tasks.ZipTask" />
         <xs:element name="nunit" type="nant:NAnt.NUnit1.Tasks.NUnitTask" />
         <xs:element name="nunit2" type="nant:NAnt.NUnit2.Tasks.NUnit2Task" />
         <xs:element name="cvs-changelog" type="nant:NAnt.SourceControl.Tasks.ChangeLogTask" />
@@ -33,11 +37,6 @@
         <xs:element name="cvs-rtag" type="nant:NAnt.SourceControl.Tasks.RTagTask" />
         <xs:element name="cvs-tag" type="nant:NAnt.SourceControl.Tasks.TagTask" />
         <xs:element name="cvs-update" type="nant:NAnt.SourceControl.Tasks.UpdateTask" />
-        <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
-        <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
-        <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
-        <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
-        <xs:element name="tlbimp" type="nant:NAnt.Win32.Tasks.TlbImpTask" />
         <xs:element name="cl" type="nant:NAnt.VisualCpp.Tasks.ClTask" />
         <xs:element name="lib" type="nant:NAnt.VisualCpp.Tasks.LibTask" />
         <xs:element name="link" type="nant:NAnt.VisualCpp.Tasks.LinkTask" />
@@ -45,9 +44,11 @@
         <xs:element name="midl" type="nant:NAnt.VisualCpp.Tasks.MidlTask" />
         <xs:element name="rc" type="nant:NAnt.VisualCpp.Tasks.RcTask" />
         <xs:element name="solution" type="nant:NAnt.VSNet.Tasks.SolutionTask" />
-        <xs:element name="testtask" type="nant:Tests.NAnt.Core.Util.XmlLoggerTest-TestTask" />
-        <xs:element name="elementTest1" type="nant:Tests.NAnt.Core.ElementTest1Task" />
-        <xs:element name="test" type="nant:Tests.NAnt.Core.TestTask" />
+        <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
+        <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
+        <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
+        <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
+        <xs:element name="tlbimp" type="nant:NAnt.Win32.Tasks.TlbImpTask" />
         <xs:element name="attrib" type="nant:NAnt.Core.Tasks.AttribTask" />
         <xs:element name="available" type="nant:NAnt.Core.Tasks.AvailableTask" />
         <xs:element name="call" type="nant:NAnt.Core.Tasks.CallTask" />
@@ -75,8 +76,8 @@
         <xs:element name="sleep" type="nant:NAnt.Core.Tasks.SleepTask" />
         <xs:element name="style" type="nant:NAnt.Core.Tasks.StyleTask" />
         <xs:element name="sysinfo" type="nant:NAnt.Core.Tasks.SysInfoTask" />
-        <xs:element name="tstamp" type="nant:NAnt.Core.Tasks.TStampTask" />
         <xs:element name="touch" type="nant:NAnt.Core.Tasks.TouchTask" />
+        <xs:element name="tstamp" type="nant:NAnt.Core.Tasks.TStampTask" />
         <xs:element name="uptodate" type="nant:NAnt.Core.Tasks.UpToDateTask" />
         <xs:element name="xmlpeek" type="nant:NAnt.Core.Tasks.XmlPeekTask" />
         <xs:element name="xmlpoke" type="nant:NAnt.Core.Tasks.XmlPokeTask" />
@@ -135,6 +136,52 @@
     <xs:attribute name="if" use="optional" />
     <xs:attribute name="unless" use="optional" />
     <xs:attribute name="name" use="required" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
+  <xs:complexType name="NAnt.Compression.Types.TarFileSet">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="1" name="patternset" type="nant:NAnt.Core.Types.PatternSet" />
+      <xs:element minOccurs="0" maxOccurs="1" name="includes" type="nant:NAnt.Core.Types.FileSet-Include" />
+      <xs:element minOccurs="0" maxOccurs="1" name="include" type="nant:NAnt.Core.Types.FileSet-Include" />
+      <xs:element minOccurs="0" maxOccurs="1" name="excludes" type="nant:NAnt.Core.Types.FileSet-Exclude" />
+      <xs:element minOccurs="0" maxOccurs="1" name="exclude" type="nant:NAnt.Core.Types.FileSet-Exclude" />
+      <xs:element minOccurs="0" maxOccurs="1" name="includesList" type="nant:NAnt.Core.Types.FileSet-IncludesFile" />
+      <xs:element minOccurs="0" maxOccurs="1" name="includesfile" type="nant:NAnt.Core.Types.FileSet-IncludesFile" />
+      <xs:element minOccurs="0" maxOccurs="1" name="excludesfile" type="nant:NAnt.Core.Types.FileSet-ExcludesFile" />
+    </xs:sequence>
+    <xs:attribute name="filemode" use="optional" />
+    <xs:attribute name="dirmode" use="optional" />
+    <xs:attribute name="username" use="optional" />
+    <xs:attribute name="uid" use="optional" />
+    <xs:attribute name="groupname" use="optional" />
+    <xs:attribute name="gid" use="optional" />
+    <xs:attribute name="prefix" use="optional" />
+    <xs:attribute name="casesensitive" use="optional" />
+    <xs:attribute name="failonempty" use="optional" />
+    <xs:attribute name="defaultexcludes" use="optional" />
+    <xs:attribute name="basedir" use="optional" />
+    <xs:attribute name="id" use="optional" />
+    <xs:attribute name="refid" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
+  <xs:complexType name="NAnt.Compression.Types.ZipFileSet">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="1" name="patternset" type="nant:NAnt.Core.Types.PatternSet" />
+      <xs:element minOccurs="0" maxOccurs="1" name="includes" type="nant:NAnt.Core.Types.FileSet-Include" />
+      <xs:element minOccurs="0" maxOccurs="1" name="include" type="nant:NAnt.Core.Types.FileSet-Include" />
+      <xs:element minOccurs="0" maxOccurs="1" name="excludes" type="nant:NAnt.Core.Types.FileSet-Exclude" />
+      <xs:element minOccurs="0" maxOccurs="1" name="exclude" type="nant:NAnt.Core.Types.FileSet-Exclude" />
+      <xs:element minOccurs="0" maxOccurs="1" name="includesList" type="nant:NAnt.Core.Types.FileSet-IncludesFile" />
+      <xs:element minOccurs="0" maxOccurs="1" name="includesfile" type="nant:NAnt.Core.Types.FileSet-IncludesFile" />
+      <xs:element minOccurs="0" maxOccurs="1" name="excludesfile" type="nant:NAnt.Core.Types.FileSet-ExcludesFile" />
+    </xs:sequence>
+    <xs:attribute name="prefix" use="optional" />
+    <xs:attribute name="casesensitive" use="optional" />
+    <xs:attribute name="failonempty" use="optional" />
+    <xs:attribute name="defaultexcludes" use="optional" />
+    <xs:attribute name="basedir" use="optional" />
+    <xs:attribute name="id" use="optional" />
+    <xs:attribute name="refid" use="optional" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:complexType>
   <xs:complexType name="NAnt.DotNet.Types.LibDirectorySet">
@@ -236,52 +283,6 @@
       <xs:element minOccurs="0" maxOccurs="1" name="include" type="nant:NAnt.DotNet.Types.CompilerWarning" />
       <xs:element minOccurs="0" maxOccurs="1" name="exclude" type="nant:NAnt.DotNet.Types.CompilerWarning" />
     </xs:sequence>
-    <xs:attribute name="id" use="optional" />
-    <xs:attribute name="refid" use="optional" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:complexType>
-  <xs:complexType name="NAnt.Compression.Types.TarFileSet">
-    <xs:sequence minOccurs="0" maxOccurs="unbounded">
-      <xs:element minOccurs="0" maxOccurs="1" name="patternset" type="nant:NAnt.Core.Types.PatternSet" />
-      <xs:element minOccurs="0" maxOccurs="1" name="includes" type="nant:NAnt.Core.Types.FileSet-Include" />
-      <xs:element minOccurs="0" maxOccurs="1" name="include" type="nant:NAnt.Core.Types.FileSet-Include" />
-      <xs:element minOccurs="0" maxOccurs="1" name="excludes" type="nant:NAnt.Core.Types.FileSet-Exclude" />
-      <xs:element minOccurs="0" maxOccurs="1" name="exclude" type="nant:NAnt.Core.Types.FileSet-Exclude" />
-      <xs:element minOccurs="0" maxOccurs="1" name="includesList" type="nant:NAnt.Core.Types.FileSet-IncludesFile" />
-      <xs:element minOccurs="0" maxOccurs="1" name="includesfile" type="nant:NAnt.Core.Types.FileSet-IncludesFile" />
-      <xs:element minOccurs="0" maxOccurs="1" name="excludesfile" type="nant:NAnt.Core.Types.FileSet-ExcludesFile" />
-    </xs:sequence>
-    <xs:attribute name="filemode" use="optional" />
-    <xs:attribute name="dirmode" use="optional" />
-    <xs:attribute name="username" use="optional" />
-    <xs:attribute name="uid" use="optional" />
-    <xs:attribute name="groupname" use="optional" />
-    <xs:attribute name="gid" use="optional" />
-    <xs:attribute name="prefix" use="optional" />
-    <xs:attribute name="casesensitive" use="optional" />
-    <xs:attribute name="failonempty" use="optional" />
-    <xs:attribute name="defaultexcludes" use="optional" />
-    <xs:attribute name="basedir" use="optional" />
-    <xs:attribute name="id" use="optional" />
-    <xs:attribute name="refid" use="optional" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:complexType>
-  <xs:complexType name="NAnt.Compression.Types.ZipFileSet">
-    <xs:sequence minOccurs="0" maxOccurs="unbounded">
-      <xs:element minOccurs="0" maxOccurs="1" name="patternset" type="nant:NAnt.Core.Types.PatternSet" />
-      <xs:element minOccurs="0" maxOccurs="1" name="includes" type="nant:NAnt.Core.Types.FileSet-Include" />
-      <xs:element minOccurs="0" maxOccurs="1" name="include" type="nant:NAnt.Core.Types.FileSet-Include" />
-      <xs:element minOccurs="0" maxOccurs="1" name="excludes" type="nant:NAnt.Core.Types.FileSet-Exclude" />
-      <xs:element minOccurs="0" maxOccurs="1" name="exclude" type="nant:NAnt.Core.Types.FileSet-Exclude" />
-      <xs:element minOccurs="0" maxOccurs="1" name="includesList" type="nant:NAnt.Core.Types.FileSet-IncludesFile" />
-      <xs:element minOccurs="0" maxOccurs="1" name="includesfile" type="nant:NAnt.Core.Types.FileSet-IncludesFile" />
-      <xs:element minOccurs="0" maxOccurs="1" name="excludesfile" type="nant:NAnt.Core.Types.FileSet-ExcludesFile" />
-    </xs:sequence>
-    <xs:attribute name="prefix" use="optional" />
-    <xs:attribute name="casesensitive" use="optional" />
-    <xs:attribute name="failonempty" use="optional" />
-    <xs:attribute name="defaultexcludes" use="optional" />
-    <xs:attribute name="basedir" use="optional" />
     <xs:attribute name="id" use="optional" />
     <xs:attribute name="refid" use="optional" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
@@ -413,6 +414,96 @@
     <xs:attribute name="refid" use="optional" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:complexType>
+  <xs:complexType name="NAnt.Compression.Tasks.GUnzip">
+    <xs:attribute name="src" use="required" />
+    <xs:attribute name="dest" use="required" />
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
+  <xs:complexType name="NAnt.Compression.Tasks.TarTask">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="1" name="fileset" type="nant:NAnt.Compression.Types.TarFileSet" />
+    </xs:sequence>
+    <xs:attribute name="destfile" use="required" />
+    <xs:attribute name="includeemptydirs" use="optional" />
+    <xs:attribute name="compression" use="optional" />
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
+  <xs:complexType name="NAnt.Compression.Tasks.UnTarTask">
+    <xs:attribute name="src" use="required" />
+    <xs:attribute name="dest" use="optional" />
+    <xs:attribute name="compression" use="optional" />
+    <xs:attribute name="overwrite" use="optional" />
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
+  <xs:complexType name="NAnt.Compression.Tasks.UnZipTask">
+    <xs:attribute name="zipfile" use="required" />
+    <xs:attribute name="todir" use="optional" />
+    <xs:attribute name="encoding" use="optional" />
+    <xs:attribute name="overwrite" use="optional" />
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
+  <xs:complexType name="NAnt.Compression.Tasks.ZipTask">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="1" name="fileset" type="nant:NAnt.Compression.Types.ZipFileSet" />
+    </xs:sequence>
+    <xs:attribute name="zipfile" use="required" />
+    <xs:attribute name="comment" use="optional" />
+    <xs:attribute name="stampdatetime" use="optional" />
+    <xs:attribute name="ziplevel" use="optional" />
+    <xs:attribute name="includeemptydirs" use="optional" />
+    <xs:attribute name="duplicate" use="optional" />
+    <xs:attribute name="encoding" use="optional" />
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
+  <xs:complexType name="Tests.NAnt.Core.Util.XmlLoggerTest-TestTask">
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
+  <xs:complexType name="Tests.NAnt.Core.ElementTest1Task">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="1" name="fileset" type="nant:NAnt.Core.Types.FileSet" />
+    </xs:sequence>
+    <xs:attribute name="type" use="optional" />
+    <xs:attribute name="uri" use="optional" />
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
+  <xs:complexType name="Tests.NAnt.Core.TestTask">
+    <xs:attribute name="fail" use="optional" />
+    <xs:attribute name="required" use="required" />
+    <xs:attribute name="requirednotempty" use="required" />
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
   <xs:complexType name="NAnt.DotNet.Types.AssemblyAttribute">
     <xs:attribute name="type" use="required" />
     <xs:attribute name="value" use="optional" />
@@ -537,6 +628,7 @@
     <xs:attribute name="target" use="required" />
     <xs:attribute name="define" use="optional" />
     <xs:attribute name="win32icon" use="optional" />
+    <xs:attribute name="win32res" use="optional" />
     <xs:attribute name="warnaserror" use="optional" />
     <xs:attribute name="nowarn" use="optional" />
     <xs:attribute name="rebuild" use="optional" />
@@ -617,6 +709,7 @@
     <xs:attribute name="target" use="required" />
     <xs:attribute name="define" use="optional" />
     <xs:attribute name="win32icon" use="optional" />
+    <xs:attribute name="win32res" use="optional" />
     <xs:attribute name="warnaserror" use="optional" />
     <xs:attribute name="rebuild" use="optional" />
     <xs:attribute name="main" use="optional" />
@@ -752,6 +845,7 @@
     <xs:attribute name="target" use="required" />
     <xs:attribute name="define" use="optional" />
     <xs:attribute name="win32icon" use="optional" />
+    <xs:attribute name="win32res" use="optional" />
     <xs:attribute name="warnaserror" use="optional" />
     <xs:attribute name="nowarn" use="optional" />
     <xs:attribute name="rebuild" use="optional" />
@@ -792,6 +886,7 @@
     <xs:attribute name="target" use="required" />
     <xs:attribute name="define" use="optional" />
     <xs:attribute name="win32icon" use="optional" />
+    <xs:attribute name="win32res" use="optional" />
     <xs:attribute name="warnaserror" use="optional" />
     <xs:attribute name="nowarn" use="optional" />
     <xs:attribute name="rebuild" use="optional" />
@@ -800,55 +895,6 @@
     <xs:attribute name="keyfile" use="optional" />
     <xs:attribute name="delaysign" use="optional" />
     <xs:attribute name="timeout" use="optional" />
-    <xs:attribute name="failonerror" use="optional" />
-    <xs:attribute name="verbose" use="optional" />
-    <xs:attribute name="if" use="optional" />
-    <xs:attribute name="unless" use="optional" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:complexType>
-  <xs:complexType name="NAnt.Compression.Tasks.GUnzip">
-    <xs:attribute name="src" use="required" />
-    <xs:attribute name="dest" use="required" />
-    <xs:attribute name="failonerror" use="optional" />
-    <xs:attribute name="verbose" use="optional" />
-    <xs:attribute name="if" use="optional" />
-    <xs:attribute name="unless" use="optional" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:complexType>
-  <xs:complexType name="NAnt.Compression.Tasks.TarTask">
-    <xs:sequence minOccurs="0" maxOccurs="unbounded">
-      <xs:element minOccurs="0" maxOccurs="1" name="fileset" type="nant:NAnt.Compression.Types.TarFileSet" />
-    </xs:sequence>
-    <xs:attribute name="destfile" use="required" />
-    <xs:attribute name="includeemptydirs" use="optional" />
-    <xs:attribute name="compression" use="optional" />
-    <xs:attribute name="failonerror" use="optional" />
-    <xs:attribute name="verbose" use="optional" />
-    <xs:attribute name="if" use="optional" />
-    <xs:attribute name="unless" use="optional" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:complexType>
-  <xs:complexType name="NAnt.Compression.Tasks.UnZipTask">
-    <xs:attribute name="zipfile" use="required" />
-    <xs:attribute name="todir" use="optional" />
-    <xs:attribute name="encoding" use="optional" />
-    <xs:attribute name="failonerror" use="optional" />
-    <xs:attribute name="verbose" use="optional" />
-    <xs:attribute name="if" use="optional" />
-    <xs:attribute name="unless" use="optional" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:complexType>
-  <xs:complexType name="NAnt.Compression.Tasks.ZipTask">
-    <xs:sequence minOccurs="0" maxOccurs="unbounded">
-      <xs:element minOccurs="0" maxOccurs="1" name="fileset" type="nant:NAnt.Compression.Types.ZipFileSet" />
-    </xs:sequence>
-    <xs:attribute name="zipfile" use="required" />
-    <xs:attribute name="comment" use="optional" />
-    <xs:attribute name="stampdatetime" use="optional" />
-    <xs:attribute name="ziplevel" use="optional" />
-    <xs:attribute name="includeemptydirs" use="optional" />
-    <xs:attribute name="duplicate" use="optional" />
-    <xs:attribute name="encoding" use="optional" />
     <xs:attribute name="failonerror" use="optional" />
     <xs:attribute name="verbose" use="optional" />
     <xs:attribute name="if" use="optional" />
@@ -890,6 +936,7 @@
   <xs:complexType name="NAnt.NUnit2.Types.NUnit2Test">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
       <xs:element minOccurs="0" maxOccurs="1" name="assemblies" type="nant:NAnt.DotNet.Types.AssemblyFileSet" />
+      <xs:element minOccurs="0" maxOccurs="1" name="references" type="nant:NAnt.DotNet.Types.AssemblyFileSet" />
       <xs:element minOccurs="0" maxOccurs="1" name="categories" type="nant:NAnt.NUnit2.Types.Categories" />
     </xs:sequence>
     <xs:attribute name="assemblyname" use="optional" />
@@ -1138,94 +1185,6 @@
     <xs:attribute name="unless" use="optional" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:complexType>
-  <xs:complexType name="NAnt.Win32.Tasks.AxImpTask">
-    <xs:sequence minOccurs="0" maxOccurs="unbounded">
-      <xs:element minOccurs="0" maxOccurs="1" name="arg" type="nant:NAnt.Core.Types.Argument" />
-    </xs:sequence>
-    <xs:attribute name="ocx" use="required" />
-    <xs:attribute name="output" use="optional" />
-    <xs:attribute name="publickey" use="optional" />
-    <xs:attribute name="keyfile" use="optional" />
-    <xs:attribute name="keycontainer" use="optional" />
-    <xs:attribute name="delaysign" use="optional" />
-    <xs:attribute name="generatesource" use="optional" />
-    <xs:attribute name="rcw" use="optional" />
-    <xs:attribute name="timeout" use="optional" />
-    <xs:attribute name="failonerror" use="optional" />
-    <xs:attribute name="verbose" use="optional" />
-    <xs:attribute name="if" use="optional" />
-    <xs:attribute name="unless" use="optional" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:complexType>
-  <xs:complexType name="NAnt.Win32.Tasks.ReadRegistryTask">
-    <xs:attribute name="property" use="optional" />
-    <xs:attribute name="prefix" use="optional" />
-    <xs:attribute name="key" use="required" />
-    <xs:attribute name="hive" use="optional" />
-    <xs:attribute name="failonerror" use="optional" />
-    <xs:attribute name="verbose" use="optional" />
-    <xs:attribute name="if" use="optional" />
-    <xs:attribute name="unless" use="optional" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:complexType>
-  <xs:complexType name="NAnt.Win32.Tasks.RegAsmTask">
-    <xs:sequence minOccurs="0" maxOccurs="unbounded">
-      <xs:element minOccurs="0" maxOccurs="1" name="assemblies" type="nant:NAnt.DotNet.Types.AssemblyFileSet" />
-      <xs:element minOccurs="0" maxOccurs="1" name="references" type="nant:NAnt.DotNet.Types.AssemblyFileSet" />
-      <xs:element minOccurs="0" maxOccurs="1" name="arg" type="nant:NAnt.Core.Types.Argument" />
-    </xs:sequence>
-    <xs:attribute name="assembly" use="optional" />
-    <xs:attribute name="regfile" use="optional" />
-    <xs:attribute name="codebase" use="optional" />
-    <xs:attribute name="registered" use="optional" />
-    <xs:attribute name="typelib" use="optional" />
-    <xs:attribute name="unregister" use="optional" />
-    <xs:attribute name="timeout" use="optional" />
-    <xs:attribute name="failonerror" use="optional" />
-    <xs:attribute name="verbose" use="optional" />
-    <xs:attribute name="if" use="optional" />
-    <xs:attribute name="unless" use="optional" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:complexType>
-  <xs:complexType name="NAnt.Win32.Tasks.TlbExpTask">
-    <xs:sequence minOccurs="0" maxOccurs="unbounded">
-      <xs:element minOccurs="0" maxOccurs="1" name="arg" type="nant:NAnt.Core.Types.Argument" />
-    </xs:sequence>
-    <xs:attribute name="assembly" use="required" />
-    <xs:attribute name="output" use="required" />
-    <xs:attribute name="names" use="optional" />
-    <xs:attribute name="timeout" use="optional" />
-    <xs:attribute name="failonerror" use="optional" />
-    <xs:attribute name="verbose" use="optional" />
-    <xs:attribute name="if" use="optional" />
-    <xs:attribute name="unless" use="optional" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:complexType>
-  <xs:complexType name="NAnt.Win32.Tasks.TlbImpTask">
-    <xs:sequence minOccurs="0" maxOccurs="unbounded">
-      <xs:element minOccurs="0" maxOccurs="1" name="references" type="nant:NAnt.DotNet.Types.AssemblyFileSet" />
-      <xs:element minOccurs="0" maxOccurs="1" name="arg" type="nant:NAnt.Core.Types.Argument" />
-    </xs:sequence>
-    <xs:attribute name="output" use="required" />
-    <xs:attribute name="namespace" use="optional" />
-    <xs:attribute name="asmversion" use="optional" />
-    <xs:attribute name="delaysign" use="optional" />
-    <xs:attribute name="primary" use="optional" />
-    <xs:attribute name="publickey" use="optional" />
-    <xs:attribute name="keyfile" use="optional" />
-    <xs:attribute name="keycontainer" use="optional" />
-    <xs:attribute name="strictref" use="optional" />
-    <xs:attribute name="sysarray" use="optional" />
-    <xs:attribute name="transform" use="optional" />
-    <xs:attribute name="typelib" use="required" />
-    <xs:attribute name="unsafe" use="optional" />
-    <xs:attribute name="timeout" use="optional" />
-    <xs:attribute name="failonerror" use="optional" />
-    <xs:attribute name="verbose" use="optional" />
-    <xs:attribute name="if" use="optional" />
-    <xs:attribute name="unless" use="optional" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:complexType>
   <xs:complexType name="NAnt.Core.Types.Option">
     <xs:attribute name="name" use="required" />
     <xs:attribute name="value" use="optional" />
@@ -1339,6 +1298,7 @@
     <xs:attribute name="options" use="optional" />
     <xs:attribute name="output" use="required" />
     <xs:attribute name="pdbfile" use="optional" />
+    <xs:attribute name="moduledefinition" use="optional" />
     <xs:attribute name="timeout" use="optional" />
     <xs:attribute name="failonerror" use="optional" />
     <xs:attribute name="verbose" use="optional" />
@@ -1455,6 +1415,7 @@
     </xs:sequence>
     <xs:attribute name="solutionfile" use="optional" />
     <xs:attribute name="configuration" use="required" />
+    <xs:attribute name="platform" use="optional" />
     <xs:attribute name="outputdir" use="optional" />
     <xs:attribute name="includevsfolders" use="optional" />
     <xs:attribute name="enablewebdav" use="optional" />
@@ -1464,29 +1425,88 @@
     <xs:attribute name="unless" use="optional" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:complexType>
-  <xs:complexType name="Tests.NAnt.Core.Util.XmlLoggerTest-TestTask">
-    <xs:attribute name="failonerror" use="optional" />
-    <xs:attribute name="verbose" use="optional" />
-    <xs:attribute name="if" use="optional" />
-    <xs:attribute name="unless" use="optional" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:complexType>
-  <xs:complexType name="Tests.NAnt.Core.ElementTest1Task">
+  <xs:complexType name="NAnt.Win32.Tasks.AxImpTask">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
-      <xs:element minOccurs="0" maxOccurs="1" name="fileset" type="nant:NAnt.Core.Types.FileSet" />
+      <xs:element minOccurs="0" maxOccurs="1" name="arg" type="nant:NAnt.Core.Types.Argument" />
     </xs:sequence>
-    <xs:attribute name="type" use="optional" />
-    <xs:attribute name="uri" use="optional" />
+    <xs:attribute name="ocx" use="required" />
+    <xs:attribute name="output" use="optional" />
+    <xs:attribute name="publickey" use="optional" />
+    <xs:attribute name="keyfile" use="optional" />
+    <xs:attribute name="keycontainer" use="optional" />
+    <xs:attribute name="delaysign" use="optional" />
+    <xs:attribute name="generatesource" use="optional" />
+    <xs:attribute name="rcw" use="optional" />
+    <xs:attribute name="timeout" use="optional" />
     <xs:attribute name="failonerror" use="optional" />
     <xs:attribute name="verbose" use="optional" />
     <xs:attribute name="if" use="optional" />
     <xs:attribute name="unless" use="optional" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:complexType>
-  <xs:complexType name="Tests.NAnt.Core.TestTask">
-    <xs:attribute name="fail" use="optional" />
-    <xs:attribute name="required" use="required" />
-    <xs:attribute name="requirednotempty" use="required" />
+  <xs:complexType name="NAnt.Win32.Tasks.ReadRegistryTask">
+    <xs:attribute name="property" use="optional" />
+    <xs:attribute name="prefix" use="optional" />
+    <xs:attribute name="key" use="required" />
+    <xs:attribute name="hive" use="optional" />
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
+  <xs:complexType name="NAnt.Win32.Tasks.RegAsmTask">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="1" name="assemblies" type="nant:NAnt.DotNet.Types.AssemblyFileSet" />
+      <xs:element minOccurs="0" maxOccurs="1" name="references" type="nant:NAnt.DotNet.Types.AssemblyFileSet" />
+      <xs:element minOccurs="0" maxOccurs="1" name="arg" type="nant:NAnt.Core.Types.Argument" />
+    </xs:sequence>
+    <xs:attribute name="assembly" use="optional" />
+    <xs:attribute name="regfile" use="optional" />
+    <xs:attribute name="codebase" use="optional" />
+    <xs:attribute name="registered" use="optional" />
+    <xs:attribute name="typelib" use="optional" />
+    <xs:attribute name="unregister" use="optional" />
+    <xs:attribute name="timeout" use="optional" />
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
+  <xs:complexType name="NAnt.Win32.Tasks.TlbExpTask">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="1" name="arg" type="nant:NAnt.Core.Types.Argument" />
+    </xs:sequence>
+    <xs:attribute name="assembly" use="required" />
+    <xs:attribute name="output" use="required" />
+    <xs:attribute name="names" use="optional" />
+    <xs:attribute name="timeout" use="optional" />
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
+  <xs:complexType name="NAnt.Win32.Tasks.TlbImpTask">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="1" name="references" type="nant:NAnt.DotNet.Types.AssemblyFileSet" />
+      <xs:element minOccurs="0" maxOccurs="1" name="arg" type="nant:NAnt.Core.Types.Argument" />
+    </xs:sequence>
+    <xs:attribute name="output" use="required" />
+    <xs:attribute name="namespace" use="optional" />
+    <xs:attribute name="asmversion" use="optional" />
+    <xs:attribute name="delaysign" use="optional" />
+    <xs:attribute name="primary" use="optional" />
+    <xs:attribute name="publickey" use="optional" />
+    <xs:attribute name="keyfile" use="optional" />
+    <xs:attribute name="keycontainer" use="optional" />
+    <xs:attribute name="strictref" use="optional" />
+    <xs:attribute name="sysarray" use="optional" />
+    <xs:attribute name="transform" use="optional" />
+    <xs:attribute name="typelib" use="required" />
+    <xs:attribute name="unsafe" use="optional" />
+    <xs:attribute name="timeout" use="optional" />
     <xs:attribute name="failonerror" use="optional" />
     <xs:attribute name="verbose" use="optional" />
     <xs:attribute name="if" use="optional" />
@@ -1569,6 +1589,7 @@
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:complexType>
   <xs:complexType name="NAnt.Core.Tasks.EchoTask">
+    <xs:attribute name="encoding" use="optional" />
     <xs:attribute name="message" use="optional" />
     <xs:attribute name="file" use="optional" />
     <xs:attribute name="append" use="optional" />
@@ -1653,6 +1674,14 @@
       <xs:element minOccurs="0" maxOccurs="1" name="comparefiles" type="nant:NAnt.Core.Types.FileSet" />
       <xs:element minOccurs="0" maxOccurs="1" name="uptodatefiles" type="nant:NAnt.Core.Types.FileSet" />
       <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="gunzip" type="nant:NAnt.Compression.Tasks.GUnzip" />
+        <xs:element name="tar" type="nant:NAnt.Compression.Tasks.TarTask" />
+        <xs:element name="untar" type="nant:NAnt.Compression.Tasks.UnTarTask" />
+        <xs:element name="unzip" type="nant:NAnt.Compression.Tasks.UnZipTask" />
+        <xs:element name="zip" type="nant:NAnt.Compression.Tasks.ZipTask" />
+        <xs:element name="testtask" type="nant:Tests.NAnt.Core.Util.XmlLoggerTest-TestTask" />
+        <xs:element name="elementTest1" type="nant:Tests.NAnt.Core.ElementTest1Task" />
+        <xs:element name="test" type="nant:Tests.NAnt.Core.TestTask" />
         <xs:element name="asminfo" type="nant:NAnt.DotNet.Tasks.AssemblyInfoTask" />
         <xs:element name="al" type="nant:NAnt.DotNet.Tasks.AssemblyLinkerTask" />
         <xs:element name="csc" type="nant:NAnt.DotNet.Tasks.CscTask" />
@@ -1666,10 +1695,6 @@
         <xs:element name="script" type="nant:NAnt.DotNet.Tasks.ScriptTask" />
         <xs:element name="vbc" type="nant:NAnt.DotNet.Tasks.VbcTask" />
         <xs:element name="vjc" type="nant:NAnt.DotNet.Tasks.VjcTask" />
-        <xs:element name="gunzip" type="nant:NAnt.Compression.Tasks.GUnzip" />
-        <xs:element name="tar" type="nant:NAnt.Compression.Tasks.TarTask" />
-        <xs:element name="unzip" type="nant:NAnt.Compression.Tasks.UnZipTask" />
-        <xs:element name="zip" type="nant:NAnt.Compression.Tasks.ZipTask" />
         <xs:element name="nunit" type="nant:NAnt.NUnit1.Tasks.NUnitTask" />
         <xs:element name="nunit2" type="nant:NAnt.NUnit2.Tasks.NUnit2Task" />
         <xs:element name="cvs-changelog" type="nant:NAnt.SourceControl.Tasks.ChangeLogTask" />
@@ -1680,11 +1705,6 @@
         <xs:element name="cvs-rtag" type="nant:NAnt.SourceControl.Tasks.RTagTask" />
         <xs:element name="cvs-tag" type="nant:NAnt.SourceControl.Tasks.TagTask" />
         <xs:element name="cvs-update" type="nant:NAnt.SourceControl.Tasks.UpdateTask" />
-        <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
-        <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
-        <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
-        <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
-        <xs:element name="tlbimp" type="nant:NAnt.Win32.Tasks.TlbImpTask" />
         <xs:element name="cl" type="nant:NAnt.VisualCpp.Tasks.ClTask" />
         <xs:element name="lib" type="nant:NAnt.VisualCpp.Tasks.LibTask" />
         <xs:element name="link" type="nant:NAnt.VisualCpp.Tasks.LinkTask" />
@@ -1692,9 +1712,11 @@
         <xs:element name="midl" type="nant:NAnt.VisualCpp.Tasks.MidlTask" />
         <xs:element name="rc" type="nant:NAnt.VisualCpp.Tasks.RcTask" />
         <xs:element name="solution" type="nant:NAnt.VSNet.Tasks.SolutionTask" />
-        <xs:element name="testtask" type="nant:Tests.NAnt.Core.Util.XmlLoggerTest-TestTask" />
-        <xs:element name="elementTest1" type="nant:Tests.NAnt.Core.ElementTest1Task" />
-        <xs:element name="test" type="nant:Tests.NAnt.Core.TestTask" />
+        <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
+        <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
+        <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
+        <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
+        <xs:element name="tlbimp" type="nant:NAnt.Win32.Tasks.TlbImpTask" />
         <xs:element name="attrib" type="nant:NAnt.Core.Tasks.AttribTask" />
         <xs:element name="available" type="nant:NAnt.Core.Tasks.AvailableTask" />
         <xs:element name="call" type="nant:NAnt.Core.Tasks.CallTask" />
@@ -1722,8 +1744,8 @@
         <xs:element name="sleep" type="nant:NAnt.Core.Tasks.SleepTask" />
         <xs:element name="style" type="nant:NAnt.Core.Tasks.StyleTask" />
         <xs:element name="sysinfo" type="nant:NAnt.Core.Tasks.SysInfoTask" />
-        <xs:element name="tstamp" type="nant:NAnt.Core.Tasks.TStampTask" />
         <xs:element name="touch" type="nant:NAnt.Core.Tasks.TouchTask" />
+        <xs:element name="tstamp" type="nant:NAnt.Core.Tasks.TStampTask" />
         <xs:element name="uptodate" type="nant:NAnt.Core.Tasks.UpToDateTask" />
         <xs:element name="xmlpeek" type="nant:NAnt.Core.Tasks.XmlPeekTask" />
         <xs:element name="xmlpoke" type="nant:NAnt.Core.Tasks.XmlPokeTask" />
@@ -1749,6 +1771,14 @@
       <xs:element minOccurs="0" maxOccurs="1" name="comparefiles" type="nant:NAnt.Core.Types.FileSet" />
       <xs:element minOccurs="0" maxOccurs="1" name="uptodatefiles" type="nant:NAnt.Core.Types.FileSet" />
       <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="gunzip" type="nant:NAnt.Compression.Tasks.GUnzip" />
+        <xs:element name="tar" type="nant:NAnt.Compression.Tasks.TarTask" />
+        <xs:element name="untar" type="nant:NAnt.Compression.Tasks.UnTarTask" />
+        <xs:element name="unzip" type="nant:NAnt.Compression.Tasks.UnZipTask" />
+        <xs:element name="zip" type="nant:NAnt.Compression.Tasks.ZipTask" />
+        <xs:element name="testtask" type="nant:Tests.NAnt.Core.Util.XmlLoggerTest-TestTask" />
+        <xs:element name="elementTest1" type="nant:Tests.NAnt.Core.ElementTest1Task" />
+        <xs:element name="test" type="nant:Tests.NAnt.Core.TestTask" />
         <xs:element name="asminfo" type="nant:NAnt.DotNet.Tasks.AssemblyInfoTask" />
         <xs:element name="al" type="nant:NAnt.DotNet.Tasks.AssemblyLinkerTask" />
         <xs:element name="csc" type="nant:NAnt.DotNet.Tasks.CscTask" />
@@ -1762,10 +1792,6 @@
         <xs:element name="script" type="nant:NAnt.DotNet.Tasks.ScriptTask" />
         <xs:element name="vbc" type="nant:NAnt.DotNet.Tasks.VbcTask" />
         <xs:element name="vjc" type="nant:NAnt.DotNet.Tasks.VjcTask" />
-        <xs:element name="gunzip" type="nant:NAnt.Compression.Tasks.GUnzip" />
-        <xs:element name="tar" type="nant:NAnt.Compression.Tasks.TarTask" />
-        <xs:element name="unzip" type="nant:NAnt.Compression.Tasks.UnZipTask" />
-        <xs:element name="zip" type="nant:NAnt.Compression.Tasks.ZipTask" />
         <xs:element name="nunit" type="nant:NAnt.NUnit1.Tasks.NUnitTask" />
         <xs:element name="nunit2" type="nant:NAnt.NUnit2.Tasks.NUnit2Task" />
         <xs:element name="cvs-changelog" type="nant:NAnt.SourceControl.Tasks.ChangeLogTask" />
@@ -1776,11 +1802,6 @@
         <xs:element name="cvs-rtag" type="nant:NAnt.SourceControl.Tasks.RTagTask" />
         <xs:element name="cvs-tag" type="nant:NAnt.SourceControl.Tasks.TagTask" />
         <xs:element name="cvs-update" type="nant:NAnt.SourceControl.Tasks.UpdateTask" />
-        <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
-        <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
-        <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
-        <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
-        <xs:element name="tlbimp" type="nant:NAnt.Win32.Tasks.TlbImpTask" />
         <xs:element name="cl" type="nant:NAnt.VisualCpp.Tasks.ClTask" />
         <xs:element name="lib" type="nant:NAnt.VisualCpp.Tasks.LibTask" />
         <xs:element name="link" type="nant:NAnt.VisualCpp.Tasks.LinkTask" />
@@ -1788,9 +1809,11 @@
         <xs:element name="midl" type="nant:NAnt.VisualCpp.Tasks.MidlTask" />
         <xs:element name="rc" type="nant:NAnt.VisualCpp.Tasks.RcTask" />
         <xs:element name="solution" type="nant:NAnt.VSNet.Tasks.SolutionTask" />
-        <xs:element name="testtask" type="nant:Tests.NAnt.Core.Util.XmlLoggerTest-TestTask" />
-        <xs:element name="elementTest1" type="nant:Tests.NAnt.Core.ElementTest1Task" />
-        <xs:element name="test" type="nant:Tests.NAnt.Core.TestTask" />
+        <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
+        <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
+        <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
+        <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
+        <xs:element name="tlbimp" type="nant:NAnt.Win32.Tasks.TlbImpTask" />
         <xs:element name="attrib" type="nant:NAnt.Core.Tasks.AttribTask" />
         <xs:element name="available" type="nant:NAnt.Core.Tasks.AvailableTask" />
         <xs:element name="call" type="nant:NAnt.Core.Tasks.CallTask" />
@@ -1818,8 +1841,8 @@
         <xs:element name="sleep" type="nant:NAnt.Core.Tasks.SleepTask" />
         <xs:element name="style" type="nant:NAnt.Core.Tasks.StyleTask" />
         <xs:element name="sysinfo" type="nant:NAnt.Core.Tasks.SysInfoTask" />
-        <xs:element name="tstamp" type="nant:NAnt.Core.Tasks.TStampTask" />
         <xs:element name="touch" type="nant:NAnt.Core.Tasks.TouchTask" />
+        <xs:element name="tstamp" type="nant:NAnt.Core.Tasks.TStampTask" />
         <xs:element name="uptodate" type="nant:NAnt.Core.Tasks.UpToDateTask" />
         <xs:element name="xmlpeek" type="nant:NAnt.Core.Tasks.XmlPeekTask" />
         <xs:element name="xmlpoke" type="nant:NAnt.Core.Tasks.XmlPokeTask" />
@@ -1884,6 +1907,14 @@
       <xs:element minOccurs="0" maxOccurs="1" name="in" type="nant:NAnt.Core.Tasks.InElement" />
       <xs:element minOccurs="0" maxOccurs="1" name="do" type="nant:NAnt.Core.TaskContainer" />
       <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="gunzip" type="nant:NAnt.Compression.Tasks.GUnzip" />
+        <xs:element name="tar" type="nant:NAnt.Compression.Tasks.TarTask" />
+        <xs:element name="untar" type="nant:NAnt.Compression.Tasks.UnTarTask" />
+        <xs:element name="unzip" type="nant:NAnt.Compression.Tasks.UnZipTask" />
+        <xs:element name="zip" type="nant:NAnt.Compression.Tasks.ZipTask" />
+        <xs:element name="testtask" type="nant:Tests.NAnt.Core.Util.XmlLoggerTest-TestTask" />
+        <xs:element name="elementTest1" type="nant:Tests.NAnt.Core.ElementTest1Task" />
+        <xs:element name="test" type="nant:Tests.NAnt.Core.TestTask" />
         <xs:element name="asminfo" type="nant:NAnt.DotNet.Tasks.AssemblyInfoTask" />
         <xs:element name="al" type="nant:NAnt.DotNet.Tasks.AssemblyLinkerTask" />
         <xs:element name="csc" type="nant:NAnt.DotNet.Tasks.CscTask" />
@@ -1897,10 +1928,6 @@
         <xs:element name="script" type="nant:NAnt.DotNet.Tasks.ScriptTask" />
         <xs:element name="vbc" type="nant:NAnt.DotNet.Tasks.VbcTask" />
         <xs:element name="vjc" type="nant:NAnt.DotNet.Tasks.VjcTask" />
-        <xs:element name="gunzip" type="nant:NAnt.Compression.Tasks.GUnzip" />
-        <xs:element name="tar" type="nant:NAnt.Compression.Tasks.TarTask" />
-        <xs:element name="unzip" type="nant:NAnt.Compression.Tasks.UnZipTask" />
-        <xs:element name="zip" type="nant:NAnt.Compression.Tasks.ZipTask" />
         <xs:element name="nunit" type="nant:NAnt.NUnit1.Tasks.NUnitTask" />
         <xs:element name="nunit2" type="nant:NAnt.NUnit2.Tasks.NUnit2Task" />
         <xs:element name="cvs-changelog" type="nant:NAnt.SourceControl.Tasks.ChangeLogTask" />
@@ -1911,11 +1938,6 @@
         <xs:element name="cvs-rtag" type="nant:NAnt.SourceControl.Tasks.RTagTask" />
         <xs:element name="cvs-tag" type="nant:NAnt.SourceControl.Tasks.TagTask" />
         <xs:element name="cvs-update" type="nant:NAnt.SourceControl.Tasks.UpdateTask" />
-        <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
-        <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
-        <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
-        <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
-        <xs:element name="tlbimp" type="nant:NAnt.Win32.Tasks.TlbImpTask" />
         <xs:element name="cl" type="nant:NAnt.VisualCpp.Tasks.ClTask" />
         <xs:element name="lib" type="nant:NAnt.VisualCpp.Tasks.LibTask" />
         <xs:element name="link" type="nant:NAnt.VisualCpp.Tasks.LinkTask" />
@@ -1923,9 +1945,11 @@
         <xs:element name="midl" type="nant:NAnt.VisualCpp.Tasks.MidlTask" />
         <xs:element name="rc" type="nant:NAnt.VisualCpp.Tasks.RcTask" />
         <xs:element name="solution" type="nant:NAnt.VSNet.Tasks.SolutionTask" />
-        <xs:element name="testtask" type="nant:Tests.NAnt.Core.Util.XmlLoggerTest-TestTask" />
-        <xs:element name="elementTest1" type="nant:Tests.NAnt.Core.ElementTest1Task" />
-        <xs:element name="test" type="nant:Tests.NAnt.Core.TestTask" />
+        <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
+        <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
+        <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
+        <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
+        <xs:element name="tlbimp" type="nant:NAnt.Win32.Tasks.TlbImpTask" />
         <xs:element name="attrib" type="nant:NAnt.Core.Tasks.AttribTask" />
         <xs:element name="available" type="nant:NAnt.Core.Tasks.AvailableTask" />
         <xs:element name="call" type="nant:NAnt.Core.Tasks.CallTask" />
@@ -1953,8 +1977,8 @@
         <xs:element name="sleep" type="nant:NAnt.Core.Tasks.SleepTask" />
         <xs:element name="style" type="nant:NAnt.Core.Tasks.StyleTask" />
         <xs:element name="sysinfo" type="nant:NAnt.Core.Tasks.SysInfoTask" />
-        <xs:element name="tstamp" type="nant:NAnt.Core.Tasks.TStampTask" />
         <xs:element name="touch" type="nant:NAnt.Core.Tasks.TouchTask" />
+        <xs:element name="tstamp" type="nant:NAnt.Core.Tasks.TStampTask" />
         <xs:element name="uptodate" type="nant:NAnt.Core.Tasks.UpToDateTask" />
         <xs:element name="xmlpeek" type="nant:NAnt.Core.Tasks.XmlPeekTask" />
         <xs:element name="xmlpoke" type="nant:NAnt.Core.Tasks.XmlPokeTask" />
@@ -2153,6 +2177,19 @@
     <xs:attribute name="unless" use="optional" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:complexType>
+  <xs:complexType name="NAnt.Core.Tasks.TouchTask">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="1" name="fileset" type="nant:NAnt.Core.Types.FileSet" />
+    </xs:sequence>
+    <xs:attribute name="file" use="optional" />
+    <xs:attribute name="millis" use="optional" />
+    <xs:attribute name="datetime" use="optional" />
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
   <xs:complexType name="NAnt.Core.Types.Formatter">
     <xs:attribute name="property" use="required" />
     <xs:attribute name="pattern" use="required" />
@@ -2166,19 +2203,6 @@
     </xs:sequence>
     <xs:attribute name="property" use="optional" />
     <xs:attribute name="pattern" use="optional" />
-    <xs:attribute name="failonerror" use="optional" />
-    <xs:attribute name="verbose" use="optional" />
-    <xs:attribute name="if" use="optional" />
-    <xs:attribute name="unless" use="optional" />
-    <xs:anyAttribute namespace="##other" processContents="skip" />
-  </xs:complexType>
-  <xs:complexType name="NAnt.Core.Tasks.TouchTask">
-    <xs:sequence minOccurs="0" maxOccurs="unbounded">
-      <xs:element minOccurs="0" maxOccurs="1" name="fileset" type="nant:NAnt.Core.Types.FileSet" />
-    </xs:sequence>
-    <xs:attribute name="file" use="optional" />
-    <xs:attribute name="millis" use="optional" />
-    <xs:attribute name="datetime" use="optional" />
     <xs:attribute name="failonerror" use="optional" />
     <xs:attribute name="verbose" use="optional" />
     <xs:attribute name="if" use="optional" />
@@ -2237,6 +2261,7 @@
     <xs:attribute name="file" use="required" />
     <xs:attribute name="xpath" use="required" />
     <xs:attribute name="value" use="required" />
+    <xs:attribute name="preserveWhitespace" use="optional" />
     <xs:attribute name="failonerror" use="optional" />
     <xs:attribute name="verbose" use="optional" />
     <xs:attribute name="if" use="optional" />
@@ -2285,6 +2310,14 @@
   </xs:complexType>
   <xs:complexType name="Target">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="gunzip" type="nant:NAnt.Compression.Tasks.GUnzip" />
+      <xs:element name="tar" type="nant:NAnt.Compression.Tasks.TarTask" />
+      <xs:element name="untar" type="nant:NAnt.Compression.Tasks.UnTarTask" />
+      <xs:element name="unzip" type="nant:NAnt.Compression.Tasks.UnZipTask" />
+      <xs:element name="zip" type="nant:NAnt.Compression.Tasks.ZipTask" />
+      <xs:element name="testtask" type="nant:Tests.NAnt.Core.Util.XmlLoggerTest-TestTask" />
+      <xs:element name="elementTest1" type="nant:Tests.NAnt.Core.ElementTest1Task" />
+      <xs:element name="test" type="nant:Tests.NAnt.Core.TestTask" />
       <xs:element name="asminfo" type="nant:NAnt.DotNet.Tasks.AssemblyInfoTask" />
       <xs:element name="al" type="nant:NAnt.DotNet.Tasks.AssemblyLinkerTask" />
       <xs:element name="csc" type="nant:NAnt.DotNet.Tasks.CscTask" />
@@ -2298,10 +2331,6 @@
       <xs:element name="script" type="nant:NAnt.DotNet.Tasks.ScriptTask" />
       <xs:element name="vbc" type="nant:NAnt.DotNet.Tasks.VbcTask" />
       <xs:element name="vjc" type="nant:NAnt.DotNet.Tasks.VjcTask" />
-      <xs:element name="gunzip" type="nant:NAnt.Compression.Tasks.GUnzip" />
-      <xs:element name="tar" type="nant:NAnt.Compression.Tasks.TarTask" />
-      <xs:element name="unzip" type="nant:NAnt.Compression.Tasks.UnZipTask" />
-      <xs:element name="zip" type="nant:NAnt.Compression.Tasks.ZipTask" />
       <xs:element name="nunit" type="nant:NAnt.NUnit1.Tasks.NUnitTask" />
       <xs:element name="nunit2" type="nant:NAnt.NUnit2.Tasks.NUnit2Task" />
       <xs:element name="cvs-changelog" type="nant:NAnt.SourceControl.Tasks.ChangeLogTask" />
@@ -2312,11 +2341,6 @@
       <xs:element name="cvs-rtag" type="nant:NAnt.SourceControl.Tasks.RTagTask" />
       <xs:element name="cvs-tag" type="nant:NAnt.SourceControl.Tasks.TagTask" />
       <xs:element name="cvs-update" type="nant:NAnt.SourceControl.Tasks.UpdateTask" />
-      <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
-      <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
-      <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
-      <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
-      <xs:element name="tlbimp" type="nant:NAnt.Win32.Tasks.TlbImpTask" />
       <xs:element name="cl" type="nant:NAnt.VisualCpp.Tasks.ClTask" />
       <xs:element name="lib" type="nant:NAnt.VisualCpp.Tasks.LibTask" />
       <xs:element name="link" type="nant:NAnt.VisualCpp.Tasks.LinkTask" />
@@ -2324,9 +2348,11 @@
       <xs:element name="midl" type="nant:NAnt.VisualCpp.Tasks.MidlTask" />
       <xs:element name="rc" type="nant:NAnt.VisualCpp.Tasks.RcTask" />
       <xs:element name="solution" type="nant:NAnt.VSNet.Tasks.SolutionTask" />
-      <xs:element name="testtask" type="nant:Tests.NAnt.Core.Util.XmlLoggerTest-TestTask" />
-      <xs:element name="elementTest1" type="nant:Tests.NAnt.Core.ElementTest1Task" />
-      <xs:element name="test" type="nant:Tests.NAnt.Core.TestTask" />
+      <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
+      <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
+      <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
+      <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
+      <xs:element name="tlbimp" type="nant:NAnt.Win32.Tasks.TlbImpTask" />
       <xs:element name="attrib" type="nant:NAnt.Core.Tasks.AttribTask" />
       <xs:element name="available" type="nant:NAnt.Core.Tasks.AvailableTask" />
       <xs:element name="call" type="nant:NAnt.Core.Tasks.CallTask" />
@@ -2354,20 +2380,20 @@
       <xs:element name="sleep" type="nant:NAnt.Core.Tasks.SleepTask" />
       <xs:element name="style" type="nant:NAnt.Core.Tasks.StyleTask" />
       <xs:element name="sysinfo" type="nant:NAnt.Core.Tasks.SysInfoTask" />
-      <xs:element name="tstamp" type="nant:NAnt.Core.Tasks.TStampTask" />
       <xs:element name="touch" type="nant:NAnt.Core.Tasks.TouchTask" />
+      <xs:element name="tstamp" type="nant:NAnt.Core.Tasks.TStampTask" />
       <xs:element name="uptodate" type="nant:NAnt.Core.Tasks.UpToDateTask" />
       <xs:element name="xmlpeek" type="nant:NAnt.Core.Tasks.XmlPeekTask" />
       <xs:element name="xmlpoke" type="nant:NAnt.Core.Tasks.XmlPokeTask" />
       <xs:element name="ildasm" type="nant:NAnt.MSNet.Tasks.IldasmTask" />
       <xs:element name="servicecontroller" type="nant:NAnt.MSNet.Tasks.ServiceControllerTask" />
+      <xs:element name="tarfileset" type="nant:NAnt.Compression.Types.TarFileSet" />
+      <xs:element name="zipfileset" type="nant:NAnt.Compression.Types.ZipFileSet" />
       <xs:element name="assemblyfileset" type="nant:NAnt.DotNet.Types.AssemblyFileSet" />
       <xs:element name="moduleset" type="nant:NAnt.DotNet.Types.ModuleSet" />
       <xs:element name="namespaceimports" type="nant:NAnt.DotNet.Types.NamespaceImportCollection" />
       <xs:element name="resourcefileset" type="nant:NAnt.DotNet.Types.ResourceFileSet" />
       <xs:element name="warnaserror" type="nant:NAnt.DotNet.Types.WarningAsError" />
-      <xs:element name="tarfileset" type="nant:NAnt.Compression.Types.TarFileSet" />
-      <xs:element name="zipfileset" type="nant:NAnt.Compression.Types.ZipFileSet" />
       <xs:element name="categories" type="nant:NAnt.NUnit2.Types.Categories" />
       <xs:element name="cvsfileset" type="nant:NAnt.SourceControl.Types.CvsFileSet" />
       <xs:element name="filterchain" type="nant:NAnt.Core.Filters.FilterChain" />
@@ -2388,6 +2414,14 @@
   <xs:element name="project">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="gunzip" type="nant:NAnt.Compression.Tasks.GUnzip" />
+        <xs:element name="tar" type="nant:NAnt.Compression.Tasks.TarTask" />
+        <xs:element name="untar" type="nant:NAnt.Compression.Tasks.UnTarTask" />
+        <xs:element name="unzip" type="nant:NAnt.Compression.Tasks.UnZipTask" />
+        <xs:element name="zip" type="nant:NAnt.Compression.Tasks.ZipTask" />
+        <xs:element name="testtask" type="nant:Tests.NAnt.Core.Util.XmlLoggerTest-TestTask" />
+        <xs:element name="elementTest1" type="nant:Tests.NAnt.Core.ElementTest1Task" />
+        <xs:element name="test" type="nant:Tests.NAnt.Core.TestTask" />
         <xs:element name="asminfo" type="nant:NAnt.DotNet.Tasks.AssemblyInfoTask" />
         <xs:element name="al" type="nant:NAnt.DotNet.Tasks.AssemblyLinkerTask" />
         <xs:element name="csc" type="nant:NAnt.DotNet.Tasks.CscTask" />
@@ -2401,10 +2435,6 @@
         <xs:element name="script" type="nant:NAnt.DotNet.Tasks.ScriptTask" />
         <xs:element name="vbc" type="nant:NAnt.DotNet.Tasks.VbcTask" />
         <xs:element name="vjc" type="nant:NAnt.DotNet.Tasks.VjcTask" />
-        <xs:element name="gunzip" type="nant:NAnt.Compression.Tasks.GUnzip" />
-        <xs:element name="tar" type="nant:NAnt.Compression.Tasks.TarTask" />
-        <xs:element name="unzip" type="nant:NAnt.Compression.Tasks.UnZipTask" />
-        <xs:element name="zip" type="nant:NAnt.Compression.Tasks.ZipTask" />
         <xs:element name="nunit" type="nant:NAnt.NUnit1.Tasks.NUnitTask" />
         <xs:element name="nunit2" type="nant:NAnt.NUnit2.Tasks.NUnit2Task" />
         <xs:element name="cvs-changelog" type="nant:NAnt.SourceControl.Tasks.ChangeLogTask" />
@@ -2415,11 +2445,6 @@
         <xs:element name="cvs-rtag" type="nant:NAnt.SourceControl.Tasks.RTagTask" />
         <xs:element name="cvs-tag" type="nant:NAnt.SourceControl.Tasks.TagTask" />
         <xs:element name="cvs-update" type="nant:NAnt.SourceControl.Tasks.UpdateTask" />
-        <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
-        <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
-        <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
-        <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
-        <xs:element name="tlbimp" type="nant:NAnt.Win32.Tasks.TlbImpTask" />
         <xs:element name="cl" type="nant:NAnt.VisualCpp.Tasks.ClTask" />
         <xs:element name="lib" type="nant:NAnt.VisualCpp.Tasks.LibTask" />
         <xs:element name="link" type="nant:NAnt.VisualCpp.Tasks.LinkTask" />
@@ -2427,9 +2452,11 @@
         <xs:element name="midl" type="nant:NAnt.VisualCpp.Tasks.MidlTask" />
         <xs:element name="rc" type="nant:NAnt.VisualCpp.Tasks.RcTask" />
         <xs:element name="solution" type="nant:NAnt.VSNet.Tasks.SolutionTask" />
-        <xs:element name="testtask" type="nant:Tests.NAnt.Core.Util.XmlLoggerTest-TestTask" />
-        <xs:element name="elementTest1" type="nant:Tests.NAnt.Core.ElementTest1Task" />
-        <xs:element name="test" type="nant:Tests.NAnt.Core.TestTask" />
+        <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
+        <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
+        <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
+        <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
+        <xs:element name="tlbimp" type="nant:NAnt.Win32.Tasks.TlbImpTask" />
         <xs:element name="attrib" type="nant:NAnt.Core.Tasks.AttribTask" />
         <xs:element name="available" type="nant:NAnt.Core.Tasks.AvailableTask" />
         <xs:element name="call" type="nant:NAnt.Core.Tasks.CallTask" />
@@ -2457,20 +2484,20 @@
         <xs:element name="sleep" type="nant:NAnt.Core.Tasks.SleepTask" />
         <xs:element name="style" type="nant:NAnt.Core.Tasks.StyleTask" />
         <xs:element name="sysinfo" type="nant:NAnt.Core.Tasks.SysInfoTask" />
-        <xs:element name="tstamp" type="nant:NAnt.Core.Tasks.TStampTask" />
         <xs:element name="touch" type="nant:NAnt.Core.Tasks.TouchTask" />
+        <xs:element name="tstamp" type="nant:NAnt.Core.Tasks.TStampTask" />
         <xs:element name="uptodate" type="nant:NAnt.Core.Tasks.UpToDateTask" />
         <xs:element name="xmlpeek" type="nant:NAnt.Core.Tasks.XmlPeekTask" />
         <xs:element name="xmlpoke" type="nant:NAnt.Core.Tasks.XmlPokeTask" />
         <xs:element name="ildasm" type="nant:NAnt.MSNet.Tasks.IldasmTask" />
         <xs:element name="servicecontroller" type="nant:NAnt.MSNet.Tasks.ServiceControllerTask" />
+        <xs:element name="tarfileset" type="nant:NAnt.Compression.Types.TarFileSet" />
+        <xs:element name="zipfileset" type="nant:NAnt.Compression.Types.ZipFileSet" />
         <xs:element name="assemblyfileset" type="nant:NAnt.DotNet.Types.AssemblyFileSet" />
         <xs:element name="moduleset" type="nant:NAnt.DotNet.Types.ModuleSet" />
         <xs:element name="namespaceimports" type="nant:NAnt.DotNet.Types.NamespaceImportCollection" />
         <xs:element name="resourcefileset" type="nant:NAnt.DotNet.Types.ResourceFileSet" />
         <xs:element name="warnaserror" type="nant:NAnt.DotNet.Types.WarningAsError" />
-        <xs:element name="tarfileset" type="nant:NAnt.Compression.Types.TarFileSet" />
-        <xs:element name="zipfileset" type="nant:NAnt.Compression.Types.ZipFileSet" />
         <xs:element name="categories" type="nant:NAnt.NUnit2.Types.Categories" />
         <xs:element name="cvsfileset" type="nant:NAnt.SourceControl.Types.CvsFileSet" />
         <xs:element name="filterchain" type="nant:NAnt.Core.Filters.FilterChain" />
