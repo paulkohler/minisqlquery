@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Migrated rules for MiniSqlQuery.Core (2).ruleset" Description="This rule set was created from the CodeAnalysisRules property for the &quot;Debug (Any CPU)&quot; configuration in project &quot;C:\Projects\MiniSqlQuery\trunk\MiniSqlQuery.Core\MiniSqlQuery.Core.csproj&quot;." ToolsVersion="10.0">
+  <IncludeAll Action="Warning" />
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA1004" Action="None" />
+  </Rules>
+</RuleSet>
