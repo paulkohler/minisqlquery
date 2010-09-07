@@ -123,6 +123,8 @@
     <Compile Include="Commands\PasteAroundSelectionCommand.cs" />
     <Compile Include="Commands\PrintCommand.cs" />
     <Compile Include="Commands\RefreshDatabaseConnectionCommand.cs" />
+    <Compile Include="Commands\SetLeftPasteAroundSelectionCommand.cs" />
+    <Compile Include="Commands\SetRightPasteAroundSelectionCommand.cs" />
     <Compile Include="Commands\ShowDiscussionsWebPageCommand.cs" />
     <Compile Include="Commands\ShowHelpCommand.cs" />
     <Compile Include="Commands\ShowUrlCommand.cs" />

@@ -61,7 +61,7 @@ namespace MiniSqlQuery.Core.DbModel
 		public virtual bool IsReadOnly { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value a concurrency field, such as a timestamp.
+		/// Gets or sets a value indicating whether this column is a concurrency field, such as a timestamp.
 		/// </summary>
 		/// <value>
 		/// 	<c>true</c> if this instance is row version, or concurrency field; otherwise, <c>false</c>.
@@ -83,8 +83,8 @@ namespace MiniSqlQuery.Core.DbModel
 		/// <value>The nullable.</value>
 		public virtual bool Nullable { get; set; }
 
-		/// <summary>Gets or sets ParentTable.</summary>
-		/// <value>The parent table.</value>
+		/// <summary>Gets the parent table of the column.</summary>
+		/// <value>The parent table instance.</value>
 		public virtual DbModelTable ParentTable { get; internal set; }
 	}
 }

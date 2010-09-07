@@ -38,46 +38,4 @@ namespace MiniSqlQuery.Core.Commands
 			}
 		}
 	}
-
-	/// <summary>The set left paste around selection command.</summary>
-	public class SetLeftPasteAroundSelectionCommand : CommandBase
-	{
-		/// <summary>Initializes a new instance of the <see cref="SetLeftPasteAroundSelectionCommand"/> class.</summary>
-		public SetLeftPasteAroundSelectionCommand()
-			: base("Set Left Paste Around Selection text")
-		{
-			ShortcutKeys = Keys.Alt | Keys.F1;
-		}
-
-		/// <summary>Execute the command.</summary>
-		public override void Execute()
-		{
-			IQueryEditor queryForm = HostWindow.Instance.ActiveMdiChild as IQueryEditor;
-			if (queryForm != null)
-			{
-				PasteAroundSelectionCommand.LeftText = queryForm.SelectedText;
-			}
-		}
-	}
-
-	/// <summary>The set right paste around selection command.</summary>
-	public class SetRightPasteAroundSelectionCommand : CommandBase
-	{
-		/// <summary>Initializes a new instance of the <see cref="SetRightPasteAroundSelectionCommand"/> class.</summary>
-		public SetRightPasteAroundSelectionCommand()
-			: base("Set Right Paste Around Selection text")
-		{
-			ShortcutKeys = Keys.Alt | Keys.F2;
-		}
-
-		/// <summary>Execute the command.</summary>
-		public override void Execute()
-		{
-			IQueryEditor queryForm = HostWindow.Instance.ActiveMdiChild as IQueryEditor;
-			if (queryForm != null)
-			{
-				PasteAroundSelectionCommand.RightText = queryForm.SelectedText;
-			}
-		}
-	}
 }

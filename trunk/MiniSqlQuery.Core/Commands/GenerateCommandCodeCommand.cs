@@ -45,7 +45,6 @@ namespace MiniSqlQuery.Core.Commands
 				.Replace("$name$", "OI")
 				.Replace("$desc$", "a thing");
 
-
 			IQueryEditor editor = Services.Container.Resolve<IQueryEditor>();
 			editor.AllText = code;
 			editor.SetSyntax("C#");

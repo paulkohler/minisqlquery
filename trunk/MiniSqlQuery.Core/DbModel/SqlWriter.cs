@@ -30,6 +30,12 @@ namespace MiniSqlQuery.Core.DbModel
 		/// <value>The insert line breaks between columns.</value>
 		public bool InsertLineBreaksBetweenColumns { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to include read-only columns in the export SQL.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if including read-only columns in the export; otherwise, <c>false</c>.
+        /// </value>
 		public bool IncludeReadOnlyColumnsInExport { get; set; }
 		
 		/// <summary>The write create.</summary>
@@ -245,9 +251,9 @@ namespace MiniSqlQuery.Core.DbModel
 			writer.WriteLine();
 		}
 
-		/// <summary>The make sql friendly.</summary>
-		/// <param name="name">The name.</param>
-		/// <returns>The make sql friendly.</returns>
+		/// <summary>The make the sql friendly, e.g. "[TableName]".</summary>
+		/// <param name="name">The name of the object.</param>
+		/// <returns>The make sql friendly name.</returns>
 		protected string MakeSqlFriendly(string name)
 		{
 			return Utility.MakeSqlFriendly(name);

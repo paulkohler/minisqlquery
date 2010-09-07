@@ -23,7 +23,7 @@ namespace MiniSqlQuery.Core.DbModel
 			ObjectType = ObjectTypes.Table;
 		}
 
-		/// <summary>Gets or sets Columns.</summary>
+		/// <summary>Gets the Columns for this table.</summary>
 		/// <value>The columns.</value>
 		public virtual List<DbModelColumn> Columns { get; internal set; }
 
@@ -45,8 +45,8 @@ namespace MiniSqlQuery.Core.DbModel
 			get { return Columns.FindAll(c => !c.IsKey && c.ForeignKeyReference == null); }
 		}
 
-		/// <summary>Gets or sets ParentDb.</summary>
-		/// <value>The parent db.</value>
+		/// <summary>Gets a reference to the parent database instance.</summary>
+		/// <value>The parent model instance object.</value>
 		public virtual DbModelInstance ParentDb { get; internal set; }
 
 		/// <summary>Gets PrimaryKeyColumns.</summary>

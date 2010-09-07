@@ -19,9 +19,6 @@ namespace MiniSqlQuery.Core.Commands
 			: base("Convert to 'UPPER CASE' text")
 		{
 			ShortcutKeys = Keys.Control | Keys.Shift | Keys.U;
-
-
-// SmallImage = ImageResource.;
 		}
 
 		/// <summary>Gets a value indicating whether Enabled.</summary>

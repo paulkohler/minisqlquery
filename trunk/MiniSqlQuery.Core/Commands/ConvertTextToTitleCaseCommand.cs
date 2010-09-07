@@ -20,9 +20,6 @@ namespace MiniSqlQuery.Core.Commands
 			: base("Convert to 'Title Case' text")
 		{
 			ShortcutKeys = Keys.Control | Keys.Alt | Keys.U;
-
-
-// SmallImage = ImageResource.;
 		}
 
 		/// <summary>Gets a value indicating whether Enabled.</summary>

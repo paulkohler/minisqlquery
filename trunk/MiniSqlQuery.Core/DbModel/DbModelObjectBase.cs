@@ -29,8 +29,8 @@ namespace MiniSqlQuery.Core.DbModel
 			}
 		}
 
-		/// <summary>Gets or sets Name.</summary>
-		/// <value>The name.</value>
+		/// <summary>Gets or sets name of the database object.</summary>
+		/// <value>The name of the object.</value>
 		public virtual string Name { get; set; }
 
 		/// <summary>Gets or sets ObjectType.</summary>

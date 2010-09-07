@@ -15,9 +15,9 @@ namespace MiniSqlQuery.Core.Commands
 		: CommandBase
 	{
 		/// <summary>Initializes a new instance of the <see cref="ShowUrlCommand"/> class.</summary>
-		/// <param name="name">The name.</param>
-		/// <param name="url">The url.</param>
-		/// <param name="image">The image.</param>
+		/// <param name="name">The name of the command.</param>
+		/// <param name="url">The url of the link to display in a browser.</param>
+		/// <param name="image">The image to use from the resources.</param>
 		public ShowUrlCommand(string name, string url, Image image)
 			: base(name)
 		{

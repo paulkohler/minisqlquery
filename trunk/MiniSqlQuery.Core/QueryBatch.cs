@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace MiniSqlQuery.Core
@@ -68,12 +69,9 @@ namespace MiniSqlQuery.Core
 				return batch;
 			}
 
-			foreach (string sqlPart in SplitByBatchIndecator(sql, "GO"))
+			foreach (string sqlPart in SplitByBatchIndecator(sql, "GO").Where(sqlPart => !string.IsNullOrEmpty(sqlPart)))
 			{
-				if (!string.IsNullOrEmpty(sqlPart))
-				{
-					batch.Add(new Query(sqlPart));
-				}
+			    batch.Add(new Query(sqlPart));
 			}
 
 			return batch;

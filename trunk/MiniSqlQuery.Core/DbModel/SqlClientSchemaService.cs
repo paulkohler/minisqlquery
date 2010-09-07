@@ -70,7 +70,6 @@ WHERE OBJECT_SCHEMA_NAME(f.parent_object_id) = '{0}' AND OBJECT_NAME(f.parent_ob
 							                        		ConstraintName = (string)dr["ForeignKeyName"], 
 							                        		UniqueConstraintTableSchema = (string)dr["ReferenceTableSchemaName"], 
 							                        		UniqueConstraintTableName = (string)dr["ReferenceTableName"], 
-// UniqueConstraintName = (string)dr[""],
 							                        		UniqueColumnName = (string)dr["ReferenceColumnName"], 
 							                        		UpdateRule = (string)dr["update_referential_action_desc"], 
 							                        		DeleteRule = (string)dr["delete_referential_action_desc"], 

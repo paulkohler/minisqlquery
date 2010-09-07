@@ -24,7 +24,7 @@ namespace MiniSqlQuery.Core.Commands
 
 		/// <summary>Initializes a new instance of the <see cref="CommandBase"/> class.
 		/// The default value for <see cref="Enabled"/> is true, and <see cref="ShortcutKeys"/> is Keys.None.</summary>
-		/// <param name="name">The name.</param>
+		/// <param name="name">The name of the command.</param>
 		protected CommandBase(string name)
 		{
 			_name = name;

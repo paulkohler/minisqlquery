@@ -16,8 +16,8 @@ namespace MiniSqlQuery.Core.DbModel
 	public class DbModelType : DbModelObjectBase
 	{
 		/// <summary>Initializes a new instance of the <see cref="DbModelType"/> class.</summary>
-		/// <param name="name">The name.</param>
-		/// <param name="length">The length.</param>
+		/// <param name="name">The name of the type, e.g. "varchar".</param>
+		/// <param name="length">The length of the type, e.g. 10.</param>
 		public DbModelType(string name, int length)
 		{
 			Name = name;
@@ -200,7 +200,7 @@ namespace MiniSqlQuery.Core.DbModel
 				return ((bool)Value) ? "1" : "0";
 			}
 
-			if (SystemType == typeof(Byte[]))
+			if (SystemType == typeof(byte[]))
 			{
 				return "null /* not supported yet */ ";
 			}

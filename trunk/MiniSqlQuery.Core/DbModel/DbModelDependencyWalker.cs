@@ -20,12 +20,16 @@ namespace MiniSqlQuery.Core.DbModel
 		/// <param name="model">The database model instance.</param>
 		public DbModelDependencyWalker(DbModelInstance model)
 		{
-			if (model == null) throw new ArgumentNullException("model");
+			if (model == null)
+			{
+			    throw new ArgumentNullException("model");
+			}
+
 			_model = model;
 		}
 
 		/// <summary>Sorts the tables by checking the foreign key references recursivly building a list of tables in order.</summary>
-		/// <returns></returns>
+		/// <returns>An array of tables in dependency order.</returns>
 		public DbModelTable[] SortTablesByForeignKeyReferences()
 		{
 			List<DbModelTable> tables = new List<DbModelTable>();
