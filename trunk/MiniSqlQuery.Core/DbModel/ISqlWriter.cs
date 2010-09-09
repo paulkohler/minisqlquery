@@ -3,6 +3,7 @@
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
+
 #endregion
 
 using System;
@@ -10,18 +11,24 @@ using System.IO;
 
 namespace MiniSqlQuery.Core.DbModel
 {
-	/// <summary>The i sql writer.</summary>
+	/// <summary>An SQL Writer interface.</summary>
 	public interface ISqlWriter
 	{
 		/// <summary>Gets or sets a value indicating whether IncludeComments.</summary>
 		/// <value>The include comments.</value>
 		bool IncludeComments { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether to include read-only columns in the export SQL.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if including read-only columns in the export; otherwise, <c>false</c>.
+		/// </value>
+		bool IncludeReadOnlyColumnsInExport { get; set; }
+
 		/// <summary>Gets or sets a value indicating whether InsertLineBreaksBetweenColumns.</summary>
 		/// <value>The insert line breaks between columns.</value>
 		bool InsertLineBreaksBetweenColumns { get; set; }
-		
-		bool IncludeReadOnlyColumnsInExport { get; set; }
 
 		/// <summary>The write create.</summary>
 		/// <param name="writer">The writer.</param>

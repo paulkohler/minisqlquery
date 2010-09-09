@@ -11,14 +11,14 @@
       <AnalyzerSettings />
     </Analyzer>
     <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.NamingRules">
-			<Rules>
-				<Rule Name="FieldNamesMustNotBeginWithUnderscore">
-					<RuleSettings>
-						<BooleanProperty Name="Enabled">False</BooleanProperty>
-					</RuleSettings>
-				</Rule>
-			</Rules>
-			<AnalyzerSettings>
+      <Rules>
+        <Rule Name="FieldNamesMustNotBeginWithUnderscore">
+          <RuleSettings>
+            <BooleanProperty Name="Enabled">False</BooleanProperty>
+          </RuleSettings>
+        </Rule>
+      </Rules>
+      <AnalyzerSettings>
         <CollectionProperty Name="Hungarian">
           <Value>db</Value>
           <Value>fk</Value>
