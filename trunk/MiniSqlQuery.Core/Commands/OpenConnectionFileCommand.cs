@@ -10,17 +10,23 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>The open connection file command.</summary>
+	/// <summary>
+	/// 	The open connection file command.
+	/// </summary>
 	public class OpenConnectionFileCommand
 		: CommandBase
 	{
-		/// <summary>Initializes a new instance of the <see cref="OpenConnectionFileCommand"/> class.</summary>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "OpenConnectionFileCommand" /> class.
+		/// </summary>
 		public OpenConnectionFileCommand()
 			: base("Open the connections file")
 		{
 		}
 
-		/// <summary>Execute the command.</summary>
+		/// <summary>
+		/// 	Execute the command.
+		/// </summary>
 		public override void Execute()
 		{
 			string xmlFile = Utility.GetConnectionStringFilename();

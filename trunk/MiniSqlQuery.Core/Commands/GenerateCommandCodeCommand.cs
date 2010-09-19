@@ -10,18 +10,24 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>The generate command code command.</summary>
+	/// <summary>
+	/// 	The generate command code command.
+	/// </summary>
 	public class GenerateCommandCodeCommand
 		: CommandBase
 	{
-		/// <summary>Initializes a new instance of the <see cref="GenerateCommandCodeCommand"/> class.</summary>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "GenerateCommandCodeCommand" /> class.
+		/// </summary>
 		public GenerateCommandCodeCommand()
 			: base("Generate Command Code")
 		{
 			SmallImage = ImageResource.cog;
 		}
 
-		/// <summary>Execute the command.</summary>
+		/// <summary>
+		/// 	Execute the command.
+		/// </summary>
 		public override void Execute()
 		{
 			string template =
@@ -45,7 +51,7 @@ namespace MiniSqlQuery.Core.Commands
 				.Replace("$name$", "OI")
 				.Replace("$desc$", "a thing");
 
-			IQueryEditor editor = Services.Container.Resolve<IQueryEditor>();
+			var editor = Services.Container.Resolve<IQueryEditor>();
 			editor.AllText = code;
 			editor.SetSyntax("C#");
 

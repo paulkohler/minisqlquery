@@ -11,28 +11,36 @@ using System.Windows.Forms;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>The convert text to title case command.</summary>
+	/// <summary>
+	/// 	The convert text to title case command.
+	/// </summary>
 	public class ConvertTextToTitleCaseCommand
 		: CommandBase
 	{
-		/// <summary>Initializes a new instance of the <see cref="ConvertTextToTitleCaseCommand"/> class.</summary>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "ConvertTextToTitleCaseCommand" /> class.
+		/// </summary>
 		public ConvertTextToTitleCaseCommand()
 			: base("Convert to 'Title Case' text")
 		{
 			ShortcutKeys = Keys.Control | Keys.Alt | Keys.U;
 		}
 
-		/// <summary>Gets a value indicating whether Enabled.</summary>
-		/// <value>The enabled.</value>
+		/// <summary>
+		/// 	Gets a value indicating whether Enabled.
+		/// </summary>
+		/// <value>The enabled state.</value>
 		public override bool Enabled
 		{
 			get { return HostWindow.ActiveChildForm as IEditor != null; }
 		}
 
-		/// <summary>Execute the command.</summary>
+		/// <summary>
+		/// 	Execute the command.
+		/// </summary>
 		public override void Execute()
 		{
-			IEditor editor = ActiveFormAsEditor;
+			var editor = ActiveFormAsEditor;
 			if (Enabled && editor.SelectedText.Length > 0)
 			{
 				editor.InsertText(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(editor.SelectedText));

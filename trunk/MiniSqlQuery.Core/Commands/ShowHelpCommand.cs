@@ -9,11 +9,15 @@ using System;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>The show help command.</summary>
+	/// <summary>
+	/// 	The show help command.
+	/// </summary>
 	public class ShowHelpCommand
 		: ShowUrlCommand
 	{
-		/// <summary>Initializes a new instance of the <see cref="ShowHelpCommand"/> class.</summary>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "ShowHelpCommand" /> class.
+		/// </summary>
 		public ShowHelpCommand()
 			: base("&Index (pksoftware.net/MiniSqlQuery/Help)", "http://www.pksoftware.net/MiniSqlQuery/Help/", ImageResource.help)
 		{

@@ -10,18 +10,24 @@ using System.Windows.Forms;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>The refresh database connection command.</summary>
+	/// <summary>
+	/// 	The refresh database connection command.
+	/// </summary>
 	public class RefreshDatabaseConnectionCommand
 		: CommandBase
 	{
-		/// <summary>Initializes a new instance of the <see cref="RefreshDatabaseConnectionCommand"/> class.</summary>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "RefreshDatabaseConnectionCommand" /> class.
+		/// </summary>
 		public RefreshDatabaseConnectionCommand()
 			: base("&Refresh Database Connection")
 		{
 			SmallImage = ImageResource.database_refresh;
 		}
 
-		/// <summary>Execute the command.</summary>
+		/// <summary>
+		/// 	Execute the command.
+		/// </summary>
 		public override void Execute()
 		{
 			try

@@ -9,11 +9,15 @@ using System;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>The show discussions web page command.</summary>
+	/// <summary>
+	/// 	The show discussions web page command.
+	/// </summary>
 	public class ShowDiscussionsWebPageCommand
 		: ShowUrlCommand
 	{
-		/// <summary>Initializes a new instance of the <see cref="ShowDiscussionsWebPageCommand"/> class.</summary>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "ShowDiscussionsWebPageCommand" /> class.
+		/// </summary>
 		public ShowDiscussionsWebPageCommand()
 			: base("Show the discussions page on Codeplex", "http://minisqlquery.codeplex.com/Thread/List.aspx", ImageResource.comments)
 		{

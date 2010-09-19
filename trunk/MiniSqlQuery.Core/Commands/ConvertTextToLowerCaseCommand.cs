@@ -19,13 +19,10 @@ namespace MiniSqlQuery.Core.Commands
 			: base("Convert to 'lower case' text")
 		{
 			ShortcutKeys = Keys.Control | Keys.U;
-
-
-// SmallImage = ImageResource.;
 		}
 
 		/// <summary>Gets a value indicating whether Enabled.</summary>
-		/// <value>The enabled.</value>
+		/// <value>The enabled state.</value>
 		public override bool Enabled
 		{
 			get { return HostWindow.ActiveChildForm as IEditor != null; }
@@ -34,7 +31,7 @@ namespace MiniSqlQuery.Core.Commands
 		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
-			IEditor editor = ActiveFormAsEditor;
+			var editor = ActiveFormAsEditor;
 			if (Enabled && editor.SelectedText.Length > 0)
 			{
 				editor.InsertText(editor.SelectedText.ToLower());

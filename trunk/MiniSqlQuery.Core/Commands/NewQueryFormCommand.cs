@@ -11,11 +11,15 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>The new query form command.</summary>
+	/// <summary>
+	/// 	The new query form command.
+	/// </summary>
 	public class NewQueryFormCommand
 		: CommandBase
 	{
-		/// <summary>Initializes a new instance of the <see cref="NewQueryFormCommand"/> class.</summary>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "NewQueryFormCommand" /> class.
+		/// </summary>
 		public NewQueryFormCommand()
 			: base("New &Query Window")
 		{
@@ -23,10 +27,12 @@ namespace MiniSqlQuery.Core.Commands
 			SmallImage = ImageResource.page_white;
 		}
 
-		/// <summary>Execute the command.</summary>
+		/// <summary>
+		/// 	Execute the command.
+		/// </summary>
 		public override void Execute()
 		{
-			IQueryEditor editor = Services.Container.Resolve<IQueryEditor>();
+			var editor = Services.Container.Resolve<IQueryEditor>();
 			editor.FileName = null;
 			HostWindow.DisplayDockedForm(editor as DockContent);
 		}

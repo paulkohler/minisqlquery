@@ -21,7 +21,7 @@ namespace MiniSqlQuery.Core.Commands
 		}
 
 		/// <summary>Gets a value indicating whether Enabled.</summary>
-		/// <value>The enabled.</value>
+		/// <value>The enabled state.</value>
 		public override bool Enabled
 		{
 			get

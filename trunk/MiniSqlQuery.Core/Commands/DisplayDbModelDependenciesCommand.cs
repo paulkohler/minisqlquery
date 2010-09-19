@@ -12,18 +12,24 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>The display db model dependencies command.</summary>
+	/// <summary>
+	/// 	The display db model dependencies command.
+	/// </summary>
 	public class DisplayDbModelDependenciesCommand
 		: CommandBase
 	{
-		/// <summary>Initializes a new instance of the <see cref="DisplayDbModelDependenciesCommand"/> class.</summary>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "DisplayDbModelDependenciesCommand" /> class.
+		/// </summary>
 		public DisplayDbModelDependenciesCommand()
 			: base("Order Tables by FK Dependencies")
 		{
 			SmallImage = ImageResource.table_link;
 		}
 
-		/// <summary>Execute the command.</summary>
+		/// <summary>
+		/// 	Execute the command.
+		/// </summary>
 		public override void Execute()
 		{
 			var editor = Services.Resolve<IEditor>("txt-editor");
@@ -35,10 +41,10 @@ namespace MiniSqlQuery.Core.Commands
 				HostWindow.DatabaseInspector.LoadDatabaseDetails();
 			}
 
-			DbModelDependencyWalker dependencyWalker = new DbModelDependencyWalker(HostWindow.DatabaseInspector.DbSchema);
+			var dependencyWalker = new DbModelDependencyWalker(HostWindow.DatabaseInspector.DbSchema);
 			var tables = dependencyWalker.SortTablesByForeignKeyReferences();
 
-			StringBuilder sb = new StringBuilder();
+			var sb = new StringBuilder();
 			foreach (DbModelTable table in tables)
 			{
 				sb.AppendLine(table.FullName);

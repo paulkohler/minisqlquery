@@ -10,32 +10,44 @@ using System.Windows.Forms;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>Description of PasteAroundSelectionCommand.</summary>
-	public class PasteAroundSelectionCommand : CommandBase
-	{
-		/// <summary>The left text.</summary>
-		public static string LeftText;
+  /// <summary>
+  /// 	Description of PasteAroundSelectionCommand.
+  /// </summary>
+  public class PasteAroundSelectionCommand : CommandBase
+  {
+    /// <summary>
+    /// 	Initializes a new instance of the <see cref = "PasteAroundSelectionCommand" /> class.
+    /// </summary>
+    public PasteAroundSelectionCommand()
+      : base("Paste &Around Selection")
+    {
+      ShortcutKeys = Keys.Alt | Keys.A;
+      SmallImage = ImageResource.around_text;
+    }
 
-		/// <summary>The right text.</summary>
-		public static string RightText;
+    /// <summary>
+    /// Gets or sets the "left text".
+    /// </summary>
+    /// <value>The "left text".</value>
+    public static string LeftText { get; set; }
 
-		/// <summary>Initializes a new instance of the <see cref="PasteAroundSelectionCommand"/> class.</summary>
-		public PasteAroundSelectionCommand()
-			: base("Paste &Around Selection")
-		{
-			ShortcutKeys = Keys.Alt | Keys.A;
-			SmallImage = ImageResource.around_text;
-		}
+    /// <summary>
+    /// Gets or sets the "right text".
+    /// </summary>
+    /// <value>The "right text".</value>
+    public static string RightText { get; set; }
 
-		/// <summary>Execute the command.</summary>
-		public override void Execute()
-		{
-			IQueryEditor queryForm = HostWindow.Instance.ActiveMdiChild as IQueryEditor;
-			if (queryForm != null)
-			{
-				string newText = string.Concat(LeftText, queryForm.SelectedText, RightText);
-				queryForm.InsertText(newText);
-			}
-		}
-	}
+    /// <summary>
+    /// 	Execute the command.
+    /// </summary>
+    public override void Execute()
+    {
+      var queryForm = HostWindow.Instance.ActiveMdiChild as IQueryEditor;
+      if (queryForm != null)
+      {
+        string newText = string.Concat(LeftText, queryForm.SelectedText, RightText);
+        queryForm.InsertText(newText);
+      }
+    }
+  }
 }

@@ -9,17 +9,23 @@ using System;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>The exit application command.</summary>
+	/// <summary>
+	/// 	The exit application command.
+	/// </summary>
 	public class ExitApplicationCommand
 		: CommandBase
 	{
-		/// <summary>Initializes a new instance of the <see cref="ExitApplicationCommand"/> class.</summary>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "ExitApplicationCommand" /> class.
+		/// </summary>
 		public ExitApplicationCommand()
 			: base("E&xit")
 		{
 		}
 
-		/// <summary>Execute the command.</summary>
+		/// <summary>
+		/// 	Execute the command.
+		/// </summary>
 		public override void Execute()
 		{
 			HostWindow.Instance.Close();

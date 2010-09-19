@@ -10,20 +10,26 @@ using System.Windows.Forms;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>The copy query editor file name command.</summary>
+	/// <summary>
+	/// 	The copy query editor file name command.
+	/// </summary>
 	public class CopyQueryEditorFileNameCommand
 		: CommandBase
 	{
-		/// <summary>Initializes a new instance of the <see cref="CopyQueryEditorFileNameCommand"/> class.</summary>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "CopyQueryEditorFileNameCommand" /> class.
+		/// </summary>
 		public CopyQueryEditorFileNameCommand()
 			: base("Copy Filename")
 		{
 		}
 
-		/// <summary>Execute the command.</summary>
+		/// <summary>
+		/// 	Execute the command.
+		/// </summary>
 		public override void Execute()
 		{
-			IEditor editor = HostWindow.Instance.ActiveMdiChild as IEditor;
+			var editor = HostWindow.Instance.ActiveMdiChild as IEditor;
 			if (editor != null && editor.FileName != null)
 			{
 				Clipboard.SetText(editor.FileName);

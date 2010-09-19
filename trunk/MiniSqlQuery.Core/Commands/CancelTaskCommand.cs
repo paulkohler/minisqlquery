@@ -9,29 +9,37 @@ using System;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>The cancel task command.</summary>
+	/// <summary>
+	/// 	The cancel task command.
+	/// </summary>
 	public class CancelTaskCommand
 		: CommandBase
 	{
-		/// <summary>Initializes a new instance of the <see cref="CancelTaskCommand"/> class.</summary>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "CancelTaskCommand" /> class.
+		/// </summary>
 		public CancelTaskCommand()
 			: base("&Cancel")
 		{
 			SmallImage = ImageResource.stop;
 		}
 
-		/// <summary>Gets a value indicating whether Enabled.</summary>
-		/// <value>The enabled.</value>
+		/// <summary>
+		/// 	Gets a value indicating whether Enabled.
+		/// </summary>
+		/// <value>The enabled state.</value>
 		public override bool Enabled
 		{
 			get
 			{
-				IPerformTask editor = HostWindow.ActiveChildForm as IPerformTask;
+				var editor = HostWindow.ActiveChildForm as IPerformTask;
 				return editor != null && editor.IsBusy;
 			}
 		}
 
-		/// <summary>Execute the command.</summary>
+		/// <summary>
+		/// 	Execute the command.
+		/// </summary>
 		public override void Execute()
 		{
 			if (!Enabled)
@@ -39,7 +47,7 @@ namespace MiniSqlQuery.Core.Commands
 				return;
 			}
 
-			IPerformTask editor = HostWindow.ActiveChildForm as IPerformTask;
+			var editor = HostWindow.ActiveChildForm as IPerformTask;
 			if (editor != null)
 			{
 				editor.CancelTask();

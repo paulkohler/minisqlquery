@@ -10,11 +10,15 @@ using System.Windows.Forms;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>The execute task command.</summary>
+	/// <summary>
+	/// 	The execute task command.
+	/// </summary>
 	public class ExecuteTaskCommand
 		: CommandBase
 	{
-		/// <summary>Initializes a new instance of the <see cref="ExecuteTaskCommand"/> class.</summary>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "ExecuteTaskCommand" /> class.
+		/// </summary>
 		public ExecuteTaskCommand()
 			: base("&Execute")
 		{
@@ -23,13 +27,15 @@ namespace MiniSqlQuery.Core.Commands
 			SmallImage = ImageResource.lightning;
 		}
 
-		/// <summary>Gets a value indicating whether Enabled.</summary>
-		/// <value>The enabled.</value>
+		/// <summary>
+		/// 	Gets a value indicating whether Enabled.
+		/// </summary>
+		/// <value>The enabled state.</value>
 		public override bool Enabled
 		{
 			get
 			{
-				IPerformTask editor = HostWindow.ActiveChildForm as IPerformTask;
+				var editor = HostWindow.ActiveChildForm as IPerformTask;
 				if (editor != null)
 				{
 					return !editor.IsBusy;
@@ -39,7 +45,9 @@ namespace MiniSqlQuery.Core.Commands
 			}
 		}
 
-		/// <summary>Execute the command.</summary>
+		/// <summary>
+		/// 	Execute the command.
+		/// </summary>
 		public override void Execute()
 		{
 			if (!Enabled)
@@ -47,7 +55,7 @@ namespace MiniSqlQuery.Core.Commands
 				return;
 			}
 
-			IPerformTask editor = HostWindow.ActiveChildForm as IPerformTask;
+			var editor = HostWindow.ActiveChildForm as IPerformTask;
 			if (editor != null)
 			{
 				editor.ExecuteTask();

@@ -6,32 +6,37 @@
 #endregion
 
 using System;
-using System.Drawing.Printing;
 using System.Windows.Forms;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>The print command.</summary>
+	/// <summary>
+	/// 	The print command.
+	/// </summary>
 	public class PrintCommand
 		: CommandBase
 	{
-		/// <summary>Initializes a new instance of the <see cref="PrintCommand"/> class.</summary>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "PrintCommand" /> class.
+		/// </summary>
 		public PrintCommand()
 			: base("Print...")
 		{
 			SmallImage = ImageResource.printer;
 		}
 
-		/// <summary>Gets a value indicating whether Enabled.</summary>
-		/// <value>The enabled.</value>
+		/// <summary>
+		/// 	Gets a value indicating whether Enabled.
+		/// </summary>
+		/// <value>The enabled state.</value>
 		public override bool Enabled
 		{
 			get
 			{
-				IPrintableContent printable = HostWindow.ActiveChildForm as IPrintableContent;
+				var printable = HostWindow.ActiveChildForm as IPrintableContent;
 				if (printable != null)
 				{
-					PrintDocument doc = printable.PrintDocument;
+					var doc = printable.PrintDocument;
 
 					if (doc != null)
 					{
@@ -43,17 +48,19 @@ namespace MiniSqlQuery.Core.Commands
 			}
 		}
 
-		/// <summary>Execute the command.</summary>
+		/// <summary>
+		/// 	Execute the command.
+		/// </summary>
 		public override void Execute()
 		{
-			IPrintableContent printable = HostWindow.ActiveChildForm as IPrintableContent;
+			var printable = HostWindow.ActiveChildForm as IPrintableContent;
 			if (printable != null)
 			{
-				PrintDocument doc = printable.PrintDocument;
+				var doc = printable.PrintDocument;
 
 				if (doc != null)
 				{
-					using (PrintDialog ppd = new PrintDialog())
+					using (var ppd = new PrintDialog())
 					{
 						ppd.Document = doc;
 						ppd.AllowSomePages = true;

@@ -9,11 +9,15 @@ using System;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>The email author command.</summary>
+	/// <summary>
+	/// 	The email author command.
+	/// </summary>
 	public class EmailAuthorCommand
 		: ShowUrlCommand
 	{
-		/// <summary>Initializes a new instance of the <see cref="EmailAuthorCommand"/> class.</summary>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "EmailAuthorCommand" /> class.
+		/// </summary>
 		public EmailAuthorCommand()
 			: base("Email the Author", "mailto:paul@pksoftware.net?subject=Mini SQL Query Feedback", ImageResource.email)
 		{
