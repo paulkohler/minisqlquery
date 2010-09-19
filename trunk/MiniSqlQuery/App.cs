@@ -3,6 +3,7 @@
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
+
 #endregion
 
 using System;
@@ -22,11 +23,15 @@ using MiniSqlQuery.Properties;
 
 namespace MiniSqlQuery
 {
-	/// <summary>The app.</summary>
+	/// <summary>
+	/// 	The application entry point.
+	/// </summary>
 	internal static class App
 	{
-		/// <summary>The configure container.</summary>
-		/// <param name="services">The services.</param>
+		/// <summary>
+		/// 	The configure container.
+		/// </summary>
+		/// <param name = "services">The services.</param>
 		public static void ConfigureContainer(IApplicationServices services)
 		{
 			// singletons
@@ -44,11 +49,12 @@ namespace MiniSqlQuery
 			services.RegisterComponent<BatchQuerySelectForm>("BatchQuerySelectForm");
 		}
 
-
 // ReSharper disable UnusedMember.Local
-		/// <summary>The application thread exception.</summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The e.</param>
+		/// <summary>
+		/// 	The application thread exception.
+		/// </summary>
+		/// <param name = "sender">The sender.</param>
+		/// <param name = "e">The e.</param>
 		private static void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
 		{
 			if (!(e.Exception is ThreadAbortException))
@@ -57,9 +63,11 @@ namespace MiniSqlQuery
 			}
 		}
 
-		/// <summary>The current domain unhandled exception.</summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The e.</param>
+		/// <summary>
+		/// 	The current domain unhandled exception.
+		/// </summary>
+		/// <param name = "sender">The sender.</param>
+		/// <param name = "e">The e.</param>
 		private static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			if (!(e.ExceptionObject is ThreadAbortException))
@@ -68,11 +76,12 @@ namespace MiniSqlQuery
 			}
 		}
 
-
 // ReSharper restore UnusedMember.Local
 
-		/// <summary>The handle exception.</summary>
-		/// <param name="e">The e.</param>
+		/// <summary>
+		/// 	The handle exception.
+		/// </summary>
+		/// <param name = "e">The e.</param>
 		private static void HandleException(Exception e)
 		{
 			ErrorForm errorForm = new ErrorForm();
@@ -81,8 +90,10 @@ namespace MiniSqlQuery
 			errorForm.Dispose();
 		}
 
-		/// <summary>The main entry point for the application.</summary>
-		/// <param name="args">The args.</param>
+		/// <summary>
+		/// 	The main entry point for the application.
+		/// </summary>
+		/// <param name = "args">The args.</param>
 		[STAThread]
 		private static void Main(string[] args)
 		{
@@ -107,9 +118,9 @@ namespace MiniSqlQuery
 
 			if (services.Settings.LoadExternalPlugins)
 			{
-				IPlugIn[] plugins = PlugInUtility.GetInstances<IPlugIn>(Environment.CurrentDirectory, Settings.Default.PlugInFileFilter);
+				var plugins = PlugInUtility.GetInstances<IPlugIn>(Environment.CurrentDirectory, Settings.Default.PlugInFileFilter);
 				Array.Sort(plugins, new PlugInComparer());
-				foreach (IPlugIn plugin in plugins)
+				foreach (var plugin in plugins)
 				{
 					services.LoadPlugIn(plugin);
 				}

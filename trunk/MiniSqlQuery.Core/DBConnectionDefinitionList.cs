@@ -3,6 +3,7 @@
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
+
 #endregion
 
 using System;
@@ -12,16 +13,20 @@ using System.Xml.Serialization;
 
 namespace MiniSqlQuery.Core
 {
-	/// <summary>Manages a list of database connections.</summary>
+	/// <summary>
+	/// 	Manages a list of database connections.
+	/// </summary>
 	[Serializable]
 	public class DbConnectionDefinitionList
 	{
 		// store internally as a list
-		/// <summary>The _definitions.</summary>
+		/// <summary>
+		/// 	An class refernece to the database definitions.
+		/// </summary>
 		private readonly List<DbConnectionDefinition> _definitions;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DbConnectionDefinitionList"/> class.
+		/// 	Initializes a new instance of the <see cref = "DbConnectionDefinitionList" /> class.
 		/// </summary>
 		public DbConnectionDefinitionList()
 		{
@@ -29,18 +34,21 @@ namespace MiniSqlQuery.Core
 		}
 
 		/// <summary>
-		/// Gets or sets the default name of a connection definition from the list of <see cref="Definitions"/>.
+		/// 	Gets or sets the default name of a connection definition from the list of <see cref = "Definitions" />.
 		/// </summary>
 		/// <value>The default name.</value>
 		public string DefaultName { get; set; }
 
 		/// <summary>
-		/// Gets or sets the connection definitions.
+		/// 	Gets or sets the connection definitions.
 		/// </summary>
 		/// <value>The definitions.</value>
 		public DbConnectionDefinition[] Definitions
 		{
-			get { return _definitions.ToArray(); }
+			get
+			{
+				return _definitions.ToArray();
+			}
 			set
 			{
 				_definitions.Clear();
@@ -48,34 +56,42 @@ namespace MiniSqlQuery.Core
 			}
 		}
 
-		/// <summary>Creates a <see cref="DbConnectionDefinitionList"/> from a string of <paramref name="xml"/>.</summary>
-		/// <param name="xml">The XML.</param>
-		/// <returns>An instance of <see cref="DbConnectionDefinitionList"/>.</returns>
+		/// <summary>
+		/// 	Creates a <see cref = "DbConnectionDefinitionList" /> from a string of <paramref name = "xml" />.
+		/// </summary>
+		/// <param name = "xml">The XML to hydrate from.</param>
+		/// <returns>An instance of <see cref = "DbConnectionDefinitionList" />.</returns>
 		public static DbConnectionDefinitionList FromXml(string xml)
 		{
-			using (StringReader sr = new StringReader(xml))
+			using (var sr = new StringReader(xml))
 			{
-				XmlSerializer serializer = new XmlSerializer(typeof(DbConnectionDefinitionList));
+				var serializer = new XmlSerializer(typeof(DbConnectionDefinitionList));
 				return (DbConnectionDefinitionList)serializer.Deserialize(sr);
 			}
 		}
 
-		/// <summary>Adds the definition from the list.</summary>
-		/// <param name="connectionDefinition">The connection definition.</param>
+		/// <summary>
+		/// 	Adds the definition from the list.
+		/// </summary>
+		/// <param name = "connectionDefinition">The connection definition.</param>
 		public void AddDefinition(DbConnectionDefinition connectionDefinition)
 		{
 			_definitions.Add(connectionDefinition);
 		}
 
-		/// <summary>Removes the definition from the list.</summary>
-		/// <param name="connectionDefinition">The connection definition.</param>
+		/// <summary>
+		/// 	Removes the definition from the list.
+		/// </summary>
+		/// <param name = "connectionDefinition">The connection definition.</param>
 		/// <returns>True if the item was removed.</returns>
 		public bool RemoveDefinition(DbConnectionDefinition connectionDefinition)
 		{
 			return _definitions.Remove(connectionDefinition);
 		}
 
-		/// <summary>Serialize the list to XML.</summary>
+		/// <summary>
+		/// 	Serialize the list to XML.
+		/// </summary>
 		/// <returns>An XML string.</returns>
 		public string ToXml()
 		{

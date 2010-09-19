@@ -9,7 +9,10 @@ using System;
 
 namespace MiniSqlQuery.Core
 {
-	/// <summary>The file editor descriptor.</summary>
+	/// <summary>
+	/// <para>The file editor descriptor.</para>
+	/// <para>Creates a relationship between file extensions and a type of editor that supports for example XML syntax highlighting.</para>
+	/// </summary>
 	public class FileEditorDescriptor
 	{
 		/// <summary>Initializes a new instance of the <see cref="FileEditorDescriptor"/> class.</summary>
@@ -18,9 +21,14 @@ namespace MiniSqlQuery.Core
 		}
 
 		/// <summary>Initializes a new instance of the <see cref="FileEditorDescriptor"/> class.</summary>
-		/// <param name="name">The name.</param>
-		/// <param name="editorKeyName">The editor key name.</param>
-		/// <param name="extensions">The extensions.</param>
+		/// <param name="name">The name for display purposes, e.g. "HTML Editor".</param>
+		/// <param name="editorKeyName">The editor key name, can be used by the application to resolve an editor by name.</param>
+		/// <param name="extensions">The file extensions to support for this editor (e.g. "txt").</param>
+		/// <remarks>
+		/// <example>
+		/// <code>var fd = new FileEditorDescriptor("HTML Editor", "htm-editor", "htm", "html");</code>
+		/// </example>
+		/// </remarks>
 		public FileEditorDescriptor(string name, string editorKeyName, params string[] extensions)
 		{
 			Name = name;
@@ -37,11 +45,11 @@ namespace MiniSqlQuery.Core
 		public string[] Extensions { get; set; }
 
 		/// <summary>Gets or sets Name.</summary>
-		/// <value>The name.</value>
+		/// <value>The display name of the descriptor.</value>
 		public string Name { get; set; }
 
-		/// <summary>The to string.</summary>
-		/// <returns>The to string.</returns>
+		/// <summary>Converts the descriptor to a string.</summary>
+		/// <returns>A string represntation of the descriptor.</returns>
 		public override string ToString()
 		{
 			return string.Format("{0} ({1})", Name, string.Join("; ", Extensions));
