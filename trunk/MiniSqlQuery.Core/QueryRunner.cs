@@ -3,6 +3,7 @@
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
+
 #endregion
 
 using System;
@@ -11,22 +12,32 @@ using System.Data.Common;
 
 namespace MiniSqlQuery.Core
 {
-	/// <summary>Helper class to encapsulate query execution</summary>
+	/// <summary>
+	/// 	Helper class to encapsulate query execution
+	/// </summary>
 	public class QueryRunner
 	{
-		/// <summary>The _connection string.</summary>
+		/// <summary>
+		/// 	The connection string value.
+		/// </summary>
 		private readonly string _connectionString;
 
-		/// <summary>The _enable query batching.</summary>
+		/// <summary>
+		/// 	The enable query batching value.
+		/// </summary>
 		private readonly bool _enableQueryBatching;
 
-		/// <summary>The _factory.</summary>
+		/// <summary>
+		/// 	The provider factory.
+		/// </summary>
 		private readonly DbProviderFactory _factory;
 
-		/// <summary>Initializes a new instance of the <see cref="QueryRunner"/> class.</summary>
-		/// <param name="factory">The factory.</param>
-		/// <param name="connectionString">The connection string.</param>
-		/// <param name="enableQueryBatching">The enable query batching.</param>
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref = "QueryRunner" /> class.
+		/// </summary>
+		/// <param name = "factory">The factory.</param>
+		/// <param name = "connectionString">The connection string.</param>
+		/// <param name = "enableQueryBatching">The enable query batching.</param>
 		public QueryRunner(DbProviderFactory factory, string connectionString, bool enableQueryBatching)
 		{
 			_factory = factory;
@@ -35,30 +46,49 @@ namespace MiniSqlQuery.Core
 			Messages = string.Empty;
 		}
 
-		/// <summary>The batch progress.</summary>
+		/// <summary>
+		/// 	The batch progress.
+		/// </summary>
 		public event EventHandler<BatchProgressEventArgs> BatchProgress;
 
-		/// <summary>Gets or sets Batch.</summary>
-		/// <value>The batch.</value>
+		/// <summary>
+		/// 	Gets or sets the <see cref="QueryBatch"/> for this query.
+		/// </summary>
+		/// <value>The query batch.</value>
 		public QueryBatch Batch { get; protected set; }
 
-		/// <summary>Gets or sets Exception.</summary>
+		/// <summary>
+		/// 	Gets or sets Exception if any.
+		/// </summary>
 		/// <value>The exception.</value>
 		public DbException Exception { get; protected set; }
 
-		/// <summary>Gets or sets a value indicating whether IsBusy.</summary>
-		/// <value>The is busy.</value>
+		/// <summary>
+		/// 	Gets or sets a value indicating whether the query runner is busy.
+		/// </summary>
+		/// <value>The is busy value.</value>
 		public bool IsBusy { get; set; }
 
-		/// <summary>Gets or sets Messages.</summary>
+		/// <summary>
+		/// 	Gets or sets the messages if any.
+		/// </summary>
 		/// <value>The messages.</value>
 		public string Messages { get; protected set; }
 
-		/// <summary>The create.</summary>
-		/// <param name="factory">The factory.</param>
-		/// <param name="connectionString">The connection string.</param>
-		/// <param name="enableQueryBatching">The enable query batching.</param>
-		/// <returns>A <see cref="QueryRunner"/> instance acording to the parameters.</returns>
+		/// <summary>
+		/// 	Creates an instance of a query runner for the specified database.
+		/// </summary>
+		/// <param name = "factory">The factory.</param>
+		/// <param name = "connectionString">The connection string.</param>
+		/// <param name = "enableQueryBatching">The enable query batching.</param>
+		/// <returns>A <see cref = "QueryRunner" /> instance acording to the parameters.</returns>
+		/// <remarks>
+		/// <example>
+		/// var runner = QueryRunner.Create(DbProviderFactories.GetFactory("System.Data.SqlClient"), connStr, true);
+		/// runner.ExecuteQuery("select * from Employees\r\nGO\r\nSelect * from Products");
+		/// // runner.Batch.Queries.Count == 2 //
+		/// </example>
+		/// </remarks>
 		public static QueryRunner Create(DbProviderFactory factory, string connectionString, bool enableQueryBatching)
 		{
 			if (factory.GetType().Name == "SqlClientFactory")
@@ -70,9 +100,11 @@ namespace MiniSqlQuery.Core
 			return new QueryRunner(factory, connectionString, enableQueryBatching);
 		}
 
-		/// <summary>Tests the database connection using the specified provider.</summary>
-		/// <param name="providerName">Name of the provider.</param>
-		/// <param name="connectionString">The connection string.</param>
+		/// <summary>
+		/// 	Tests the database connection using the specified provider.
+		/// </summary>
+		/// <param name = "providerName">Name of the provider.</param>
+		/// <param name = "connectionString">The connection string.</param>
 		/// <returns>If the connection was successful, null; otherwise the exception object.</returns>
 		public static Exception TestDbConnection(string providerName, string connectionString)
 		{
@@ -97,8 +129,10 @@ namespace MiniSqlQuery.Core
 			throw new InvalidOperationException("Connection test failed");
 		}
 
-		/// <summary>Executes the <paramref name="sql"/> query.</summary>
-		/// <param name="sql">The SQL to execute.</param>
+		/// <summary>
+		/// 	Executes the <paramref name = "sql" /> query.
+		/// </summary>
+		/// <param name = "sql">The SQL to execute.</param>
 		public void ExecuteQuery(string sql)
 		{
 			ValidateState();
@@ -177,16 +211,20 @@ namespace MiniSqlQuery.Core
 			}
 		}
 
-		/// <summary>The handle batch exception.</summary>
-		/// <param name="dbException">The db exception.</param>
+		/// <summary>
+		/// 	The handle batch exception.
+		/// </summary>
+		/// <param name = "dbException">The db exception.</param>
 		protected virtual void HandleBatchException(DbException dbException)
 		{
 			Exception = dbException;
 			Messages += dbException.Message + Environment.NewLine;
 		}
 
-		/// <summary>The on batch progress.</summary>
-		/// <param name="e">The events.</param>
+		/// <summary>
+		/// 	The on batch progress.
+		/// </summary>
+		/// <param name = "e">The events.</param>
 		protected void OnBatchProgress(BatchProgressEventArgs e)
 		{
 			EventHandler<BatchProgressEventArgs> progress = BatchProgress;
@@ -196,20 +234,27 @@ namespace MiniSqlQuery.Core
 			}
 		}
 
-		/// <summary>The subscribe to messages.</summary>
-		/// <param name="connection">The connection.</param>
+		/// <summary>
+		/// 	The subscribe to messages.
+		/// </summary>
+		/// <param name = "connection">The connection.</param>
 		protected virtual void SubscribeToMessages(DbConnection connection)
 		{
 		}
 
-		/// <summary>The unsubscribe from messages.</summary>
-		/// <param name="connection">The connection.</param>
+		/// <summary>
+		/// 	The unsubscribe from messages.
+		/// </summary>
+		/// <param name = "connection">The connection.</param>
 		protected virtual void UnsubscribeFromMessages(DbConnection connection)
 		{
 		}
 
-		/// <summary>The validate state.</summary>
-		/// <exception cref="InvalidOperationException"></exception>
+		/// <summary>
+		/// 	Ensures that there is enough information available to the class to execute a query.
+		/// </summary>
+		/// <exception cref = "InvalidOperationException">If there is no connection, "Supply a connection."</exception>
+		/// <exception cref = "InvalidOperationException">If there is no connection, "Supply a provider."</exception>
 		private void ValidateState()
 		{
 			if (string.IsNullOrEmpty(_connectionString))

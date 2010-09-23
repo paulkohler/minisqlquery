@@ -60,6 +60,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\MiniSqlQuery.Core.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - No Tests|AnyCPU' ">
     <OutputPath>bin\Release - No Tests\</OutputPath>

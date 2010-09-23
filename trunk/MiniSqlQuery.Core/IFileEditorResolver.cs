@@ -36,7 +36,7 @@ namespace MiniSqlQuery.Core
 		IEditor ResolveEditorInstance(string filename);
 
 		/// <summary>
-		/// 	Works out the "name" of the editor to use based on the <paramref name = "extention" />.
+		/// 	Works out the "name" of the editor to use based on the <paramref name = "extension" />.
 		/// </summary>
 		/// <param name = "extension">The extention ("sql", "txt"/".txt" etc).</param>
 		/// <returns>The name of an editor in the container.</returns>
