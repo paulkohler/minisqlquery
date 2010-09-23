@@ -13,8 +13,7 @@ using System.IO;
 namespace MiniSqlQuery.Core
 {
 	/// <summary>
-	/// 	Given a file name or extention the service will work out the most appropriate editor
-	/// 	to use.
+	/// 	Given a file name or extention the service will work out the most appropriate editor to use.
 	/// </summary>
 	/// <remarks>
 	/// 	The editors need to be registered using the <see cref = "Register" /> method.
@@ -100,25 +99,25 @@ namespace MiniSqlQuery.Core
 		}
 
 		/// <summary>
-		/// 	Works out the "name" of the editor to use based on the <paramref name = "extention" />.
+		/// 	Works out the "name" of the editor to use based on the <paramref name = "extension" />.
 		/// </summary>
-		/// <param name = "extention">The extention ("sql", "txt"/".txt" etc).</param>
+		/// <param name = "extension">The extention ("sql", "txt"/".txt" etc).</param>
 		/// <returns>The name of an editor in the container.</returns>
-		public string ResolveEditorNameByExtension(string extention)
+		public string ResolveEditorNameByExtension(string extension)
 		{
 			string editorName = _extentionMap["*"].EditorKeyName;
 
-			if (extention != null)
+			if (extension != null)
 			{
-				if (extention.StartsWith("."))
+				if (extension.StartsWith("."))
 				{
-					extention = extention.Substring(1);
+					extension = extension.Substring(1);
 				}
 
 				// is there a specific editor for this file type
-				if (_extentionMap.ContainsKey(extention))
+				if (_extentionMap.ContainsKey(extension))
 				{
-					editorName = _extentionMap[extention].EditorKeyName;
+					editorName = _extentionMap[extension].EditorKeyName;
 				}
 			}
 

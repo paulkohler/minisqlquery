@@ -49,7 +49,6 @@ namespace MiniSqlQuery
 			services.RegisterComponent<BatchQuerySelectForm>("BatchQuerySelectForm");
 		}
 
-// ReSharper disable UnusedMember.Local
 		/// <summary>
 		/// 	The application thread exception.
 		/// </summary>
@@ -75,8 +74,6 @@ namespace MiniSqlQuery
 				HandleException((Exception)e.ExceptionObject);
 			}
 		}
-
-// ReSharper restore UnusedMember.Local
 
 		/// <summary>
 		/// 	The handle exception.
