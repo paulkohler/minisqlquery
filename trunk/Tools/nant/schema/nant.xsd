@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<xs:schema xmlns:nant="http://nant.sf.net/release/0.90/nant.xsd" elementFormDefault="qualified" targetNamespace="http://nant.sf.net/release/0.90/nant.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:nant="http://nant.sf.net/release/0.91-alpha2/nant.xsd" elementFormDefault="qualified" targetNamespace="http://nant.sf.net/release/0.91-alpha2/nant.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
-    <xs:documentation>NAnt schema generated at 05/08/2010 14:19:04</xs:documentation>
+    <xs:documentation>NAnt schema generated at 08/17/2010 19:32:03</xs:documentation>
   </xs:annotation>
   <xs:complexType name="NAnt.Core.TaskContainer">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -45,6 +45,7 @@
         <xs:element name="rc" type="nant:NAnt.VisualCpp.Tasks.RcTask" />
         <xs:element name="solution" type="nant:NAnt.VSNet.Tasks.SolutionTask" />
         <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
+        <xs:element name="locatesdk" type="nant:NAnt.Win32.Tasks.LocateSdkTask" />
         <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
         <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
         <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
@@ -1444,6 +1445,18 @@
     <xs:attribute name="unless" use="optional" />
     <xs:anyAttribute namespace="##other" processContents="skip" />
   </xs:complexType>
+  <xs:complexType name="NAnt.Win32.Tasks.LocateSdkTask">
+    <xs:attribute name="property" use="required" />
+    <xs:attribute name="minwinsdkver" use="optional" />
+    <xs:attribute name="maxwinsdkver" use="optional" />
+    <xs:attribute name="minnetfxver" use="optional" />
+    <xs:attribute name="maxnetfxver" use="optional" />
+    <xs:attribute name="failonerror" use="optional" />
+    <xs:attribute name="verbose" use="optional" />
+    <xs:attribute name="if" use="optional" />
+    <xs:attribute name="unless" use="optional" />
+    <xs:anyAttribute namespace="##other" processContents="skip" />
+  </xs:complexType>
   <xs:complexType name="NAnt.Win32.Tasks.ReadRegistryTask">
     <xs:attribute name="property" use="optional" />
     <xs:attribute name="prefix" use="optional" />
@@ -1713,6 +1726,7 @@
         <xs:element name="rc" type="nant:NAnt.VisualCpp.Tasks.RcTask" />
         <xs:element name="solution" type="nant:NAnt.VSNet.Tasks.SolutionTask" />
         <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
+        <xs:element name="locatesdk" type="nant:NAnt.Win32.Tasks.LocateSdkTask" />
         <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
         <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
         <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
@@ -1810,6 +1824,7 @@
         <xs:element name="rc" type="nant:NAnt.VisualCpp.Tasks.RcTask" />
         <xs:element name="solution" type="nant:NAnt.VSNet.Tasks.SolutionTask" />
         <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
+        <xs:element name="locatesdk" type="nant:NAnt.Win32.Tasks.LocateSdkTask" />
         <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
         <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
         <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
@@ -1946,6 +1961,7 @@
         <xs:element name="rc" type="nant:NAnt.VisualCpp.Tasks.RcTask" />
         <xs:element name="solution" type="nant:NAnt.VSNet.Tasks.SolutionTask" />
         <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
+        <xs:element name="locatesdk" type="nant:NAnt.Win32.Tasks.LocateSdkTask" />
         <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
         <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
         <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
@@ -2349,6 +2365,7 @@
       <xs:element name="rc" type="nant:NAnt.VisualCpp.Tasks.RcTask" />
       <xs:element name="solution" type="nant:NAnt.VSNet.Tasks.SolutionTask" />
       <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
+      <xs:element name="locatesdk" type="nant:NAnt.Win32.Tasks.LocateSdkTask" />
       <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
       <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
       <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
@@ -2453,6 +2470,7 @@
         <xs:element name="rc" type="nant:NAnt.VisualCpp.Tasks.RcTask" />
         <xs:element name="solution" type="nant:NAnt.VSNet.Tasks.SolutionTask" />
         <xs:element name="aximp" type="nant:NAnt.Win32.Tasks.AxImpTask" />
+        <xs:element name="locatesdk" type="nant:NAnt.Win32.Tasks.LocateSdkTask" />
         <xs:element name="readregistry" type="nant:NAnt.Win32.Tasks.ReadRegistryTask" />
         <xs:element name="regasm" type="nant:NAnt.Win32.Tasks.RegAsmTask" />
         <xs:element name="tlbexp" type="nant:NAnt.Win32.Tasks.TlbExpTask" />
