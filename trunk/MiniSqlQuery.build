@@ -13,6 +13,7 @@ Build file for Mini SQL Query.
 
   <!-- The release build is the 'public distribution', its should not incude test DLLs -->
   <property name="project.release.type" value="Release - No Tests"/>
+  <property name="nant.settings.currentframework" value="net-4.0" />
   
   <property name="project.description" value="Mini SQL Query from PK Software is a minimalist SQL query tool for multiple providers (MSSQL, Oracle, OLEDB, MS Access files etc). The goal of the Mini SQL Query tool is to allow a developer or trouble-shooter to quickly diagnose issues or make changes to a database using a tool with a small footprint, that is fast and easy to use." />
   <property name="create.assemblyinfo" value="true" />
@@ -28,12 +29,15 @@ Build file for Mini SQL Query.
   <target name="full-build" depends="create-common-assemblyinfo,build,copy-licences" description="" />
   <target name="distro" depends="create-common-assemblyinfo,build,copy-licences,build-api-docs,zip-release-build" description="" />
 
-  <target name="build" description="compiles the source code for a release distribution.">
+  <target name="build" description="compiles the source code for a distribution.">
     <delete dir="${release-build-dir}" />
-    <exec program="msbuild.exe" basedir="${dnfx-base}">
+	<!--<solution configuration="${project.release.type}" solutionfile="${project.name}.sln" outputdir="${release-build-dir}" verbose="true" />-->
+
+    <exec program="msbuild.exe" basedir="${dnfx-base}" verbose="true">
+      <arg value="${project.name}.sln" />
       <arg value="/p:Configuration=${project.release.type}" />
       <arg value="/p:OutDir=${release-build-dir}" />
-      <arg value="/p:Platform=&quot;Any CPU&quot;" />
+      <!--<arg value="/p:Platform=&quot;Any CPU&quot;" />-->
       <arg value="/t:Rebuild" />
     </exec>
     <call target="build-contrib-plugins" />
@@ -50,7 +54,7 @@ Build file for Mini SQL Query.
     <exec workingdir="${release-contrib-dir}" program="msbuild.exe" basedir="${dnfx-base}">
       <arg value="/p:Configuration=${project.release.type}" />
       <arg value="/p:OutDir=${release-build-dir}" />
-      <arg value="/p:Platform=&quot;Any CPU&quot;" />
+      <!--<arg value="/p:Platform=&quot;Any CPU&quot;" />-->
       <arg value="/t:Rebuild" />
     </exec>
   </target>
@@ -92,7 +96,7 @@ Build file for Mini SQL Query.
         <include name="Templates\*" />
       </fileset>
     </zip>
-    <zip zipfile="${release-sdk-dir}${project.name}.PlugIn.ProjectTemp late.zip" ziplevel="9">
+    <zip zipfile="${release-sdk-dir}${project.name}.PlugIn.ProjectTemplate.zip" ziplevel="9">
       <fileset basedir="${release-sdk-dir}PlugInProjectTemplate" >
         <include name="*" />
       </fileset>
