@@ -1,6 +1,7 @@
 Mini SQL Query Change Log
 =========================
 
+2011-03-29	FIX: The schema service factory was too specific with the SQL CE versions, now works with 3.5 of 4 etc.
 2010-08-09	ENH: Made exporting with "read only columns" (e.g. PK's) an option
 2010-01-28	ENH: Added a 'copy table name' menu item on the DB Inspector
 2010-01-28	ENH: Friendlier truncate table message

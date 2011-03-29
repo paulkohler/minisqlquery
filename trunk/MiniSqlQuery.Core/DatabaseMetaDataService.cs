@@ -12,15 +12,20 @@ using MiniSqlQuery.Core.DbModel;
 namespace MiniSqlQuery.Core
 {
 	/// <summary>
-	/// 	Creates a simplified view of the database schema for a given provider and connection string.
+	/// 	Creates <see cref="IDatabaseSchemaService"/> instance to provide a simplified view of the database schema.
 	/// </summary>
 	public class DatabaseMetaDataService
 	{
 		/// <summary>
-		/// 	Creates a schema service for a database depending on the <paramref name="providerName"/>.
+		/// 	Creates a schema service for a database depending on the <paramref name = "providerName" />.
+		/// 	Currently has specific providers for MSSQL, MSSQL CE and OLE DB.
+		/// 	The <see cref="GenericSchemaService"/> is the fallback option.
 		/// </summary>
 		/// <param name = "providerName">The provider name, e.g. "System.Data.SqlClient".</param>
-		/// <returns>A schema serivce for the based on the <paramref name="providerName"/>. The default is <see cref="GenericSchemaService"/>.</returns>
+		/// <returns>
+		/// A schema serivce for the based on the <paramref name = "providerName" />. 
+		/// The default is <see cref = "GenericSchemaService" />.
+		/// </returns>
 		public static IDatabaseSchemaService Create(string providerName)
 		{
 			switch (providerName)
@@ -31,10 +36,13 @@ namespace MiniSqlQuery.Core
 				case "System.Data.SqlClient":
 					return new SqlClientSchemaService {ProviderName = providerName};
 
-				case "System.Data.SqlServerCe.3.5":
-					return new SqlCeSchemaService {ProviderName = providerName};
-
 				default:
+					// The SQL CE types tend to include the version number within the provider name, hence "StartsWith"
+					if (providerName.StartsWith("System.Data.SqlServerCe."))
+					{
+						return new SqlCeSchemaService {ProviderName = providerName};
+					}
+
 					return new GenericSchemaService {ProviderName = providerName};
 			}
 		}
