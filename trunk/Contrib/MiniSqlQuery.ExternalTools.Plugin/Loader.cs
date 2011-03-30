@@ -14,6 +14,7 @@ namespace MiniSqlQuery.ExternalTools.Plugin
 		public override void InitializePlugIn()
 		{
 			Services.HostWindow.AddPluginCommand<RunExportSqlCeCommand>();
+			Services.HostWindow.AddPluginCommand<RunExportSqlCe40Command>();
 			Services.HostWindow.AddPluginCommand<ShowSiteForExportSqlCeCommand>();
 		}
 	}

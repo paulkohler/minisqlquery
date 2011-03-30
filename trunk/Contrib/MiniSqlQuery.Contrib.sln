@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniSqlQuery.Exports.Plugin", "MiniSqlQuery.Exports.Plugin\MiniSqlQuery.Exports.Plugin.csproj", "{BADDFE58-B855-4A88-A131-BE4066F080E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniSqlQuery.Core", "..\MiniSqlQuery.Core\MiniSqlQuery.Core.csproj", "{B819CF6A-B5FD-4E85-842D-FD855F856A5A}"
