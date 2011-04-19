@@ -216,7 +216,7 @@ namespace MiniSqlQuery
 				IsBusy = true;
 			}
 
-			_runner = QueryRunner.Create(_settings.ProviderFactory, _settings.ConnectionDefinition.ConnectionString, _settings.EnableQueryBatching);
+			_runner = QueryRunner.Create(_settings.ProviderFactory, _settings.ConnectionDefinition.ConnectionString, _settings.EnableQueryBatching, _settings.CommandTimeout);
 			UseWaitCursor = true;
 			queryBackgroundWorker.RunWorkerAsync(sql);
 		}

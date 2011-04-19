@@ -22,7 +22,7 @@ namespace MiniSqlQuery.Tests
 		[SetUp]
 		public void TestSetUp()
 		{
-			_runner = QueryRunner.Create(DbProviderFactories.GetFactory("System.Data.SqlClient"), _conn, true);
+			_runner = QueryRunner.Create(DbProviderFactories.GetFactory("System.Data.SqlClient"), _conn, true, 30);
 		}
 
 		#endregion
@@ -113,7 +113,7 @@ namespace MiniSqlQuery.Tests
 		[ExpectedException(typeof(InvalidOperationException), ExpectedMessage = "Supply a connection.")]
 		public void No_connection_expects_error_on_Execute()
 		{
-			_runner = new QueryRunner(DbProviderFactories.GetFactory("System.Data.SqlClient"), null, true);
+			_runner = new QueryRunner(DbProviderFactories.GetFactory("System.Data.SqlClient"), null, true, 30);
 			_runner.ExecuteQuery(" ");
 		}
 
@@ -121,7 +121,7 @@ namespace MiniSqlQuery.Tests
 		[ExpectedException(typeof(InvalidOperationException), ExpectedMessage = "Supply a provider.")]
 		public void No_provider_expects_error_on_Execute()
 		{
-			_runner = new QueryRunner(null, _conn, true);
+			_runner = new QueryRunner(null, _conn, true, 30);
 			_runner.ExecuteQuery(" ");
 		}
 	}

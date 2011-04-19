@@ -1,34 +1,32 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<SettingsFile CurrentProfile="(Default)" GeneratedClassNamespace="MiniSqlQuery.Properties" GeneratedClassName="Settings" xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MiniSqlQuery.Properties" GeneratedClassName="Settings">
+  <Profiles />
   <Settings>
-    <Setting Name="DateTimeFormat" Type="System.String" Scope="User" Roaming="false">
+    <Setting Name="DateTimeFormat" Type="System.String" Scope="User">
       <Value Profile="(Default)">yyyy-MM-dd HH:mm:ss.fff</Value>
     </Setting>
-    <Setting Name="DefaultConnectionDefinitionFilename" Type="System.String" Scope="User" Roaming="false">
+    <Setting Name="DefaultConnectionDefinitionFilename" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="EnableQueryBatching" Type="System.Boolean" Scope="User" Roaming="false">
+    <Setting Name="EnableQueryBatching" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="FileDialogFilter" Type="System.String" Scope="Application">
       <Value Profile="(Default)">SQL Files (*.sql)|*.sql|Mini SQL Template Files (*.mt)|*.mt|ASPX Files (*.asp;*.aspx;*.asax;*.asmx)|*.asp;*.aspx;*.asax;*.asmx|Batch Files (*.bat;*.cmd)|*.bat;*.cmd|BOO Files (*.boo)|*.boo|Coco Files (*.atg)|*.atg|C++ Files (*.cpp;*.cc;*.c;*.h)|*.cpp;*.cc;*.c;*.h|C# Files (*.cs)|*.cs|HTML Files (*.htm*)|*.htm*|Java Files (*.java)|*.java|JavaScript Files (*.js)|*.js|Patch Files (*.patch;*.diff)|*.patch;*.diff|PHP Files (*.php*)|*.php*|TeX Files (*.tex)|*.tex|VB.NET Files (*.vb)|*.vb|XML Files (*.xml;*.resx)|*.xml;*.resx|All Files (*.*)|*.*</Value>
     </Setting>
-    <Setting Name="IncludeReadOnlyColumnsInExport" Type="System.Boolean" Scope="User" Roaming="false">
+    <Setting Name="IncludeReadOnlyColumnsInExport" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="LoadExternalPlugins" Type="System.Boolean" Scope="User" Roaming="false">
+    <Setting Name="LoadExternalPlugins" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="NammedConnection" Type="System.String" Scope="User" Roaming="false">
+    <Setting Name="NammedConnection" Type="System.String" Scope="User">
       <Value Profile="(Default)">Default - MSSQL Master@localhost</Value>
     </Setting>
-    <Setting Name="NullText" Type="System.String" Scope="User" Roaming="false">
+    <Setting Name="NullText" Type="System.String" Scope="User">
       <Value Profile="(Default)">&lt;NULL&gt;</Value>
     </Setting>
-    <Setting Name="PlugInFileFilter" Type="System.String" Scope="User" Roaming="false">
+    <Setting Name="PlugInFileFilter" Type="System.String" Scope="User">
       <Value Profile="(Default)">*.PlugIn.dll</Value>
     </Setting>
     <Setting Name="SqlFileFilter" Type="System.String" Scope="Application">
@@ -36,6 +34,9 @@
     </Setting>
     <Setting Name="XmlFileDialogFilter" Type="System.String" Scope="Application">
       <Value Profile="(Default)">XML Files (*.xml)|*.xml|All Files (*.*)|*.*</Value>
+    </Setting>
+    <Setting Name="CommandTimeout" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">30</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -63,6 +63,7 @@ namespace MiniSqlQuery.PlugIns
 		public void Save()
 		{
 			_settings.EnableQueryBatching = _settingsWrapper.EnableQueryBatching;
+			_settings.CommandTimeout = _settingsWrapper.CommandTimeout;
 			_settings.PlugInFileFilter = _settingsWrapper.PlugInFileFilter;
 			_settings.LoadExternalPlugins = _settingsWrapper.LoadExternalPlugins;
 			_settings.DefaultConnectionDefinitionFilename = _settingsWrapper.DefaultConnectionDefinitionFilename;
@@ -106,7 +107,10 @@ namespace MiniSqlQuery.PlugIns
 
 			/// <summary>The include ReadOnly Columns in Export value.</summary>
 			private bool _includeReadOnlyColumnsInExport;
-			
+
+			/// <summary>The command timout.</summary>
+			private int _commandTimeout;
+
 			/// <summary>Initializes a new instance of the <see cref="CoreMiniSqlQuerySettingsWrapper"/> class.</summary>
 			/// <param name="settings">The settings.</param>
 			public CoreMiniSqlQuerySettingsWrapper(IApplicationSettings settings)
@@ -114,6 +118,7 @@ namespace MiniSqlQuery.PlugIns
 				_settings = settings;
 
 				EnableQueryBatching = _settings.EnableQueryBatching;
+				CommandTimeout = _settings.CommandTimeout;
 				PlugInFileFilter = _settings.PlugInFileFilter;
 				LoadExternalPlugins = _settings.LoadExternalPlugins;
 				DefaultConnectionDefinitionFilename = _settings.DefaultConnectionDefinitionFilename;
@@ -167,6 +172,22 @@ namespace MiniSqlQuery.PlugIns
 					{
 						_enableQueryBatching = value;
 						OnPropertyChanged("EnableQueryBatching");
+					}
+				}
+			}
+
+			/// <summary>Gets or sets a value indicating the command timeout.</summary>
+			[Category("Query")]
+			[Description("Gets or sets the wait time before terminating the attempt to execute a command and generating an error. A value of 0 indicates no limit.")]
+			public int CommandTimeout
+			{
+				get { return _commandTimeout; }
+				set
+				{
+					if (_commandTimeout != value)
+					{
+						_commandTimeout = value;
+						OnPropertyChanged("CommandTimeout");
 					}
 				}
 			}

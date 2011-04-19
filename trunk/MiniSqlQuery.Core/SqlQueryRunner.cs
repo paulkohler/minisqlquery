@@ -18,13 +18,14 @@ namespace MiniSqlQuery.Core
 	public class SqlQueryRunner : QueryRunner
 	{
 		/// <summary>
-		/// 	Initializes a new instance of the <see cref = "SqlQueryRunner" /> class.
+		/// Initializes a new instance of the <see cref="SqlQueryRunner"/> class.
 		/// </summary>
-		/// <param name = "factory">The provider factory.</param>
-		/// <param name = "connectionString">The connection string.</param>
-		/// <param name = "enableQueryBatching">The enable query batching.</param>
-		public SqlQueryRunner(DbProviderFactory factory, string connectionString, bool enableQueryBatching)
-			: base(factory, connectionString, enableQueryBatching)
+		/// <param name="factory">The provider factory.</param>
+		/// <param name="connectionString">The connection string.</param>
+		/// <param name="enableQueryBatching">The enable query batching.</param>
+		/// <param name="commandTimeout"></param>
+		public SqlQueryRunner(DbProviderFactory factory, string connectionString, bool enableQueryBatching, int commandTimeout)
+			: base(factory, connectionString, enableQueryBatching, commandTimeout)
 		{
 		}
 

@@ -1,6 +1,7 @@
 Mini SQL Query Change Log
 =========================
 
+2011-04-19	ENH: Added the Command Timout option, only valid for MSSQL for now
 2011-03-30	ENH: Added in the ExportSqlCe version 4 tool
 2011-03-30	ENH: Upgraded the Contrib projects to VS 2010
 2011-03-29	FIX: The schema service factory was too specific with the SQL CE versions, now works with 3.5 of 4 etc.

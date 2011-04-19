@@ -66,6 +66,12 @@ namespace MiniSqlQuery.Core
 		bool EnableQueryBatching { get; set; }
 
 		/// <summary>
+		///		Gets or sets a value indicating the command timeout.
+		/// </summary>
+		/// <value>The command timeout.</value>
+		int CommandTimeout { get; set; }
+
+		/// <summary>
 		/// 	Gets or sets a value indicating whether to include read-only columns in the export SQL.
 		/// </summary>
 		/// <value>

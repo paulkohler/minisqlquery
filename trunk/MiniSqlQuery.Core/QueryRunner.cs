@@ -9,6 +9,8 @@
 using System;
 using System.Data;
 using System.Data.Common;
+using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace MiniSqlQuery.Core
 {
@@ -27,6 +29,8 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		private readonly bool _enableQueryBatching;
 
+		private readonly int _commandTimeout;
+
 		/// <summary>
 		/// 	The provider factory.
 		/// </summary>
@@ -38,11 +42,13 @@ namespace MiniSqlQuery.Core
 		/// <param name = "factory">The factory.</param>
 		/// <param name = "connectionString">The connection string.</param>
 		/// <param name = "enableQueryBatching">The enable query batching.</param>
-		public QueryRunner(DbProviderFactory factory, string connectionString, bool enableQueryBatching)
+		/// <param name="commandTimeout"></param>
+		public QueryRunner(DbProviderFactory factory, string connectionString, bool enableQueryBatching, int commandTimeout)
 		{
 			_factory = factory;
 			_connectionString = connectionString;
 			_enableQueryBatching = enableQueryBatching;
+			_commandTimeout = commandTimeout;
 			Messages = string.Empty;
 		}
 
@@ -76,28 +82,31 @@ namespace MiniSqlQuery.Core
 		public string Messages { get; protected set; }
 
 		/// <summary>
-		/// 	Creates an instance of a query runner for the specified database.
+		/// Creates an instance of a query runner for the specified database.
 		/// </summary>
-		/// <param name = "factory">The factory.</param>
-		/// <param name = "connectionString">The connection string.</param>
-		/// <param name = "enableQueryBatching">The enable query batching.</param>
-		/// <returns>A <see cref = "QueryRunner" /> instance acording to the parameters.</returns>
+		/// <param name="factory">The factory.</param>
+		/// <param name="connectionString">The connection string.</param>
+		/// <param name="enableQueryBatching">The enable query batching.</param>
+		/// <param name="commandTimeout">The command timeout.</param>
+		/// <returns>
+		/// A <see cref="QueryRunner"/> instance acording to the parameters.
+		/// </returns>
 		/// <remarks>
-		/// <example>
+		/// 	<example>
 		/// var runner = QueryRunner.Create(DbProviderFactories.GetFactory("System.Data.SqlClient"), connStr, true);
 		/// runner.ExecuteQuery("select * from Employees\r\nGO\r\nSelect * from Products");
 		/// // runner.Batch.Queries.Count == 2 //
 		/// </example>
 		/// </remarks>
-		public static QueryRunner Create(DbProviderFactory factory, string connectionString, bool enableQueryBatching)
+		public static QueryRunner Create(DbProviderFactory factory, string connectionString, bool enableQueryBatching, int commandTimeout)
 		{
 			if (factory.GetType().Name == "SqlClientFactory")
 			{
-				return new SqlQueryRunner(factory, connectionString, enableQueryBatching);
+				return new SqlQueryRunner(factory, connectionString, enableQueryBatching, commandTimeout);
 			}
 
 			// otherwise ise the default
-			return new QueryRunner(factory, connectionString, enableQueryBatching);
+			return new QueryRunner(factory, connectionString, enableQueryBatching, commandTimeout);
 		}
 
 		/// <summary>
@@ -166,6 +175,7 @@ namespace MiniSqlQuery.Core
 				adapter = _factory.CreateDataAdapter();
 				cmd = dbConnection.CreateCommand();
 				cmd.CommandType = CommandType.Text;
+				SetCommandTimeout(cmd, _commandTimeout);
 				adapter.SelectCommand = cmd;
 
 				int queryCount = Batch.Queries.Count;
@@ -208,6 +218,27 @@ namespace MiniSqlQuery.Core
 			if (Batch != null)
 			{
 				Batch.Messages = Messages;
+			}
+		}
+
+		/// <summary>
+		/// Sets the command timeout, currently only tested against MSSQL.
+		/// </summary>
+		/// <param name="cmd">The command.</param>
+		/// <param name="commandTimeout">The command timeout.</param>
+		private void SetCommandTimeout(IDbCommand cmd, int commandTimeout)
+		{
+			if (_factory is SqlClientFactory)
+			{
+				if (cmd == null)
+				{
+					throw new ArgumentNullException("cmd");
+				}
+				cmd.CommandTimeout = commandTimeout;
+			}
+			else
+			{
+				Trace.WriteLine("Command Timeout only supported by SQL Client (so far)");
 			}
 		}
 

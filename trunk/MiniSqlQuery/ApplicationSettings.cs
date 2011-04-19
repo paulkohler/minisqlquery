@@ -120,6 +120,23 @@ namespace MiniSqlQuery
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets a value indicating the command timeout.
+		/// </summary>
+		/// <value>The command timeout.</value>
+		public int CommandTimeout
+		{
+			get { return Settings.Default.CommandTimeout; }
+			set
+			{
+				if (Settings.Default.CommandTimeout != value)
+				{
+					Settings.Default.CommandTimeout = value;
+					Settings.Default.Save();
+				}
+			}
+		}
+
 		/// <summary>Gets or sets a value indicating whether LoadExternalPlugins.</summary>
 		public bool LoadExternalPlugins
 		{
