@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
@@ -271,6 +273,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 				cmd = _dbConnection.CreateCommand();
 				cmd.CommandText = query.Sql;
 				cmd.CommandType = CommandType.Text;
+				SetCommandTimeout(cmd, _settings.CommandTimeout);
 				adapter.SelectCommand = cmd;
 				adapter.Fill(query.Result);
 				SetStatus(string.Format("Loaded table '{0}'", TableName));
@@ -308,6 +311,28 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			dataGridViewResult.DefaultCellStyle.NullValue = _settings.NullText;
 			dataGridViewResult.DataSource = dt;
 			dataGridViewResult.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+		}
+
+
+		/// <summary>
+		/// Sets the command timeout, currently only tested against MSSQL.
+		/// </summary>
+		/// <param name="cmd">The command.</param>
+		/// <param name="commandTimeout">The command timeout.</param>
+		private void SetCommandTimeout(IDbCommand cmd, int commandTimeout)
+		{
+			if (_services.Settings.ProviderFactory is SqlClientFactory)
+			{
+				if (cmd == null)
+				{
+					throw new ArgumentNullException("cmd");
+				}
+				cmd.CommandTimeout = commandTimeout;
+			}
+			else
+			{
+				Trace.WriteLine("Command Timeout only supported by SQL Client (so far)");
+			}
 		}
 
 		/// <summary>The services system message posted.</summary>
