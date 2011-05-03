@@ -118,6 +118,7 @@
     <Compile Include="Templates\TemplateHost_tests.cs" />
     <Compile Include="Templates\TemplateModel_tests.cs" />
     <Compile Include="Templates\TextFormater_tests.cs" />
+    <Compile Include="TextGeneratorService_Tests.cs" />
     <Compile Include="Utility_Tests.cs" />
   </ItemGroup>
   <ItemGroup>

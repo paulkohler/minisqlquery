@@ -18,6 +18,7 @@ using MiniSqlQuery.PlugIns.ConnectionStringsManager;
 using MiniSqlQuery.PlugIns.DatabaseInspector;
 using MiniSqlQuery.PlugIns.SearchTools;
 using MiniSqlQuery.PlugIns.TemplateViewer;
+using MiniSqlQuery.PlugIns.TextGenerator;
 using MiniSqlQuery.PlugIns.ViewTable;
 using MiniSqlQuery.Properties;
 
@@ -112,6 +113,7 @@ namespace MiniSqlQuery
 			services.LoadPlugIn(new ViewTableLoader());
 			services.LoadPlugIn(new TemplateViewerLoader());
 			services.LoadPlugIn(new SearchToolsLoader());
+			services.LoadPlugIn(new TextGeneratorLoader());
 
 			if (services.Settings.LoadExternalPlugins)
 			{

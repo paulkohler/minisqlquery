@@ -233,6 +233,9 @@
     <Compile Include="PlugIns\TemplateViewer\TemplateViewForm.Designer.cs">
       <DependentUpon>TemplateViewForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlugIns\TextGenerator\Commands\RunTextGeneratorCommand.cs" />
+    <Compile Include="PlugIns\TextGenerator\TextGeneratorLoader.cs" />
+    <Compile Include="PlugIns\TextGenerator\TextGeneratorService.cs" />
     <Compile Include="PlugIns\ViewTable\Commands\ViewTableFormCommand.cs" />
     <Compile Include="PlugIns\ViewTable\Commands\ViewTableFromInspectorCommand.cs" />
     <Compile Include="PlugIns\ViewTable\ViewTableLoader.cs" />
