@@ -126,6 +126,13 @@ namespace MiniSqlQuery.Core
 		void SetStatus(Form source, string text);
 
 		/// <summary>
+		/// Sets the result count.
+		/// </summary>
+		/// <param name="source">The source.</param>
+		/// <param name="count">The count.</param>
+		void SetResultCount(Form source, int? count);
+
+		/// <summary>
 		/// 	Displays (and replaces if required) the database inspactor window.
 		/// </summary>
 		/// <param name = "databaseInspector">The window to display.</param>

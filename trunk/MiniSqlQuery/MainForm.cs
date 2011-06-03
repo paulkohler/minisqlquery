@@ -218,6 +218,28 @@ namespace MiniSqlQuery
 			}
 		}
 
+		public void SetResultCount(Form source, int? count)
+		{
+			if (source == null || ActiveMdiChild == source)
+			{
+				string result = string.Empty;
+
+				if (count != null)
+				{
+					if (count.Value == 1)
+					{
+						result = "1 row";
+					}
+					else
+					{
+						result = count.Value + " rows";
+					}
+				}
+
+				toolStripStatusLabelResultCount.Text = result;
+			}
+		}
+
 		/// <summary>The show database inspector.</summary>
 		/// <param name="databaseInspector">The database inspector.</param>
 		/// <param name="dockState">The dock state.</param>
@@ -354,6 +376,7 @@ namespace MiniSqlQuery
 		private void MainForm_Load(object sender, EventArgs e)
 		{
 			_settings.ConnectionDefinitionsChanged += AppSettingsConnectionDefinitionsChanged;
+			toolStripStatusLabelResultCount.Text = string.Empty;
 
 			Utility.CreateConnectionStringsIfRequired();
 			_settings.SetConnectionDefinitions(Utility.LoadDbConnectionDefinitions());
@@ -502,6 +525,11 @@ namespace MiniSqlQuery
 				_settings.ConnectionDefinition = dbConnectionDefinition;
 				SetWindowTitle(dbConnectionDefinition.Name);
 			}
+		}
+
+		private void dockPanel_ActiveContentChanged(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

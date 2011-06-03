@@ -47,6 +47,8 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 		/// <summary>The _status.</summary>
 		private string _status = string.Empty;
 
+		private int? _rowCount;
+
 		/// <summary>Initializes a new instance of the <see cref="ViewTableForm"/> class.</summary>
 		public ViewTableForm()
 		{
@@ -146,6 +148,12 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			UpdateHostStatus();
 		}
 
+		public void SetRowCount(int? rows)
+		{
+			_rowCount = rows;
+			UpdateHostStatus();
+		}
+
 		/// <summary>The set cursor by location.</summary>
 		/// <param name="line">The line.</param>
 		/// <param name="column">The column.</param>
@@ -187,6 +195,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 		protected void UpdateHostStatus()
 		{
 			_services.HostWindow.SetStatus(this, _status);
+			_services.HostWindow.SetResultCount(this, _rowCount);
 		}
 
 		/// <summary>The data grid view result data binding complete.</summary>
@@ -245,7 +254,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			DbDataAdapter adapter = null;
 			DbCommand cmd = null;
 			DataTable dt = null;
-			Query query = new Query("SELECT * FROM " + TableName);
+			Query query = new Query("SELECT * FROM " + Utility.MakeSqlFriendly(TableName));
 
 			if (string.IsNullOrEmpty(TableName))
 			{
@@ -311,6 +320,11 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			dataGridViewResult.DefaultCellStyle.NullValue = _settings.NullText;
 			dataGridViewResult.DataSource = dt;
 			dataGridViewResult.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+
+			if (dt != null)
+			{
+				SetRowCount(dt.Rows.Count);
+			}
 		}
 
 
@@ -445,6 +459,11 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 		private void lnkRefresh_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			LoadTableData();
+		}
+
+		private void ViewTableForm_Activated(object sender, EventArgs e)
+		{
+			UpdateHostStatus();
 		}
 	}
 }

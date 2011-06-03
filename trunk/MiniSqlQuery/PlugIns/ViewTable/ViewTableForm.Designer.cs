@@ -89,7 +89,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			this.lnkExportScript.TabStop = true;
 			this.lnkExportScript.Text = "Export Script...";
 			this.toolTip1.SetToolTip(this.lnkExportScript, "Takes the current data and creates a script of insert statements in a new window." +
-					"");
+        "");
 			this.lnkExportScript.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkExportScript_LinkClicked);
 			// 
 			// chkAutoReload
@@ -121,8 +121,8 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			// 
 			// cboTableName
 			// 
-			this.cboTableName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.cboTableName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.cboTableName.FormattingEnabled = true;
 			this.cboTableName.Location = new System.Drawing.Point(12, 19);
 			this.cboTableName.MaxDropDownItems = 20;
@@ -148,6 +148,7 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			this.Padding = new System.Windows.Forms.Padding(4);
 			this.TabText = "ViewTableForm";
 			this.Text = "ViewTableForm";
+			this.Activated += new System.EventHandler(this.ViewTableForm_Activated);
 			this.Shown += new System.EventHandler(this.ViewTableForm_Shown);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewResult)).EndInit();
 			this.groupBox1.ResumeLayout(false);

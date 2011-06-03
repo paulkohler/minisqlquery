@@ -99,6 +99,7 @@ namespace MiniSqlQuery
 			this._resultsTabControl.SelectedIndex = 0;
 			this._resultsTabControl.Size = new System.Drawing.Size(1037, 274);
 			this._resultsTabControl.TabIndex = 0;
+			this._resultsTabControl.SelectedIndexChanged += new System.EventHandler(this.SetResultCountOnTabSelectedIndexChanged);
 			// 
 			// ctxDataGrid
 			// 
@@ -162,8 +163,8 @@ namespace MiniSqlQuery
 			this.queryBackgroundWorker.WorkerReportsProgress = true;
 			this.queryBackgroundWorker.WorkerSupportsCancellation = true;
 			this.queryBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.queryBackgroundWorker_DoWork);
-			this.queryBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.queryBackgroundWorker_RunWorkerCompleted);
 			this.queryBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.queryBackgroundWorker_ProgressChanged);
+			this.queryBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.queryBackgroundWorker_RunWorkerCompleted);
 			// 
 			// QueryForm
 			// 
@@ -177,10 +178,10 @@ namespace MiniSqlQuery
 			this.TabPageContextMenuStrip = this.editorContextMenuStrip;
 			this.TabText = "Query";
 			this.Text = "Query";
-			this.Deactivate += new System.EventHandler(this.QueryForm_Deactivate);
-			this.Load += new System.EventHandler(this.QueryForm_Load);
 			this.Activated += new System.EventHandler(this.QueryForm_Activated);
+			this.Deactivate += new System.EventHandler(this.QueryForm_Deactivate);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.QueryForm_FormClosing);
+			this.Load += new System.EventHandler(this.QueryForm_Load);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.ResumeLayout(false);

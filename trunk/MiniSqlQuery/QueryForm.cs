@@ -46,11 +46,16 @@ namespace MiniSqlQuery
 		/// <summary>The _runner.</summary>
 		private QueryRunner _runner;
 
-		/// <summary>The _status.</summary>
+		/// <summary>The status message for this window.</summary>
 		private string _status = string.Empty;
+
+		/// <summary>The row count for this window (tab dependent).</summary>
+		private int? _rowCount;
 
 		/// <summary>The _text find service.</summary>
 		private ITextFindService _textFindService;
+
+		private bool _cleaningTabs;
 
 		/// <summary>Initializes a new instance of the <see cref="QueryForm"/> class.</summary>
 		public QueryForm()
@@ -429,6 +434,12 @@ namespace MiniSqlQuery
 			_status = text;
 			UpdateHostStatus();
 		}
+		
+		public void SetRowCount(int? rows)
+		{
+			_rowCount = rows;
+			UpdateHostStatus();
+		}
 
 		/// <summary>The create default font.</summary>
 		/// <returns></returns>
@@ -441,6 +452,7 @@ namespace MiniSqlQuery
 		protected void UpdateHostStatus()
 		{
 			_hostWindow.SetStatus(this, _status);
+			_hostWindow.SetResultCount(this, _rowCount);
 		}
 
 		/// <summary>The create query complete message.</summary>
@@ -462,6 +474,7 @@ namespace MiniSqlQuery
 		private void AddTables()
 		{
 			ClearGridsAndTabs();
+			SetRowCount(null);
 
 			if (Batch != null)
 			{
@@ -499,6 +512,13 @@ namespace MiniSqlQuery
 
 							_resultsTabControl.TabPages.Add(tabPage);
 							grid.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+
+							// set the row count for the first tab for now.
+							if (counter == 1)
+							{
+								SetRowCount(dt.Rows.Count);
+							}
+
 							counter++;
 						}
 					}
@@ -529,16 +549,54 @@ namespace MiniSqlQuery
 		/// <summary>Iterate backweards through list of tabs disposing grid and removing the tab page.</summary>
 		private void ClearGridsAndTabs()
 		{
-			for (int i = _resultsTabControl.TabPages.Count - 1; i >= 0; i--)
+			try
 			{
-				TabPage tabPage = _resultsTabControl.TabPages[i];
-				if (tabPage.Controls.Count > 0)
-				{
-					tabPage.Controls[0].Dispose(); // dispose grid
-				}
+				_cleaningTabs = true;
 
-				_resultsTabControl.TabPages.Remove(tabPage);
+				for (int i = _resultsTabControl.TabPages.Count - 1; i >= 0; i--)
+				{
+					TabPage tabPage = _resultsTabControl.TabPages[i];
+					if (tabPage.Controls.Count > 0)
+					{
+						tabPage.Controls[0].Dispose(); // dispose grid
+					}
+
+					_resultsTabControl.TabPages.Remove(tabPage);
+					tabPage.Dispose();
+				}
 			}
+			finally
+			{
+				_cleaningTabs = false;
+			}
+		}
+
+		private void SetResultCountOnTabSelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (_cleaningTabs)
+			{
+				return;
+			}
+
+			// get the tab
+			var tabPage = _resultsTabControl.TabPages[_resultsTabControl.SelectedIndex];
+
+			// get the grid control, should be first
+			var dataGridView = tabPage.Controls[0] as DataGridView;
+
+			// default to blank row count
+			int? rows = null;
+			if (dataGridView != null)
+			{
+				var data = dataGridView.DataSource as DataTable;
+				if (data != null)
+				{
+					rows = data.Rows.Count;
+				}
+			}
+			_rowCount = rows;
+
+			UpdateHostStatus();
 		}
 
 		/// <summary>The document document changed.</summary>
@@ -833,8 +891,8 @@ namespace MiniSqlQuery
 						message = "ERROR - " + message;
 					}
 
-					_hostWindow.SetStatus(this, message);
 					AddTables();
+					SetStatus(message);
 					txtQuery.Focus();
 				}
 			}
