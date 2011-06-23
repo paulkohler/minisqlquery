@@ -1,6 +1,7 @@
 Mini SQL Query Change Log
 =========================
 
+2011-06-11	ENH: Added a Most Recently Used file list
 2011-06-03	ENH: Added Row counts to the query (per tab) and table view windows
 2011-04-19	ENH: Added the Command Timout option, only valid for MSSQL for now
 2011-03-30	ENH: Added in the ExportSqlCe version 4 tool

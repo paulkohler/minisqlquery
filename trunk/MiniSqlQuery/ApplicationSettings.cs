@@ -6,6 +6,7 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using System.Data;
 using System.Data.Common;
 using MiniSqlQuery.Core;
@@ -174,6 +175,19 @@ namespace MiniSqlQuery
 				if (Settings.Default.PlugInFileFilter != value)
 				{
 					Settings.Default.PlugInFileFilter = value;
+					Settings.Default.Save();
+				}
+			}
+		}
+
+		public StringCollection MostRecentFiles
+		{
+			get { return Settings.Default.MostRecentFiles; }
+			set
+			{
+				if (Settings.Default.MostRecentFiles != value)
+				{
+					Settings.Default.MostRecentFiles = value;
 					Settings.Default.Save();
 				}
 			}

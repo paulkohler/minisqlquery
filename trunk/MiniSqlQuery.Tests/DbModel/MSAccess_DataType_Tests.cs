@@ -15,6 +15,7 @@ namespace MiniSqlQuery.Tests.DbModel
 {
 	[TestFixture(Description = "Requires MS Access DB")]
 	[Category("Functional")]
+	[Ignore]
 	public class MSAccess_DataType_Tests
 	{
 		#region Setup/Teardown

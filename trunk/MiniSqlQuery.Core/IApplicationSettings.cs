@@ -7,6 +7,7 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using System.Data.Common;
 
 namespace MiniSqlQuery.Core
@@ -96,6 +97,12 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		/// <value>The plug in file filter.</value>
 		string PlugInFileFilter { get; set; }
+
+		/// <summary>
+		/// Gets or sets the most recent files.
+		/// </summary>
+		/// <value>The most recent files.</value>
+		StringCollection MostRecentFiles { get; set; }
 
 		/// <summary>
 		/// 	Gets an instance of <see cref = "DbProviderFactory" /> depending on the value of <see cref = "ConnectionDefinition" />.

@@ -99,11 +99,15 @@ namespace MiniSqlQuery.Core
 			menuItem.Image = cmd.SmallImage;
 			menuItem.Click += CommandItemClick;
 
+			// store the host for callback
+			cmd.Host = menuItem;
+
 			// todo...
 			// if (!string.IsNullOrEmpty(cmd.ShortcutKeysText))
 			// {
 			// menuItem.ToolTipText = string.Format("{0} ({1})", cmd.Name, cmd.ShortcutKeysText);
 			// }
+
 			return menuItem;
 		}
 

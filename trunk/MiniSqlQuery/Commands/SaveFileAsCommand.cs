@@ -28,14 +28,25 @@ namespace MiniSqlQuery.Commands
 			IEditor editor = HostWindow.Instance.ActiveMdiChild as IEditor;
 			if (editor != null)
 			{
+				string oldFilename = editor.FileName;
 				SaveFileDialog saveFileDialog = new SaveFileDialog();
 				saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
 				saveFileDialog.Filter = editor.FileFilter;
+
 				if (saveFileDialog.ShowDialog(HostWindow.Instance) == DialogResult.OK)
 				{
 					// what if this filename covers an existing open window?
-					editor.FileName = saveFileDialog.FileName;
+					string newFilename = saveFileDialog.FileName;
+					editor.FileName = newFilename;
 					editor.SaveFile();
+
+					// register the new file and remove old if applicable
+					var mostRecentFilesService = Services.Resolve<IMostRecentFilesService>();
+					mostRecentFilesService.Register(newFilename);
+					if (oldFilename != null && oldFilename.Equals(newFilename, StringComparison.InvariantCultureIgnoreCase))
+					{
+						mostRecentFilesService.Remove(oldFilename);
+					}
 				}
 			}
 		}

@@ -108,6 +108,7 @@
     </Compile>
     <Compile Include="Commands\NewFileCommand.cs" />
     <Compile Include="Commands\OpenFileCommand.cs" />
+    <Compile Include="Commands\OpenRecentFileCommand.cs" />
     <Compile Include="Commands\SaveFileAsCommand.cs" />
     <Compile Include="Commands\SaveFileCommand.cs" />
     <Compile Include="Commands\SaveResultsAsDataSetCommand.cs" />

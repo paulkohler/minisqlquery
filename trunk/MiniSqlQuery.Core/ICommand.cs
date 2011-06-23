@@ -24,6 +24,12 @@ namespace MiniSqlQuery.Core
 		bool Enabled { get; }
 
 		/// <summary>
+		/// Gets or sets the host, typically the button holding the command.
+		/// </summary>
+		/// <value>The host control.</value>
+		object Host { get; set; }
+
+		/// <summary>
 		/// 	Gets the name of the command, used in menus and buttons.
 		/// </summary>
 		/// <value>The name of the command.</value>

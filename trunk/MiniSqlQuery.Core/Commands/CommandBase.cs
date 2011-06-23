@@ -3,6 +3,7 @@
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
+
 #endregion
 
 using System;
@@ -42,33 +43,6 @@ namespace MiniSqlQuery.Core.Commands
 		}
 
 		/// <summary>
-		/// 	Attempts to convert the current host windows active form to <see cref = "IEditor" />.
-		/// </summary>
-		/// <value>A reference to the active base editor window, otherwise null.</value>
-		protected IEditor ActiveFormAsEditor
-		{
-			get { return Services.HostWindow.ActiveChildForm as IEditor; }
-		}
-
-		/// <summary>
-		/// 	Attempts to convert the current host windows active form to <see cref = "IQueryEditor" />.
-		/// </summary>
-		/// <value>A reference to the active query editor window, otherwise null.</value>
-		protected IQueryEditor ActiveFormAsSqlQueryEditor
-		{
-			get { return Services.HostWindow.ActiveChildForm as IQueryEditor; }
-		}
-
-		/// <summary>
-		/// 	Gets a reference to the host window.
-		/// </summary>
-		/// <value>The host window.</value>
-		protected IHostWindow HostWindow
-		{
-			get { return _hostWindow ?? (_hostWindow = Services.HostWindow); }
-		}
-
-		/// <summary>
 		/// 	Gets a value indicating whether this <see cref = "ICommand" /> is enabled.
 		/// </summary>
 		/// <value><c>true</c> if enabled; otherwise, <c>false</c> (the default is true).</value>
@@ -77,6 +51,8 @@ namespace MiniSqlQuery.Core.Commands
 			get { return true; }
 		}
 
+		public object Host { get; set; }
+
 		/// <summary>
 		/// 	The name of the command, used in menus and buttons.
 		/// </summary>
@@ -84,7 +60,22 @@ namespace MiniSqlQuery.Core.Commands
 		public virtual string Name
 		{
 			get { return _name; }
-			protected set { _name = value; }
+			protected set
+			{
+				if (_name == value)
+				{
+					return;
+				}
+
+				_name = value;
+
+				// if the "host" of this command is a toolstring item, update its Text property.
+				var item = Host as ToolStripItem;
+				if (item != null)
+				{
+					item.Text = _name;
+				}
+			}
 		}
 
 		/// <summary>
@@ -117,6 +108,33 @@ namespace MiniSqlQuery.Core.Commands
 		/// </summary>
 		/// <value>The small image representing this command (the default is null).</value>
 		public virtual Image SmallImage { get; protected set; }
+
+		/// <summary>
+		/// 	Attempts to convert the current host windows active form to <see cref = "IEditor" />.
+		/// </summary>
+		/// <value>A reference to the active base editor window, otherwise null.</value>
+		protected IEditor ActiveFormAsEditor
+		{
+			get { return Services.HostWindow.ActiveChildForm as IEditor; }
+		}
+
+		/// <summary>
+		/// 	Attempts to convert the current host windows active form to <see cref = "IQueryEditor" />.
+		/// </summary>
+		/// <value>A reference to the active query editor window, otherwise null.</value>
+		protected IQueryEditor ActiveFormAsSqlQueryEditor
+		{
+			get { return Services.HostWindow.ActiveChildForm as IQueryEditor; }
+		}
+
+		/// <summary>
+		/// 	Gets a reference to the host window.
+		/// </summary>
+		/// <value>The host window.</value>
+		protected IHostWindow HostWindow
+		{
+			get { return _hostWindow ?? (_hostWindow = Services.HostWindow); }
+		}
 
 		/// <summary>
 		/// 	Executes the command based on the current settings (abstract).

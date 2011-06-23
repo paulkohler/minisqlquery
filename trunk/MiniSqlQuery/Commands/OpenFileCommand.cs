@@ -6,6 +6,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Commands;
@@ -36,10 +37,13 @@ namespace MiniSqlQuery.Commands
 			{
 				// todo: check for file exist file in open windows;
 				IFileEditorResolver resolver = Services.Resolve<IFileEditorResolver>();
-				IEditor editor = resolver.ResolveEditorInstance(openFileDialog.FileName);
-				editor.FileName = openFileDialog.FileName;
+				var fileName = openFileDialog.FileName;
+				IEditor editor = resolver.ResolveEditorInstance(fileName);
+				editor.FileName = fileName;
 				editor.LoadFile();
 				HostWindow.DisplayDockedForm(editor as DockContent);
+
+				Services.Resolve<IMostRecentFilesService>().Register(fileName);
 			}
 		}
 	}

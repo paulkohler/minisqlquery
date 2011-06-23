@@ -194,6 +194,7 @@
       <DependentUpon>ImageResource.resx</DependentUpon>
     </Compile>
     <Compile Include="IDbModelNamedObject.cs" />
+    <Compile Include="IMostRecentFilesService.cs" />
     <Compile Include="INavigatableDocument.cs" />
     <Compile Include="IPerformTask.cs" />
     <Compile Include="IPlugIn.cs" />
@@ -205,6 +206,8 @@
     <Compile Include="ISupportCursorOffset.cs" />
     <Compile Include="ITextFindService.cs" />
     <Compile Include="IViewTable.cs" />
+    <Compile Include="MostRecentFilesChangedEventArgs.cs" />
+    <Compile Include="MostRecentFilesService.cs" />
     <Compile Include="NotifyPropertyChangedBase.cs" />
     <Compile Include="ObjectTypes.cs" />
     <Compile Include="PlugInComparer.cs" />

@@ -6,7 +6,9 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
 using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
@@ -42,6 +44,7 @@ namespace MiniSqlQuery.PlugIns
 
 			services.RegisterComponent<NewFileForm>("NewFileForm");
 			services.RegisterComponent<OptionsForm>("OptionsForm");
+			services.RegisterSingletonComponent<IMostRecentFilesService, MostRecentFilesService>("MostRecentFilesService");
 			services.RegisterConfigurationObject<CoreMiniSqlQueryConfiguration>();
 
 			ToolStripMenuItem fileMenu = hostWindow.GetMenuItem("File");
@@ -58,6 +61,17 @@ namespace MiniSqlQuery.PlugIns
 			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<CloseActiveWindowCommand>());
 			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeparator());
 			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<PrintCommand>());
+			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeparator());
+			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenRecentFile1Command>());
+			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenRecentFile2Command>());
+			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenRecentFile3Command>());
+			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenRecentFile4Command>());
+			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenRecentFile5Command>());
+			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenRecentFile6Command>());
+			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenRecentFile7Command>());
+			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenRecentFile8Command>());
+			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenRecentFile9Command>());
+			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenRecentFile10Command>());
 			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItemSeparator());
 			fileMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ExitApplicationCommand>());
 
@@ -107,12 +121,42 @@ namespace MiniSqlQuery.PlugIns
 
 			hostWindow.AddPluginCommand<InsertGuidCommand>();
 
+			ConfigureMostRecentFileList(services);
+
 			// watch tool strip enabled properties
 			// by simply iterating each one every second or so we avoid the need to track via events
 			_timer = new Timer();
 			_timer.Interval = 1000;
 			_timer.Tick += TimerTick;
 			_timer.Enabled = true;
+		}
+
+		protected void ConfigureMostRecentFileList(IApplicationServices services)
+		{
+			// get the files out of the settings and register them
+			var mostRecentFilesService = services.Resolve<IMostRecentFilesService>();
+			if (services.Settings.MostRecentFiles != null)
+			{
+				foreach (string mostRecentFile in services.Settings.MostRecentFiles)
+				{
+					mostRecentFilesService.Filenames.Add(mostRecentFile);
+				}
+			}
+
+			// watch for changes
+			mostRecentFilesService.MostRecentFilesChanged += mostRecentFilesService_MostRecentFilesChanged;
+
+			// need to manually call the update - only required on first load
+			((OpenRecentFileCommand)CommandManager.GetCommandInstance<OpenRecentFile1Command>()).UpdateName();
+			((OpenRecentFileCommand)CommandManager.GetCommandInstance<OpenRecentFile2Command>()).UpdateName();
+			((OpenRecentFileCommand)CommandManager.GetCommandInstance<OpenRecentFile3Command>()).UpdateName();
+			((OpenRecentFileCommand)CommandManager.GetCommandInstance<OpenRecentFile4Command>()).UpdateName();
+			((OpenRecentFileCommand)CommandManager.GetCommandInstance<OpenRecentFile5Command>()).UpdateName();
+			((OpenRecentFileCommand)CommandManager.GetCommandInstance<OpenRecentFile6Command>()).UpdateName();
+			((OpenRecentFileCommand)CommandManager.GetCommandInstance<OpenRecentFile7Command>()).UpdateName();
+			((OpenRecentFileCommand)CommandManager.GetCommandInstance<OpenRecentFile8Command>()).UpdateName();
+			((OpenRecentFileCommand)CommandManager.GetCommandInstance<OpenRecentFile9Command>()).UpdateName();
+			((OpenRecentFileCommand)CommandManager.GetCommandInstance<OpenRecentFile10Command>()).UpdateName();
 		}
 
 		/// <summary>The unload plug in.</summary>
@@ -147,6 +191,21 @@ namespace MiniSqlQuery.PlugIns
 			{
 				_timer.Enabled = true;
 			}
+		}
+
+		static void mostRecentFilesService_MostRecentFilesChanged(object sender, MostRecentFilesChangedEventArgs e)
+		{
+			var services = ApplicationServices.Instance;
+			var mostRecentFilesService = services.Resolve<IMostRecentFilesService>();
+			if (services.Settings.MostRecentFiles == null)
+			{
+				services.Settings.MostRecentFiles = new StringCollection();
+			}
+			else
+			{
+				services.Settings.MostRecentFiles.Clear();
+			}
+			services.Settings.MostRecentFiles.AddRange(mostRecentFilesService.Filenames.ToArray());
 		}
 	}
 }

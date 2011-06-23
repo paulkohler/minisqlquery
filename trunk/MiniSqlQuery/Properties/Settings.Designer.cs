@@ -157,5 +157,16 @@ namespace MiniSqlQuery.Properties {
                 this["CommandTimeout"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection MostRecentFiles {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["MostRecentFiles"]));
+            }
+            set {
+                this["MostRecentFiles"] = value;
+            }
+        }
     }
 }

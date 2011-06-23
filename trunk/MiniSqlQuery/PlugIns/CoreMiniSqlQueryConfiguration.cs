@@ -6,6 +6,7 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using MiniSqlQuery.Core;
 
@@ -65,6 +66,7 @@ namespace MiniSqlQuery.PlugIns
 			_settings.EnableQueryBatching = _settingsWrapper.EnableQueryBatching;
 			_settings.CommandTimeout = _settingsWrapper.CommandTimeout;
 			_settings.PlugInFileFilter = _settingsWrapper.PlugInFileFilter;
+			_settings.MostRecentFiles = _settingsWrapper.MostRecentFiles;
 			_settings.LoadExternalPlugins = _settingsWrapper.LoadExternalPlugins;
 			_settings.DefaultConnectionDefinitionFilename = _settingsWrapper.DefaultConnectionDefinitionFilename;
 			_settings.DateTimeFormat = _settingsWrapper.DateTimeFormat;
@@ -105,6 +107,8 @@ namespace MiniSqlQuery.PlugIns
 			/// <summary>The _plug in file filter.</summary>
 			private string _plugInFileFilter;
 
+			StringCollection _mostRecentFiles;
+
 			/// <summary>The include ReadOnly Columns in Export value.</summary>
 			private bool _includeReadOnlyColumnsInExport;
 
@@ -120,6 +124,7 @@ namespace MiniSqlQuery.PlugIns
 				EnableQueryBatching = _settings.EnableQueryBatching;
 				CommandTimeout = _settings.CommandTimeout;
 				PlugInFileFilter = _settings.PlugInFileFilter;
+				MostRecentFiles = _settings.MostRecentFiles;
 				LoadExternalPlugins = _settings.LoadExternalPlugins;
 				DefaultConnectionDefinitionFilename = _settings.DefaultConnectionDefinitionFilename;
 				DateTimeFormat = _settings.DateTimeFormat;
@@ -236,6 +241,22 @@ namespace MiniSqlQuery.PlugIns
 					{
 						_plugInFileFilter = value;
 						OnPropertyChanged("PlugInFileFilter");
+					}
+				}
+			}
+
+			/// <summary>Gets or sets MostRecentFiles.</summary>
+			[Category("Plugins")]
+			[Description("The file filter used for finding plugins (*.PlugIn.dll)")]
+			public StringCollection MostRecentFiles
+			{
+				get { return _mostRecentFiles; }
+				set
+				{
+					if (_mostRecentFiles != value)
+					{
+						_mostRecentFiles = value;
+						OnPropertyChanged("MostRecentFiles");
 					}
 				}
 			}
