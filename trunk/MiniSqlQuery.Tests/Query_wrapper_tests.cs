@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using MiniSqlQuery.Core;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 
 namespace MiniSqlQuery.Tests
 {

@@ -92,6 +92,7 @@ Build file for Mini SQL Query.
     <!--<copy file="MiniSqlQueryQuickStart.docx" todir="${release-build-dir}" />-->
     <zip zipfile="${release-distro-dir}${project.name}.zip" ziplevel="9">
       <fileset basedir="${release-build-dir}" >
+        <exclude name="*.xml" />
         <include name="*" />
         <include name="Templates\*" />
       </fileset>

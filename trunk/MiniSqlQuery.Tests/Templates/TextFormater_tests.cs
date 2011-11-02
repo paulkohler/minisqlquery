@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using MiniSqlQuery.Core.DbModel;
 using MiniSqlQuery.Core.Template;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 
 namespace MiniSqlQuery.Tests.Templates
 {

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using MiniSqlQuery.Core.DbModel;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 
 // ReSharper disable InconsistentNaming
 

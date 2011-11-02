@@ -6,7 +6,7 @@
 using System;
 using MiniSqlQuery.Core;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using FluentAssertions;
 
 namespace MiniSqlQuery.Tests
 {
@@ -84,13 +84,13 @@ namespace MiniSqlQuery.Tests
 			                             };
 			string xml = definitionList.ToXml();
 			//Console.WriteLine(xml);
-			Assert.That(xml, Text.Contains("<DefaultName>def</DefaultName>"));
-			Assert.That(xml, Text.Contains("<Name>nm1</Name>"));
-			Assert.That(xml, Text.Contains("<ConnectionString>cs1</ConnectionString>"));
-			Assert.That(xml, Text.Contains("<ProviderName>p1</ProviderName>"));
-			Assert.That(xml, Text.Contains("<Name>nm2</Name>"));
-			Assert.That(xml, Text.Contains("<ConnectionString>cs2</ConnectionString>"));
-			Assert.That(xml, Text.Contains("<ProviderName>p2</ProviderName>"));
+			xml.Should().Contain("<DefaultName>def</DefaultName>");
+			xml.Should().Contain("<Name>nm1</Name>");
+			xml.Should().Contain("<ConnectionString>cs1</ConnectionString>");
+			xml.Should().Contain("<ProviderName>p1</ProviderName>");
+			xml.Should().Contain("<Name>nm2</Name>");
+			xml.Should().Contain("<ConnectionString>cs2</ConnectionString>");
+			xml.Should().Contain("<ProviderName>p2</ProviderName>");
 		}
 	}
 }

@@ -1,2 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><ItemProperties xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Properties><Property><Name>svn:ignore</Name><Value>_ReSharper.MiniSqlQuery.Contrib
+</Value></Property><Property><Name>svn:ignore</Name><Value>_ReSharper.MiniSqlQuery.Contrib
+MiniSqlQuery.Contrib.5.1.ReSharper.user
+MiniSqlQuery.Contrib.sln.cache
+MiniSqlQuery.Contrib.suo
 </Value></Property></Properties></ItemProperties>

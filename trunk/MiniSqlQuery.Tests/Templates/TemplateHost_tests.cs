@@ -7,7 +7,7 @@ using System;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.PlugIns.TemplateViewer;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 namespace MiniSqlQuery.Tests.Templates

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 using Rhino.Mocks;
 
 // ReSharper disable InconsistentNaming
@@ -12,12 +12,17 @@ namespace MiniSqlQuery.Tests.MRU
 	[TestFixture]
 	public class OpenRecentFileCommand_Tests
 	{
-		IMostRecentFilesService _service;
+		private IMostRecentFilesService _service;
 
-		[SetUp]
-		public void TestSetUp()
+		[Test]
+		public void If_File_in_slot_1_the_command_is_enabled()
 		{
-			_service = MockRepository.GenerateMock<IMostRecentFilesService>();
+			_service.Expect(s => s.Filenames).Return(new List<string> {"File1"});
+
+			var cmd = new OpenRecentFileCommand(_service, 1);
+
+			Assert.That(cmd.Enabled, Is.True);
+			_service.VerifyAllExpectations();
 		}
 
 		[Test]
@@ -26,29 +31,24 @@ namespace MiniSqlQuery.Tests.MRU
 			_service.Expect(s => s.Filenames).Return(new List<string>());
 
 			var cmd = new OpenRecentFileCommand(_service, 1);
-			
+
 			Assert.That(cmd.Enabled, Is.False);
 		}
 
-		[Test]
-		public void If_File_in_slot_1_the_command_is_enabled()
+		[SetUp]
+		public void TestSetUp()
 		{
-			_service.Expect(s=>s.Filenames).Return(new List<string>{"File1"});
-
-			var cmd = new OpenRecentFileCommand(_service, 1);
-			
-			Assert.That(cmd.Enabled, Is.True);
-			_service.VerifyAllExpectations();
+			_service = MockRepository.GenerateMock<IMostRecentFilesService>();
 		}
 
 		[Test]
 		public void The_name_is_updated()
 		{
-			_service.Expect(s=>s.Filenames).Return(new List<string>{"File1","File2"});
+			_service.Expect(s => s.Filenames).Return(new List<string> {"File1", "File2"});
 
 			var cmd = new OpenRecentFileCommand(_service, 1);
 			cmd.UpdateName();
-			
+
 			Assert.That(cmd.Name, Is.EqualTo("&1 - File1"));
 		}
 	}

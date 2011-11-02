@@ -1,7 +1,12 @@
-﻿using MiniSqlQuery.Commands;
+﻿#region License
+// Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
+// This source code is made available under the terms of the Microsoft Public License (Ms-PL)
+// http://minisqlquery.codeplex.com/license
+#endregion
+
+using System;
 using MiniSqlQuery.Core;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 // ReSharper disable InconsistentNaming
 
@@ -12,10 +17,21 @@ namespace MiniSqlQuery.Tests.MRU
 	{
 		private MostRecentFilesService _service;
 
-		[SetUp]
-		public void TestSetUp()
+		[Test]
+		public void List_does_not_exceed_maximum_entries()
 		{
-			_service = new MostRecentFilesService();
+			// set up the max entries
+			int i = 1;
+			for (; i <= _service.MaxCommands; i++)
+			{
+				_service.Register(i.ToString());
+			}
+
+			// add 1 extra
+			i++;
+			_service.Register(i.ToString());
+
+			Assert.That(_service.Filenames.Count, Is.EqualTo(_service.MaxCommands));
 		}
 
 		[Test]
@@ -56,21 +72,10 @@ namespace MiniSqlQuery.Tests.MRU
 			Assert.That(_service.Filenames[1], Is.EqualTo("1"));
 		}
 
-		[Test]
-		public void List_does_not_exceed_maximum_entries()
+		[SetUp]
+		public void TestSetUp()
 		{
-			// set up the max entries
-			int i = 1;
-			for (; i <= _service.MaxCommands; i++)
-			{
-				_service.Register(i.ToString());
-			}
-
-			// add 1 extra
-			i++;
-			_service.Register(i.ToString());
-
-			Assert.That(_service.Filenames.Count, Is.EqualTo(_service.MaxCommands));
+			_service = new MostRecentFilesService();
 		}
 	}
 }

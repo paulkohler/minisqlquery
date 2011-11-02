@@ -1,7 +1,7 @@
 using System;
 using MiniSqlQuery.Core;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 
 namespace MiniSqlQuery.Tests
 {

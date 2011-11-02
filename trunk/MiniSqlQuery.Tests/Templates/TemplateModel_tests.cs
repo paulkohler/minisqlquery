@@ -9,7 +9,7 @@ using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Template;
 using MiniSqlQuery.PlugIns.TemplateViewer;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+
 using Rhino.Mocks;
 
 // ReSharper disable InconsistentNaming
