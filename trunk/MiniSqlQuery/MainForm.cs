@@ -275,25 +275,7 @@ namespace MiniSqlQuery
 		/// <param name="e">The e.</param>
 		private void AppSettingsConnectionDefinitionsChanged(object sender, EventArgs e)
 		{
-			bool load = true;
-
-			if (_initialized)
-			{
-				DialogResult result = MessageBox.Show(this, 
-				                                      Resources.The_connections_have_changed__would_you_like_to_refresh_the_database_connection, 
-				                                      Resources.Reload_Connection, 
-				                                      MessageBoxButtons.YesNo, MessageBoxIcon.Question, 
-				                                      MessageBoxDefaultButton.Button1);
-				if (result != DialogResult.Yes)
-				{
-					load = false;
-				}
-			}
-
-			if (load)
-			{
-				LoadUpConnections();
-			}
+			LoadUpConnections();
 		}
 
 		/// <summary>The load up connections.</summary>
@@ -333,15 +315,16 @@ namespace MiniSqlQuery
 				}
 			}
 			
-			foreach (var connDef in definitionList.Definitions)
-			{
-				if (connDef.Name == Settings.Default.NammedConnection)
-				{
-					toolStripComboBoxConnection.SelectedItem = connDef;
-					_settings.ConnectionDefinition = connDef;
-					SetWindowTitle(connDef.Name);
-				}
-			}
+			// Bug fix - don't automatically refresh as it can try to reconnect to a connection you don't have etc.
+			//foreach (var connDef in definitionList.Definitions)
+			//{
+			//    if (connDef.Name == Settings.Default.NammedConnection)
+			//    {
+			//        toolStripComboBoxConnection.SelectedItem = connDef;
+			//        _settings.ConnectionDefinition = connDef;
+			//        SetWindowTitle(connDef.Name);
+			//    }
+			//}
 		}
 
 		/// <summary>The main form_ form closing.</summary>
