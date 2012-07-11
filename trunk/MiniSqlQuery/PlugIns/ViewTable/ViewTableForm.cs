@@ -249,6 +249,12 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 		/// <summary>The load table data.</summary>
 		private void LoadTableData()
 		{
+			if (_services.Settings.ConnectionDefinition==null)
+			{
+				_services.HostWindow.DisplaySimpleMessageBox(this, "Please select a connection.", "Select a Connection");
+				return;
+			}
+
 			GetTablesAndViews();
 
 			DbDataAdapter adapter = null;

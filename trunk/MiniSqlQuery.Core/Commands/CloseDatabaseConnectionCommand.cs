@@ -26,8 +26,9 @@ namespace MiniSqlQuery.Core.Commands
 		{
 			get
 			{
-				if (Settings.Connection.State == ConnectionState.Closed &&
-				    Settings.Connection.State == ConnectionState.Broken)
+				if (Settings.Connection == null ||
+					(Settings.Connection.State == ConnectionState.Closed &&
+				    Settings.Connection.State == ConnectionState.Broken))
 				{
 					return false;
 				}

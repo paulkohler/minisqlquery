@@ -1,6 +1,7 @@
 Mini SQL Query Change Log
 =========================
 
+2012-07-11	FIX: First use - no connection strings defined - 'Query' menu causes an error (Work Item 9488)
 2012-07-02	FIX: Don't automatically refresh as it can try to reconnect to a connection you don't have etc
 2011-11-02	ENH: Updated 3rd party libraries to latest with NuGet etc
 2011-06-11	ENH: Added a Most Recently Used file list

@@ -52,5 +52,16 @@ namespace MiniSqlQuery.Core.Commands
 
 			editor.AllText = sb.ToString();
 		}
+
+		/// <summary>
+		/// Gets a value indicating that the command can be executed (requires a connection).
+		/// </summary>
+		public override bool Enabled
+		{
+			get
+			{
+				return Services.Settings.ConnectionDefinition != null;
+			}
+		}
 	}
 }

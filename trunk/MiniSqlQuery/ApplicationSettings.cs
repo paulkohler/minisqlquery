@@ -51,8 +51,15 @@ namespace MiniSqlQuery
 			{
 				if (_dbConnection == null)
 				{
-					_dbConnection = ProviderFactory.CreateConnection();
-					_dbConnection.ConnectionString = _connectionDefinition.ConnectionString;
+					if (ProviderFactory != null)
+					{
+						_dbConnection = ProviderFactory.CreateConnection();
+					}
+
+					if (_dbConnection != null)
+					{
+						_dbConnection.ConnectionString = _connectionDefinition.ConnectionString;
+					}
 				}
 
 				return _dbConnection;
@@ -211,7 +218,7 @@ namespace MiniSqlQuery
 		{
 			get
 			{
-				if (_dbProviderFactory == null)
+				if (_dbProviderFactory == null && _connectionDefinition != null)
 				{
 					_dbProviderFactory = DbProviderFactories.GetFactory(_connectionDefinition.ProviderName);
 				}

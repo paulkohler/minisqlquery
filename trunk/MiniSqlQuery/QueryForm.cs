@@ -216,6 +216,12 @@ namespace MiniSqlQuery
 				return;
 			}
 
+			if (_settings.ConnectionDefinition == null)
+			{
+				_hostWindow.DisplaySimpleMessageBox(this, "Please select a connection.", "Select a Connection");
+				return;
+			}
+
 			lock (_syncLock)
 			{
 				IsBusy = true;
