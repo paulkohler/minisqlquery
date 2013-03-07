@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -36,6 +37,12 @@ namespace MiniSqlQuery
 
 		/// <summary>The _sync lock.</summary>
 		private static object _syncLock = new object();
+
+		/// <summary>Stores the widths of the columns for this window.</summary>
+		private Dictionary<string, int> _columnSizes = new Dictionary<string, int>();
+
+		/// <summary>When tru the grid is being resized on fill, used to avoid overriting column width values.</summary>
+		private bool _resizingGrid;
 
 		/// <summary>The _highlighting provider loaded.</summary>
 		private bool _highlightingProviderLoaded;
@@ -486,6 +493,9 @@ namespace MiniSqlQuery
 			{
 				string nullText = _settings.NullText;
 				int counter = 1;
+
+				_resizingGrid = true;
+
 				foreach (Query query in Batch.Queries)
 				{
 					DataSet ds = query.Result;
@@ -508,6 +518,8 @@ namespace MiniSqlQuery
 							cellStyle.Font = CreateDefaultFont();
 							grid.DataBindingComplete += GridDataBindingComplete;
 							grid.Disposed += GridDisposed;
+							grid.ColumnWidthChanged += OnColumnWidthChanged;
+
 
 							TabPage tabPage = new TabPage();
 							tabPage.Controls.Add(grid);
@@ -517,7 +529,34 @@ namespace MiniSqlQuery
 							tabPage.UseVisualStyleBackColor = false;
 
 							_resultsTabControl.TabPages.Add(tabPage);
+
+							// create a reasonable default max width for columns
+							int maxColWidth = Math.Max(grid.ClientSize.Width / 2, 100);
+
+							// Autosize the columns then change the widths, gleaned from SO - http://stackoverflow.com/a/1031871/276563
 							grid.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+							for (int i = 0; i < grid.Columns.Count; i++)
+							{
+								int columnWidth = grid.Columns[i].Width;
+								grid.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+
+								string headerText = grid.Columns[i].HeaderText;
+								if (!string.IsNullOrEmpty(headerText) && _columnSizes.ContainsKey(headerText))
+								{
+									// use the previous column size in case its been adjusted etc
+									grid.Columns[i].Width = _columnSizes[headerText];
+								}
+								else
+								{
+									// reset to a the smaller of the 2 sizes, this is mainly for the bigger text columns that throw the size out
+									grid.Columns[i].Width = Math.Min(columnWidth, maxColWidth);
+
+									if (!string.IsNullOrEmpty(headerText))
+									{
+										_columnSizes[headerText] = grid.Columns[i].Width;
+									}
+								}
+							}
 
 							// set the row count for the first tab for now.
 							if (counter == 1)
@@ -529,7 +568,6 @@ namespace MiniSqlQuery
 						}
 					}
 				}
-
 
 				if (!string.IsNullOrEmpty(Batch.Messages))
 				{
@@ -549,6 +587,22 @@ namespace MiniSqlQuery
 
 					_resultsTabControl.TabPages.Add(tabPage);
 				}
+
+				_resizingGrid = false;
+			}
+		}
+
+		public void OnColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+		{
+			if (_resizingGrid)
+			{
+				return;
+			}
+
+			string headerText = e.Column.HeaderText;
+			if (!string.IsNullOrEmpty(headerText))
+			{
+				_columnSizes[headerText] = e.Column.Width;
 			}
 		}
 
@@ -666,6 +720,7 @@ namespace MiniSqlQuery
 
 			grid.DataBindingComplete -= GridDataBindingComplete;
 			grid.Disposed -= GridDisposed;
+			grid.ColumnWidthChanged -= OnColumnWidthChanged;
 		}
 
 		/// <summary>The query form_ activated.</summary>
