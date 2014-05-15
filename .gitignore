@@ -1,0 +1,14 @@
+﻿/trunk/Build/*
+/trunk/Build/Debug
+/trunk/ReleaseBuild/*
+/trunk/DISTRO/*
+/trunk/Contrib/MiniSqlQuery.ExternalTools.Plugin/obj/
+/trunk/MiniSqlQuery/obj/*
+/trunk/MiniSqlQuery.Core/bin/*
+/trunk/MiniSqlQuery.Core/obj/*
+/trunk/TestDatabases
+/trunk/MiniSqlQuery.Core/obj/*
+/trunk/Contrib/MiniSqlQuery.Exports.Plugin/obj/*
+*.cache
+*.suo
+*.user
