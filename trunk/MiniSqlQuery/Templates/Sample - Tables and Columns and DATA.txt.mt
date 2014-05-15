@@ -5,7 +5,7 @@ ProviderName: "${Host.Model.ProviderName}"
 Table Data: ${table.Name} (Row count: ${Data.Get($table.FullName).Rows.Count})
 
 #foreach ($c in ${table.Columns})
-#set($dataTable = $Host.Data.Get(${table.Name}))
+#set($dataTable = $Host.Data.Get(${table.FullName}))
 #foreach ($row in $dataTable.Rows)
 #foreach ($c in ${table.Columns})
 ${c.Name}: ${Host.Data.ColumnValue($row, $c.Name)}
