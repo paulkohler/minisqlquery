@@ -51,7 +51,12 @@ namespace MiniSqlQuery.Core.DbModel
 				model.ProviderName = ProviderName;
 				model.ConnectionString = _connection;
 
-				DataView tablesDV = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_SCHEMA, TABLE_NAME", DataViewRowState.CurrentRows);
+			    if (tables == null)
+			    {
+			        return model;
+			    }
+
+			    DataView tablesDV = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_SCHEMA, TABLE_NAME", DataViewRowState.CurrentRows);
 
 				foreach (DataRowView row in tablesDV)
 				{
@@ -79,18 +84,24 @@ namespace MiniSqlQuery.Core.DbModel
 				}
 
 				// build FK relationships 
-				foreach (DbModelTable table in model.Tables)
-				{
-					GetForeignKeyReferencesForTable(dbConn, table);
-					ProcessForeignKeyReferencesForTable(dbConn, table);
-				}
+			    if (model.Tables != null)
+			    {
+			        foreach (DbModelTable table in model.Tables)
+			        {
+			            GetForeignKeyReferencesForTable(dbConn, table);
+			            ProcessForeignKeyReferencesForTable(dbConn, table);
+			        }
+			    }
 
-				// build FK relationships
-				foreach (DbModelView view in model.Views)
-				{
-					GetForeignKeyReferencesForTable(dbConn, view);
-					ProcessForeignKeyReferencesForTable(dbConn, view);
-				}
+			    // build FK relationships
+			    if (model.Views != null)
+			    {
+			        foreach (DbModelView view in model.Views)
+			        {
+			            GetForeignKeyReferencesForTable(dbConn, view);
+			            ProcessForeignKeyReferencesForTable(dbConn, view);
+			        }
+			    }
 			}
 
 			return model;

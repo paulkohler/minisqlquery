@@ -262,17 +262,23 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			TreeNode root = CreateRootNodes();
 			root.ToolTipText = connection;
 
-			foreach (DbModelTable table in _model.Tables)
-			{
-				CreateTreeNodes(table);
-			}
+		    if (_model.Tables != null)
+		    {
+		        foreach (DbModelTable table in _model.Tables)
+		        {
+		            CreateTreeNodes(table);
+		        }
+		    }
 
-			foreach (DbModelView view in _model.Views)
-			{
-				CreateTreeNodes(view);
-			}
+		    if (_model.Views != null)
+		    {
+		        foreach (DbModelView view in _model.Views)
+		        {
+		            CreateTreeNodes(view);
+		        }
+		    }
 
-			DatabaseTreeView.Nodes.Add(root);
+		    DatabaseTreeView.Nodes.Add(root);
 		}
 
 		/// <summary>The create root nodes.</summary>

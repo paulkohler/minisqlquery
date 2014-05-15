@@ -41,7 +41,16 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			return row[columnName];
 		}
 
-		/// <summary>The get.</summary>
+	    /// <summary>The get.</summary>
+	    /// <param name="schema">The schema name.</param>
+	    /// <param name="viewOrTableName">The view or table name.</param>
+	    /// <returns></returns>
+	    public DataTable Get(string schema, string viewOrTableName)
+	    {
+            return Get(Utility.RenderSafeSchemaObjectName(schema, viewOrTableName));
+	    }
+
+	    /// <summary>The get.</summary>
 		/// <param name="viewOrTableName">The view or table name.</param>
 		/// <returns></returns>
 		public DataTable Get(string viewOrTableName)
@@ -50,7 +59,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			DbCommand cmd = null;
 			DataTable dt = null;
 			QueryBatch batch = new QueryBatch();
-			Query query = new Query("SELECT * FROM " + Utility.MakeSqlFriendly(viewOrTableName));
+            Query query = new Query("SELECT * FROM " + viewOrTableName);
 
 			if (string.IsNullOrEmpty(viewOrTableName))
 			{
