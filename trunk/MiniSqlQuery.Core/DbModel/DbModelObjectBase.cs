@@ -13,6 +13,8 @@ namespace MiniSqlQuery.Core.DbModel
     /// <summary>The db model object base.</summary>
     public class DbModelObjectBase : IDbModelNamedObject
     {
+        private string _fullName;
+
         /// <summary>
         /// Gets the full name of the object which may include the <see cref="IDbModelNamedObject.Schema"/> for example.
         /// </summary>
@@ -21,12 +23,12 @@ namespace MiniSqlQuery.Core.DbModel
         {
             get
             {
-                if (string.IsNullOrEmpty(Schema))
+                if (_fullName == null)
                 {
-                    return Name;
+                    _fullName = Utility.RenderSafeSchemaObjectName(Schema, Name);
                 }
 
-                return string.Concat(Schema, ".", Name);
+                return _fullName;
             }
         }
 

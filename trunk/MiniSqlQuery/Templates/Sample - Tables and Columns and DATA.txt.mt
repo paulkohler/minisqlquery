@@ -2,10 +2,10 @@
 ProviderName: "${Host.Model.ProviderName}"
 
 #foreach ($table in ${Host.Model.Tables})
-Table Data: ${table.Name} (Row count: ${Data.Get($table.FullName).Rows.Count})
+Table Data: ${table.Name} (Row count: ${Data.Get(${table.Schema}, ${table.Name}).Rows.Count})
 
-#foreach ($c in ${table.Columns})
 #set($dataTable = $Host.Data.Get(${table.Schema}, ${table.Name}))
+#foreach ($c in ${table.Columns})
 #foreach ($row in $dataTable.Rows)
 #foreach ($c in ${table.Columns})
 ${c.Name}: ${Host.Data.ColumnValue($row, $c.Name)}

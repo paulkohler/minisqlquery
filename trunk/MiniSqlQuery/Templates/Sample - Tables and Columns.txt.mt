@@ -2,7 +2,7 @@
 ProviderName: "${Host.Model.ProviderName}"
 
 #foreach ($table in ${Host.Model.Tables})
-Table: ${table.Name} (Row count: ${Data.Get($table.FullName).Rows.Count})
+Table: ${table.Name} (Row count: ${Data.Get(${table.Schema}, ${table.Name}).Rows.Count})
 #foreach ($c in ${table.Columns})
   * Column.Name:     ${c.Name}
 	DbType.Summary:  ${c.DbType.Summary}

@@ -251,10 +251,14 @@ namespace MiniSqlQuery
 			DbConnection conn = Connection;
 			if (conn.State != ConnectionState.Open)
 			{
-				conn.Open();
+                if (_connectionDefinition != null && String.IsNullOrEmpty(conn.ConnectionString))
+			    {
+			        conn.ConnectionString = _connectionDefinition.ConnectionString;
+			    }
+			    conn.Open();
 			}
 
-			return conn;
+		    return conn;
 		}
 
 		/// <summary>The get untitled document counter.</summary>

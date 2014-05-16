@@ -1,6 +1,6 @@
 ﻿## The following script demonstraits the advanced looping abilities using foreach.
 
-#foreach ($row in ${Data.Get("Categories").Rows})
+#foreach ($row in ${Data.Get(null, "Categories").Rows})
 #beforeall
 
 	I am before everything
