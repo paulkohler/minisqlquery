@@ -11,7 +11,7 @@ using System.Reflection;
 [assembly: AssemblyTitle("Mini SQL Query Core Services and Interfaces")]
 [assembly: AssemblyDescription("A Mini SQL Query Core interfaces and classes.")]
 [assembly: AssemblyProduct("MiniSqlQuery.Core")]
-[assembly: AssemblyVersion("1.0.71.456")]
-[assembly: AssemblyFileVersion("1.0.71.456")]
+[assembly: AssemblyVersion("1.0.72.457")]
+[assembly: AssemblyFileVersion("1.0.72.457")]
 
 // see also CommonAssemblyInfo.cs 

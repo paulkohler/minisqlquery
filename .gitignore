@@ -9,6 +9,8 @@
 /trunk/TestDatabases
 /trunk/MiniSqlQuery.Core/obj/*
 /trunk/Contrib/MiniSqlQuery.Exports.Plugin/obj/*
+/trunk/MiniSqlQuery.Tests/bin/Debug
+/trunk/MiniSqlQuery.Tests/obj/Debug
 *.cache
 *.suo
 *.user
