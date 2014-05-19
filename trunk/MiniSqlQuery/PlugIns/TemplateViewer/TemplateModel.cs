@@ -27,18 +27,13 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 		/// <summary>The _services.</summary>
 		private readonly IApplicationServices _services;
 
-		/// <summary>The _template data.</summary>
-		private readonly TemplateData _templateData;
-
 		/// <summary>Initializes a new instance of the <see cref="TemplateModel"/> class.</summary>
 		/// <param name="services">The services.</param>
 		/// <param name="formatter">The formatter.</param>
-		/// <param name="templateData">The template data.</param>
-		public TemplateModel(IApplicationServices services, ITextFormatter formatter, TemplateData templateData)
+		public TemplateModel(IApplicationServices services, ITextFormatter formatter)
 		{
 			_services = services;
 			_formatter = formatter;
-			_templateData = templateData;
 		}
 
 		/// <summary>The get value for parameter.</summary>
@@ -174,8 +169,6 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 
 			using (TemplateHost host = _services.Resolve<TemplateHost>())
 			{
-				host.Data = _templateData;
-
 				items.Add("Host", host);
 				items.Add("Data", host.Data);
 
