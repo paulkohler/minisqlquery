@@ -187,7 +187,8 @@ ORDER BY
 			foreach (DbModelConstraint constraint in dbTable.Constraints)
 			{
 				var column = dbTable.Columns.Find(c => c.Name == constraint.ColumnName);
-				var refTable = dbTable.ParentDb.FindTable(constraint.UniqueConstraintTableName);
+				var refTable = dbTable.ParentDb.FindTable(
+                    Utility.RenderSafeSchemaObjectName(constraint.UniqueConstraintTableSchema, constraint.UniqueConstraintTableName));
 				var refColumn = refTable.Columns.Find(c => c.Name == constraint.UniqueColumnName);
 				DbModelForeignKeyReference fk = new DbModelForeignKeyReference(column, refTable, refColumn);
 				fk.UpdateRule = constraint.UpdateRule;

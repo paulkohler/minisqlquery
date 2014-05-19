@@ -94,7 +94,7 @@ WHERE OBJECT_SCHEMA_NAME(f.parent_object_id) = '{0}' AND OBJECT_NAME(f.parent_ob
 			{
 				var column = dbTable.Columns.Find(c => c.Name == constraint.ColumnName);
 				var refTable = dbTable.ParentDb.FindTable(
-					constraint.UniqueConstraintTableSchema + "." + constraint.UniqueConstraintTableName);
+                    Utility.RenderSafeSchemaObjectName(constraint.UniqueConstraintTableSchema, constraint.UniqueConstraintTableName));
 				var refColumn = refTable.Columns.Find(c => c.Name == constraint.UniqueColumnName);
 				DbModelForeignKeyReference fk = new DbModelForeignKeyReference(column, refTable, refColumn);
 				fk.UpdateRule = constraint.UpdateRule;
