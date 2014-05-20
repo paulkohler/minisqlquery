@@ -66,20 +66,38 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 		/// <param name="e">The e.</param>
 		private void FindObjectForm_Shown(object sender, EventArgs e)
 		{
-			var collection = new AutoCompleteStringCollection();
+		    if (cboObjects.AutoCompleteCustomSource == null)
+		    {
+		        cboObjects.AutoCompleteCustomSource = new AutoCompleteStringCollection();
+		    }
+
+            var collection = cboObjects.AutoCompleteCustomSource;
 
 			try
 			{
 				UseWaitCursor = true;
 
-				if (_databaseInspector.DbSchema == null)
-				{
-					_databaseInspector.LoadDatabaseDetails();
-				}
+			    if (_databaseInspector.DbSchema == null)
+			    {
+			        _databaseInspector.LoadDatabaseDetails();
 
-				foreach (DbModelTable table in _databaseInspector.DbSchema.Tables)
+			        // And if it is still null (e.g. connection error) then bail out:
+			        if (_databaseInspector.DbSchema == null)
+			        {
+			            return;
+			        }
+			    }
+
+			    foreach (DbModelTable table in _databaseInspector.DbSchema.Tables)
 				{
-					collection.Add(table.FullName);
+				    var name = table.Schema;
+				    if (!String.IsNullOrEmpty(name))
+				    {
+				        name += ".";
+				    }
+				    name += table.Name;
+
+					collection.Add(name);
 				}
 
 				foreach (DbModelView view in _databaseInspector.DbSchema.Views)
@@ -92,7 +110,8 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 				UseWaitCursor = false;
 			}
 
-			cboObjects.AutoCompleteCustomSource = collection;
+            this.cboObjects.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            this.cboObjects.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 		}
 	}
 }

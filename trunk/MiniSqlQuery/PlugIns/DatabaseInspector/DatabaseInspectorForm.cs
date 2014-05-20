@@ -511,6 +511,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			treeNode.EnsureVisible();
 			DatabaseTreeView.SelectedNode = treeNode;
 			treeNode.Expand();
+		    DatabaseTreeView.Focus();
 		}
 
 		/// <summary>The set text.</summary>

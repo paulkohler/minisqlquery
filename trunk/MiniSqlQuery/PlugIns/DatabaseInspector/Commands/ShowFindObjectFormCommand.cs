@@ -6,6 +6,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Commands;
@@ -29,9 +30,15 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 			{
 				frm.ShowDialog(HostWindow.Instance);
 
-				if (frm.DialogResult == DialogResult.OK)
-				{
-					IDbModelNamedObject obj = HostWindow.DatabaseInspector.DbSchema.FindTableOrView(frm.SelectedTableName);
+			    var selectedTableName = frm.SelectedTableName;
+			    if (frm.DialogResult == DialogResult.OK && !String.IsNullOrEmpty(selectedTableName))
+			    {
+                    // Special case for handling schemas - We want the search without the [dbo].[foo] part 
+                    // but the FindTableOrView expects it....
+			        var parts = selectedTableName.Split('.').Select(s=> "[" + s+"]").ToArray();
+			        var name = String.Join(".", parts);
+
+                    IDbModelNamedObject obj = HostWindow.DatabaseInspector.DbSchema.FindTableOrView(name);
 					HostWindow.DatabaseInspector.NavigateTo(obj);
 				}
 			}
