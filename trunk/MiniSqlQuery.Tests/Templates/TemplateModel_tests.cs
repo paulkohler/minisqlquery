@@ -29,7 +29,7 @@ namespace MiniSqlQuery.Tests.Templates
 			_services = MockRepository.GenerateStub<IApplicationServices>();
 			_databaseInspector = MockRepository.GenerateStub<IDatabaseInspector>();
 			_services.Expect(x => x.Resolve<TemplateHost>()).Return(new TemplateHost(_services, _databaseInspector));
-			_model = new TemplateModel(_services, new NVelocityWrapper(), new TemplateData(_services));
+			_model = new TemplateModel(_services, new NVelocityWrapper());
 		}
 
 		[Test]
