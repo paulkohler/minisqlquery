@@ -227,6 +227,16 @@ namespace MiniSqlQuery.Core
 			_container.AddComponent(key, typeof(TService), typeof(TImp), LifestyleType.Singleton);
 		}
 
+        /// <summary>
+        /// Remove the component by name.
+        /// </summary>
+        /// <param name="key">The name of the registered component.</param>
+        /// <returns>True on success.</returns>
+        public bool RemoveComponent(string key)
+		{
+			return _container.RemoveComponent(key);
+		}
+
 		/// <summary>
 		/// 	Resolves an instance of <typeparamref name = "T" /> from the container.
 		/// </summary>

@@ -83,6 +83,10 @@
     <Reference Include="Castle.Windsor, Version=2.5.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Windsor.2.5.1\lib\NET35\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.TextEditor, Version=3.2.1.6466, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ICSharpCode.TextEditor.3.2.1.6466\lib\Net20\ICSharpCode.TextEditor.dll</HintPath>
+    </Reference>
     <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NVelocity.1.0.3\lib\NVelocity.dll</HintPath>
@@ -180,6 +184,7 @@
       <DependentUpon>BatchQuerySelectForm.cs</DependentUpon>
     </Compile>
     <Compile Include="IApplicationServices.cs" />
+    <Compile Include="ICompletionProvider.cs" />
     <Compile Include="IDatabaseSchemaService.cs" />
     <Compile Include="IEditor.cs" />
     <Compile Include="IFileEditorResolver.cs" />
@@ -313,7 +318,9 @@
     <None Include="Images\wrench_orange.png" />
     <None Include="Images\view.png" />
     <None Include="Images\table_sort.png" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\BatchQuerySelectControl.resx">

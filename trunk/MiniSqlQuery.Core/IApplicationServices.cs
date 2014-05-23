@@ -124,5 +124,12 @@ namespace MiniSqlQuery.Core
 		/// <typeparam name = "T">The type to find in the container.</typeparam>
 		/// <returns>An instance of the type depending on the containters configuration.</returns>
 		T Resolve<T>();
+
+        /// <summary>
+        /// Remove the component by name.
+        /// </summary>
+        /// <param name="key">The name of the registered component.</param>
+        /// <returns>True on success.</returns>
+	    bool RemoveComponent(string key);
 	}
 }

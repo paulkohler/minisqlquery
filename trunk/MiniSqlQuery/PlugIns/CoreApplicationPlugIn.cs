@@ -34,6 +34,8 @@ namespace MiniSqlQuery.PlugIns
 			IApplicationServices services = Services;
 			IHostWindow hostWindow = services.HostWindow;
 
+            services.RegisterSingletonComponent<ICompletionProvider, NullCompletionProvider>("CompletionProvider");
+
 			services.RegisterEditor<BasicEditor>(new FileEditorDescriptor("Default text editor", "default-editor"));
 			services.RegisterEditor<QueryForm>(new FileEditorDescriptor("SQL Editor", "sql-editor", "sql"));
 			services.RegisterEditor<BasicCSharpEditor>(new FileEditorDescriptor("C# Editor", "cs-editor", "cs"));

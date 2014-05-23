@@ -14,7 +14,9 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 using System.Windows.Forms;
+using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
+using ICSharpCode.TextEditor.Gui.CompletionWindow;
 using MiniSqlQuery.Commands;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Commands;
@@ -64,6 +66,9 @@ namespace MiniSqlQuery
 
 		private bool _cleaningTabs;
 
+        TextArea _textArea;
+        CodeCompletionWindow _completionWindow;
+
 		/// <summary>Initializes a new instance of the <see cref="QueryForm"/> class.</summary>
 		public QueryForm()
 		{
@@ -72,8 +77,9 @@ namespace MiniSqlQuery
 			txtQuery.ContextMenuStrip = contextMenuStripQuery;
 			LoadHighlightingProvider();
 			txtQuery.Document.DocumentChanged += DocumentDocumentChanged;
+            _textArea = txtQuery.ActiveTextAreaControl.TextArea;
 
-			contextMenuStripQuery.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<ExecuteTaskCommand>());
+		    contextMenuStripQuery.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<ExecuteTaskCommand>());
 			contextMenuStripQuery.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<CancelTaskCommand>());
 
 			editorContextMenuStrip.Items.Add(CommandControlBuilder.CreateToolStripMenuItem<SaveFileCommand>());
@@ -95,9 +101,38 @@ namespace MiniSqlQuery
 			_services = services;
 			_settings = settings;
 			_hostWindow = hostWindow;
+
+            var completionProvider = _services.Resolve<ICompletionProvider>();
+            if (completionProvider.Enabled)
+            {
+                _textArea.KeyEventHandler += completionProvider.KeyEventHandlerFired;
+            }
 		}
 
-		/// <summary>Gets or sets AllText.</summary>
+	    public CodeCompletionWindow CodeCompletionWindow 
+        {
+	        get { return _completionWindow; }
+	        set
+	        {
+                _completionWindow = value;
+                if (_completionWindow != null)
+	            {
+	                _completionWindow.Closed += CompletionWindowClosed;
+	            }
+	        }
+	    }
+
+	    private void CompletionWindowClosed(object sender, EventArgs e)
+        {
+            if (_completionWindow != null)
+            {
+                _completionWindow.Closed -= CompletionWindowClosed;
+                _completionWindow.Dispose();
+                _completionWindow = null;
+            }
+	    }
+
+	    /// <summary>Gets or sets AllText.</summary>
 		public string AllText
 		{
 			get { return txtQuery.Text; }

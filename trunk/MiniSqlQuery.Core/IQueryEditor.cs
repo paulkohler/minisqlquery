@@ -8,6 +8,7 @@
 
 using System;
 using System.Windows.Forms;
+using ICSharpCode.TextEditor.Gui.CompletionWindow;
 
 namespace MiniSqlQuery.Core
 {
@@ -27,5 +28,10 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		/// <param name = "text">The message to appear in the status bar.</param>
 		void SetStatus(string text);
+
+        /// <summary>
+        /// Access to the code completion window.
+        /// </summary>
+        CodeCompletionWindow CodeCompletionWindow { get; set; }
 	}
 }
