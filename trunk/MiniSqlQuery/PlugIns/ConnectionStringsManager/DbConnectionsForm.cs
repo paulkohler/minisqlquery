@@ -8,6 +8,7 @@
 using System;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
+using MiniSqlQuery.Properties;
 
 namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 {
@@ -26,7 +27,11 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 		/// <summary>The _definition list.</summary>
 		private DbConnectionDefinitionList _definitionList;
 
-		/// <summary>Initializes a new instance of the <see cref="DbConnectionsForm"/> class.</summary>
+        private bool _loaded;
+        
+        private bool _dirty;
+
+	    /// <summary>Initializes a new instance of the <see cref="DbConnectionsForm"/> class.</summary>
 		public DbConnectionsForm()
 		{
 			InitializeComponent();
@@ -64,24 +69,48 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			if (!lstConnections.Items.Contains(definition))
 			{
 				lstConnections.Items.Add(definition);
-			}
+                SetDirty();
+            }
 		}
 
-		/// <summary>The db connections form_ form closing.</summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The e.</param>
-		private void DbConnectionsForm_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			// todo - confirm changes lost
-		}
+	    /// <summary>The db connections form_ form closing.</summary>
+	    /// <param name="sender">The sender.</param>
+	    /// <param name="e">The e.</param>
+	    private void DbConnectionsForm_FormClosing(object sender, FormClosingEventArgs e)
+	    {
+	        if (_dirty)
+	        {
+	            DialogResult saveFile = _hostWindow.DisplayMessageBox(
+	                this,
+	                Resources.The_connection_details_have_changed__do_you_want_to_save,
+	                Resources.Save_Changes,
+	                MessageBoxButtons.YesNoCancel,
+	                MessageBoxIcon.Question,
+	                MessageBoxDefaultButton.Button1,
+	                0,
+	                null,
+	                null);
 
-		/// <summary>The db connections form_ shown.</summary>
+	            switch (saveFile)
+	            {
+	                case DialogResult.Yes:
+	                    SaveConnectionDefinitions(_definitionList);
+	                    break;
+	                case DialogResult.Cancel:
+	                    e.Cancel = true;
+	                    break;
+	            }
+	        }
+	    }
+
+	    /// <summary>The db connections form_ shown.</summary>
 		/// <param name="sender">The sender.</param>
 		/// <param name="e">The e.</param>
 		private void DbConnectionsForm_Shown(object sender, EventArgs e)
 		{
 			_definitionList = LoadConnectionDefinitions();
 			UpdateListView();
+	        _loaded = true;
 		}
 
 		/// <summary>The manage definition.</summary>
@@ -105,6 +134,8 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 
 			if (frm.DialogResult == DialogResult.OK)
 			{
+			    SetDirty();
+
 				if (lstConnections.Items.Contains(frm.ConnectionDefinition) && definition != null)
 				{
 					if (definition.Name != oldName)
@@ -134,6 +165,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 			if (lstConnections.Items.Contains(definition))
 			{
 				lstConnections.Items.Remove(definition);
+                SetDirty();
 			}
 		}
 
@@ -144,6 +176,7 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 		{
 			_settings.SetConnectionDefinitions(data);
 			Utility.SaveConnections(data);
+		    _dirty = false;
 		}
 
 		/// <summary>The update details panel.</summary>
@@ -289,5 +322,24 @@ namespace MiniSqlQuery.PlugIns.ConnectionStringsManager
 				}
 			}
 		}
+
+        private void DbConnectionsForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SetDirty()
+        {
+            if (!_loaded)
+            {
+                return;
+            }
+
+            if (!_dirty)
+            {
+                _dirty = true;
+                Text += "*";
+            }
+        }
 	}
 }
