@@ -14,3 +14,4 @@
 *.cache
 *.suo
 *.user
+/trunk/_ReSharper.MiniSqlQuery

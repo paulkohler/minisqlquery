@@ -6,6 +6,7 @@
 #endregion
 
 using System;
+using Ninject;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.Core.Commands
@@ -51,7 +52,7 @@ namespace MiniSqlQuery.Core.Commands
 				.Replace("$name$", "OI")
 				.Replace("$desc$", "a thing");
 
-			var editor = Services.Container.Resolve<IQueryEditor>();
+			var editor = Services.Container.Get<IQueryEditor>();
 			editor.AllText = code;
 			editor.SetSyntax("C#");
 

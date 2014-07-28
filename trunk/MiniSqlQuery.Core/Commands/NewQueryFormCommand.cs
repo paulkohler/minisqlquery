@@ -7,6 +7,7 @@
 
 using System;
 using System.Windows.Forms;
+using Ninject;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.Core.Commands
@@ -32,7 +33,7 @@ namespace MiniSqlQuery.Core.Commands
 		/// </summary>
 		public override void Execute()
 		{
-			var editor = Services.Container.Resolve<IQueryEditor>();
+			var editor = Services.Container.Get<IQueryEditor>();
 			editor.FileName = null;
 			HostWindow.DisplayDockedForm(editor as DockContent);
 		}

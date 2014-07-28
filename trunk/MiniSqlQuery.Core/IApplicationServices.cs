@@ -8,7 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using Castle.MicroKernel;
+using Ninject;
 
 namespace MiniSqlQuery.Core
 {
@@ -128,8 +128,7 @@ namespace MiniSqlQuery.Core
         /// <summary>
         /// Remove the component by name.
         /// </summary>
-        /// <param name="key">The name of the registered component.</param>
         /// <returns>True on success.</returns>
-	    bool RemoveComponent(string key);
+	    void RemoveComponent<TImp>();
 	}
 }
