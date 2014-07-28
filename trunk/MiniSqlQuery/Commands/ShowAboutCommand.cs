@@ -9,6 +9,7 @@ using System;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Commands;
+using Ninject;
 
 namespace MiniSqlQuery.Commands
 {
@@ -26,7 +27,7 @@ namespace MiniSqlQuery.Commands
 		/// <summary>Execute the command.</summary>
 		public override void Execute()
 		{
-			Form frm = (Form)Services.Container.Resolve(typeof(AboutForm));
+			Form frm = Services.Resolve<AboutForm>();
 			frm.Show(HostWindow.Instance);
 		}
 	}

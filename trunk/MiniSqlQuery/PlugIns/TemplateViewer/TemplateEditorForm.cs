@@ -143,7 +143,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
 			{
 				if (_textFindService == null)
 				{
-					_textFindService = _services.Container.Resolve<ITextFindService>();
+					_textFindService = _services.Resolve<ITextFindService>();
 				}
 
 				return _textFindService;
