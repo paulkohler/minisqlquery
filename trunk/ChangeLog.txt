@@ -1,6 +1,7 @@
 Mini SQL Query Change Log
 =========================
 
+2014-08-22	ENH: Improved the find object design (ALT+F) - added up/down checks for a list etc
 2014-08-07	ENH: Made SQLite a first class Mini SQL Query Citizen
 2014-07-29	ENH: Modified the IoC to be Ninject
 2013-03-06	ENH: Improved the grid setting of column widths, more so for larger text fields

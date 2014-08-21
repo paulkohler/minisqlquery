@@ -30,7 +30,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 			{
 				frm.ShowDialog(HostWindow.Instance);
 
-			    var selectedTableName = frm.SelectedTableName;
+			    var selectedTableName = frm.SelectedObjectName;
 			    if (frm.DialogResult == DialogResult.OK && !String.IsNullOrEmpty(selectedTableName))
 			    {
                     // Special case for handling schemas - We want the search without the [dbo].[foo] part 

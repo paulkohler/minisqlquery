@@ -129,6 +129,8 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			{
 				return;
 			}
+            
+            // todo - ensure expanded
 
 			switch (modelObject.ObjectType)
 			{
