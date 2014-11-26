@@ -27,7 +27,9 @@ Some Core features:
 Note that the target audience for this tool is not developers who tend to only deal with MSSQL, it's geared towards having to hit several different database sources...
 
 
-* Sponsored by: http://viridissoftware.com.au/ *
+### Sponsored by VIRIDIS Software PTY LTD
 
-If you use MSMQ make sure you check out *"MSMQ Inspector" - http://viridissoftware.com.au/Products/MSMQInspector
+http://viridissoftware.com.au/
+
+If you use MSMQ, make sure you check out *"MSMQ Inspector" - http://viridissoftware.com.au/Products/MSMQInspector
 
