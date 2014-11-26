@@ -1,10 +1,16 @@
 Mini SQL Query
 ==============
 
+Latest Release...
+-----------------
+
+https://github.com/paul-kohler-au/minisqlquery/releases/latest
+
+
 What is Mini SQL Query
 ----------------------
 
-Mini SQL Query is "deliberately minimalist". Software too often becomes bloated and less usable while trying to satisfy the 99% of what every user wants. Mini SQL Query aims to satisfy the most common tasks what the average user seeks to achieve, in doing so it keeps the size and complexity of the application to a minimum. 
+Mini SQL Query is a query tool that makes use of any available .NET DB Provider on your system. It aims to satisfy the most common tasks what the average user seeks to achieve, in doing so it keeps the size and complexity of the application to a minimum. 
 
 Some Core features: 
 * Supports multiple databases** (MSSQL, SQL Compact Edition, MS Access, SQLite, Oracle, OLEDB, SharePoint - http://blog.bendsoft.com/2013/01/minisqlquery-with-sharepoint-connector-3-0/ etc)
