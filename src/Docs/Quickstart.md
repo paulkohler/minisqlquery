@@ -1,5 +1,5 @@
 Mini SQL Query Quick Start
-==========================
+=================
 
 This document is a quick overview of how to use **Mini SQL Query**.
 
@@ -11,7 +11,7 @@ The original application was developed almost entirely using Microsoft's Visual 
 
 
 The First Run
--------------
+--------------
 
 The very first time you run Mini SQL Query, the application will look similar to the image below:
 
@@ -30,12 +30,8 @@ More...
 
 See:
 
-
-- [Basic Usage]
-- [Context Menu Commands]
-- [Adding a MSSQL Connection]
-- [Adding an SQLite Connection]
-- [Thank You]
-
-
-.
+- [Basic Usage](https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Docs/Basic%20Usage.md)
+- [Context Menu Commands](https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Docs/Context%20Menu%20Commands.md)
+- [Adding a MSSQL Connection](https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Docs/Adding%20a%20MSSQL%20Connection.md)
+- [Adding an SQLite Connection](https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Docs/Adding%20an%20SQLite%20Connection.md)
+- [Thank You](https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Docs/Thank%20You.md)
