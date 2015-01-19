@@ -13,7 +13,7 @@ Mini SQL Query uses the typical editor key shortcuts for cut, copy, paste etc.
 
 **New window**	Control + N
 
-**New File** (then select type, txt, sql etc)	Control {"+"} Alt {"+"} N
+**New File** (then select type, txt, sql etc)	Control + Alt + N
 
 **Open**	Control + O
 
@@ -33,4 +33,4 @@ Mini SQL Query uses the typical editor key shortcuts for cut, copy, paste etc.
 
 **Comment block (language specific)**	Control + /
 
-See also [Context Menu Commands]
+[Quickstart](https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Docs/Quickstart.md)

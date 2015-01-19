@@ -31,5 +31,4 @@ Note – Tables and Views Only
 ----------------------------
 Currently only table and view information is retrieved from the databases schema. Again, this is driven by demand. The number of times access to stored procedures has been too low to warrant implementation. Patches accepted!
 
-Back to [Basic Usage]...
-
+[Quickstart](https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Docs/Quickstart.md)

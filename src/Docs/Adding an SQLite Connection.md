@@ -17,4 +17,4 @@ See the [http://system.data.sqlite.org/index.html/doc/trunk/www/faq.wiki](http:/
  
 Press *OK* and you will return to the “Database Connection List Editor” and you will see the new item in the list. Press *OK* here to return to Mini SQL Query.
 
-Back to [Basic Usage]...
+[Quickstart](https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Docs/Quickstart.md)

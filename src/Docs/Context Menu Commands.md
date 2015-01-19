@@ -112,8 +112,8 @@ This command copies the fully qualified table name to the windows clipboard.
 Truncate Table
 --------------
 
-This command deletes all the rows from the selected table. The truncate statement is not actually used currently due to the requirements (no foreign keys) and cross database support so in essence the resulting command is just “DELETE FROM <table>”. Patches welcome!
+This command deletes all the rows from the selected table. The truncate statement is not actually used currently due to the requirements (no foreign keys) and cross database support so in essence the resulting command is just “DELETE FROM *table*”. Patches welcome!
+
 The truncate table command also sends an application level message so that if you are viewing a table with the view data command, the contents of that window is refreshed.
 
-
-Back to [Basic Usage]...
+[Quickstart](https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Docs/Quickstart.md)
