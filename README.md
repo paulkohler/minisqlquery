@@ -4,7 +4,7 @@ Mini SQL Query
 Latest Release...
 -----------------
 
-https://github.com/paul-kohler-au/minisqlquery/releases/latest
+**[https://github.com/paul-kohler-au/minisqlquery/releases/latest](https://github.com/paul-kohler-au/minisqlquery/releases/latest)**
 
 
 What is Mini SQL Query
@@ -22,14 +22,22 @@ Some Core features:
 * Basic query generation
 * Extensible programming model
 
-  ** Note that all these types of connections depend on your system configuration **
+**Note that all these types of connections depend on your system configuration**
 
 Note that the target audience for this tool is not developers who tend to only deal with MSSQL, it's geared towards having to hit several different database sources...
 
+Quickstart
+==========
 
-### Sponsored by VIRIDIS Software PTY LTD
+For a quick run down, see:
 
-http://viridissoftware.com.au/
+**[https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Docs/Quickstart.md](https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Docs/Quickstart.md)**
 
-If you use MSMQ, make sure you check out *"MSMQ Inspector" - http://viridissoftware.com.au/Products/MSMQInspector
+
+Sponsored by VIRIDIS Software PTY LTD
+-------------------------------------
+
+[http://viridissoftware.com.au/](http://viridissoftware.com.au/)
+
+If you use MSMQ, make sure you check out *"MSMQ Inspector" - [http://viridissoftware.com.au/Products/MSMQInspector](http://viridissoftware.com.au/Products/MSMQInspector)
 
