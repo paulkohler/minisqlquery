@@ -4,6 +4,8 @@ Mini SQL Query
 Latest Release...
 -----------------
 
+Please note that there is a fix for the Template Data object being null but I have not uploaded the binary yet - if you get latest and [Build-DISTRO.cmd](https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Build-DISTRO.cmd) you will have the fix :-)
+
 **[https://github.com/paul-kohler-au/minisqlquery/releases/latest](https://github.com/paul-kohler-au/minisqlquery/releases/latest)**
 
 
