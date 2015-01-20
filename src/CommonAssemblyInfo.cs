@@ -16,5 +16,5 @@ using System.Runtime.InteropServices;
 [assembly: CLSCompliantAttribute(true)]
 [assembly: AssemblyConfigurationAttribute("Release - No Tests")]
 [assembly: AssemblyCompanyAttribute("Paul Kohler")]
-[assembly: AssemblyCopyrightAttribute("Copyright (C) 2005-2014 Paul Kohler")]
+[assembly: AssemblyCopyrightAttribute("Copyright (C) 2005-2015 Paul Kohler")]
 
