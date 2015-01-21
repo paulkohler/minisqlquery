@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
@@ -459,7 +460,10 @@ namespace MiniSqlQuery
 		/// <summary>The cancel task.</summary>
 		public void CancelTask()
 		{
-			// todo
+            if (queryBackgroundWorker.IsBusy && _runner != null)
+		    {
+                _runner.Cancel();
+            }
 		}
 
 		/// <summary>The execute task.</summary>

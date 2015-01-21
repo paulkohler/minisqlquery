@@ -36,7 +36,9 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		private readonly DbProviderFactory _factory;
 
-		/// <summary>
+		private DbCommand _command;
+
+	    /// <summary>
 		/// 	Initializes a new instance of the <see cref = "QueryRunner" /> class.
 		/// </summary>
 		/// <param name = "factory">The factory.</param>
@@ -148,7 +150,7 @@ namespace MiniSqlQuery.Core
 
 			DbConnection dbConnection = null;
 			DbDataAdapter adapter = null;
-			DbCommand cmd = null;
+			_command = null;
 			Query query;
 
 			try
@@ -173,16 +175,16 @@ namespace MiniSqlQuery.Core
 
 				Batch.StartTime = DateTime.Now;
 				adapter = _factory.CreateDataAdapter();
-				cmd = dbConnection.CreateCommand();
-				cmd.CommandType = CommandType.Text;
-				SetCommandTimeout(cmd, _commandTimeout);
-				adapter.SelectCommand = cmd;
+				_command = dbConnection.CreateCommand();
+				_command.CommandType = CommandType.Text;
+				SetCommandTimeout(_command, _commandTimeout);
+				adapter.SelectCommand = _command;
 
 				int queryCount = Batch.Queries.Count;
 				for (int i = 0; i < queryCount; i++)
 				{
 					query = Batch.Queries[i];
-					cmd.CommandText = query.Sql;
+					_command.CommandText = query.Sql;
 					query.Result = new DataSet("Batch " + (i + 1));
 					query.StartTime = DateTime.Now;
 					adapter.Fill(query.Result);
@@ -206,9 +208,9 @@ namespace MiniSqlQuery.Core
 					adapter.Dispose();
 				}
 
-				if (cmd != null)
+				if (_command != null)
 				{
-					cmd.Dispose();
+					_command.Dispose();
 				}
 
 				IsBusy = false;
@@ -221,7 +223,21 @@ namespace MiniSqlQuery.Core
 			}
 		}
 
-		/// <summary>
+        /// <summary>
+        /// Cancel the executing command (if busy).
+        /// </summary>
+        /// <remarks>
+        /// Note that this relies on the implementation of the DbCommand.Cancel operation.
+        /// </remarks>
+	    public void Cancel()
+	    {
+            if (IsBusy && _command != null)
+	        {
+                _command.Cancel();
+	        }
+	    }
+
+	    /// <summary>
 		/// Sets the command timeout, currently only tested against MSSQL.
 		/// </summary>
 		/// <param name="cmd">The command.</param>
