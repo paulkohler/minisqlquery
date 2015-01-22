@@ -1,6 +1,7 @@
 Mini SQL Query Change Log
 =========================
 
+2015-01-23	ENH: Improved the View Table screen with better default columns sizes and remembers it between executions
 2015-01-22	ENH: Added a "Cancel" implementation - provider specific of course!
 2015-01-21	FIX: Fixed issue where template host not creating data object
 2014-08-22	ENH: Improved the find object design (ALT+F) - added up/down checks for a list etc
@@ -30,7 +31,7 @@ Mini SQL Query Change Log
 2009-09-16	ENH: Simple syntax highlighting for the template editor.
 2009-09-07	ENH: Updated query form, view table form and edit template form to make use of the IPerformTask interface (enabling use of F5 on those windows to "run" the task).
 2009-09-02	ENH: Updated the DB Inspector to display the PK/FK info for MSSQL and MSSQL Compact Edition databases.
-2009-09-01	ENH: Added Foriegn key ability to the SQL CE providers.
+2009-09-01	ENH: Added Foreign key ability to the SQL CE providers.
 2009-08-30	ENH: Some additions by Kent Carlsle - Minimise to tray and copy selected grid items with/without headers (context menu)
 2009-08-28	ENH: Re-implementation of templating using the NVelocity engine
 2009-08-26	FIX: Improved handling of db objects with 'unfriendly names' (e.g. spaces etc).

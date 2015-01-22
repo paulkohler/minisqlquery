@@ -47,7 +47,13 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 		/// <summary>The _status.</summary>
 		private string _status = string.Empty;
 
-		private int? _rowCount;
+        private int? _rowCount;
+
+        /// <summary>Stores the widths of the columns for this window.</summary>
+        private Dictionary<string, int> _columnSizes = new Dictionary<string, int>();
+
+        /// <summary>When tru the grid is being resized on fill, used to avoid overriting column width values.</summary>
+        private bool _resizingGrid;
 
 		/// <summary>Initializes a new instance of the <see cref="ViewTableForm"/> class.</summary>
 		public ViewTableForm()
@@ -68,7 +74,8 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			Text = Resources.ViewData;
 
 			dataGridViewResult.DefaultCellStyle.NullValue = _settings.NullText;
-			dataGridViewResult.DataBindingComplete += DataGridViewResultDataBindingComplete;
+            dataGridViewResult.DataBindingComplete += DataGridViewResultDataBindingComplete;
+            dataGridViewResult.ColumnWidthChanged += OnColumnWidthChanged;
 			_services.Settings.DatabaseConnectionReset += SettingsDatabaseConnectionReset;
 			_services.SystemMessagePosted += ServicesSystemMessagePosted;
 		}
@@ -207,21 +214,71 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 			if (dt == null)
 			{
 				return;
-			}
+            }
 
-			string nullText = _settings.NullText;
-			string dateTimeFormat = _settings.DateTimeFormat;
-			for (int i = 0; i < dt.Columns.Count; i++)
-			{
-				if (dt.Columns[i].DataType == typeof(DateTime))
-				{
-					DataGridViewCellStyle dateCellStyle = new DataGridViewCellStyle();
-					dateCellStyle.NullValue = nullText;
-					dateCellStyle.Format = dateTimeFormat;
-					dataGridViewResult.Columns[i].DefaultCellStyle = dateCellStyle;
-				}
-			}
+		    try
+		    {
+                _resizingGrid = true;
+
+                // create a reasonable default max width for columns
+                int maxColWidth = Math.Max(dataGridViewResult.ClientSize.Width / 2, 100);
+
+                // Autosize the columns then change the widths, gleaned from SO - http://stackoverflow.com/a/1031871/276563
+                dataGridViewResult.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+
+		        string nullText = _settings.NullText;
+		        string dateTimeFormat = _settings.DateTimeFormat;
+		        for (int i = 0; i < dt.Columns.Count; i++)
+		        {
+		            if (dt.Columns[i].DataType == typeof(DateTime))
+		            {
+		                DataGridViewCellStyle dateCellStyle = new DataGridViewCellStyle();
+		                dateCellStyle.NullValue = nullText;
+		                dateCellStyle.Format = dateTimeFormat;
+		                dataGridViewResult.Columns[i].DefaultCellStyle = dateCellStyle;
+		            }
+		        
+                    // sync column sizes:
+                    int columnWidth = dataGridViewResult.Columns[i].Width;
+                    dataGridViewResult.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+
+                    string headerText = dataGridViewResult.Columns[i].HeaderText;
+                    if (!string.IsNullOrEmpty(headerText) && _columnSizes.ContainsKey(headerText))
+                    {
+                        // use the previous column size in case its been adjusted etc
+                        dataGridViewResult.Columns[i].Width = _columnSizes[headerText];
+                    }
+                    else
+                    {
+                        // reset to a the smaller of the 2 sizes, this is mainly for the bigger text columns that throw the size out
+                        dataGridViewResult.Columns[i].Width = Math.Min(columnWidth, maxColWidth);
+
+                        if (!string.IsNullOrEmpty(headerText))
+                        {
+                            _columnSizes[headerText] = dataGridViewResult.Columns[i].Width;
+                        }
+                    }
+                }
+		    }
+		    finally
+		    {
+                _resizingGrid = false;
+            }
 		}
+
+        public void OnColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            if (_resizingGrid)
+            {
+                return;
+            }
+
+            string headerText = e.Column.HeaderText;
+            if (!string.IsNullOrEmpty(headerText))
+            {
+                _columnSizes[headerText] = e.Column.Width;
+            }
+        }
 
 		/// <summary>The get tables and views.</summary>
 		private void GetTablesAndViews()
@@ -325,7 +382,6 @@ namespace MiniSqlQuery.PlugIns.ViewTable
 
 			dataGridViewResult.DefaultCellStyle.NullValue = _settings.NullText;
 			dataGridViewResult.DataSource = dt;
-			dataGridViewResult.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
 
 			if (dt != null)
 			{
