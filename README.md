@@ -4,6 +4,9 @@ Mini SQL Query
 Latest Release...
 -----------------
 
+[![Build status](https://ci.appveyor.com/api/projects/status/vticgtddj5opff2h?svg=true)](https://ci.appveyor.com/project/paul-kohler-au/minisqlquery)
+
+
 **[https://github.com/paul-kohler-au/minisqlquery/releases/latest](https://github.com/paul-kohler-au/minisqlquery/releases/latest)**
 
 
