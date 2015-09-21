@@ -27,7 +27,7 @@ namespace MiniSqlQuery.Core
 		/// The default is <see cref = "GenericSchemaService" />.
 		/// </returns>
 		public static IDatabaseSchemaService Create(string providerName)
-		{
+		{            
 			switch (providerName)
 			{
 				case "System.Data.OleDb":
@@ -35,7 +35,8 @@ namespace MiniSqlQuery.Core
 
 				case "System.Data.SqlClient":
 					return new SqlClientSchemaService {ProviderName = providerName};
-
+                case "Oracle.DataAccess.Client":
+                    return new OracleSchemaService { ProviderName = providerName };
 				default:
 					// The SQL CE types tend to include the version number within the provider name, hence "StartsWith"
 					if (providerName.StartsWith("System.Data.SqlServerCe."))

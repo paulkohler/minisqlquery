@@ -165,6 +165,7 @@
     <Compile Include="DbModel\GenericSchemaService.cs" />
     <Compile Include="DbModel\ISqlWriter.cs" />
     <Compile Include="DbModel\OleDbSchemaService.cs" />
+    <Compile Include="DbModel\OracleSchemaService.cs" />
     <Compile Include="DbModel\SqlCeSchemaService.cs" />
     <Compile Include="DbModel\SqlClientSchemaService.cs" />
     <Compile Include="DbModel\SqlWriter.cs" />

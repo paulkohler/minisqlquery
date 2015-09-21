@@ -35,6 +35,7 @@ namespace MiniSqlQuery.Core.DbModel
 		/// <returns>An instance of <see cref="DbModelInstance"/> describing the database.</returns>
 		public virtual DbModelInstance GetDbObjectModel(string connection)
 		{
+
 			_connection = connection;
 
 			DbModelInstance model = new DbModelInstance();
@@ -303,16 +304,27 @@ namespace MiniSqlQuery.Core.DbModel
 		/// <param name="row">The row.</param>
 		/// <param name="columnName">The column name.</param>
 		/// <returns>The safe get int.</returns>
-		protected int SafeGetInt(DataRow row, string columnName)
+		protected virtual int SafeGetInt(DataRow row, string columnName)
 		{
-			int result = -1;
+            try
+            {
+                int result = -1;
 
-			if (row.Table.Columns.Contains(columnName) && !row.IsNull(columnName))
-			{
-				result = Convert.ToInt32(row[columnName]);
-			}
+                if (row.Table.Columns.Contains(columnName) && !row.IsNull(columnName))
+                {
+                    result = Convert.ToInt32(row[columnName]);
+                }
 
-			return result;
+                return result;
+            }
+            catch (OverflowException err)
+            {
+                // In Oracle Maximum size for column is larger than Max Int32, instead of changing return value, just coerce on Max.Int32.
+
+                return Int32.MaxValue;
+                
+            }
+
 		}
 
 		/// <summary>The safe get string.</summary>
