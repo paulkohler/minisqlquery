@@ -8,6 +8,8 @@ Latest Release...
 
 Full release with templates etc:
 
+Pre-release with Oracle DB fix: **[https://github.com/paul-kohler-au/minisqlquery/releases/tag/v1.15.09.22](https://github.com/paul-kohler-au/minisqlquery/releases/tag/v1.15.09.22)**
+
 **[https://github.com/paul-kohler-au/minisqlquery/releases/latest](https://github.com/paul-kohler-au/minisqlquery/releases/latest)**
 
 
