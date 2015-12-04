@@ -231,7 +231,7 @@ namespace MiniSqlQuery
 		public void CloseConnection()
 		{
 			if (_dbConnection != null &&
-			    (_dbConnection.State != ConnectionState.Closed && _dbConnection.State != ConnectionState.Broken))
+				(_dbConnection.State != ConnectionState.Closed && _dbConnection.State != ConnectionState.Broken))
 			{
 				_dbConnection.Close();
 			}
@@ -251,14 +251,14 @@ namespace MiniSqlQuery
 			DbConnection conn = Connection;
 			if (conn.State != ConnectionState.Open)
 			{
-                if (_connectionDefinition != null && String.IsNullOrEmpty(conn.ConnectionString))
-			    {
-			        conn.ConnectionString = _connectionDefinition.ConnectionString;
-			    }
-			    conn.Open();
+				if (_connectionDefinition != null && String.IsNullOrEmpty(conn.ConnectionString))
+				{
+					conn.ConnectionString = _connectionDefinition.ConnectionString;
+				}
+				conn.Open();
 			}
 
-		    return conn;
+			return conn;
 		}
 
 		/// <summary>The get untitled document counter.</summary>

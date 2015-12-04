@@ -34,7 +34,7 @@ namespace MiniSqlQuery.PlugIns
 			IApplicationServices services = Services;
 			IHostWindow hostWindow = services.HostWindow;
 
-            services.RegisterSingletonComponent<ICompletionProvider, NullCompletionProvider>("CompletionProvider");
+			services.RegisterSingletonComponent<ICompletionProvider, NullCompletionProvider>("CompletionProvider");
 
 			services.RegisterEditor<BasicEditor>(new FileEditorDescriptor("Default text editor", "default-editor"));
 			services.RegisterEditor<QueryForm>(new FileEditorDescriptor("SQL Editor", "sql-editor", "sql"));
@@ -95,10 +95,8 @@ namespace MiniSqlQuery.PlugIns
 			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<OpenConnectionFileCommand>());
 
 			// get the new item and make in invisible - the shortcut key is still available etc ;-)
-			ToolStripItem item = editMenu.DropDownItems["SetLeftPasteAroundSelectionCommandToolStripMenuItem"];
-			item.Visible = false;
-			item = editMenu.DropDownItems["SetRightPasteAroundSelectionCommandToolStripMenuItem"];
-			item.Visible = false;
+			editMenu.DropDownItems["SetLeftPasteAroundSelectionCommandToolStripMenuItem"].Visible = false;
+			editMenu.DropDownItems["SetRightPasteAroundSelectionCommandToolStripMenuItem"].Visible = false;
 
 
 			helpMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowHelpCommand>());

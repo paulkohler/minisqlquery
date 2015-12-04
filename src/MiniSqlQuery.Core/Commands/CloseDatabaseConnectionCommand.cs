@@ -3,9 +3,9 @@
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
-#endregion
 
-using System;
+#endregion License
+
 using System.Data;
 
 namespace MiniSqlQuery.Core.Commands
@@ -28,7 +28,7 @@ namespace MiniSqlQuery.Core.Commands
 			{
 				if (Settings.Connection == null ||
 					(Settings.Connection.State == ConnectionState.Closed &&
-				    Settings.Connection.State == ConnectionState.Broken))
+					Settings.Connection.State == ConnectionState.Broken))
 				{
 					return false;
 				}

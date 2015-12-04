@@ -4,9 +4,8 @@
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
 
-#endregion
+#endregion License
 
-using System;
 using System.Drawing;
 using System.Windows.Forms;
 
