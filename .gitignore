@@ -1,4 +1,5 @@
 ﻿/src/Build/*
+/src/packages
 /src/Build/Debug
 /src/ReleaseBuild/*
 /src/DISTRO/*
@@ -15,3 +16,4 @@
 *.cache
 *.suo
 *.user
+/src/.vs

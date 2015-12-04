@@ -4,9 +4,6 @@
 // http://minisqlquery.codeplex.com/license
 #endregion
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using MiniSqlQuery.Core.DbModel;
 using NUnit.Framework;
 
@@ -15,8 +12,7 @@ using NUnit.Framework;
 
 namespace MiniSqlQuery.Tests.DbModel
 {
-	[TestFixture(Description = "Requires SQLCE DB")]
-	[Category("Functional")]
+	[TestFixture(Description = "Requires SQLCE DB", Category = "Functional, SqlCeSchemaService, DbModelInstance")]
 	public class SqlCeSchemaService_Tests
 	{
 		#region Setup/Teardown
