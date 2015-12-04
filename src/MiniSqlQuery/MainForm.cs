@@ -350,7 +350,7 @@ namespace MiniSqlQuery
 				plugin.UnloadPlugIn();
 			}
 
-			_services.Container.Dispose();
+			_services.Dispose();
 		}
 
 		/// <summary>The main form_ load.</summary>

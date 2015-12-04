@@ -9,7 +9,6 @@ using System;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Commands;
-using Ninject;
 
 namespace MiniSqlQuery.Commands
 {

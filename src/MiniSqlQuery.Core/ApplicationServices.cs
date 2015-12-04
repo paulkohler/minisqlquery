@@ -10,8 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Ninject;
-using Ninject.Planning.Bindings;
-using Binding = Ninject.Planning.Bindings.Binding;
 
 namespace MiniSqlQuery.Core
 {
@@ -40,14 +38,14 @@ namespace MiniSqlQuery.Core
 		/// </summary>
 		static ApplicationServices()
 		{
-            _container = new StandardKernel();
+			_container = new StandardKernel();
 
 			// add self
-		    _container
-                .Bind<IApplicationServices>()
-                .To<ApplicationServices>()
-                .InSingletonScope()
-                .Named("ApplicationServices");
+			_container
+				.Bind<IApplicationServices>()
+				.To<ApplicationServices>()
+				.InSingletonScope()
+				.Named("ApplicationServices");
 		}
 
 		/// <summary>
@@ -65,21 +63,12 @@ namespace MiniSqlQuery.Core
 		}
 
 		/// <summary>
-		/// 	Gets the Dependency Injection container.
-		/// </summary>
-		/// <value>The container.</value>
-		public IKernel Container
-		{
-			get { return _container; }
-		}
-
-		/// <summary>
 		/// 	Gets the application host window.
 		/// </summary>
 		/// <value>The host window - a <see cref = "Form" />.</value>
 		public IHostWindow HostWindow
 		{
-			get { return _container.Get<IHostWindow>(); }
+			get { return Resolve<IHostWindow>(); }
 		}
 
 		/// <summary>
@@ -97,7 +86,7 @@ namespace MiniSqlQuery.Core
 		/// <value>A reference to the settings handler.</value>
 		public IApplicationSettings Settings
 		{
-			get { return _container.Get<IApplicationSettings>(); }
+			get { return Resolve<IApplicationSettings>(); }
 		}
 
 		/// <summary>
@@ -160,10 +149,10 @@ namespace MiniSqlQuery.Core
 			}
 
 			plugIn.LoadPlugIn(this);
-		    var type = plugIn.GetType();
-		    _plugins.Add(type, plugIn);
-            _container.Bind<IPlugIn>().To(type).InSingletonScope().Named(type.FullName);
-        }
+			var type = plugIn.GetType();
+			_plugins.Add(type, plugIn);
+			_container.Bind<IPlugIn>().To(type).InSingletonScope().Named(type.FullName);
+		}
 
 		/// <summary>
 		/// 	Posts a system message for listeners.
@@ -183,7 +172,7 @@ namespace MiniSqlQuery.Core
 		/// <param name = "key">The key or name of the service.</param>
 		public void RegisterComponent<TService, TImp>(string key)
 		{
-		    _container.Bind<TService>().To(typeof(TImp)).InTransientScope().Named(key);
+			_container.Bind<TService>().To(typeof(TImp)).InTransientScope().Named(key);
 		}
 
 		/// <summary>
@@ -193,7 +182,7 @@ namespace MiniSqlQuery.Core
 		/// <param name = "key">The key or name of the service.</param>
 		public void RegisterComponent<TImp>(string key)
 		{
-		    _container.Bind<TImp>().ToSelf().InTransientScope().Named(key);
+			_container.Bind<TImp>().ToSelf().InTransientScope().Named(key);
 		}
 
 		/// <summary>
@@ -230,17 +219,17 @@ namespace MiniSqlQuery.Core
 		/// <param name = "key">The key or name of the service.</param>
 		public void RegisterSingletonComponent<TService, TImp>(string key)
 		{
-            _container.Bind<TService>().To(typeof(TImp)).InSingletonScope().Named(key);
+			_container.Bind<TService>().To(typeof(TImp)).InSingletonScope().Named(key);
 		}
 
-        /// <summary>
-        /// Remove the component by name.
-        /// </summary>
-        /// <returns>True on success.</returns>
-        public void RemoveComponent<TImp>()
-        {
-            _container.Unbind<TImp>();
-        }
+		/// <summary>
+		/// Remove the component by name.
+		/// </summary>
+		/// <returns>True on success.</returns>
+		public void RemoveComponent<TImp>()
+		{
+			_container.Unbind<TImp>();
+		}
 
 		/// <summary>
 		/// 	Resolves an instance of <typeparamref name = "T" /> from the container.
@@ -279,6 +268,11 @@ namespace MiniSqlQuery.Core
 			{
 				handler(this, eventArgs);
 			}
+		}
+
+		public void Dispose()
+		{
+			_container.Dispose();
 		}
 	}
 }
