@@ -65,7 +65,7 @@ namespace MiniSqlQuery.Core.Commands
 						ppd.Document = doc;
 						ppd.AllowSomePages = true;
 						// https://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k(System.Windows.Forms.PrintDialog.UseEXDialog);k(TargetFrameworkMoniker-.NETFramework,Version%3Dv3.5);k(DevLang-csharp)&rd=true#Anchor_1
-						ppd.AllowSomePages = true;
+						ppd.UseEXDialog = true;
 						
 						if (ppd.ShowDialog(HostWindow.Instance) == DialogResult.OK)
 						{
