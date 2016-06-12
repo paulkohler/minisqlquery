@@ -128,14 +128,19 @@ namespace MiniSqlQuery.Core.DbModel
 				string typeName = SafeGetString(row, "TypeName");
 				int columnSize = SafeGetInt(row, "ColumnSize");
 				DbModelType dbType = new DbModelType(typeName, columnSize);
-				dbTypes.Add(typeName.ToLower(), dbType);
 
-				dbType.CreateFormat = SafeGetString(row, "CreateFormat");
-				dbType.CreateParameters = SafeGetString(row, "CreateParameters");
-				dbType.LiteralPrefix = SafeGetString(row, "LiteralPrefix");
-				dbType.LiteralSuffix = SafeGetString(row, "LiteralSuffix");
-				dbType.SystemType = Type.GetType(SafeGetString(row, "DataType"));
-				dbType.ProviderDbType = SafeGetString(row, "ProviderDbType");
+                // Some providers may double up on schema info, check first:
+                if (!dbTypes.ContainsKey(typeName.ToLower()))
+                {
+                    dbTypes.Add(typeName.ToLower(), dbType);
+
+                    dbType.CreateFormat = SafeGetString(row, "CreateFormat");
+                    dbType.CreateParameters = SafeGetString(row, "CreateParameters");
+                    dbType.LiteralPrefix = SafeGetString(row, "LiteralPrefix");
+                    dbType.LiteralSuffix = SafeGetString(row, "LiteralSuffix");
+                    dbType.SystemType = Type.GetType(SafeGetString(row, "DataType"));
+                    dbType.ProviderDbType = SafeGetString(row, "ProviderDbType");
+                }
 			}
 
 			return dbTypes;
@@ -251,10 +256,10 @@ namespace MiniSqlQuery.Core.DbModel
 					}
 				}
 			}
-			catch (DbException dbExp)
+			catch (Exception exp)
 			{
-				// todo - failed... what now?! How do we notify user or just ijnore?
-				Debug.WriteLine(GetType().FullName + " ERROR: " + dbExp.Message);
+                // Generic catch all - not all provoders stick to the DbException base:
+				Debug.WriteLine(GetType().FullName + " ERROR: " + exp.Message);
 			}
 
 			return schemaTableKeyInfo;
