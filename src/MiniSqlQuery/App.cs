@@ -7,6 +7,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
@@ -21,6 +22,7 @@ using MiniSqlQuery.PlugIns.TemplateViewer;
 using MiniSqlQuery.PlugIns.TextGenerator;
 using MiniSqlQuery.PlugIns.ViewTable;
 using MiniSqlQuery.Properties;
+using System.Threading.Tasks;
 
 namespace MiniSqlQuery
 {
@@ -30,10 +32,35 @@ namespace MiniSqlQuery
 	internal static class App
 	{
 		/// <summary>
+		/// 	The main entry point for the application.
+		/// </summary>
+		/// <param name = "args">The args.</param>
+		[STAThread]
+		private static void Main(string[] args)
+		{
+#if !DEBUG
+			AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
+			Application.ThreadException += ApplicationThreadException;
+#endif
+
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+
+			IApplicationServices services = ApplicationServices.Instance;
+
+			ConfigureContainer(services);
+
+			Task.Factory.StartNew(LoadPlugins, services);
+
+			services.HostWindow.SetArguments(args);
+			Application.Run(services.HostWindow.Instance);
+		}
+
+		/// <summary>
 		/// 	The configure container.
 		/// </summary>
 		/// <param name = "services">The services.</param>
-		public static void ConfigureContainer(IApplicationServices services)
+		private static void ConfigureContainer(IApplicationServices services)
 		{
 			// singletons
 			services.RegisterSingletonComponent<IApplicationSettings, ApplicationSettings>("ApplicationSettings");
@@ -88,45 +115,18 @@ namespace MiniSqlQuery
 			errorForm.Dispose();
 		}
 
-		/// <summary>
-		/// 	The main entry point for the application.
-		/// </summary>
-		/// <param name = "args">The args.</param>
-		[STAThread]
-		private static void Main(string[] args)
+		private static void LoadPlugins(object state)
 		{
-#if !DEBUG
-			AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
-			Application.ThreadException += ApplicationThreadException;
-#endif
-
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-
-			IApplicationServices services = ApplicationServices.Instance;
-
-			ConfigureContainer(services);
-
-			services.LoadPlugIn(new CoreApplicationPlugIn());
-			services.LoadPlugIn(new ConnectionStringsManagerLoader());
-			services.LoadPlugIn(new DatabaseInspectorLoader());
-			services.LoadPlugIn(new ViewTableLoader());
-			services.LoadPlugIn(new TemplateViewerLoader());
-			services.LoadPlugIn(new SearchToolsLoader());
-			services.LoadPlugIn(new TextGeneratorLoader());
+			IApplicationServices services = (IApplicationServices)state;
+			var path = Environment.CurrentDirectory;
+			var plugins = AssemblyLoader.GetInstances<IPlugIn>(path, "MiniSqlQuery.*");
 
 			if (services.Settings.LoadExternalPlugins)
 			{
-				var plugins = PlugInUtility.GetInstances<IPlugIn>(Environment.CurrentDirectory, Settings.Default.PlugInFileFilter);
-				Array.Sort(plugins, new PlugInComparer());
-				foreach (var plugin in plugins)
-				{
-					services.LoadPlugIn(plugin);
-				}
+				plugins = plugins.Concat(AssemblyLoader.GetInstances<IPlugIn>(path, Settings.Default.PlugInFileFilter));
 			}
 
-			services.HostWindow.SetArguments(args);
-			Application.Run(services.HostWindow.Instance);
+			plugins.OrderBy(x => x.RequestedLoadOrder).ToList().ForEach(services.LoadPlugIn);
 		}
 	}
 }

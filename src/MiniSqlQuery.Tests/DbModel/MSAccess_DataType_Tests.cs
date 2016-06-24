@@ -5,7 +5,6 @@
 #endregion
 using System;
 using System.Collections.Generic;
-using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.DbModel;
 using NUnit.Framework;
 
@@ -13,9 +12,7 @@ using System.Data.Common;
 
 namespace MiniSqlQuery.Tests.DbModel
 {
-	[TestFixture(Description = "Requires MS Access DB")]
-	[Category("Functional")]
-	[Ignore]
+	[TestFixture(Description = "Requires MS Access DB", Category = "Functional", Ignore = "")]
 	public class MSAccess_DataType_Tests
 	{
 		#region Setup/Teardown

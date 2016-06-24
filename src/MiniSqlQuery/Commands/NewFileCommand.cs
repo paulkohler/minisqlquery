@@ -5,7 +5,6 @@
 // http://minisqlquery.codeplex.com/license
 #endregion
 
-using System;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Commands;

@@ -3,10 +3,9 @@
 // Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (Ms-PL)
 // http://minisqlquery.codeplex.com/license
-#endregion
 
-using System;
-using Ninject;
+#endregion License
+
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.Core.Commands
@@ -33,26 +32,25 @@ namespace MiniSqlQuery.Core.Commands
 		{
 			string template =
 				@"    public class $name$Command
-        : CommandBase
-    {
-        public $name$Command()
-            : base(""$desc$"")
-        {
-            //ShortcutKeys = Keys.Control | Keys.?;
+		: CommandBase
+	{
+		public $name$Command()
+			: base(""$desc$"")
+		{
+			//ShortcutKeys = Keys.Control | Keys.?;
 			//SmallImage = ImageResource.?;
 		}
 
-        public override void Execute()
-        {
-			
-        }
-    }";
+		public override void Execute()
+		{
+		}
+	}";
 
 			string code = template
 				.Replace("$name$", "OI")
 				.Replace("$desc$", "a thing");
 
-			var editor = Services.Container.Get<IQueryEditor>();
+			var editor = Services.Resolve<IQueryEditor>();
 			editor.AllText = code;
 			editor.SetSyntax("C#");
 

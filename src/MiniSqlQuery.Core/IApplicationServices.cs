@@ -8,27 +8,18 @@
 
 using System;
 using System.Collections.Generic;
-using Ninject;
 
 namespace MiniSqlQuery.Core
 {
 	/// <summary>
 	/// 	The core services of the application.
 	/// </summary>
-	public interface IApplicationServices
+	public interface IApplicationServices : IDisposable
 	{
 		/// <summary>
 		/// 	Occurs when a system message is posted.
 		/// </summary>
 		event EventHandler<SystemMessageEventArgs> SystemMessagePosted;
-
-		/// <summary>
-		/// 	Gets the Dependency Injection container.
-		/// 	This container holds all major application components and plugins.
-		/// 	See the "Configuration.xml" file in the main application for settings.
-		/// </summary>
-		/// <value>The container.</value>
-		IKernel Container { get; }
 
 		/// <summary>
 		/// 	Gets the application host window.
@@ -125,10 +116,10 @@ namespace MiniSqlQuery.Core
 		/// <returns>An instance of the type depending on the containters configuration.</returns>
 		T Resolve<T>();
 
-        /// <summary>
-        /// Remove the component by name.
-        /// </summary>
-        /// <returns>True on success.</returns>
-	    void RemoveComponent<TImp>();
+		/// <summary>
+		/// Remove the component by name.
+		/// </summary>
+		/// <returns>True on success.</returns>
+		void RemoveComponent<TImp>();
 	}
 }

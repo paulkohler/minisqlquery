@@ -16,12 +16,21 @@ using NUnit.Framework;
 
 namespace MiniSqlQuery.Tests
 {
-	[TestFixture(Description = "Requires AdventureWorks DB")]
-	[Category("Functional")]
+	[TestFixture(Description = "Requires AdventureWorks DB", Category = "Functional, QueryRunner", TestOf = typeof(QueryRunner))]
 	public class QueryRunnerTests
 	{
 		private string _conn = @"Server=.; Database=AdventureWorks; Integrated Security=SSPI";
 		private QueryRunner _runner;
+
+		[SetUp]
+		public void TestSetUp()
+		{
+			var connectionTestException = QueryRunner.TestDbConnection("System.Data.SqlClient", _conn);
+			if (connectionTestException != null)
+				throw connectionTestException;
+
+			_runner = QueryRunner.Create(DbProviderFactories.GetFactory("System.Data.SqlClient"), _conn, true, 30);
+		}
 
 		[Test]
 		public void Bad_SQL_expects_an_error()
@@ -57,19 +66,19 @@ namespace MiniSqlQuery.Tests
 		}
 
 		[Test]
-		[ExpectedException(typeof(InvalidOperationException), ExpectedMessage = "Supply a connection.")]
 		public void No_connection_expects_error_on_Execute()
 		{
 			_runner = new QueryRunner(DbProviderFactories.GetFactory("System.Data.SqlClient"), null, true, 30);
-			_runner.ExecuteQuery(" ");
+			Assert.That(()=>_runner.ExecuteQuery(" "), 
+				Throws.InstanceOf<InvalidOperationException>().With.Message.EqualTo("Supply a connection."));
 		}
 
 		[Test]
-		[ExpectedException(typeof(InvalidOperationException), ExpectedMessage = "Supply a provider.")]
 		public void No_provider_expects_error_on_Execute()
 		{
 			_runner = new QueryRunner(null, _conn, true, 30);
-			_runner.ExecuteQuery(" ");
+			Assert.That(() => _runner.ExecuteQuery(" "),
+				Throws.InstanceOf<InvalidOperationException>().With.Message.EqualTo("Supply a provider."));
 		}
 
 		[Test]
@@ -117,12 +126,6 @@ namespace MiniSqlQuery.Tests
 			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[4].ColumnName, Is.EqualTo("EmailAddress"));
 			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[5].ColumnName, Is.EqualTo("Phone"));
 			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[6].ColumnName, Is.EqualTo("BirthDate"));
-		}
-
-		[SetUp]
-		public void TestSetUp()
-		{
-			_runner = QueryRunner.Create(DbProviderFactories.GetFactory("System.Data.SqlClient"), _conn, true, 30);
 		}
 	}
 }
