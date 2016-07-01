@@ -30,83 +30,91 @@ namespace MiniSqlQuery.Core.DbModel
 		/// <value>The provider name.</value>
 		public string ProviderName { get; set; }
 
-		/// <summary>Gets a database object model that represents the items defined by the <paramref name="connection"/>.</summary>
-		/// <param name="connection">The connection string.</param>
-		/// <returns>An instance of <see cref="DbModelInstance"/> describing the database.</returns>
-		public virtual DbModelInstance GetDbObjectModel(string connection)
-		{
+        /// <summary>Gets a database object model that represents the items defined by the <paramref name="connection"/>.</summary>
+        /// <param name="connection">The connection string.</param>
+        /// <returns>An instance of <see cref="DbModelInstance"/> describing the database.</returns>
+        public virtual DbModelInstance GetDbObjectModel(string connection)
+        {
 
-			_connection = connection;
+            _connection = connection;
 
-			DbModelInstance model = new DbModelInstance();
-			DbProviderFactory factory = DbProviderFactories.GetFactory(ProviderName);
+            DbModelInstance model = new DbModelInstance();
+            DbProviderFactory factory = DbProviderFactories.GetFactory(ProviderName);
 
-			using (DbConnection dbConn = factory.CreateConnection())
-			{
-				dbConn.ConnectionString = connection;
-				dbConn.Open();
+            try
+            {
+                using (DbConnection dbConn = factory.CreateConnection())
+                {
+                    dbConn.ConnectionString = connection;
+                    dbConn.Open();
 
-				DataTable tables = dbConn.GetSchema("Tables");
-				Dictionary<string, DbModelType> dbTypes = GetDbTypes(dbConn);
-				model.Types = dbTypes;
-				model.ProviderName = ProviderName;
-				model.ConnectionString = _connection;
+                    DataTable tables = dbConn.GetSchema("Tables");
+                    Dictionary<string, DbModelType> dbTypes = GetDbTypes(dbConn);
+                    model.Types = dbTypes;
+                    model.ProviderName = ProviderName;
+                    model.ConnectionString = _connection;
 
-			    if (tables == null)
-			    {
-			        return model;
-			    }
+                    if (tables == null)
+                    {
+                        return model;
+                    }
+                    
+                    DataView tablesDV = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_SCHEMA, TABLE_NAME", DataViewRowState.CurrentRows);
 
-			    DataView tablesDV = new DataView(tables, "TABLE_TYPE='TABLE' OR TABLE_TYPE='BASE TABLE'", "TABLE_SCHEMA, TABLE_NAME", DataViewRowState.CurrentRows);
+                    foreach (DataRowView row in tablesDV)
+                    {
+                        string schemaName = SafeGetString(row.Row, "TABLE_SCHEMA");
+                        string tableName = SafeGetString(row.Row, "TABLE_NAME");
 
-				foreach (DataRowView row in tablesDV)
-				{
-					string schemaName = SafeGetString(row.Row, "TABLE_SCHEMA");
-					string tableName = SafeGetString(row.Row, "TABLE_NAME");
+                        DbModelTable dbTable = new DbModelTable { Schema = schemaName, Name = tableName };
+                        model.Add(dbTable);
 
-					DbModelTable dbTable = new DbModelTable {Schema = schemaName, Name = tableName};
-					model.Add(dbTable);
+                        DataTable schemaTableKeyInfo = GetTableKeyInfo(dbConn, schemaName, tableName);
+                        GetColumnsForTable(dbTable, schemaTableKeyInfo, dbTypes);
+                    }
 
-					DataTable schemaTableKeyInfo = GetTableKeyInfo(dbConn, schemaName, tableName);
-					GetColumnsForTable(dbTable, schemaTableKeyInfo, dbTypes);
-				}
+                    DataView viewsDV = new DataView(tables, "TABLE_TYPE='VIEW'", "TABLE_SCHEMA, TABLE_NAME", DataViewRowState.CurrentRows);
+                    foreach (DataRowView row in viewsDV)
+                    {
+                        string schemaName = SafeGetString(row.Row, "TABLE_SCHEMA");
+                        string tableName = SafeGetString(row.Row, "TABLE_NAME");
 
-				DataView viewsDV = new DataView(tables, "TABLE_TYPE='VIEW'", "TABLE_SCHEMA, TABLE_NAME", DataViewRowState.CurrentRows);
-				foreach (DataRowView row in viewsDV)
-				{
-					string schemaName = SafeGetString(row.Row, "TABLE_SCHEMA");
-					string tableName = SafeGetString(row.Row, "TABLE_NAME");
+                        DbModelView dbTable = new DbModelView { Schema = schemaName, Name = tableName };
+                        model.Add(dbTable);
 
-					DbModelView dbTable = new DbModelView {Schema = schemaName, Name = tableName};
-					model.Add(dbTable);
+                        DataTable schemaTableKeyInfo = GetTableKeyInfo(dbConn, schemaName, tableName);
+                        GetColumnsForTable(dbTable, schemaTableKeyInfo, dbTypes);
+                    }
 
-					DataTable schemaTableKeyInfo = GetTableKeyInfo(dbConn, schemaName, tableName);
-					GetColumnsForTable(dbTable, schemaTableKeyInfo, dbTypes);
-				}
+                    // build FK relationships 
+                    if (model.Tables != null)
+                    {
+                        foreach (DbModelTable table in model.Tables)
+                        {
+                            GetForeignKeyReferencesForTable(dbConn, table);
+                            ProcessForeignKeyReferencesForTable(dbConn, table);
+                        }
+                    }
 
-				// build FK relationships 
-			    if (model.Tables != null)
-			    {
-			        foreach (DbModelTable table in model.Tables)
-			        {
-			            GetForeignKeyReferencesForTable(dbConn, table);
-			            ProcessForeignKeyReferencesForTable(dbConn, table);
-			        }
-			    }
+                    // build FK relationships
+                    if (model.Views != null)
+                    {
+                        foreach (DbModelView view in model.Views)
+                        {
+                            GetForeignKeyReferencesForTable(dbConn, view);
+                            ProcessForeignKeyReferencesForTable(dbConn, view);
+                        }
+                    }
+                }
+            }
+            catch (Exception exp)
+            {
+                // catch all for providers that are not implementing the schema info.
+                return model;
+            }
 
-			    // build FK relationships
-			    if (model.Views != null)
-			    {
-			        foreach (DbModelView view in model.Views)
-			        {
-			            GetForeignKeyReferencesForTable(dbConn, view);
-			            ProcessForeignKeyReferencesForTable(dbConn, view);
-			        }
-			    }
-			}
-
-			return model;
-		}
+            return model;
+        }
 
 		/// <summary>The get db types.</summary>
 		/// <param name="connection">The connection.</param>
