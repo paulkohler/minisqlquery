@@ -19,7 +19,7 @@ namespace MiniSqlQuery.Core.Commands
 		/// 	Initializes a new instance of the <see cref = "ShowHelpCommand" /> class.
 		/// </summary>
 		public ShowHelpCommand()
-			: base("&Index (github.com/paul-kohler-au/minisqlquery)", "https://github.com/paul-kohler-au/minisqlquery", ImageResource.help)
+			: base("&Index (github.com ... Quickstart.md)", "https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Docs/Quickstart.md", ImageResource.help)
 		{
 		}
 	}
