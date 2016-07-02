@@ -117,8 +117,8 @@ namespace MiniSqlQuery.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to MINI SQL QUERY LICENSE
-        ///PK Software - Paul Kohler
-        ///paul@pksoftware.net
+        ///VIRIDIS Software - Paul Kohler
+        ///paul@viridissoftware.com.au
         ///
         ///----------------------------------------------------------------------
         ///
@@ -170,7 +170,7 @@ namespace MiniSqlQuery.Properties {
         ///	&lt;/h3&gt;
         ///	&lt;blockquote&gt;
         ///		&lt;p&gt;
-        ///			&quot;&lt;b&gt;Mini SQL Query&lt;/b&gt; from &lt;b&gt;PK Software&lt; [rest of string was truncated]&quot;;.
+        ///			&quot;&lt;b&gt;Mini SQL Query&lt;/b&gt; from &lt;b&gt;VIRIDIS Software&lt; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ReadMe {
             get {
@@ -199,7 +199,7 @@ namespace MiniSqlQuery.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot;?&gt;
         ///&lt;!-- 
-        ///Copyright 2005-2009 Paul Kohler (http://pksoftware.net/MiniSqlQuery/). All rights reserved.
+        ///Copyright 2005-2009 Paul Kohler (https://github.com/paul-kohler-au/minisqlquery). All rights reserved.
         ///This source code is made available under the terms of the Microsoft Public License (Ms-PL)
         ///http://minisqlquery.codeplex.com/license
         ///--&gt;

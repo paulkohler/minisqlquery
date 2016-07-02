@@ -12,7 +12,7 @@
     <dependencies>
         <dependencyItem depPath=".\References\*.*" />
     </dependencies>
-    <ProjectSummary>Mini SQL Query tool from PK Software.</ProjectSummary>
+    <ProjectSummary>Mini SQL Query tool from VIRIDIS Software.</ProjectSummary>
     <MissingTags>Summary, Parameter, Returns, AutoDocumentCtors, Namespace</MissingTags>
     <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Protected, SealedProtected</VisibleItems>
     <HtmlHelp1xCompilerPath path="C:\Program Files\HTML Help Workshop\" />
@@ -34,9 +34,9 @@
     <HelpTitle>Mini SQL Query Extensibility Documentation</HelpTitle>
     <HtmlHelpName>MiniSqlQueryExtensibilityDocumentation</HtmlHelpName>
     <Language>en-US</Language>
-    <CopyrightHref>http://www.pksoftware.net/MiniSqlQuery/</CopyrightHref>
-    <CopyrightText>PK Software (Paul Kohler)</CopyrightText>
-    <FeedbackEMailAddress>minisqlquery-feedback@pksoftware.net</FeedbackEMailAddress>
+    <CopyrightHref>https://github.com/paul-kohler-au/minisqlquery/</CopyrightHref>
+    <CopyrightText>VIRIDIS Software (Paul Kohler)</CopyrightText>
+    <FeedbackEMailAddress>paul@viridissoftware.com.au</FeedbackEMailAddress>
     <HeaderText />
     <FooterText />
     <ProjectLinkType>Local</ProjectLinkType>

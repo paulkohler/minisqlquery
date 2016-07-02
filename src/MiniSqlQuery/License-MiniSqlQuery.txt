@@ -1,6 +1,6 @@
 MINI SQL QUERY LICENSE
-PK Software - Paul Kohler
-paul@pksoftware.net
+VIRIDIS Software - Paul Kohler
+paul@viridissoftware.com.au
 
 ----------------------------------------------------------------------
 

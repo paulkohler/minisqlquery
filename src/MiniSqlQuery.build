@@ -15,7 +15,7 @@ Build file for Mini SQL Query.
   <property name="project.release.type" value="Release - No Tests"/>
   <property name="nant.settings.currentframework" value="net-4.0" />
   
-  <property name="project.description" value="Mini SQL Query from PK Software is a minimalist SQL query tool for multiple providers (MSSQL, Oracle, OLEDB, MS Access files etc). The goal of the Mini SQL Query tool is to allow a developer or trouble-shooter to quickly diagnose issues or make changes to a database using a tool with a small footprint, that is fast and easy to use." />
+  <property name="project.description" value="Mini SQL Query from VIRIDIS Software is a minimalist SQL query tool for multiple providers (MSSQL, Oracle, OLEDB, MS Access files etc). The goal of the Mini SQL Query tool is to allow a developer or trouble-shooter to quickly diagnose issues or make changes to a database using a tool with a small footprint, that is fast and easy to use." />
   <property name="create.assemblyinfo" value="true" />
 
 	<property name="dnfx-base" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\"/>
