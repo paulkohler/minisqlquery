@@ -8,7 +8,7 @@ Latest Release...
 
 Full release with templates etc:
 
-**[https://github.com/paul-kohler-au/minisqlquery/releases/latest](https://github.com/paul-kohler-au/minisqlquery/releases/latest)**
+**[https://github.com/paulkohler/minisqlquery/releases](https://github.com/paulkohler/minisqlquery/releases)**
 
 
 What is Mini SQL Query
@@ -35,7 +35,7 @@ Quickstart
 
 For a quick run down, see:
 
-**[https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Docs/Quickstart.md](https://github.com/paul-kohler-au/minisqlquery/blob/master/src/Docs/Quickstart.md)**
+**[https://github.com/paulkohler/minisqlquery/blob/master/src/Docs/Quickstart.md](https://github.com/paulkohler/minisqlquery/blob/master/src/Docs/Quickstart.md)**
 
 
 Sponsored by VIRIDIS Software PTY LTD
