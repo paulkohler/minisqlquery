@@ -152,6 +152,9 @@ namespace MiniSqlQuery.Core
 			DbDataAdapter adapter = null;
 			_command = null;
 			Query query;
+			
+			// In the case of connection errors the error messages were getting lost, provide a default batch object:
+			Batch = new QueryBatch(sql);
 
 			try
 			{
