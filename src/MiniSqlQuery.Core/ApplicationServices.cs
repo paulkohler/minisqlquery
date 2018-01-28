@@ -242,7 +242,17 @@ namespace MiniSqlQuery.Core
             _container.Unbind<TImp>();
         }
 
-		/// <summary>
+	    /// <summary>
+	    /// Gets the value of an environment variable.
+	    /// </summary>
+	    /// <param name="variableName">The name of the envoronment variable.</param>
+	    /// <returns>The variable value (if found).</returns>
+        public string GetEnvironmentVariable(string variableName)
+	    {
+	        return Environment.GetEnvironmentVariable(variableName);
+	    }
+
+	    /// <summary>
 		/// 	Resolves an instance of <typeparamref name = "T" /> from the container.
 		/// </summary>
 		/// <typeparam name = "T">The type of object to resolve, can be an interface or class.</typeparam>

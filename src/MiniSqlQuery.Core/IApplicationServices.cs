@@ -130,5 +130,12 @@ namespace MiniSqlQuery.Core
         /// </summary>
         /// <returns>True on success.</returns>
 	    void RemoveComponent<TImp>();
+
+        /// <summary>
+        /// Gets the value of an environment variable.
+        /// </summary>
+        /// <param name="variableName">The name of the envoronment variable.</param>
+        /// <returns>The variable value (if found).</returns>
+	    string GetEnvironmentVariable(string variableName);
 	}
 }
