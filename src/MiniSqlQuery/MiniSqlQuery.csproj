@@ -109,6 +109,7 @@
     <Compile Include="Commands\SaveFileAsCommand.cs" />
     <Compile Include="Commands\SaveFileCommand.cs" />
     <Compile Include="Commands\SaveResultsAsDataSetCommand.cs" />
+    <Compile Include="Commands\SetGlobalFilenameCommand.cs" />
     <Compile Include="Commands\ShowAboutCommand.cs" />
     <Compile Include="Commands\ShowOptionsFormCommand.cs" />
     <Compile Include="CopyForm.cs">
