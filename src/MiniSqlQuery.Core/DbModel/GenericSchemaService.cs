@@ -107,7 +107,7 @@ namespace MiniSqlQuery.Core.DbModel
                     }
                 }
             }
-            catch (Exception exp)
+            catch (Exception)
             {
                 // catch all for providers that are not implementing the schema info.
                 return model;
@@ -330,7 +330,7 @@ namespace MiniSqlQuery.Core.DbModel
 
                 return result;
             }
-            catch (OverflowException err)
+            catch (OverflowException)
             {
                 // In Oracle Maximum size for column is larger than Max Int32, instead of changing return value, just coerce on Max.Int32.
 
