@@ -4,7 +4,7 @@ Mini SQL Query
 Latest Release...
 -----------------
 
-[![Build status](https://ci.appveyor.com/api/projects/status/vticgtddj5opff2h?svg=true)](https://ci.appveyor.com/project/paul-kohler-au/minisqlquery)
+[![Build status](https://ci.appveyor.com/api/projects/status/ch8mi43xy99epy7l/branch/master?svg=true)](https://ci.appveyor.com/project/paul-kohler-au/minisqlquery-238no/branch/master)
 
 Full release with templates etc:
 
@@ -14,9 +14,12 @@ Full release with templates etc:
 What is Mini SQL Query
 ----------------------
 
-Mini SQL Query is a query tool that makes use of any available .NET DB Provider on your system. It aims to satisfy the most common tasks what the average user seeks to achieve, in doing so it keeps the size and complexity of the application to a minimum. 
+> Mini SQL Query is a query tool that makes use of any available .NET DB Provider on your system. It aims to satisfy the most common tasks what the average user seeks to achieve, in doing so it keeps the size and complexity of the application to a minimum. 
 
-Some Core features: 
+![Mini SQL Query](src/Docs/Mini-SQL-Query--AdventureWorks.png)
+
+Some Core features:
+
 * Supports multiple databases** (MSSQL, SQL Compact Edition, MS Access, SQLite, Oracle, OLEDB, SharePoint - http://blog.bendsoft.com/2013/01/minisqlquery-with-sharepoint-connector-3-0/ etc)
 * Integrated text templating system for generating SQL, code or data scripts
 * Syntax highlighting (with printing support)
@@ -26,9 +29,9 @@ Some Core features:
 * Basic query generation
 * Extensible programming model
 
-**Note that all these types of connections depend on your system configuration**
+**Note that all these types of connections depend on your system configuration (e.g. SQL CE may require an installation)**
 
-Note that the target audience for this tool is not developers who tend to only deal with MSSQL, it's geared towards having to hit several different database sources...
+Note that the target audience for this tool is not developers who tend to mainly deal with MSSQL, it's geared towards having to hit several different database sources, import and export code, the need to quickly customizing export transforms etc...
 
 Quickstart
 ==========
