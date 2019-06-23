@@ -14,24 +14,24 @@ Build file for Mini SQL Query.
   <!-- The release build is the 'public distribution', its should not incude test DLLs -->
   <property name="project.release.type" value="Release - No Tests"/>
   <property name="nant.settings.currentframework" value="net-4.0" />
-  
+
   <property name="project.description" value="Mini SQL Query from VIRIDIS Software is a minimalist SQL query tool for multiple providers (MSSQL, Oracle, OLEDB, MS Access files etc). The goal of the Mini SQL Query tool is to allow a developer or trouble-shooter to quickly diagnose issues or make changes to a database using a tool with a small footprint, that is fast and easy to use." />
   <property name="create.assemblyinfo" value="true" />
 
-	<property name="dnfx-base" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\"/>
-	<property name="release-base" value="${project::get-base-directory()}\"/>
+  <property name="dnfx-base" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\"/>
+  <property name="release-base" value="${project::get-base-directory()}\"/>
   <property name="release-build-dir" value="${release-base}ReleaseBuild\"/>
   <property name="release-distro-dir" value="${release-base}DISTRO\"/>
   <property name="release-sdk-dir" value="${release-base}SDK\"/>
   <property name="release-contrib-dir" value="${release-base}Contrib\"/>
   <property name="release-help-api-dir" value="${release-base}Help\API\"/>
-  
+
   <target name="full-build" depends="create-common-assemblyinfo,build,copy-licences" description="" />
   <target name="distro" depends="create-common-assemblyinfo,build,copy-licences,build-api-docs,zip-release-build" description="" />
 
   <target name="build" description="compiles the source code for a distribution.">
     <delete dir="${release-build-dir}" />
-	<!--<solution configuration="${project.release.type}" solutionfile="${project.name}.sln" outputdir="${release-build-dir}" verbose="true" />-->
+    <!--<solution configuration="${project.release.type}" solutionfile="${project.name}.sln" outputdir="${release-build-dir}" verbose="true" />-->
 
     <exec program="msbuild.exe" basedir="${dnfx-base}" verbose="true">
       <arg value="${project.name}.sln" />
