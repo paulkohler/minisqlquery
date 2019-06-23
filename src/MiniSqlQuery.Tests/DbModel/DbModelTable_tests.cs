@@ -35,14 +35,14 @@ namespace MiniSqlQuery.Tests.DbModel
 		[Test]
 		public void Can_find_tables_by_name()
 		{
-			var table = _model.FindTable("StaffUnit");
+			var table = _model.FindTable("[StaffUnit]");
 			Assert.That(table, Is.Not.Null);
 		}
 
 		[Test]
 		public void Returns_null_if_cant_find_table_by_name()
 		{
-			var table = _model.FindTable("foo");
+			var table = _model.FindTable("[foo]");
 			Assert.That(table, Is.Null);
 		}
 	}

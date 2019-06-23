@@ -38,19 +38,19 @@ namespace MiniSqlQuery.Tests.DbModel
 		[Test]
 		public void Has_Customers_table()
 		{
-			Assert.That(_model.FindTable("Customers"), Is.Not.Null);
+			Assert.That(_model.FindTable("[Customers]"), Is.Not.Null);
 		}
 
 		[Test]
 		public void Has_Categories_table()
 		{
-			Assert.That(_model.FindTable("Categories"), Is.Not.Null);
+			Assert.That(_model.FindTable("[Categories]"), Is.Not.Null);
 		}
 
 		[Test]
 		public void Customers_table_has_columns()
 		{
-			var table = _model.FindTable("Customers");
+			var table = _model.FindTable("[Customers]");
 			Assert.That(table.Columns[0].Name, Is.EqualTo("Customer ID"));
 			Assert.That(table.Columns[0].DbType.Name, Is.EqualTo("nvarchar"));
 			Assert.That(table.Columns[0].DbType.Length, Is.EqualTo(5));
@@ -61,7 +61,7 @@ namespace MiniSqlQuery.Tests.DbModel
 		[Test]
 		public void Check_FK_refs_for_Products()
 		{
-			var table = _model.FindTable("Products");
+			var table = _model.FindTable("[Products]");
 			var supplierIdColumn = table.Columns[1];
 			var categoryIdColumn = table.Columns[2];
 			var productNameColumn = table.Columns[3];
