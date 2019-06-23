@@ -13,6 +13,7 @@
 /src/MiniSqlQuery.Tests/obj/Debug
 /src/_ReSharper*/*
 /src/.vs/MiniSqlQuery/v15/Server/sqlite3
+/src/Contrib/.vs/MiniSqlQuery.Contrib/v15/Server/sqlite3
 *.cache
 *.suo
 *.user
