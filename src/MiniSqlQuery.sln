@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		MiniSqlQuery.shfbproj = MiniSqlQuery.shfbproj
 		MiniSqlQueryQuickStart.docx = MiniSqlQueryQuickStart.docx
 		ReadMe.htm = ReadMe.htm
+		..\README.md = ..\README.md
 		Settings.StyleCop = Settings.StyleCop
 	EndProjectSection
 EndProject
@@ -58,7 +59,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3265AC06-3372-4BE3-ADC4-D8E610E2A802}
+		SolutionGuid = {1BE5151B-BE10-4139-9AC3-0E1188A44B04}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
