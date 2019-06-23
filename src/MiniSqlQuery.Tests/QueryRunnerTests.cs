@@ -20,7 +20,11 @@ namespace MiniSqlQuery.Tests
 	[Category("Functional")]
 	public class QueryRunnerTests
 	{
-		private string _conn = @"Server=.; Database=AdventureWorks; Integrated Security=SSPI";
+        /// <summary>
+        /// See "AdventureWorks (OLTP) full database backups":
+        /// https://github.com/Microsoft/sql-server-samples/releases/tag/adventureworks
+        /// </summary>
+		private string _conn = @"Server=.; Database=AdventureWorks2014; Integrated Security=SSPI";
 		private QueryRunner _runner;
 
 		[Test]
@@ -75,13 +79,13 @@ namespace MiniSqlQuery.Tests
 		[Test]
 		public void Run_a_basic_query()
 		{
-			string sql = "SELECT EmployeeID, BirthDate FROM HumanResources.Employee";
+			string sql = "SELECT BusinessEntityID, BirthDate FROM HumanResources.Employee";
 			_runner.ExecuteQuery(sql);
 
 			Assert.That(_runner.Batch, Is.Not.Null);
 			Assert.That(_runner.Batch.Queries.Count, Is.EqualTo(1));
 			Assert.That(_runner.Batch.Queries[0].Result, Is.Not.Null);
-			Assert.That(_runner.Batch.Queries[0].Result.Tables[0].Columns[0].ColumnName, Is.EqualTo("EmployeeID"));
+			Assert.That(_runner.Batch.Queries[0].Result.Tables[0].Columns[0].ColumnName, Is.EqualTo("BusinessEntityID"));
 			Assert.That(_runner.Batch.Queries[0].Result.Tables[0].Columns[1].ColumnName, Is.EqualTo("BirthDate"));
 		}
 
@@ -89,15 +93,18 @@ namespace MiniSqlQuery.Tests
 		public void Run_a_batched_query()
 		{
 			string sql =
-				@"
+                @"
 				-- batch 1, 2 queries
-				SELECT EmployeeID, BirthDate FROM HumanResources.Employee
-				SELECT c.ContactID, c.Title FROM   Person.Contact c
+				SELECT BusinessEntityID, BirthDate FROM HumanResources.Employee
+				SELECT ct.ContactTypeID, ct.Name   FROM Person.ContactType ct
 				GO
 
 				-- batch 2, 1 query
-				SELECT c.ContactID AS id, c.Title, c.FirstName, c.LastName, c.EmailAddress, c.Phone, e.BirthDate
-				FROM   Person.Contact c INNER JOIN HumanResources.Employee e ON c.ContactID = e.ContactID
+				SELECT p.BusinessEntityID AS id, p.Title, p.FirstName, p.LastName, ea.EmailAddress, pp.PhoneNumber, e.BirthDate
+				FROM   Person.Person p
+				         INNER JOIN HumanResources.Employee e ON p.BusinessEntityID = e.BusinessEntityID
+				         INNER JOIN Person.EmailAddress ea ON p.BusinessEntityID = ea.BusinessEntityID
+				         INNER JOIN Person.PersonPhone pp ON p.BusinessEntityID = pp.BusinessEntityID
 				WHERE  e.BirthDate >= '1 jan 1975' ";
 			_runner.ExecuteQuery(sql);
 
@@ -106,7 +113,7 @@ namespace MiniSqlQuery.Tests
 			Assert.That(_runner.Batch.Queries[0].Result, Is.Not.Null);
 
 			Assert.That(_runner.Batch.Queries[0].Result.Tables.Count, Is.EqualTo(2));
-			Assert.That(_runner.Batch.Queries[0].Result.Tables[0].Columns[0].ColumnName, Is.EqualTo("EmployeeID"));
+			Assert.That(_runner.Batch.Queries[0].Result.Tables[0].Columns[0].ColumnName, Is.EqualTo("BusinessEntityID"));
 			Assert.That(_runner.Batch.Queries[0].Result.Tables[0].Columns[1].ColumnName, Is.EqualTo("BirthDate"));
 
 			Assert.That(_runner.Batch.Queries[1].Result.Tables.Count, Is.EqualTo(1));
@@ -115,7 +122,7 @@ namespace MiniSqlQuery.Tests
 			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[2].ColumnName, Is.EqualTo("FirstName"));
 			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[3].ColumnName, Is.EqualTo("LastName"));
 			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[4].ColumnName, Is.EqualTo("EmailAddress"));
-			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[5].ColumnName, Is.EqualTo("Phone"));
+			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[5].ColumnName, Is.EqualTo("PhoneNumber"));
 			Assert.That(_runner.Batch.Queries[1].Result.Tables[0].Columns[6].ColumnName, Is.EqualTo("BirthDate"));
 		}
 
