@@ -8,7 +8,7 @@ Latest Release...
 
 Full release with templates etc:
 
-**[https://github.com/paulkohler/minisqlquery/releases](https://github.com/paulkohler/minisqlquery/releases)**
+**[https://github.com/paulkohler/minisqlquery/releases/latest](https://github.com/paulkohler/minisqlquery/releases/latest)**
 
 
 What is Mini SQL Query
