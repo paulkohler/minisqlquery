@@ -32,7 +32,7 @@ namespace MiniSqlQuery.Commands
 
 			if (batchProvider == null)
 			{
-				HostWindow.DisplaySimpleMessageBox(null, "No reults to save as a 'DataSet'.", "Save Results as DataSet XML Error");
+				HostWindow.DisplaySimpleMessageBox(null, "No results to save as a 'DataSet'.", "Save Results as DataSet XML Error");
 			}
 			else
 			{
@@ -70,7 +70,7 @@ namespace MiniSqlQuery.Commands
 					if (saveFileDialog.ShowDialog(HostWindow.Instance) == DialogResult.OK)
 					{
 						ds.WriteXml(saveFileDialog.FileName, XmlWriteMode.WriteSchema);
-						string msg = string.Format("Saved reults to file: '{0}'", saveFileDialog.FileName);
+						string msg = string.Format("Saved results to file: '{0}'", saveFileDialog.FileName);
 						HostWindow.SetStatus(HostWindow.ActiveChildForm, msg);
 					}
 				}
