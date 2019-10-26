@@ -34,7 +34,7 @@
     <HelpTitle>Mini SQL Query Extensibility Documentation</HelpTitle>
     <HtmlHelpName>MiniSqlQueryExtensibilityDocumentation</HtmlHelpName>
     <Language>en-US</Language>
-    <CopyrightHref>https://github.com/paul-kohler-au/minisqlquery/</CopyrightHref>
+    <CopyrightHref>https://github.com/paulkohler/minisqlquery/</CopyrightHref>
     <CopyrightText>VIRIDIS Software (Paul Kohler)</CopyrightText>
     <FeedbackEMailAddress>paul@viridissoftware.com.au</FeedbackEMailAddress>
     <HeaderText />

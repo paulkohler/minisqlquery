@@ -29,7 +29,7 @@
     <HelpFileFormat>Help1xAndWebsite</HelpFileFormat>
     <FrameworkVersion>2.0.50727</FrameworkVersion>
     <HelpTitle>Mini SQL Query Extensibility Documentation</HelpTitle>
-    <CopyrightHref>https://github.com/paul-kohler-au/minisqlquery</CopyrightHref>
+    <CopyrightHref>https://github.com/paulkohler/minisqlquery</CopyrightHref>
     <CopyrightText>Paul Kohler</CopyrightText>
     <FeedbackEMailAddress>paul%40viridissoftware.com.au</FeedbackEMailAddress>
     <PresentationStyle>Prototype</PresentationStyle>
