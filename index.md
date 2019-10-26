@@ -36,12 +36,3 @@ Quickstart
 For a quick run down, see:
 
 **[https://github.com/paulkohler/minisqlquery/blob/master/src/Docs/Quickstart.md](https://github.com/paulkohler/minisqlquery/blob/master/src/Docs/Quickstart.md)**
-
-
-Sponsored by VIRIDIS Software PTY LTD
--------------------------------------
-
-[http://viridissoftware.com.au/](http://viridissoftware.com.au/)
-
-If you use MSMQ, make sure you check out *"MSMQ Inspector" - [http://viridissoftware.com.au/Products/MSMQInspector](http://viridissoftware.com.au/Products/MSMQInspector)
-
