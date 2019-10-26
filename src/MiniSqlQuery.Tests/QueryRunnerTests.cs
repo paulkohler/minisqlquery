@@ -61,20 +61,20 @@ namespace MiniSqlQuery.Tests
 		}
 
 		[Test]
-		[ExpectedException(typeof(InvalidOperationException), ExpectedMessage = "Supply a connection.")]
 		public void No_connection_expects_error_on_Execute()
 		{
 			_runner = new QueryRunner(DbProviderFactories.GetFactory("System.Data.SqlClient"), null, true, 30);
-			_runner.ExecuteQuery(" ");
+            var exp = Assert.Throws<InvalidOperationException>(() => _runner.ExecuteQuery(" "));
+            Assert.That(exp.Message, Is.EqualTo("Supply a connection."));
 		}
 
 		[Test]
-		[ExpectedException(typeof(InvalidOperationException), ExpectedMessage = "Supply a provider.")]
 		public void No_provider_expects_error_on_Execute()
 		{
 			_runner = new QueryRunner(null, _conn, true, 30);
-			_runner.ExecuteQuery(" ");
-		}
+            var exp = Assert.Throws<InvalidOperationException>(() => _runner.ExecuteQuery(" "));
+            Assert.That(exp.Message, Is.EqualTo("Supply a provider."));
+        }
 
 		[Test]
 		public void Run_a_basic_query()
