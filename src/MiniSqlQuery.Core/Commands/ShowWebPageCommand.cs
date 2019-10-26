@@ -19,7 +19,7 @@ namespace MiniSqlQuery.Core.Commands
 		/// 	Initializes a new instance of the <see cref = "ShowWebPageCommand" /> class.
 		/// </summary>
 		public ShowWebPageCommand()
-			: base("Mini SQL Query on Codeplex", "http://minisqlquery.codeplex.com/", ImageResource.house)
+			: base("Mini SQL Query on GitHub", "https://github.com/paulkohler/minisqlquery", ImageResource.house)
 		{
 		}
 	}
