@@ -197,9 +197,9 @@ namespace MiniSqlQuery.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot;?&gt;
         ///&lt;!-- 
-        ///Copyright 2005-2009 Paul Kohler (https://github.com/paul-kohler-au/minisqlquery). All rights reserved.
-        ///This source code is made available under the terms of the Microsoft Public License (Ms-PL)
-        ///http://minisqlquery.codeplex.com/license
+        ///Copyright 2005-2019 Paul Kohler (https://github.com/paulkohler/minisqlquery). All rights reserved.
+        ///This source code is made available under the terms of the GNU Lesser General Public License v3.0
+        ///https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
         ///--&gt;
         ///&lt;SyntaxDefinition name = &quot;SQL&quot; extensions = &quot;.sql&quot;&gt;
         ///	&lt;Properties&gt;
