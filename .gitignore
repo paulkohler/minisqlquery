@@ -9,8 +9,8 @@
 /src/TestDatabases
 /src/MiniSqlQuery.Core/obj/*
 /src/Contrib/MiniSqlQuery.Exports.Plugin/obj/*
-/src/MiniSqlQuery.Tests/bin/Debug
-/src/MiniSqlQuery.Tests/obj/Debug
+/src/MiniSqlQuery.Tests/bin/
+/src/MiniSqlQuery.Tests/obj/
 /src/_ReSharper*/*
 /src/.vs/MiniSqlQuery/v15/Server/sqlite3
 /src/Contrib/.vs/MiniSqlQuery.Contrib/v15/Server/sqlite3
