@@ -58,7 +58,8 @@ select 1"));
 			Assert.That(batch.Queries.Count, Is.EqualTo(0));
 		}
 
-		[Test, Explicit("Needs a fair bit of work to pass...")]
+		[Test]
+        [Ignore("Needs a fair bit of work to pass...")]
 		public void Batch_indicators_on_a_line_alone_cause_issues()
 		{
 			var batch = QueryBatch.Parse(@"-- issue...

@@ -32,8 +32,8 @@ namespace MiniSqlQuery.Tests.DbModel
 		#endregion
 
 		private SqlCeSchemaService _service;
-		private string _connStr  = @"data source=|DataDirectory|\sqlce-test.sdf";
-		private string _providerName = "System.Data.SqlServerCe.3.5";
+		private string _connStr  = @"data source=|DataDirectory|\sqlce-test.v4.sdf";
+		private string _providerName = "System.Data.SqlServerCe.4.0";
 		Dictionary<string, DbModelType> _dbTypes;
 
 		[Test]
@@ -51,20 +51,30 @@ namespace MiniSqlQuery.Tests.DbModel
 			Assert.That(dbType.CreateFormat, Is.EqualTo("nvarchar({0})"));
 			Assert.That(dbType.LiteralPrefix, Is.EqualTo("N'"));
 			Assert.That(dbType.LiteralSuffix, Is.EqualTo("'"));
-			// todo Assert.That(dbType.SystemType, Is.EqualTo(typeof(string)));
-		}
+            Assert.That(dbType.SystemType, Is.EqualTo(typeof(string)));
+        }
 
-		[Test, Explicit]
-		public void Decimal_type()
-		{
-			DbModelType dbType = _dbTypes["decimal"];
-			Assert.That(dbType.Name, Is.EqualTo("decimal").IgnoreCase);
-			Assert.That(dbType.CreateFormat, Is.EqualTo("decimal({0}, {1})"));
-			// todo Assert.That(dbType.SystemType, Is.EqualTo(typeof(decimal)));
-		}
+        [Test]
+        public void Money_type()
+        {
+            DbModelType dbType = _dbTypes["money"];
+            Assert.That(dbType.Name, Is.EqualTo("money").IgnoreCase);
+            Assert.That(dbType.Summary, Is.EqualTo("money"));
+            Assert.That(dbType.SystemType, Is.EqualTo(typeof(decimal)));
+        }
 
-		[Test, Explicit]
-		public void Show_all()
+        [Test]
+        public void Float_type()
+        {
+            DbModelType dbType = _dbTypes["float"];
+            Assert.That(dbType.Name, Is.EqualTo("float").IgnoreCase);
+            Assert.That(dbType.Summary, Is.EqualTo("float"));
+            Assert.That(dbType.SystemType, Is.EqualTo(typeof(double)));
+        }
+
+        [Test]
+        [Ignore("run this manually if needed, just a helper")]
+        public void Show_all()
 		{
 			List<DbModelType> ary = new List<DbModelType>(_dbTypes.Values);
 			foreach (var dbModelType in ary)

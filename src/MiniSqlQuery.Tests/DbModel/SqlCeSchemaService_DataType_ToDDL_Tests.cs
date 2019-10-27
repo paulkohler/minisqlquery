@@ -33,8 +33,8 @@ namespace MiniSqlQuery.Tests.DbModel
 		#endregion
 
 		private SqlCeSchemaService _service;
-		private string _connStr = @"data source=|DataDirectory|\sqlce-test.sdf";
-		private string _providerName = "System.Data.SqlServerCe.3.5";
+		private string _connStr = @"data source=|DataDirectory|\sqlce-test.v4.sdf";
+		private string _providerName = "System.Data.SqlServerCe.4.0";
 		Dictionary<string, DbModelType> _dbTypes;
 
 		[Test]

@@ -16,15 +16,20 @@ using NUnit.Framework;
 
 namespace MiniSqlQuery.Tests
 {
+    /// <summary>
+    /// SQL Server tests against the "AdventureWorks" example DB.
+    /// 
+    /// You will need a copy of the databse installed to the local system for these tests to work.
+    /// </summary>
 	[TestFixture(Description = "Requires AdventureWorks DB")]
 	[Category("Functional")]
 	public class QueryRunnerTests
 	{
         /// <summary>
-        /// See "AdventureWorks (OLTP) full database backups":
+        /// See "AdventureWorks2017.bak" under the heading "AdventureWorks (OLTP) full database backups":
         /// https://github.com/Microsoft/sql-server-samples/releases/tag/adventureworks
         /// </summary>
-		private string _conn = @"Server=.; Database=AdventureWorks2014; Integrated Security=SSPI";
+		private string _conn = @"Server=.; Database=AdventureWorks2017; Integrated Security=SSPI";
 		private QueryRunner _runner;
 
 		[Test]

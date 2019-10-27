@@ -104,7 +104,8 @@ Decimal  (System.Decimal)
 			Assert.That(copy.ToDDLValue(), Is.EqualTo("#17/12/2000 12:00:00 AM#"));
 		}
 
-		[Test, Explicit]
+		[Test]
+        [Ignore("run this manually")]
 		public void Show_all()
 		{
 			List<DbModelType> ary = new List<DbModelType>(_dbTypes.Values);

@@ -31,8 +31,8 @@ namespace MiniSqlQuery.Tests.DbModel
 		#endregion
 
 		private SqlCeSchemaService _service;
-		private string _connStr = @"data source=|DataDirectory|\Northwind.sdf";
-		private string _providerName = "System.Data.SqlServerCe.3.5";
+		private string _connStr = @"data source=|DataDirectory|\Northwind.v4.sdf";
+		private string _providerName = "System.Data.SqlServerCe.4.0";
 		private DbModelInstance _model;
 
 		[Test]
@@ -99,15 +99,33 @@ namespace MiniSqlQuery.Tests.DbModel
 			var tables = dependencyWalker.SortTablesByForeignKeyReferences();
 
 			DisplayTableDetails(tables);
-			
-			Assert.That(tables[0].Name, Is.EqualTo("Categories"));
+            /*
+                Categories (fks:0)
+                Customers (fks:0)
+                Employees (fks:0)
+                Order Details_New (fks:0)
+                Shippers (fks:0)
+                Suppliers (fks:0)
+                Orders (fks:3)
+                  (FK --> Customers.Customer ID)
+                  (FK --> Employees.Employee ID)
+                  (FK --> Shippers.Shipper ID)
+                Products (fks:2)
+                  (FK --> Suppliers.Supplier ID)
+                  (FK --> Categories.Category ID)
+                Order Details (fks:2)
+                  (FK --> Orders.Order ID)
+                  (FK --> Products.Product ID)
+             */
+
+            Assert.That(tables[0].Name, Is.EqualTo("Categories"));
 			Assert.That(tables[1].Name, Is.EqualTo("Customers"));
 			Assert.That(tables[2].Name, Is.EqualTo("Employees"));
-			Assert.That(tables[3].Name, Is.EqualTo("Shippers"));
-			Assert.That(tables[4].Name, Is.EqualTo("Suppliers"));
-			Assert.That(tables[5].Name, Is.EqualTo("Orders"), "Order is dependent on Customers, Employees, Shippers");
-			Assert.That(tables[6].Name, Is.EqualTo("Products"), "Products is dependent on Suppliers, Categories");
-			Assert.That(tables[7].Name, Is.EqualTo("Order Details"), "Order Details is dependent on Orders, Products");
+			Assert.That(tables[4].Name, Is.EqualTo("Shippers"));
+			Assert.That(tables[5].Name, Is.EqualTo("Suppliers"));
+			Assert.That(tables[6].Name, Is.EqualTo("Orders"), "Order is dependent on Customers, Employees, Shippers");
+			Assert.That(tables[7].Name, Is.EqualTo("Products"), "Products is dependent on Suppliers, Categories");
+			Assert.That(tables[8].Name, Is.EqualTo("Order Details"), "Order Details is dependent on Orders, Products");
 		}
 
 		private void DisplayTableDetails(DbModelTable[] tablesList)
