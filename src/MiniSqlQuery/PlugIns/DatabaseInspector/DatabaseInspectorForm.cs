@@ -451,7 +451,7 @@ namespace MiniSqlQuery.PlugIns.DatabaseInspector
 			catch (Exception exp)
 			{
 				string msg = string.Format(
-					"{0}\r\n\r\nCheck the connection and select 'Reset Database Connection'.", 
+					"{0}\r\n\r\nCheck the connection and select 'Refresh Database Connection'.", 
 					exp.Message);
 				_hostWindow.DisplaySimpleMessageBox(_hostWindow.Instance, msg, "DB Connection Error");
 				_hostWindow.SetStatus(this, exp.Message);
