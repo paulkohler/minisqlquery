@@ -360,7 +360,7 @@
       <Version>3.3.4</Version>
     </PackageReference>
     <PackageReference Include="NVelocity">
-      <Version>1.0.3</Version>
+      <Version>1.2.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
