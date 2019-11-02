@@ -442,16 +442,7 @@
       <Version>3.3.4</Version>
     </PackageReference>
     <PackageReference Include="System.Data.SQLite">
-      <Version>1.0.111</Version>
-    </PackageReference>
-    <PackageReference Include="System.Data.SQLite.Core">
-      <Version>1.0.111</Version>
-    </PackageReference>
-    <PackageReference Include="System.Data.SQLite.EF6">
-      <Version>1.0.111</Version>
-    </PackageReference>
-    <PackageReference Include="System.Data.SQLite.Linq">
-      <Version>1.0.111</Version>
+      <Version>1.0.112</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
