@@ -1,14 +1,14 @@
-﻿/Build/*
-/src/Build/*
-/src/ReleaseBuild/*
-/src/DISTRO/*
+﻿/Build
+/src/Build
+/src/ReleaseBuild
+/src/DISTRO
 
-/src/MiniSqlQuery/bin/*
-/src/MiniSqlQuery/obj/*
-/src/MiniSqlQuery.Core/bin/*
-/src/MiniSqlQuery.Core/obj/*
-/src/MiniSqlQuery.Tests/bin/
-/src/MiniSqlQuery.Tests/obj/
+/src/MiniSqlQuery/bin
+/src/MiniSqlQuery/obj
+/src/MiniSqlQuery.Core/bin
+/src/MiniSqlQuery.Core/obj
+/src/MiniSqlQuery.Tests/bin
+/src/MiniSqlQuery.Tests/obj
 
 /src/_ReSharper*/*
 
@@ -17,7 +17,8 @@
 *.user
 /src/.vs/
 
-/src/Contrib/MiniSqlQuery.Exports.Plugin/bin/*
-/src/Contrib/MiniSqlQuery.Exports.Plugin/obj/*
-/src/Contrib/MiniSqlQuery.ExternalTools.Plugin/obj/
-/src/Contrib/.vs/MiniSqlQuery.Contrib/*/Server/sqlite3/*
+/src/Contrib/MiniSqlQuery.Exports.Plugin/bin
+/src/Contrib/MiniSqlQuery.Exports.Plugin/obj
+/src/Contrib/MiniSqlQuery.ExternalTools.Plugin/obj
+/src/Contrib/.vs/MiniSqlQuery.Contrib/*/Server/sqlite3
+/src/Contrib/MiniSqlQuery.ExternalTools.Plugin/bin
