@@ -18,7 +18,6 @@ Build file for Mini SQL Query.
   <property name="project.description" value="Mini SQL Query from VIRIDIS Software is a minimalist SQL query tool for multiple providers (MSSQL, Oracle, OLEDB, MS Access files etc). The goal of the Mini SQL Query tool is to allow a developer or trouble-shooter to quickly diagnose issues or make changes to a database using a tool with a small footprint, that is fast and easy to use." />
   <property name="create.assemblyinfo" value="true" />
 
-  <property name="dnfx-base" value="C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\"/>
   <property name="release-base" value="${project::get-base-directory()}\"/>
   <property name="release-build-dir" value="${release-base}ReleaseBuild\"/>
   <property name="release-distro-dir" value="${release-base}DISTRO\"/>
@@ -32,14 +31,14 @@ Build file for Mini SQL Query.
   <target name="build" description="compiles the source code for a distribution.">
     <delete dir="${release-build-dir}" />
 	<!-- Perform a restore before the build starts -->
-    <exec program="msbuild.exe" basedir="${dnfx-base}" verbose="false">
+    <exec program="msbuild.exe" verbose="false">
       <arg value="-m" />
       <arg value="-property:Configuration=${project.release.type}" />
       <arg value="-restore" />
       <arg value="${project.name}.sln" />
     </exec>
 	<!-- Build to specific directory -->
-    <exec program="msbuild.exe" basedir="${dnfx-base}" verbose="false">
+    <exec program="msbuild.exe" verbose="false">
       <arg value="-m" />
       <arg value="-property:Configuration=${project.release.type}" />
       <arg value="-property:OutDir=${release-build-dir}" />
@@ -57,7 +56,7 @@ Build file for Mini SQL Query.
   </target>
 
   <target name="build-contrib-plugins" depends="create-common-assemblyinfo" description="compiles the plugins under the CONTRIB directory source code for a release distribution.">
-    <exec workingdir="${release-contrib-dir}" program="msbuild.exe" basedir="${dnfx-base}">
+    <exec workingdir="${release-contrib-dir}" program="msbuild.exe">
       <arg value="-m" />
       <arg value="-property:Configuration=${project.release.type}" />
       <arg value="-property:OutDir=${release-build-dir}" />
@@ -66,14 +65,14 @@ Build file for Mini SQL Query.
   </target>
 
   <target name="clean-debug" description="">
-    <exec program="msbuild.exe" basedir="${dnfx-base}">
+    <exec program="msbuild.exe">
       <arg value="-property:Configuration=Debug" />
       <arg value="-target:Clean" />
     </exec>
   </target>
 
   <target name="clean-release" description="">
-    <exec program="msbuild.exe" basedir="${dnfx-base}">
+    <exec program="msbuild.exe">
       <arg value="-property:Configuration=${project.release.type}" />
       <arg value="-target:Clean" />
     </exec>
@@ -81,7 +80,7 @@ Build file for Mini SQL Query.
 
   <target name="build-api-docs" description="" if="${project.docs}" >
     <delete dir="${release-help-api-dir}" />
-    <exec program="msbuild.exe" basedir="${dnfx-base}">
+    <exec program="msbuild.exe">
       <arg value="&quot;/p:SHFBROOT=C:\Program Files\EWSoftware\Sandcastle Help File Builder&quot;" />
       <arg value="${project.name}.shfbproj" />
     </exec>
