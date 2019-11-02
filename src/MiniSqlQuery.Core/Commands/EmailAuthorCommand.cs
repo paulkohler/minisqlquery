@@ -9,18 +9,20 @@ using System;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>
-	/// 	The email author command.
-	/// </summary>
-	public class EmailAuthorCommand
-		: ShowUrlCommand
-	{
-		/// <summary>
-		/// 	Initializes a new instance of the <see cref = "EmailAuthorCommand" /> class.
-		/// </summary>
-		public EmailAuthorCommand()
-			: base("Email the Author", "mailto:paul@viridissoftware.com.au?subject=Mini SQL Query Feedback", ImageResource.email)
-		{
-		}
-	}
+    /// <summary>
+    /// 	The email author command.
+    /// </summary>
+    public class EmailAuthorCommand
+        : ShowUrlCommand
+    {
+        /// <summary>
+        /// 	Initializes a new instance of the <see cref = "EmailAuthorCommand" /> class.
+        /// </summary>
+        public EmailAuthorCommand()
+            : base("Email the Author", "mailto:mr.paul.kohler" + 
+                  '@' + /* bla */
+                  "gmail.com?subject=Mini SQL Query Feedback", ImageResource.email)
+        {
+        }
+    }
 }
