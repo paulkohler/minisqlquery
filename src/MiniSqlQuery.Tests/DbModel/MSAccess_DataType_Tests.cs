@@ -1,7 +1,7 @@
 #region License
-// Copyright 2005-2009 Paul Kohler (https://github.com/paul-kohler-au/minisqlquery). All rights reserved.
-// This source code is made available under the terms of the Microsoft Public License (Ms-PL)
-// http://minisqlquery.codeplex.com/license
+// Copyright 2005-2019 Paul Kohler (https://github.com/paulkohler/minisqlquery). All rights reserved.
+// This source code is made available under the terms of the GNU Lesser General Public License v3.0
+// https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace MiniSqlQuery.Tests.DbModel
 {
 	[TestFixture(Description = "Requires MS Access DB")]
 	[Category("Functional")]
-	[Ignore]
+	[Ignore("Run this functional test manually after setup")]
 	public class MSAccess_DataType_Tests
 	{
 		#region Setup/Teardown
@@ -104,7 +104,8 @@ Decimal  (System.Decimal)
 			Assert.That(copy.ToDDLValue(), Is.EqualTo("#17/12/2000 12:00:00 AM#"));
 		}
 
-		[Test, Explicit]
+		[Test]
+        [Ignore("run this manually")]
 		public void Show_all()
 		{
 			List<DbModelType> ary = new List<DbModelType>(_dbTypes.Values);

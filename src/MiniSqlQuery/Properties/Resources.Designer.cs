@@ -19,7 +19,7 @@ namespace MiniSqlQuery.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -116,19 +116,18 @@ namespace MiniSqlQuery.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MINI SQL QUERY LICENSE
-        ///VIRIDIS Software - Paul Kohler
-        ///paul@viridissoftware.com.au
+        ///   Looks up a localized string similar to                    GNU LESSER GENERAL PUBLIC LICENSE
+        ///                       Version 3, 29 June 2007
+        ///					   
+        /// Copyright (C) 2007 Free Software Foundation, Inc. &lt;https://fsf.org/&gt;
+        /// Everyone is permitted to copy and distribute verbatim copies
+        /// of this license document, but changing it is not allowed.
         ///
-        ///----------------------------------------------------------------------
         ///
-        ///Microsoft Public License (Ms-PL)
-        ///
-        ///This license governs use of the accompanying software. If you use the software, you accept this license. If you do not accept the license, do not use the software.
-        ///
-        ///1. Definitions
-        ///
-        ///The terms &quot;reproduce,&quot; &quot;reproduction,&quot; &quot;derivative works,&quot; and &quot;distribution&quot; have the same meaning here as under U.S. copyright l [rest of string was truncated]&quot;;.
+        ///  This version of the GNU Lesser General Public License incorporates
+        ///the terms and conditions of version 3 of the GNU General Public
+        ///License, supplemented by the additional permissions listed below.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string LicenseMiniSqlQuery {
             get {
@@ -197,17 +196,16 @@ namespace MiniSqlQuery.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot;?&gt;
         ///&lt;!-- 
-        ///Copyright 2005-2009 Paul Kohler (https://github.com/paul-kohler-au/minisqlquery). All rights reserved.
-        ///This source code is made available under the terms of the Microsoft Public License (Ms-PL)
-        ///http://minisqlquery.codeplex.com/license
+        ///Copyright 2005-2019 Paul Kohler (https://github.com/paulkohler/minisqlquery). All rights reserved.
+        ///This source code is made available under the terms of the GNU Lesser General Public License v3.0
+        ///https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
         ///--&gt;
         ///&lt;SyntaxDefinition name = &quot;SQL&quot; extensions = &quot;.sql&quot;&gt;
         ///	&lt;Properties&gt;
         ///		&lt;Property name=&quot;LineComment&quot; value=&quot;--&quot;/&gt;
         ///	&lt;/Properties&gt;
         ///	&lt;Digits name = &quot;Digits&quot; bold = &quot;true&quot; italic = &quot;false&quot; color = &quot;Blue&quot;/&gt;
-        ///	&lt;RuleSets&gt;
-        ///		&lt;RuleSet ignorecase = [rest of string was truncated]&quot;;.
+        ///	&lt;RuleSets&gt;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SqlModeXshd {
             get {

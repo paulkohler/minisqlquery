@@ -1,10 +1,11 @@
 #region License
-// Copyright 2005-2009 Paul Kohler (https://github.com/paul-kohler-au/minisqlquery). All rights reserved.
-// This source code is made available under the terms of the Microsoft Public License (Ms-PL)
-// http://minisqlquery.codeplex.com/license
+// Copyright 2005-2019 Paul Kohler (https://github.com/paulkohler/minisqlquery). All rights reserved.
+// This source code is made available under the terms of the GNU Lesser General Public License v3.0
+// https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 using System;
 using System.Collections.Generic;
+using System.IO;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.Template;
 using MiniSqlQuery.PlugIns.TemplateViewer;
@@ -43,15 +44,17 @@ namespace MiniSqlQuery.Tests.Templates
 		[Test]
 		public void If_a_file_extension_is_set_this_defaults_the_TemplateResult()
 		{
-			var result = _model.ProcessTemplateFile(@"Templates\foo.cs.mt", null);
+            var filename = Path.Combine(TestContext.CurrentContext.TestDirectory, @"Templates\foo.cs.mt");
+            var result = _model.ProcessTemplateFile(filename, null);
 			Assert.That(result.Extension, Is.EqualTo("cs"));
 		}
 		
 		[Test]
 		public void If_no_file_extension_is_set_this_defaults_the_TemplateResult_to_SQL()
 		{
-			var result = _model.ProcessTemplateFile(@"Templates\bar.mt", null);
-			Assert.That(result.Extension, Is.EqualTo("sql"));
+            var filename = Path.Combine(TestContext.CurrentContext.TestDirectory, @"Templates\bar.mt");
+			var result = _model.ProcessTemplateFile(filename, null);
+            Assert.That(result.Extension, Is.EqualTo("sql"));
 		}
 	}
 }

@@ -8,7 +8,7 @@ namespace MiniSqlQuery.ExternalTools.Plugin.Commands
 		: ShowUrlCommand
 	{
 		public ShowSiteForExportSqlCeCommand()
-			: base("&Export SQL CE site (http://exportsqlce.codeplex.com/)", "http://exportsqlce.codeplex.com/", Resources.data_out.ToBitmap())
+			: base("&Export SQL CE site (https://github.com/ErikEJ/SqlCeToolbox/)", "https://github.com/ErikEJ/SqlCeToolbox/", Resources.data_out.ToBitmap())
 		{
 		}
 	}

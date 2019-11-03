@@ -1,8 +1,8 @@
 #region License
 
-// Copyright 2005-2009 Paul Kohler (https://github.com/paul-kohler-au/minisqlquery). All rights reserved.
-// This source code is made available under the terms of the Microsoft Public License (Ms-PL)
-// http://minisqlquery.codeplex.com/license
+// Copyright 2005-2019 Paul Kohler (https://github.com/paulkohler/minisqlquery). All rights reserved.
+// This source code is made available under the terms of the GNU Lesser General Public License v3.0
+// https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 
 #endregion
 
@@ -16,15 +16,20 @@ using NUnit.Framework;
 
 namespace MiniSqlQuery.Tests
 {
+    /// <summary>
+    /// SQL Server tests against the "AdventureWorks" example DB.
+    /// 
+    /// You will need a copy of the databse installed to the local system for these tests to work.
+    /// </summary>
 	[TestFixture(Description = "Requires AdventureWorks DB")]
 	[Category("Functional")]
 	public class QueryRunnerTests
 	{
         /// <summary>
-        /// See "AdventureWorks (OLTP) full database backups":
+        /// See "AdventureWorks2017.bak" under the heading "AdventureWorks (OLTP) full database backups":
         /// https://github.com/Microsoft/sql-server-samples/releases/tag/adventureworks
         /// </summary>
-		private string _conn = @"Server=.; Database=AdventureWorks2014; Integrated Security=SSPI";
+		private string _conn = @"Server=.; Database=AdventureWorks2017; Integrated Security=SSPI";
 		private QueryRunner _runner;
 
 		[Test]
@@ -61,20 +66,20 @@ namespace MiniSqlQuery.Tests
 		}
 
 		[Test]
-		[ExpectedException(typeof(InvalidOperationException), ExpectedMessage = "Supply a connection.")]
 		public void No_connection_expects_error_on_Execute()
 		{
 			_runner = new QueryRunner(DbProviderFactories.GetFactory("System.Data.SqlClient"), null, true, 30);
-			_runner.ExecuteQuery(" ");
+            var exp = Assert.Throws<InvalidOperationException>(() => _runner.ExecuteQuery(" "));
+            Assert.That(exp.Message, Is.EqualTo("Supply a connection."));
 		}
 
 		[Test]
-		[ExpectedException(typeof(InvalidOperationException), ExpectedMessage = "Supply a provider.")]
 		public void No_provider_expects_error_on_Execute()
 		{
 			_runner = new QueryRunner(null, _conn, true, 30);
-			_runner.ExecuteQuery(" ");
-		}
+            var exp = Assert.Throws<InvalidOperationException>(() => _runner.ExecuteQuery(" "));
+            Assert.That(exp.Message, Is.EqualTo("Supply a provider."));
+        }
 
 		[Test]
 		public void Run_a_basic_query()

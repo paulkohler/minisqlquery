@@ -15,34 +15,37 @@ Build file for Mini SQL Query.
   <property name="project.release.type" value="Release - No Tests"/>
   <property name="nant.settings.currentframework" value="net-4.0" />
 
-  <property name="project.description" value="Mini SQL Query from VIRIDIS Software is a minimalist SQL query tool for multiple providers (MSSQL, Oracle, OLEDB, MS Access files etc). The goal of the Mini SQL Query tool is to allow a developer or trouble-shooter to quickly diagnose issues or make changes to a database using a tool with a small footprint, that is fast and easy to use." />
+  <property name="project.description" value="Mini SQL Query by Paul Kohler is a minimalist SQL query tool for multiple providers (MSSQL, Oracle, OLEDB, MS Access files etc). The goal of the Mini SQL Query tool is to allow a developer or trouble-shooter to quickly diagnose issues or make changes to a database using a tool with a small footprint, that is fast and easy to use." />
   <property name="create.assemblyinfo" value="true" />
 
-  <property name="dnfx-base" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\"/>
   <property name="release-base" value="${project::get-base-directory()}\"/>
   <property name="release-build-dir" value="${release-base}ReleaseBuild\"/>
   <property name="release-distro-dir" value="${release-base}DISTRO\"/>
-  <property name="release-sdk-dir" value="${release-base}SDK\"/>
   <property name="release-contrib-dir" value="${release-base}Contrib\"/>
-  <property name="release-help-api-dir" value="${release-base}Help\API\"/>
 
   <target name="full-build" depends="create-common-assemblyinfo,build,copy-licences" description="" />
-  <target name="distro" depends="create-common-assemblyinfo,build,copy-licences,build-api-docs,zip-release-build" description="" />
+  <target name="distro" depends="create-common-assemblyinfo,build,copy-licences,zip-release-build" description="" />
 
   <target name="build" description="compiles the source code for a distribution.">
     <delete dir="${release-build-dir}" />
-    <!--<solution configuration="${project.release.type}" solutionfile="${project.name}.sln" outputdir="${release-build-dir}" verbose="true" />-->
-
-    <exec program="msbuild.exe" basedir="${dnfx-base}" verbose="true">
+	<!-- Perform a restore before the build starts -->
+    <exec program="msbuild.exe" verbose="false">
+      <arg value="-m" />
+      <arg value="-property:Configuration=${project.release.type}" />
+      <arg value="-restore" />
       <arg value="${project.name}.sln" />
-      <arg value="/p:Configuration=${project.release.type}" />
-      <arg value="/p:OutDir=${release-build-dir}" />
-      <!--<arg value="/p:Platform=&quot;Any CPU&quot;" />-->
-      <arg value="/t:Rebuild" />
+    </exec>
+	<!-- Build to specific directory -->
+    <exec program="msbuild.exe" verbose="false">
+      <arg value="-m" />
+      <arg value="-property:Configuration=${project.release.type}" />
+      <arg value="-property:OutDir=${release-build-dir}" />
+      <arg value="-target:Rebuild" />
+      <arg value="${project.name}.sln" />
     </exec>
     <call target="build-contrib-plugins" />
     <delete>
-      <!--clean up some extras-->
+      <!-- Clean up some extras -->
       <fileset>
         <include name="${release-build-dir}*.pdb"/>
         <include name="${release-build-dir}*.xml"/>
@@ -51,35 +54,25 @@ Build file for Mini SQL Query.
   </target>
 
   <target name="build-contrib-plugins" depends="create-common-assemblyinfo" description="compiles the plugins under the CONTRIB directory source code for a release distribution.">
-    <exec workingdir="${release-contrib-dir}" program="msbuild.exe" basedir="${dnfx-base}">
-      <arg value="/p:Configuration=${project.release.type}" />
-      <arg value="/p:OutDir=${release-build-dir}" />
-      <!--<arg value="/p:Platform=&quot;Any CPU&quot;" />-->
-      <arg value="/t:Rebuild" />
+    <exec workingdir="${release-contrib-dir}" program="msbuild.exe">
+      <arg value="-m" />
+      <arg value="-property:Configuration=${project.release.type}" />
+      <arg value="-property:OutDir=${release-build-dir}" />
+      <arg value="-target:Build" />
     </exec>
   </target>
 
   <target name="clean-debug" description="">
-    <exec program="msbuild.exe" basedir="${dnfx-base}">
-      <arg value="/p:Configuration=Debug" />
-      <arg value="/p:Platform=&quot;Any CPU&quot;" />
-      <arg value="/t:Clean" />
+    <exec program="msbuild.exe">
+      <arg value="-property:Configuration=Debug" />
+      <arg value="-target:Clean" />
     </exec>
   </target>
 
   <target name="clean-release" description="">
-    <exec program="msbuild.exe" basedir="${dnfx-base}">
-      <arg value="/p:Configuration=Release" />
-      <arg value="/p:Platform=&quot;Any CPU&quot;" />
-      <arg value="/t:Clean" />
-    </exec>
-  </target>w
-
-  <target name="build-api-docs" description="" if="${project.docs}" >
-    <delete dir="${release-help-api-dir}" />
-    <exec program="msbuild.exe" basedir="${dnfx-base}">
-      <arg value="&quot;/p:SHFBROOT=C:\Program Files\EWSoftware\Sandcastle Help File Builder&quot;" />
-      <arg value="${project.name}.shfbproj" />
+    <exec program="msbuild.exe">
+      <arg value="-property:Configuration=${project.release.type}" />
+      <arg value="-target:Clean" />
     </exec>
   </target>
 

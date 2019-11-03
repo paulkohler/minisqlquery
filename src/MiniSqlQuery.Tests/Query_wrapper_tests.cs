@@ -1,7 +1,7 @@
 #region License
-// Copyright 2005-2009 Paul Kohler (https://github.com/paul-kohler-au/minisqlquery). All rights reserved.
-// This source code is made available under the terms of the Microsoft Public License (Ms-PL)
-// http://minisqlquery.codeplex.com/license
+// Copyright 2005-2019 Paul Kohler (https://github.com/paulkohler/minisqlquery). All rights reserved.
+// This source code is made available under the terms of the GNU Lesser General Public License v3.0
+// https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 using System;
 using System.Collections;
@@ -58,7 +58,8 @@ select 1"));
 			Assert.That(batch.Queries.Count, Is.EqualTo(0));
 		}
 
-		[Test, Explicit("Needs a fair bit of work to pass...")]
+		[Test]
+        [Ignore("Needs a fair bit of work to pass...")]
 		public void Batch_indicators_on_a_line_alone_cause_issues()
 		{
 			var batch = QueryBatch.Parse(@"-- issue...
