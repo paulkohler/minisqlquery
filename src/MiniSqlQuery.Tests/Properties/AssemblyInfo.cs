@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -10,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Paul Kohler")]
 [assembly: AssemblyProduct("MiniSqlQuery.Tests")]
-[assembly: AssemblyCopyright("Copyright © Paul Kohler 2008")]
+[assembly: AssemblyCopyright("Copyright © Paul Kohler 2008-now")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

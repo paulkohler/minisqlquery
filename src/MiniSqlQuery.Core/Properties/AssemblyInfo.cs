@@ -5,7 +5,6 @@
 // https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 
-using System;
 using System.Reflection;
 
 [assembly: AssemblyTitle("Mini SQL Query Core Services and Interfaces")]

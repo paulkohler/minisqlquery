@@ -5,22 +5,21 @@
 // https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 
-using System;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>
-	/// 	The show web page command.
-	/// </summary>
-	public class ShowWebPageCommand
-		: ShowUrlCommand
-	{
-		/// <summary>
-		/// 	Initializes a new instance of the <see cref = "ShowWebPageCommand" /> class.
-		/// </summary>
-		public ShowWebPageCommand()
-			: base("Mini SQL Query on GitHub", "https://github.com/paulkohler/minisqlquery", ImageResource.house)
-		{
-		}
-	}
+    /// <summary>
+    /// 	The show web page command.
+    /// </summary>
+    public class ShowWebPageCommand
+        : ShowUrlCommand
+    {
+        /// <summary>
+        /// 	Initializes a new instance of the <see cref = "ShowWebPageCommand" /> class.
+        /// </summary>
+        public ShowWebPageCommand()
+            : base("Mini SQL Query on GitHub", "https://github.com/paulkohler/minisqlquery", ImageResource.house)
+        {
+        }
+    }
 }

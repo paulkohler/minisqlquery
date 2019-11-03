@@ -5,53 +5,52 @@
 // https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 
-using System;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>
-	/// 	The cancel task command.
-	/// </summary>
-	public class CancelTaskCommand
-		: CommandBase
-	{
-		/// <summary>
-		/// 	Initializes a new instance of the <see cref = "CancelTaskCommand" /> class.
-		/// </summary>
-		public CancelTaskCommand()
-			: base("&Cancel")
-		{
-			SmallImage = ImageResource.stop;
-		}
+    /// <summary>
+    /// 	The cancel task command.
+    /// </summary>
+    public class CancelTaskCommand
+        : CommandBase
+    {
+        /// <summary>
+        /// 	Initializes a new instance of the <see cref = "CancelTaskCommand" /> class.
+        /// </summary>
+        public CancelTaskCommand()
+            : base("&Cancel")
+        {
+            SmallImage = ImageResource.stop;
+        }
 
-		/// <summary>
-		/// 	Gets a value indicating whether Enabled.
-		/// </summary>
-		/// <value>The enabled state.</value>
-		public override bool Enabled
-		{
-			get
-			{
-				var editor = HostWindow.ActiveChildForm as IPerformTask;
-				return editor != null && editor.IsBusy;
-			}
-		}
+        /// <summary>
+        /// 	Gets a value indicating whether Enabled.
+        /// </summary>
+        /// <value>The enabled state.</value>
+        public override bool Enabled
+        {
+            get
+            {
+                var editor = HostWindow.ActiveChildForm as IPerformTask;
+                return editor != null && editor.IsBusy;
+            }
+        }
 
-		/// <summary>
-		/// 	Execute the command.
-		/// </summary>
-		public override void Execute()
-		{
-			if (!Enabled)
-			{
-				return;
-			}
+        /// <summary>
+        /// 	Execute the command.
+        /// </summary>
+        public override void Execute()
+        {
+            if (!Enabled)
+            {
+                return;
+            }
 
-			var editor = HostWindow.ActiveChildForm as IPerformTask;
-			if (editor != null)
-			{
-				editor.CancelTask();
-			}
-		}
-	}
+            var editor = HostWindow.ActiveChildForm as IPerformTask;
+            if (editor != null)
+            {
+                editor.CancelTask();
+            }
+        }
+    }
 }

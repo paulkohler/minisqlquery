@@ -6,36 +6,35 @@
 
 #endregion
 
-using System;
 using MiniSqlQuery.Core.Commands;
 
 namespace MiniSqlQuery.PlugIns.TextGenerator.Commands
 {
-	public class RunTextGeneratorCommand : CommandBase
-	{
-		public RunTextGeneratorCommand()
-			: base("Run the (experimental) text to C# class generator")
-		{
-		}
+    public class RunTextGeneratorCommand : CommandBase
+    {
+        public RunTextGeneratorCommand()
+            : base("Run the (experimental) text to C# class generator")
+        {
+        }
 
-		public override void Execute()
-		{
-			var editor = ActiveFormAsEditor;
+        public override void Execute()
+        {
+            var editor = ActiveFormAsEditor;
 
-			if (editor != null)
-			{
-				var text = editor.SelectedText;
-				if (string.IsNullOrEmpty(text))
-				{
-					text = editor.AllText;
-				}
+            if (editor != null)
+            {
+                var text = editor.SelectedText;
+                if (string.IsNullOrEmpty(text))
+                {
+                    text = editor.AllText;
+                }
 
-				var textGeneratorService = new TextGeneratorService();
-				var generatedText = textGeneratorService.Process(text);
+                var textGeneratorService = new TextGeneratorService();
+                var generatedText = textGeneratorService.Process(text);
 
-				// update editor, just put in the code for now...
-				editor.InsertText(generatedText);
-			}
-		}
-	}
+                // update editor, just put in the code for now...
+                editor.InsertText(generatedText);
+            }
+        }
+    }
 }

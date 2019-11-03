@@ -5,34 +5,33 @@
 // https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 
-using System;
 using Ninject;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>
-	/// 	The generate command code command.
-	/// </summary>
-	public class GenerateCommandCodeCommand
-		: CommandBase
-	{
-		/// <summary>
-		/// 	Initializes a new instance of the <see cref = "GenerateCommandCodeCommand" /> class.
-		/// </summary>
-		public GenerateCommandCodeCommand()
-			: base("Generate Command Code")
-		{
-			SmallImage = ImageResource.cog;
-		}
+    /// <summary>
+    /// 	The generate command code command.
+    /// </summary>
+    public class GenerateCommandCodeCommand
+        : CommandBase
+    {
+        /// <summary>
+        /// 	Initializes a new instance of the <see cref = "GenerateCommandCodeCommand" /> class.
+        /// </summary>
+        public GenerateCommandCodeCommand()
+            : base("Generate Command Code")
+        {
+            SmallImage = ImageResource.cog;
+        }
 
-		/// <summary>
-		/// 	Execute the command.
-		/// </summary>
-		public override void Execute()
-		{
-			string template =
-				@"    public class $name$Command
+        /// <summary>
+        /// 	Execute the command.
+        /// </summary>
+        public override void Execute()
+        {
+            string template =
+                @"    public class $name$Command
         : CommandBase
     {
         public $name$Command()
@@ -48,15 +47,15 @@ namespace MiniSqlQuery.Core.Commands
         }
     }";
 
-			string code = template
-				.Replace("$name$", "OI")
-				.Replace("$desc$", "a thing");
+            string code = template
+                .Replace("$name$", "OI")
+                .Replace("$desc$", "a thing");
 
-			var editor = Services.Container.Get<IQueryEditor>();
-			editor.AllText = code;
-			editor.SetSyntax("C#");
+            var editor = Services.Container.Get<IQueryEditor>();
+            editor.AllText = code;
+            editor.SetSyntax("C#");
 
-			HostWindow.DisplayDockedForm(editor as DockContent);
-		}
-	}
+            HostWindow.DisplayDockedForm(editor as DockContent);
+        }
+    }
 }

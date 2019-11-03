@@ -6,270 +6,270 @@ using MiniSqlQuery.Core.Forms;
 
 namespace MiniSqlQuery.Exports.Plugin
 {
-	public partial class ExportWindow : Form
-	{
-		private readonly IApplicationServices _services;
-		private DataSet _dsExecutedData;
+    public partial class ExportWindow : Form
+    {
+        private readonly IApplicationServices _services;
+        private DataSet _dsExecutedData;
 
-		public ExportWindow(IApplicationServices services)
-		{
-			_services = services;
-			InitializeComponent();
-			txtFilePath.Text = string.Format("{0}\\export{1:yyyy-MM-dd}.htm",
-			                                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), DateTime.Today);
-		}
+        public ExportWindow(IApplicationServices services)
+        {
+            _services = services;
+            InitializeComponent();
+            txtFilePath.Text = string.Format("{0}\\export{1:yyyy-MM-dd}.htm",
+                                             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), DateTime.Today);
+        }
 
-		public string SetStatusText
-		{
-			set
-			{
-				toolStripStatusLabel1.Text = value;
-				statusStrip1.Refresh();
-			}
-		}
+        public string SetStatusText
+        {
+            set
+            {
+                toolStripStatusLabel1.Text = value;
+                statusStrip1.Refresh();
+            }
+        }
 
-		private void ExportWindow_Load(object sender, EventArgs e)
-		{
-			IQueryBatchProvider batchProvider = _services.HostWindow.ActiveChildForm as IQueryBatchProvider;
+        private void ExportWindow_Load(object sender, EventArgs e)
+        {
+            IQueryBatchProvider batchProvider = _services.HostWindow.ActiveChildForm as IQueryBatchProvider;
 
-			if (batchProvider != null && batchProvider.Batch != null)
-			{
-				if (batchProvider.Batch.Queries.Count > 1)
-				{
-					BatchQuerySelectForm querySelectForm = new BatchQuerySelectForm();
-					querySelectForm.Fill(batchProvider.Batch);
-					querySelectForm.ShowDialog();
-					if (querySelectForm.DialogResult == DialogResult.OK)
-					{
-						_dsExecutedData = querySelectForm.SelectedQuery.Result;
-					}
-					else
-					{
-						Close(); // user calncelled
-					}
-					return;
-				}
-				
-				if(batchProvider.Batch.Queries.Count == 1)
-				{
-					_dsExecutedData = batchProvider.Batch.Queries[0].Result;
-					return;
-				}
-			}
+            if (batchProvider != null && batchProvider.Batch != null)
+            {
+                if (batchProvider.Batch.Queries.Count > 1)
+                {
+                    BatchQuerySelectForm querySelectForm = new BatchQuerySelectForm();
+                    querySelectForm.Fill(batchProvider.Batch);
+                    querySelectForm.ShowDialog();
+                    if (querySelectForm.DialogResult == DialogResult.OK)
+                    {
+                        _dsExecutedData = querySelectForm.SelectedQuery.Result;
+                    }
+                    else
+                    {
+                        Close(); // user calncelled
+                    }
+                    return;
+                }
 
-			MessageBox.Show("Couldn't find a result window, run a query or view a table to export the data.");
-			Close();
-		}
+                if (batchProvider.Batch.Queries.Count == 1)
+                {
+                    _dsExecutedData = batchProvider.Batch.Queries[0].Result;
+                    return;
+                }
+            }
 
-		private void btnExport_Click(object sender, EventArgs e)
-		{
-			if (rbtXml.Checked)
-			{
-				ExportXml();
-			}
+            MessageBox.Show("Couldn't find a result window, run a query or view a table to export the data.");
+            Close();
+        }
 
-			if (rbtHtml.Checked)
-			{
-				ExportHtml();
-			}
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            if (rbtXml.Checked)
+            {
+                ExportXml();
+            }
 
-			if (rbtCsv.Checked)
-			{
-				ExportCSV();
-			}
-		}
+            if (rbtHtml.Checked)
+            {
+                ExportHtml();
+            }
 
-		private void button1_Click(object sender, EventArgs e)
-		{
-			// Create new SaveFileDialog object
-			SaveFileDialog dialogSave = new SaveFileDialog();
+            if (rbtCsv.Checked)
+            {
+                ExportCSV();
+            }
+        }
 
-			// Default file extension
-			if (rbtCsv.Checked)
-			{
-				dialogSave.DefaultExt = "csv";
-				dialogSave.FilterIndex = 2;
-			}
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // Create new SaveFileDialog object
+            SaveFileDialog dialogSave = new SaveFileDialog();
 
-			if (rbtHtml.Checked)
-			{
-				dialogSave.DefaultExt = "htm";
-				dialogSave.FilterIndex = 1;
-			}
+            // Default file extension
+            if (rbtCsv.Checked)
+            {
+                dialogSave.DefaultExt = "csv";
+                dialogSave.FilterIndex = 2;
+            }
 
-			if (rbtXml.Checked)
-			{
-				dialogSave.DefaultExt = "xml";
-				dialogSave.FilterIndex = 3;
-			}
+            if (rbtHtml.Checked)
+            {
+                dialogSave.DefaultExt = "htm";
+                dialogSave.FilterIndex = 1;
+            }
 
-			//DialogSave.DefaultExt = "txt";
+            if (rbtXml.Checked)
+            {
+                dialogSave.DefaultExt = "xml";
+                dialogSave.FilterIndex = 3;
+            }
 
-			// Available file extensions
-			dialogSave.Filter = "Html File (*.htm)|*.htm|CSV File (*.csv)|*.csv|XML file (*.xml)|*.xml";
+            //DialogSave.DefaultExt = "txt";
 
-			// Adds a extension if the user does not
-			dialogSave.AddExtension = true;
+            // Available file extensions
+            dialogSave.Filter = "Html File (*.htm)|*.htm|CSV File (*.csv)|*.csv|XML file (*.xml)|*.xml";
 
-			// Restores the selected directory, next time
-			dialogSave.RestoreDirectory = true;
+            // Adds a extension if the user does not
+            dialogSave.AddExtension = true;
 
-			// Dialog title
-			dialogSave.Title = "Where do you want to save the file?";
+            // Restores the selected directory, next time
+            dialogSave.RestoreDirectory = true;
 
-			// Startup directory
-			dialogSave.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            // Dialog title
+            dialogSave.Title = "Where do you want to save the file?";
 
-			// Show the dialog and process the result
-			if (dialogSave.ShowDialog() == DialogResult.OK)
-			{
-				txtFilePath.Text = dialogSave.FileName;
-				//MessageBox.Show("You selected the file: " + DialogSave.FileName);
-			}
+            // Startup directory
+            dialogSave.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-			dialogSave.Dispose();
-		}
+            // Show the dialog and process the result
+            if (dialogSave.ShowDialog() == DialogResult.OK)
+            {
+                txtFilePath.Text = dialogSave.FileName;
+                //MessageBox.Show("You selected the file: " + DialogSave.FileName);
+            }
 
-		//private int GetFieldCount
-		//{
-		//    get { return _dsExecutedData.Tables[0].Columns.Count; }
-		//}
-		//private int GetRowCount
-		//{
-		//    get { return _dsExecutedData.Tables[0].Rows.Count; }
-		//}
+            dialogSave.Dispose();
+        }
 
-		private void ExportHtml()
-		{
-			Export.HtmlExportFormat format = new Export.HtmlExportFormat();
-			format.FontColor = txtFontColor.Text;
-			format.FontFamily = txtFontFamily.Text;
-			format.FontSize = txtFontSize.Text;
+        //private int GetFieldCount
+        //{
+        //    get { return _dsExecutedData.Tables[0].Columns.Count; }
+        //}
+        //private int GetRowCount
+        //{
+        //    get { return _dsExecutedData.Tables[0].Rows.Count; }
+        //}
 
-			format.HeaderColor = txtHeaderBGColor.Text;
-			format.RowAltColor = txtRowBgAltColor.Text;
-			format.RowColor = txtRowBgcolor.Text;
+        private void ExportHtml()
+        {
+            Export.HtmlExportFormat format = new Export.HtmlExportFormat();
+            format.FontColor = txtFontColor.Text;
+            format.FontFamily = txtFontFamily.Text;
+            format.FontSize = txtFontSize.Text;
 
-			Export.HtmlExport.OnWrittenData += CSVExport_OnWrittenData;
-			Export.HtmlExport.ExportToHTML(_dsExecutedData.Tables[0], txtFilePath.Text, format);
+            format.HeaderColor = txtHeaderBGColor.Text;
+            format.RowAltColor = txtRowBgAltColor.Text;
+            format.RowColor = txtRowBgcolor.Text;
 
-			#region Not used
+            Export.HtmlExport.OnWrittenData += CSVExport_OnWrittenData;
+            Export.HtmlExport.ExportToHTML(_dsExecutedData.Tables[0], txtFilePath.Text, format);
 
-			//StringBuilder sbCss = new StringBuilder();
-			//StringBuilder sbHtml = new StringBuilder();
-			//bool isAltSet = false;
+            #region Not used
 
-			//sbCss.Append("<style>");
-			//sbCss.Append("body { font-family:" + this.txtFontFamily.Text + "; font-size:" + this.txtFontSize.Text + "; color:" + this.txtFontColor.Text + "; }");
-			//sbCss.Append(".Header {background-color:" + this.txtHeaderBGColor.Text + "}");
-			//sbCss.Append(".Row    {background-color:" + this.txtRowBgcolor.Text + "}");
-			//sbCss.Append(".AltRow    {background-color:" +  this.txtRowBgAltColor.Text + "}");
-			//sbCss.Append("</style>");
+            //StringBuilder sbCss = new StringBuilder();
+            //StringBuilder sbHtml = new StringBuilder();
+            //bool isAltSet = false;
 
-			//this.SetStatusText = "Created style for html";
+            //sbCss.Append("<style>");
+            //sbCss.Append("body { font-family:" + this.txtFontFamily.Text + "; font-size:" + this.txtFontSize.Text + "; color:" + this.txtFontColor.Text + "; }");
+            //sbCss.Append(".Header {background-color:" + this.txtHeaderBGColor.Text + "}");
+            //sbCss.Append(".Row    {background-color:" + this.txtRowBgcolor.Text + "}");
+            //sbCss.Append(".AltRow    {background-color:" +  this.txtRowBgAltColor.Text + "}");
+            //sbCss.Append("</style>");
 
-			//sbHtml.Append("<html>");
-			//sbHtml.Append("<head><title>Export from " + _dsExecutedData.Tables[0].TableName + "</title>");
-			//sbHtml.Append(sbCss.ToString());
-			//sbHtml.Append("</head>");
-			//sbHtml.Append("<body>");
+            //this.SetStatusText = "Created style for html";
 
-			//int fields = this.GetFieldCount;
-			//sbHtml.Append("<table border='0' cellpadding='2'");
-			//sbHtml.Append("<tr>");
-			//for (int i = 0; i < fields; i++)
-			//{
-			//    sbHtml.Append(string.Format("<td class='Header'>{0}</td>", _dsExecutedData.Tables[0].Columns[i].ColumnName));
-			//    this.SetStatusText = "Writing column name " + i.ToString();
-			//}
-			//sbHtml.Append("</tr>");
+            //sbHtml.Append("<html>");
+            //sbHtml.Append("<head><title>Export from " + _dsExecutedData.Tables[0].TableName + "</title>");
+            //sbHtml.Append(sbCss.ToString());
+            //sbHtml.Append("</head>");
+            //sbHtml.Append("<body>");
 
-			//int Counter = 0;
-			//foreach (DataRow dr in _dsExecutedData.Tables[0].Rows)
-			//{
-			//    sbHtml.Append("<tr>");
+            //int fields = this.GetFieldCount;
+            //sbHtml.Append("<table border='0' cellpadding='2'");
+            //sbHtml.Append("<tr>");
+            //for (int i = 0; i < fields; i++)
+            //{
+            //    sbHtml.Append(string.Format("<td class='Header'>{0}</td>", _dsExecutedData.Tables[0].Columns[i].ColumnName));
+            //    this.SetStatusText = "Writing column name " + i.ToString();
+            //}
+            //sbHtml.Append("</tr>");
 
-			//    for (int i = 0; i < fields; i++)
-			//    {
-			//        if (isAltSet)
-			//        {
-			//            sbHtml.Append(string.Format("<td class='AltRow'>{0}</td>", dr[i].ToString()));
+            //int Counter = 0;
+            //foreach (DataRow dr in _dsExecutedData.Tables[0].Rows)
+            //{
+            //    sbHtml.Append("<tr>");
 
-			//        }
-			//        else
-			//        {
-			//            sbHtml.Append(string.Format("<td class='Row'>{0}</td>", dr[i].ToString()));
+            //    for (int i = 0; i < fields; i++)
+            //    {
+            //        if (isAltSet)
+            //        {
+            //            sbHtml.Append(string.Format("<td class='AltRow'>{0}</td>", dr[i].ToString()));
 
-			//        }
-			//    }
-			//    Counter++;
-			//    this.SetStatusText = "Wring row " + Counter.ToString();
-			//    sbHtml.Append("</tr>");
+            //        }
+            //        else
+            //        {
+            //            sbHtml.Append(string.Format("<td class='Row'>{0}</td>", dr[i].ToString()));
 
-			//    if (isAltSet == false)
-			//        isAltSet = true;
-			//    else
-			//        isAltSet = false;
-			//}
-			//sbHtml.Append("</table>");
-			//sbHtml.Append("</body></html>");
+            //        }
+            //    }
+            //    Counter++;
+            //    this.SetStatusText = "Wring row " + Counter.ToString();
+            //    sbHtml.Append("</tr>");
+
+            //    if (isAltSet == false)
+            //        isAltSet = true;
+            //    else
+            //        isAltSet = false;
+            //}
+            //sbHtml.Append("</table>");
+            //sbHtml.Append("</body></html>");
 
 
-			//System.IO.TextWriter tw = new System.IO.StreamWriter(this.txtFilePath.Text);
-			//tw.WriteLine(sbHtml.ToString());
-			//tw.Close();
-			//this.SetStatusText = "Finished exporting to html file"; 
+            //System.IO.TextWriter tw = new System.IO.StreamWriter(this.txtFilePath.Text);
+            //tw.WriteLine(sbHtml.ToString());
+            //tw.Close();
+            //this.SetStatusText = "Finished exporting to html file"; 
 
-			#endregion
-		}
+            #endregion
+        }
 
-		private void ExportCSV()
-		{
-			Export.CSVExport.OnWrittenData += CSVExport_OnWrittenData;
-			Export.CSVExport.ExportToCSV(_dsExecutedData.Tables[0], txtFilePath.Text, chkRowNames.Checked);
-		}
+        private void ExportCSV()
+        {
+            Export.CSVExport.OnWrittenData += CSVExport_OnWrittenData;
+            Export.CSVExport.ExportToCSV(_dsExecutedData.Tables[0], txtFilePath.Text, chkRowNames.Checked);
+        }
 
-		private void CSVExport_OnWrittenData(string text)
-		{
-			SetStatusText = text;
-		}
+        private void CSVExport_OnWrittenData(string text)
+        {
+            SetStatusText = text;
+        }
 
-		private void ExportXml()
-		{
-			_dsExecutedData.Tables[0].WriteXml(txtFilePath.Text);
-			SetStatusText = "Finished exporting to Xml file";
-		}
+        private void ExportXml()
+        {
+            _dsExecutedData.Tables[0].WriteXml(txtFilePath.Text);
+            SetStatusText = "Finished exporting to Xml file";
+        }
 
-		private void btnCancel_Click(object sender, EventArgs e)
-		{
-			Close();
-		}
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
 
-		private void rbtHtml_CheckedChanged(object sender, EventArgs e)
-		{
-			ChangeExtension("htm");
-		}
+        private void rbtHtml_CheckedChanged(object sender, EventArgs e)
+        {
+            ChangeExtension("htm");
+        }
 
-		private void ChangeExtension(string extension)
-		{
-			if (!string.IsNullOrEmpty(txtFilePath.Text))
-			{
-				string p = txtFilePath.Text;
-				int idx = p.LastIndexOf(".");
-				p = p.Remove(idx);
-				p = p + "." + extension;
-				txtFilePath.Text = p;
-			}
-		}
+        private void ChangeExtension(string extension)
+        {
+            if (!string.IsNullOrEmpty(txtFilePath.Text))
+            {
+                string p = txtFilePath.Text;
+                int idx = p.LastIndexOf(".");
+                p = p.Remove(idx);
+                p = p + "." + extension;
+                txtFilePath.Text = p;
+            }
+        }
 
-		private void rbtCsv_CheckedChanged(object sender, EventArgs e)
-		{
-			ChangeExtension("csv");
-		}
+        private void rbtCsv_CheckedChanged(object sender, EventArgs e)
+        {
+            ChangeExtension("csv");
+        }
 
-		private void rbtXml_CheckedChanged(object sender, EventArgs e)
-		{
-			ChangeExtension("xml");
-		}
-	}
+        private void rbtXml_CheckedChanged(object sender, EventArgs e)
+        {
+            ChangeExtension("xml");
+        }
+    }
 }

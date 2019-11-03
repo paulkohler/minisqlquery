@@ -5,43 +5,42 @@
 // https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 
-using System;
 
 namespace MiniSqlQuery.Core.Commands
 {
-	/// <summary>
-	/// 	The close active window command.
-	/// </summary>
-	public class CloseActiveWindowCommand
-		: CommandBase
-	{
-		/// <summary>
-		/// 	Initializes a new instance of the <see cref = "CloseActiveWindowCommand" /> class.
-		/// </summary>
-		public CloseActiveWindowCommand()
-			: base("&Close")
-		{
-		}
+    /// <summary>
+    /// 	The close active window command.
+    /// </summary>
+    public class CloseActiveWindowCommand
+        : CommandBase
+    {
+        /// <summary>
+        /// 	Initializes a new instance of the <see cref = "CloseActiveWindowCommand" /> class.
+        /// </summary>
+        public CloseActiveWindowCommand()
+            : base("&Close")
+        {
+        }
 
-		/// <summary>
-		/// 	Gets a value indicating whether Enabled.
-		/// </summary>
-		/// <value>The enabled state.</value>
-		public override bool Enabled
-		{
-			get { return HostWindow.ActiveChildForm != null; }
-		}
+        /// <summary>
+        /// 	Gets a value indicating whether Enabled.
+        /// </summary>
+        /// <value>The enabled state.</value>
+        public override bool Enabled
+        {
+            get { return HostWindow.ActiveChildForm != null; }
+        }
 
-		/// <summary>
-		/// 	Execute the command.
-		/// </summary>
-		public override void Execute()
-		{
-			var frm = HostWindow.ActiveChildForm;
-			if (frm != null)
-			{
-				frm.Close();
-			}
-		}
-	}
+        /// <summary>
+        /// 	Execute the command.
+        /// </summary>
+        public override void Execute()
+        {
+            var frm = HostWindow.ActiveChildForm;
+            if (frm != null)
+            {
+                frm.Close();
+            }
+        }
+    }
 }

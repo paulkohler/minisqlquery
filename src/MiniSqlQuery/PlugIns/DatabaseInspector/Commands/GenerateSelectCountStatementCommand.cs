@@ -5,35 +5,34 @@
 // https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 
-using System;
 using System.IO;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.Core.DbModel;
 
 namespace MiniSqlQuery.PlugIns.DatabaseInspector.Commands
 {
-	/// <summary>The generate select count statement command.</summary>
-	public class GenerateSelectCountStatementCommand : GenerateStatementCommandBase
-	{
-		/// <summary>Initializes a new instance of the <see cref="GenerateSelectCountStatementCommand"/> class.</summary>
-		public GenerateSelectCountStatementCommand()
-			: base("Generate Select COUNT(*) Statement")
-		{
-		}
+    /// <summary>The generate select count statement command.</summary>
+    public class GenerateSelectCountStatementCommand : GenerateStatementCommandBase
+    {
+        /// <summary>Initializes a new instance of the <see cref="GenerateSelectCountStatementCommand"/> class.</summary>
+        public GenerateSelectCountStatementCommand()
+            : base("Generate Select COUNT(*) Statement")
+        {
+        }
 
-		/// <summary>Execute the command.</summary>
-		public override void Execute()
-		{
-			IQueryEditor editor = ActiveFormAsSqlQueryEditor;
-			string tableName = HostWindow.DatabaseInspector.RightClickedTableName;
-			DbModelInstance model = HostWindow.DatabaseInspector.DbSchema;
+        /// <summary>Execute the command.</summary>
+        public override void Execute()
+        {
+            IQueryEditor editor = ActiveFormAsSqlQueryEditor;
+            string tableName = HostWindow.DatabaseInspector.RightClickedTableName;
+            DbModelInstance model = HostWindow.DatabaseInspector.DbSchema;
 
-			if (tableName != null && editor != null)
-			{
-				StringWriter sql = new StringWriter();
-				SqlWriter.WriteSelectCount(sql, GetTableOrViewByName(model, tableName));
-				editor.InsertText(sql.ToString());
-			}
-		}
-	}
+            if (tableName != null && editor != null)
+            {
+                StringWriter sql = new StringWriter();
+                SqlWriter.WriteSelectCount(sql, GetTableOrViewByName(model, tableName));
+                editor.InsertText(sql.ToString());
+            }
+        }
+    }
 }

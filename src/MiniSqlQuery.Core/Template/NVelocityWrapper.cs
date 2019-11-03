@@ -5,7 +5,6 @@
 // https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using NVelocity;
@@ -14,45 +13,45 @@ using NVelocity.Exception;
 
 namespace MiniSqlQuery.Core.Template
 {
-	/// <summary>The n velocity wrapper.</summary>
-	public class NVelocityWrapper : ITextFormatter
-	{
-		/// <summary>The format.</summary>
-		/// <param name="text">The text.</param>
-		/// <param name="items">The items.</param>
-		/// <returns>The format.</returns>
-		/// <exception cref="TemplateException"></exception>
-		public string Format(string text, Dictionary<string, object> items)
-		{
-			try
-			{
-				VelocityContext velocityContext = new VelocityContext();
+    /// <summary>The n velocity wrapper.</summary>
+    public class NVelocityWrapper : ITextFormatter
+    {
+        /// <summary>The format.</summary>
+        /// <param name="text">The text.</param>
+        /// <param name="items">The items.</param>
+        /// <returns>The format.</returns>
+        /// <exception cref="TemplateException"></exception>
+        public string Format(string text, Dictionary<string, object> items)
+        {
+            try
+            {
+                VelocityContext velocityContext = new VelocityContext();
 
-				if (items != null)
-				{
-					foreach (var pair in items)
-					{
-						velocityContext.Put(pair.Key, pair.Value);
-					}
-				}
+                if (items != null)
+                {
+                    foreach (var pair in items)
+                    {
+                        velocityContext.Put(pair.Key, pair.Value);
+                    }
+                }
 
-				StringWriter sw = new StringWriter();
-				VelocityEngine velocityEngine = new VelocityEngine();
-				velocityEngine.Init();
+                StringWriter sw = new StringWriter();
+                VelocityEngine velocityEngine = new VelocityEngine();
+                velocityEngine.Init();
 
-				bool ok = velocityEngine.Evaluate(velocityContext, sw, "ContextTest.CaseInsensitive", text);
+                bool ok = velocityEngine.Evaluate(velocityContext, sw, "ContextTest.CaseInsensitive", text);
 
-				if (!ok)
-				{
-					throw new TemplateException("Template run error (try adding an extra newline at the end of the file)");
-				}
+                if (!ok)
+                {
+                    throw new TemplateException("Template run error (try adding an extra newline at the end of the file)");
+                }
 
-				return sw.ToString();
-			}
-			catch (ParseErrorException parseErrorException)
-			{
-				throw new TemplateException(parseErrorException.Message, parseErrorException);
-			}
-		}
-	}
+                return sw.ToString();
+            }
+            catch (ParseErrorException parseErrorException)
+            {
+                throw new TemplateException(parseErrorException.Message, parseErrorException);
+            }
+        }
+    }
 }

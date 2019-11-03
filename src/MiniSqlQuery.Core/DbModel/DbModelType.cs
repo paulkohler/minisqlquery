@@ -139,15 +139,15 @@ namespace MiniSqlQuery.Core.DbModel
         public DbModelType Copy()
         {
             DbModelType copy = new DbModelType(Name, Length)
-                                   {
-                                       CreateFormat = CreateFormat,
-                                       CreateParameters = CreateParameters,
-                                       LiteralPrefix = LiteralPrefix,
-                                       LiteralSuffix = LiteralSuffix,
-                                       Precision = Precision,
-                                       Scale = Scale,
-                                       SystemType = SystemType,
-                                   };
+            {
+                CreateFormat = CreateFormat,
+                CreateParameters = CreateParameters,
+                LiteralPrefix = LiteralPrefix,
+                LiteralSuffix = LiteralSuffix,
+                Precision = Precision,
+                Scale = Scale,
+                SystemType = SystemType,
+            };
             return copy;
         }
 

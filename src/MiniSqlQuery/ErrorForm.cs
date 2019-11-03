@@ -10,28 +10,28 @@ using System.Windows.Forms;
 
 namespace MiniSqlQuery
 {
-	/// <summary>The error form.</summary>
-	public partial class ErrorForm : Form
-	{
-		/// <summary>Initializes a new instance of the <see cref="ErrorForm"/> class.</summary>
-		public ErrorForm()
-		{
-			InitializeComponent();
-		}
+    /// <summary>The error form.</summary>
+    public partial class ErrorForm : Form
+    {
+        /// <summary>Initializes a new instance of the <see cref="ErrorForm"/> class.</summary>
+        public ErrorForm()
+        {
+            InitializeComponent();
+        }
 
-		/// <summary>The set exception.</summary>
-		/// <param name="exp">The exp.</param>
-		public void SetException(Exception exp)
-		{
-			exceptionControl1.SetException(exp);
-		}
+        /// <summary>The set exception.</summary>
+        /// <param name="exp">The exp.</param>
+        public void SetException(Exception exp)
+        {
+            exceptionControl1.SetException(exp);
+        }
 
-		/// <summary>The btn ok_ click.</summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The e.</param>
-		private void btnOk_Click(object sender, EventArgs e)
-		{
-			Close();
-		}
-	}
+        /// <summary>The btn ok_ click.</summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+    }
 }

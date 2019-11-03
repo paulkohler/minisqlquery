@@ -6,7 +6,6 @@
 
 #endregion
 
-using System;
 
 namespace MiniSqlQuery.Core.DbModel
 {

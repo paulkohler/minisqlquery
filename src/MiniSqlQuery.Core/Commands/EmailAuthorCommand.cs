@@ -5,7 +5,6 @@
 // https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 
-using System;
 
 namespace MiniSqlQuery.Core.Commands
 {
@@ -19,7 +18,7 @@ namespace MiniSqlQuery.Core.Commands
         /// 	Initializes a new instance of the <see cref = "EmailAuthorCommand" /> class.
         /// </summary>
         public EmailAuthorCommand()
-            : base("Email the Author", "mailto:mr.paul.kohler" + 
+            : base("Email the Author", "mailto:mr.paul.kohler" +
                   '@' + /* bla */
                   "gmail.com?subject=Mini SQL Query Feedback", ImageResource.email)
         {

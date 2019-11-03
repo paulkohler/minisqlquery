@@ -6,28 +6,27 @@
 
 #endregion
 
-using System;
 
 namespace MiniSqlQuery.Core
 {
-	/// <summary>
-	/// 	The object types.
-	/// </summary>
-	public class ObjectTypes
-	{
-		/// <summary>
-		/// 	A column type.
-		/// </summary>
-		public const string Column = "Column";
+    /// <summary>
+    /// 	The object types.
+    /// </summary>
+    public class ObjectTypes
+    {
+        /// <summary>
+        /// 	A column type.
+        /// </summary>
+        public const string Column = "Column";
 
-		/// <summary>
-		/// 	A table type.
-		/// </summary>
-		public const string Table = "Table";
+        /// <summary>
+        /// 	A table type.
+        /// </summary>
+        public const string Table = "Table";
 
-		/// <summary>
-		/// 	A view type.
-		/// </summary>
-		public const string View = "View";
-	}
+        /// <summary>
+        /// 	A view type.
+        /// </summary>
+        public const string View = "View";
+    }
 }

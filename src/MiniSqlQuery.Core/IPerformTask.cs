@@ -6,29 +6,28 @@
 
 #endregion
 
-using System;
 
 namespace MiniSqlQuery.Core
 {
-	/// <summary>
-	/// 	Intended as a window level task such as executing a query (like applying ICommand to a window).
-	/// </summary>
-	public interface IPerformTask
-	{
-		/// <summary>
-		/// 	Gets a value indicating whether this instance is busy.
-		/// </summary>
-		/// <value>True if busy.</value>
-		bool IsBusy { get; }
+    /// <summary>
+    /// 	Intended as a window level task such as executing a query (like applying ICommand to a window).
+    /// </summary>
+    public interface IPerformTask
+    {
+        /// <summary>
+        /// 	Gets a value indicating whether this instance is busy.
+        /// </summary>
+        /// <value>True if busy.</value>
+        bool IsBusy { get; }
 
-		/// <summary>
-		/// 	Cancels the current task.
-		/// </summary>
-		void CancelTask();
+        /// <summary>
+        /// 	Cancels the current task.
+        /// </summary>
+        void CancelTask();
 
-		/// <summary>
-		/// 	Executes the current task.
-		/// </summary>
-		void ExecuteTask();
-	}
+        /// <summary>
+        /// 	Executes the current task.
+        /// </summary>
+        void ExecuteTask();
+    }
 }

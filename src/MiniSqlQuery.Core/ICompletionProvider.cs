@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MiniSqlQuery.Core
+﻿namespace MiniSqlQuery.Core
 {
     public interface ICompletionProvider
     {

@@ -5,17 +5,16 @@
 // https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 
-using System;
 
 namespace MiniSqlQuery.Core.DbModel
 {
-	/// <summary>The db model view.</summary>
-	public class DbModelView : DbModelTable
-	{
-		/// <summary>Initializes a new instance of the <see cref="DbModelView"/> class.</summary>
-		public DbModelView()
-		{
-			ObjectType = ObjectTypes.View;
-		}
-	}
+    /// <summary>The db model view.</summary>
+    public class DbModelView : DbModelTable
+    {
+        /// <summary>Initializes a new instance of the <see cref="DbModelView"/> class.</summary>
+        public DbModelView()
+        {
+            ObjectType = ObjectTypes.View;
+        }
+    }
 }

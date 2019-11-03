@@ -5,52 +5,50 @@
 #endregion
 using System;
 using System.Collections.Generic;
-using MiniSqlQuery.Core;
+using System.Data.Common;
 using MiniSqlQuery.Core.DbModel;
 using NUnit.Framework;
 
-using System.Data.Common;
-
 namespace MiniSqlQuery.Tests.DbModel
 {
-	[TestFixture(Description = "Requires SQLCE DB")]
-	[Category("Functional")]
-	public class SqlCeSchemaService_DataType_Tests
-	{
-		#region Setup/Teardown
+    [TestFixture(Description = "Requires SQLCE DB")]
+    [Category("Functional")]
+    public class SqlCeSchemaService_DataType_Tests
+    {
+        #region Setup/Teardown
 
-		[SetUp]
-		public void TestSetup()
-		{
-			_service = new SqlCeSchemaService();
-			DbConnection conn = DbProviderFactories.GetFactory(_providerName).CreateConnection();
-			conn.ConnectionString = _connStr;
-			conn.Open();
-			_dbTypes = _service.GetDbTypes(conn);
-		}
+        [SetUp]
+        public void TestSetup()
+        {
+            _service = new SqlCeSchemaService();
+            DbConnection conn = DbProviderFactories.GetFactory(_providerName).CreateConnection();
+            conn.ConnectionString = _connStr;
+            conn.Open();
+            _dbTypes = _service.GetDbTypes(conn);
+        }
 
-		#endregion
+        #endregion
 
-		private SqlCeSchemaService _service;
-		private string _connStr  = @"data source=|DataDirectory|\sqlce-test.v4.sdf";
-		private string _providerName = "System.Data.SqlServerCe.4.0";
-		Dictionary<string, DbModelType> _dbTypes;
+        private SqlCeSchemaService _service;
+        private string _connStr = @"data source=|DataDirectory|\sqlce-test.v4.sdf";
+        private string _providerName = "System.Data.SqlServerCe.4.0";
+        Dictionary<string, DbModelType> _dbTypes;
 
-		[Test]
-		public void There_are_at_least_18_types()
-		{
-			Assert.That(_dbTypes.Count, Is.GreaterThanOrEqualTo(18));
-		}
+        [Test]
+        public void There_are_at_least_18_types()
+        {
+            Assert.That(_dbTypes.Count, Is.GreaterThanOrEqualTo(18));
+        }
 
-		[Test]
-		public void NVarchar_type()
-		{
-			DbModelType dbType = _dbTypes["nvarchar"];
-			Assert.That(dbType.Name, Is.EqualTo("nvarchar").IgnoreCase);
-			Assert.That(dbType.Length, Is.EqualTo(4000));
-			Assert.That(dbType.CreateFormat, Is.EqualTo("nvarchar({0})"));
-			Assert.That(dbType.LiteralPrefix, Is.EqualTo("N'"));
-			Assert.That(dbType.LiteralSuffix, Is.EqualTo("'"));
+        [Test]
+        public void NVarchar_type()
+        {
+            DbModelType dbType = _dbTypes["nvarchar"];
+            Assert.That(dbType.Name, Is.EqualTo("nvarchar").IgnoreCase);
+            Assert.That(dbType.Length, Is.EqualTo(4000));
+            Assert.That(dbType.CreateFormat, Is.EqualTo("nvarchar({0})"));
+            Assert.That(dbType.LiteralPrefix, Is.EqualTo("N'"));
+            Assert.That(dbType.LiteralSuffix, Is.EqualTo("'"));
             Assert.That(dbType.SystemType, Is.EqualTo(typeof(string)));
         }
 
@@ -75,12 +73,12 @@ namespace MiniSqlQuery.Tests.DbModel
         [Test]
         [Ignore("run this manually if needed, just a helper")]
         public void Show_all()
-		{
-			List<DbModelType> ary = new List<DbModelType>(_dbTypes.Values);
-			foreach (var dbModelType in ary)
-			{
-				Console.WriteLine("{0}  ({1})", dbModelType.Summary, dbModelType.SystemType);
-			}
-		}
-	}
+        {
+            List<DbModelType> ary = new List<DbModelType>(_dbTypes.Values);
+            foreach (var dbModelType in ary)
+            {
+                Console.WriteLine("{0}  ({1})", dbModelType.Summary, dbModelType.SystemType);
+            }
+        }
+    }
 }

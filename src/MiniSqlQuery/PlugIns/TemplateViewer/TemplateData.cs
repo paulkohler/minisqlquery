@@ -90,7 +90,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
                 adapter.Fill(query.Result);
             }
 
-// catch (Exception exp)
+            // catch (Exception exp)
             // {
             // throw;
             // }
@@ -157,7 +157,7 @@ namespace MiniSqlQuery.PlugIns.TemplateViewer
                 adapter.Fill(query.Result);
             }
 
-// catch (Exception exp)
+            // catch (Exception exp)
             // {
             // throw;
             // }

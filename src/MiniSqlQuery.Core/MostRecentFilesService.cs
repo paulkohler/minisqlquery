@@ -11,73 +11,73 @@ using System.Collections.Generic;
 
 namespace MiniSqlQuery.Core
 {
-	public class MostRecentFilesService : IMostRecentFilesService
-	{
-		private readonly List<string> _filenames;
+    public class MostRecentFilesService : IMostRecentFilesService
+    {
+        private readonly List<string> _filenames;
 
-		public MostRecentFilesService()
-		{
-			_filenames = new List<string>();
-		}
+        public MostRecentFilesService()
+        {
+            _filenames = new List<string>();
+        }
 
-		public event EventHandler<MostRecentFilesChangedEventArgs> MostRecentFilesChanged;
+        public event EventHandler<MostRecentFilesChangedEventArgs> MostRecentFilesChanged;
 
-		public IList<string> Filenames
-		{
-			get { return _filenames; }
-		}
+        public IList<string> Filenames
+        {
+            get { return _filenames; }
+        }
 
-		public void OnMostRecentFilesChanged(MostRecentFilesChangedEventArgs e)
-		{
-			var handler = MostRecentFilesChanged;
-			if (handler != null)
-			{
-				handler(this, e);
-			}
-		}
+        public void OnMostRecentFilesChanged(MostRecentFilesChangedEventArgs e)
+        {
+            var handler = MostRecentFilesChanged;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
 
-		public void Register(string filename)
-		{
-			if (!_filenames.Contains(filename))
-			{
-				_filenames.Insert(0, filename);
-			}
-			else
-			{
-				// move to top of list
-				if (_filenames.Count > 1)
-				{
-					_filenames.Remove(filename);
-					_filenames.Insert(0, filename);
-				}
-			}
+        public void Register(string filename)
+        {
+            if (!_filenames.Contains(filename))
+            {
+                _filenames.Insert(0, filename);
+            }
+            else
+            {
+                // move to top of list
+                if (_filenames.Count > 1)
+                {
+                    _filenames.Remove(filename);
+                    _filenames.Insert(0, filename);
+                }
+            }
 
-			// enure the list is capped
-			while (_filenames.Count > MaxCommands)
-			{
-				_filenames.RemoveAt(_filenames.Count - 1);
-			}
+            // enure the list is capped
+            while (_filenames.Count > MaxCommands)
+            {
+                _filenames.RemoveAt(_filenames.Count - 1);
+            }
 
-			NotifyListenersOfChange();
-		}
+            NotifyListenersOfChange();
+        }
 
-		public void Remove(string filename)
-		{
-			if (_filenames.Contains(filename))
-			{
-				_filenames.Remove(filename);
-			}
-			NotifyListenersOfChange();
-		}
+        public void Remove(string filename)
+        {
+            if (_filenames.Contains(filename))
+            {
+                _filenames.Remove(filename);
+            }
+            NotifyListenersOfChange();
+        }
 
-		public int MaxCommands
-		{
-			get { return 10; }
-		}
+        public int MaxCommands
+        {
+            get { return 10; }
+        }
 
-		protected void NotifyListenersOfChange()
-		{
-			OnMostRecentFilesChanged(new MostRecentFilesChangedEventArgs(_filenames));
-		}
-	}
+        protected void NotifyListenersOfChange()
+        {
+            OnMostRecentFilesChanged(new MostRecentFilesChangedEventArgs(_filenames));
+        }
+    }
 }

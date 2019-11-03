@@ -5,27 +5,25 @@
 // https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 
-using System;
-using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.PlugIns.TextGenerator.Commands;
 
 namespace MiniSqlQuery.PlugIns.TextGenerator
 {
-	public class TextGeneratorLoader : PluginLoaderBase
-	{
-		public TextGeneratorLoader()
-			: base(
-				"Text Generator Tools", 
-				"A Mini SQL Query Plugin for generating test from... text :-)", 
-				21)
-		{
-		}
+    public class TextGeneratorLoader : PluginLoaderBase
+    {
+        public TextGeneratorLoader()
+            : base(
+                "Text Generator Tools",
+                "A Mini SQL Query Plugin for generating test from... text :-)",
+                21)
+        {
+        }
 
-		public override void InitializePlugIn()
-		{
-			IHostWindow hostWindow = Services.HostWindow;
-			hostWindow.AddPluginCommand<RunTextGeneratorCommand>();
-		}
-	}
+        public override void InitializePlugIn()
+        {
+            IHostWindow hostWindow = Services.HostWindow;
+            hostWindow.AddPluginCommand<RunTextGeneratorCommand>();
+        }
+    }
 }

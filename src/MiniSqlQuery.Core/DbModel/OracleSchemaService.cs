@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
 
 namespace MiniSqlQuery.Core.DbModel
 {
@@ -17,7 +15,7 @@ namespace MiniSqlQuery.Core.DbModel
                 return base.SafeGetInt(row, columnName);
             }
             catch (OverflowException)
-            { 
+            {
                 // Coerce to Max.Int32
                 return Int32.MaxValue;
             }

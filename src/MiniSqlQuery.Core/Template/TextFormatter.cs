@@ -5,18 +5,17 @@
 // https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 
-using System;
 using System.Collections.Generic;
 
 namespace MiniSqlQuery.Core.Template
 {
-	/// <summary>The i text formatter.</summary>
-	public interface ITextFormatter
-	{
-		/// <summary>The format.</summary>
-		/// <param name="text">The text.</param>
-		/// <param name="items">The items.</param>
-		/// <returns>The format.</returns>
-		string Format(string text, Dictionary<string, object> items);
-	}
+    /// <summary>The i text formatter.</summary>
+    public interface ITextFormatter
+    {
+        /// <summary>The format.</summary>
+        /// <param name="text">The text.</param>
+        /// <param name="items">The items.</param>
+        /// <returns>The format.</returns>
+        string Format(string text, Dictionary<string, object> items);
+    }
 }

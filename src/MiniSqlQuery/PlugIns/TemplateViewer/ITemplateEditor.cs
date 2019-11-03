@@ -5,15 +5,14 @@
 // https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 
-using System;
 using MiniSqlQuery.Core;
 
 namespace MiniSqlQuery.PlugIns.TemplateViewer
 {
-	/// <summary>The i template editor.</summary>
-	public interface ITemplateEditor : IPerformTask
-	{
-		/// <summary>The run template.</summary>
-		void RunTemplate();
-	}
+    /// <summary>The i template editor.</summary>
+    public interface ITemplateEditor : IPerformTask
+    {
+        /// <summary>The run template.</summary>
+        void RunTemplate();
+    }
 }

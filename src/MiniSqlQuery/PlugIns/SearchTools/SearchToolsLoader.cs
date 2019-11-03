@@ -5,47 +5,46 @@
 // https://github.com/paulkohler/minisqlquery/blob/master/LICENSE
 #endregion
 
-using System;
 using System.Windows.Forms;
 using MiniSqlQuery.Core;
 using MiniSqlQuery.PlugIns.SearchTools.Commands;
 
 namespace MiniSqlQuery.PlugIns.SearchTools
 {
-	/// <summary>The search tools loader.</summary>
-	public class SearchToolsLoader : PluginLoaderBase
-	{
-		/// <summary>Initializes a new instance of the <see cref="SearchToolsLoader"/> class.</summary>
-		public SearchToolsLoader()
-			: base(
-				"Mini SQL Query Search Tools", 
-				"Text searching tools - generic find text tool window.", 
-				50)
-		{
-		}
+    /// <summary>The search tools loader.</summary>
+    public class SearchToolsLoader : PluginLoaderBase
+    {
+        /// <summary>Initializes a new instance of the <see cref="SearchToolsLoader"/> class.</summary>
+        public SearchToolsLoader()
+            : base(
+                "Mini SQL Query Search Tools",
+                "Text searching tools - generic find text tool window.",
+                50)
+        {
+        }
 
-		/// <summary>Iinitialize the plug in.</summary>
-		public override void InitializePlugIn()
-		{
-			Services.RegisterComponent<GoToLineForm>("GoToLineForm");
+        /// <summary>Iinitialize the plug in.</summary>
+        public override void InitializePlugIn()
+        {
+            Services.RegisterComponent<GoToLineForm>("GoToLineForm");
 
-			ToolStripMenuItem editMenu = Services.HostWindow.GetMenuItem("edit");
+            ToolStripMenuItem editMenu = Services.HostWindow.GetMenuItem("edit");
 
-			// add the find to the plugins menu
-			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowFindTextFormCommand>());
-			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<FindNextStringCommand>());
-			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ReplaceStringCommand>());
-			editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowGoToLineFormCommand>());
+            // add the find to the plugins menu
+            editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowFindTextFormCommand>());
+            editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<FindNextStringCommand>());
+            editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ReplaceStringCommand>());
+            editMenu.DropDownItems.Add(CommandControlBuilder.CreateToolStripMenuItem<ShowGoToLineFormCommand>());
 
-			// get the new item and make in invisible - the shortcut key is still available etc ;-)
-			ToolStripItem item = editMenu.DropDownItems["FindNextStringCommandToolStripMenuItem"];
-			item.Visible = false;
-			item = editMenu.DropDownItems["ReplaceStringCommandToolStripMenuItem"];
-			item.Visible = false;
+            // get the new item and make in invisible - the shortcut key is still available etc ;-)
+            ToolStripItem item = editMenu.DropDownItems["FindNextStringCommandToolStripMenuItem"];
+            item.Visible = false;
+            item = editMenu.DropDownItems["ReplaceStringCommandToolStripMenuItem"];
+            item.Visible = false;
 
-			// append the button the the toolbar items
-			Services.HostWindow.AddToolStripSeperator(null);
-			Services.HostWindow.AddToolStripCommand<ShowFindTextFormCommand>(null);
-		}
-	}
+            // append the button the the toolbar items
+            Services.HostWindow.AddToolStripSeperator(null);
+            Services.HostWindow.AddToolStripCommand<ShowFindTextFormCommand>(null);
+        }
+    }
 }
