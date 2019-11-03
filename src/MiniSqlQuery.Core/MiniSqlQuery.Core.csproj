@@ -120,7 +120,6 @@
     <Compile Include="Commands\RefreshDatabaseConnectionCommand.cs" />
     <Compile Include="Commands\SetLeftPasteAroundSelectionCommand.cs" />
     <Compile Include="Commands\SetRightPasteAroundSelectionCommand.cs" />
-    <Compile Include="Commands\ShowDiscussionsWebPageCommand.cs" />
     <Compile Include="Commands\ShowHelpCommand.cs" />
     <Compile Include="Commands\ShowUrlCommand.cs" />
     <Compile Include="Commands\ShowWebPageCommand.cs" />
