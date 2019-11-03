@@ -71,6 +71,23 @@ namespace MiniSqlQuery.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mini SQL Query Change Log
+        ///=========================
+        ///
+        ///2019-11-03	ENH: Upgraded framework version from fsdfsd8 with other package updates and minor fixes.
+        ///2019-11-03	ENH: Upgraded framework version from 4.6.2 to 4.8 with other package updates and minor fixes.
+        ///2019-06-23	ENH: Upgraded framework version from 3.5 to 4.6.2 with other package updates.
+        ///2016-07-02	FIX: Fix for generic schema errors
+        ///2016-01-28	FIX: Fix for the print dialog never showing up properly
+        ///2015-01-23	ENH: Improved the View Table scre [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ChangeLog {
+            get {
+                return ResourceManager.GetString("ChangeLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connected to &apos;{0}&apos; successfully..
         /// </summary>
         internal static string Connected_to_0_successfully {

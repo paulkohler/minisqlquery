@@ -134,7 +134,8 @@ namespace MiniSqlQuery
 			List<IPlugIn> plugins = new List<IPlugIn>(_services.Plugins.Values);
 			pluginList.SetDataSource(plugins.ToArray());
 			webBrowser1.DocumentText = Resources.ReadMe;
-			txtLicense.Text = Resources.LicenseMiniSqlQuery;
+			txtChangeLog.Text = Resources.ChangeLog;
+            txtLicense.Text = Resources.LicenseMiniSqlQuery;
 		}
 
 		/// <summary>The label version_ click.</summary>
