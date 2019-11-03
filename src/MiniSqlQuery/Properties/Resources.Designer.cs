@@ -167,7 +167,7 @@ namespace MiniSqlQuery.Properties {
         ///	&lt;/h3&gt;
         ///	&lt;blockquote&gt;
         ///		&lt;p&gt;
-        ///			&quot;&lt;b&gt;Mini SQL Query&lt;/b&gt; from &lt;b&gt;VIRIDIS Soft [rest of string was truncated]&quot;;.
+        ///			&quot;&lt;b&gt;Mini SQL Query&lt;/b&gt; from by Paul Kohler  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ReadMe {
             get {
