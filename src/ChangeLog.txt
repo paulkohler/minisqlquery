@@ -1,6 +1,7 @@
 Mini SQL Query Change Log
 =========================
 
+2019-11-03	ENH: Upgraded framework version from 4.6.2 to 4.8 with other package updates and minor fixes.
 2019-06-23	ENH: Upgraded framework version from 3.5 to 4.6.2 with other package updates.
 2016-07-02	FIX: Fix for generic schema errors
 2016-01-28	FIX: Fix for the print dialog never showing up properly
