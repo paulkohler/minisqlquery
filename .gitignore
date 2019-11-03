@@ -22,3 +22,5 @@
 /src/Contrib/MiniSqlQuery.ExternalTools.Plugin/obj
 /src/Contrib/.vs/MiniSqlQuery.Contrib/*/Server/sqlite3
 /src/Contrib/MiniSqlQuery.ExternalTools.Plugin/bin
+
+/src/TestDatabases
