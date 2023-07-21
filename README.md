@@ -6,6 +6,8 @@ Latest Release...
 
 [![Build status](https://ci.appveyor.com/api/projects/status/ch8mi43xy99epy7l/branch/master?svg=true)](https://ci.appveyor.com/project/paul-kohler-au/minisqlquery-238no/branch/master)
 
+> Note that Mini SQL Query is more or less in read only mode now.
+
 Full release with templates etc:
 
 **[https://github.com/paulkohler/minisqlquery/releases/latest](https://github.com/paulkohler/minisqlquery/releases/latest)**
