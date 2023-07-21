@@ -1,7 +1,7 @@
 Thank You
 =========
 
-*Mini SQL Query* is written by Paul Kohler (VIRIDIS Software - [http://viridissoftware.com.au/](http://viridissoftware.com.au/); email "paul (at) viridissoftware (dot) com (dot) au")
+*Mini SQL Query* is written by Paul Kohler.
 
 Also, a special thanks to Kent Carlsle for his contributions “kdcarlisle (at) gmail (dot) com.”
 
